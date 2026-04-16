@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node /Users/rafaeloliver/.claude/skills/impeccable/scripts/cleanup-deprecated.mjs)",
+      "Bash(node -e \"require\\('puppeteer'\\)\")",
+      "Bash(\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless --disable-gpu --screenshot=\"/Users/rafaeloliver/Downloads/guia cb/arte_inauguracao.jpg\" --window-size=1080,1920 --hide-scrollbars \"file:///Users/rafaeloliver/Downloads/guia%20cb/arte_inauguracao.html\")"
+    ]
+  }
+}

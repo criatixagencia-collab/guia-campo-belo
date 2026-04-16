@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Arte Inauguração · Campo Belo SP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;0,6..96,800;1,6..96,400;1,6..96,600;1,6..96,800&family=Epilogue:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 1080px;
+  height: 1920px;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Epilogue', sans-serif;
+  background: #060f1a;
+}
+
+/* ── CANVAS ──────────────────────────────────────── */
+.canvas {
+  width: 1080px;
+  height: 1920px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* sides reduced so text breathes on mobile */
+  padding: 80px 60px 80px;
+
+  background:
+    radial-gradient(ellipse 700px 550px at 100% 0%,   rgba(201,168,76,.10) 0%, transparent 60%),
+    radial-gradient(ellipse 500px 400px at 0%  100%,  rgba(26,58,92,.55)   0%, transparent 55%),
+    linear-gradient(162deg, #17304a 0%, #0e1f30 45%, #07121d 100%);
+}
+
+/* corner brackets */
+.c { position: absolute; width: 52px; height: 52px; }
+.c-tl { top: 36px; left: 36px;
+  border-top: 1px solid rgba(201,168,76,.45);
+  border-left: 1px solid rgba(201,168,76,.45); }
+.c-tr { top: 36px; right: 36px;
+  border-top: 1px solid rgba(201,168,76,.45);
+  border-right: 1px solid rgba(201,168,76,.45); }
+.c-bl { bottom: 36px; left: 36px;
+  border-bottom: 1px solid rgba(201,168,76,.45);
+  border-left: 1px solid rgba(201,168,76,.45); }
+.c-br { bottom: 36px; right: 36px;
+  border-bottom: 1px solid rgba(201,168,76,.45);
+  border-right: 1px solid rgba(201,168,76,.45); }
+
+/* ── BADGE ───────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  align-self: center;
+  gap: 14px;
+  padding: 11px 28px;
+  border: 1px solid rgba(201,168,76,.42);
+  margin-bottom: 56px;
+}
+.badge-gem { color: #c9a84c; font-size: 11px; }
+.badge-text {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #c9a84c;
+}
+
+/* ── LOGO ────────────────────────────────────────── */
+.logo-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 52px;
+}
+.logo {
+  height: 130px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* ── RULE ────────────────────────────────────────── */
+.rule {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(201,168,76,.55) 20%,
+    rgba(201,168,76,.55) 80%,
+    transparent 100%);
+  margin-bottom: 56px;
+}
+
+/* ── HEADLINE ────────────────────────────────────── */
+.headline {
+  text-align: center;
+  margin-bottom: 72px;
+}
+.headline-over {
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.35);
+  margin-bottom: 12px;
+}
+.headline-main {
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-optical-sizing: auto;
+  font-size: 120px;
+  font-weight: 800;
+  line-height: .92;
+  letter-spacing: -3px;
+  color: #f5f0e8;
+}
+.headline-main em {
+  font-style: italic;
+  color: #c9a84c;
+}
+
+/* ── ITEMS ───────────────────────────────────────── */
+.items {
+  width: 100%;
+  margin-bottom: 48px;
+}
+.item {
+  display: flex;
+  align-items: center;
+  padding: 26px 0;
+  gap: 0;
+}
+.item + .item {
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.item-num {
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-optical-sizing: auto;
+  font-size: 18px;
+  font-weight: 400;
+  font-style: italic;
+  color: #c9a84c;
+  width: 44px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.item-body {
+  flex: 1;
+  padding-right: 24px;
+}
+.item-title {
+  font-size: 22px;
+  font-weight: 500;
+  color: rgba(255,255,255,.92);
+  line-height: 1.25;
+  letter-spacing: -.2px;
+}
+.item-sub {
+  font-size: 16px;
+  font-weight: 300;
+  color: rgba(255,255,255,.4);
+  margin-top: 6px;
+  letter-spacing: .1px;
+}
+.item-price {
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-optical-sizing: auto;
+  font-size: 36px;
+  font-weight: 700;
+  color: #c9a84c;
+  letter-spacing: -.5px;
+  flex-shrink: 0;
+}
+
+/* ── TOTAL ───────────────────────────────────────── */
+.total {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 36px;
+  background: rgba(201,168,76,.06);
+  border: 1px solid rgba(201,168,76,.25);
+}
+.total-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(201,168,76,.6);
+  margin-bottom: 10px;
+}
+.total-cond {
+  font-size: 16px;
+  font-weight: 300;
+  color: rgba(255,255,255,.42);
+  line-height: 1.55;
+  letter-spacing: .1px;
+}
+.total-cond strong {
+  font-weight: 500;
+  color: rgba(255,255,255,.65);
+}
+.total-price {
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-optical-sizing: auto;
+  font-size: 80px;
+  font-weight: 800;
+  color: #c9a84c;
+  letter-spacing: -2.5px;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-left: 40px;
+}
+
+/* ── SPACER ──────────────────────────────────────── */
+.spacer { flex: 1; }
+
+/* ── CALLOUT ─────────────────────────────────────── */
+.callout {
+  text-align: center;
+  padding-top: 52px;
+  position: relative;
+}
+.callout::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 8%; right: 8%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(201,168,76,.35),
+    transparent);
+}
+.callout-main {
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-optical-sizing: auto;
+  font-size: 30px;
+  font-weight: 600;
+  font-style: italic;
+  color: rgba(255,255,255,.6);
+  line-height: 1.55;
+  letter-spacing: -.15px;
+}
+.callout-main .hi {
+  font-style: normal;
+  font-weight: 800;
+  color: #f5f0e8;
+}
+.callout-main .gold {
+  color: #c9a84c;
+}
+.callout-consult {
+  display: block;
+  margin-top: 20px;
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
+  font-family: 'Epilogue', sans-serif;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.28);
+}
+</style>
+</head>
+<body>
+<div class="canvas">
+
+  <div class="c c-tl"></div>
+  <div class="c c-tr"></div>
+  <div class="c c-bl"></div>
+  <div class="c c-br"></div>
+
+  <!-- badge -->
+  <div class="badge">
+    <span class="badge-gem">✦</span>
+    <span class="badge-text">Oferta de Inauguração</span>
+    <span class="badge-gem">✦</span>
+  </div>
+
+  <!-- logo -->
+  <div class="logo-wrap">
+    <img src="logo.PNG" alt="Guia Campo Belo" class="logo">
+  </div>
+
+  <!-- rule -->
+  <div class="rule"></div>
+
+  <!-- headline -->
+  <div class="headline">
+    <p class="headline-over">Anuncie no</p>
+    <h1 class="headline-main">Campo <em>Belo</em> SP</h1>
+  </div>
+
+  <!-- items -->
+  <div class="items">
+
+    <div class="item">
+      <span class="item-num">I</span>
+      <div class="item-body">
+        <p class="item-title">Produção de conteúdo em vídeo</p>
+      </div>
+      <span class="item-price">R$&thinsp;0</span>
+    </div>
+
+    <div class="item">
+      <span class="item-num">II</span>
+      <div class="item-body">
+        <p class="item-title">Postagem no Instagram da Zona Sul</p>
+        <p class="item-sub">@omelhordazonasul_sp &nbsp;·&nbsp; 12,5 mil seguidores</p>
+      </div>
+      <span class="item-price">R$&thinsp;0</span>
+    </div>
+
+    <div class="item">
+      <span class="item-num">III</span>
+      <div class="item-body">
+        <p class="item-title">Postagem no Instagram Campo Belo SP</p>
+        <p class="item-sub">@campobelo_sp</p>
+      </div>
+      <span class="item-price">R$&thinsp;0</span>
+    </div>
+
+    <div class="item">
+      <span class="item-num">IV</span>
+      <div class="item-body">
+        <p class="item-title">1 ano no site campobelosp.com.br</p>
+        <p class="item-sub">Guia Campo Belo</p>
+      </div>
+      <span class="item-price">R$&thinsp;0</span>
+    </div>
+
+  </div>
+
+  <!-- total -->
+  <div class="total">
+    <div>
+      <p class="total-label">Total</p>
+      <p class="total-cond">Condição: <strong>marcar nossos<br>perfis como colaborador</strong></p>
+    </div>
+    <span class="total-price">R$&thinsp;0</span>
+  </div>
+
+  <div class="spacer"></div>
+
+  <!-- callout -->
+  <div class="callout">
+    <p class="callout-main">
+      Quer garantir <span class="hi">mais alcance?</span><br>
+      <span class="gold">Impulsionamento pago</span> para<br>pessoas da região disponível.
+    </p>
+    <span class="callout-consult">Consulte valores</span>
+  </div>
+
+</div>
+</body>
+</html>

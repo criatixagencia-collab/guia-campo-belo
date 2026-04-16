@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Promoções · Guia Campo Belo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;0,6..96,700;0,6..96,800;1,6..96,600;1,6..96,700;1,6..96,800&family=Epilogue:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & TOKENS ─────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --navy:       #1a3a5c;
+  --navy-mid:   #2d5a8e;
+  --navy-light: #e8f0f8;
+  --gold:       #c9a84c;
+  --gold-light: #f5efd4;
+  --gold-dark:  #9a7a30;
+
+  --bg:       #f3f4f7;
+  --surface:  #fefefe;
+  --surface2: #edf0f4;
+
+  --text:   #0f1923;
+  --text2:  #5a6678;
+  --text3:  #9aa3b0;
+
+  --border: rgba(0,0,0,0.07);
+
+  --sh-xs: 0 1px 3px rgba(0,0,0,.06);
+  --sh-sm: 0 2px 10px rgba(0,0,0,.07);
+
+  --r:  10px;
+
+  --font:    'Epilogue', -apple-system, BlinkMacSystemFont, sans-serif;
+  --display: 'Bodoni Moda', Georgia, serif;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── TOP NAV ────────────────────────────────── */
+.top-nav {
+  position: sticky; top: 0; z-index: 200;
+  height: 56px;
+  background: rgba(26,58,92,.97);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  display: flex; align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+  flex: 1; min-width: 0;
+}
+.nav-logo-img {
+  height: 34px; width: auto;
+  object-fit: contain; flex-shrink: 0;
+}
+.nav-logo-text {
+  display: flex; flex-direction: column; line-height: 1.2; overflow: hidden;
+}
+.nav-logo-text strong {
+  font-size: 13px; font-weight: 700;
+  color: #fff; letter-spacing: -.1px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.nav-logo-text small {
+  font-size: 10px; color: rgba(255,255,255,.5); font-weight: 400;
+}
+
+/* ── PAGE HEADER ─────────────────────────────── */
+.page-header {
+  background: linear-gradient(165deg, #152f4a 0%, #0b1c2c 100%);
+  padding: 28px 20px 32px;
+  position: relative; overflow: hidden;
+}
+.page-header::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 85% 10%, rgba(201,168,76,.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+.page-header::after {
+  content: '';
+  position: absolute; bottom: 0; left: 20px; right: 20px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,.35), transparent);
+  pointer-events: none;
+}
+.page-eyebrow {
+  font-size: 9px; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--gold); opacity: .9;
+  margin-bottom: 10px;
+}
+.page-header h1 {
+  font-family: var(--display);
+  font-optical-sizing: auto;
+  font-size: clamp(26px, 7vw, 36px); font-weight: 800;
+  line-height: 1.06; letter-spacing: -.5px;
+  color: #fff; margin-bottom: 8px;
+}
+.page-header h1 em { font-style: italic; color: var(--gold); }
+.page-header p {
+  font-size: 13px; color: rgba(255,255,255,.5);
+  font-weight: 400; line-height: 1.6;
+  max-width: 52ch;
+}
+
+/* ── BODY ───────────────────────────────────── */
+.page-body {
+  padding: 24px 16px 96px;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* Intro card */
+.promo-intro {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 18px 20px;
+  margin-bottom: 28px;
+  box-shadow: var(--sh-xs);
+}
+.promo-intro-label {
+  font-size: 9px; font-weight: 700;
+  color: var(--gold-dark); letter-spacing: 1.4px;
+  text-transform: uppercase; margin-bottom: 10px;
+}
+.promo-intro-text {
+  font-size: 14px; color: var(--text2);
+  line-height: 1.65; font-weight: 400;
+  margin-bottom: 14px;
+}
+.promo-steps {
+  display: flex; flex-direction: column; gap: 8px;
+}
+.promo-step {
+  display: flex; align-items: flex-start; gap: 12px;
+}
+.promo-step-num {
+  width: 22px; height: 22px;
+  background: var(--navy-light);
+  color: var(--navy);
+  border-radius: 50%;
+  font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+.promo-step-text {
+  font-size: 13px; color: var(--text2);
+  line-height: 1.5; font-weight: 400;
+}
+.promo-step-text strong {
+  color: var(--text); font-weight: 600;
+}
+
+/* Disqus wrap */
+.disqus-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 20px 16px 24px;
+  box-shadow: var(--sh-xs);
+}
+.disqus-section-label {
+  font-family: var(--display);
+  font-optical-sizing: auto;
+  font-size: 16px; font-weight: 700; letter-spacing: -.2px;
+  color: var(--text); margin-bottom: 20px;
+}
+
+/* ── BOTTOM NAV ─────────────────────────────── */
+.nav-bottom {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  display: flex; z-index: 100;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.nav-item {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; padding: 8px 2px 6px;
+  cursor: pointer; gap: 2px; transition: opacity .1s;
+  text-decoration: none;
+}
+.nav-item:active { opacity: .6; }
+.nav-icon {
+  width: 30px; height: 30px; border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text3);
+  transition: background .15s, color .15s;
+}
+.nav-item.active .nav-icon {
+  background: var(--navy-light);
+  color: var(--navy);
+}
+.nav-item > span { font-size: 9px; font-weight: 600; color: var(--text2); }
+.nav-item.active > span { color: var(--navy); }
+
+/* ── FOCUS ───────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <a class="nav-logo" href="index.html" aria-label="Voltar para o Guia Campo Belo">
+    <img src="logo.PNG" alt="Guia Campo Belo" class="nav-logo-img">
+    <div class="nav-logo-text">
+      <strong>Guia Campo Belo</strong>
+      <small>São Paulo, SP</small>
+    </div>
+  </a>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <p class="page-eyebrow">São Paulo · Campo Belo</p>
+  <h1>Pro<em>moções</em></h1>
+  <p>Ofertas e novidades direto dos estabelecimentos do bairro.</p>
+</div>
+
+<!-- BODY -->
+<main class="page-body">
+
+  <div class="promo-intro">
+    <div class="promo-intro-label">Para lojistas e estabelecimentos</div>
+    <p class="promo-intro-text">
+      Este espaço é dedicado aos negócios do Campo Belo. Poste aqui suas promoções, lançamentos, eventos e ofertas especiais para que moradores e visitantes possam encontrar.
+    </p>
+    <div class="promo-steps">
+      <div class="promo-step">
+        <div class="promo-step-num">1</div>
+        <p class="promo-step-text"><strong>Crie uma conta gratuita</strong> no Disqus para postar</p>
+      </div>
+      <div class="promo-step">
+        <div class="promo-step-num">2</div>
+        <p class="promo-step-text"><strong>Identifique seu estabelecimento</strong> no nome de usuário ou no início do comentário</p>
+      </div>
+      <div class="promo-step">
+        <div class="promo-step-num">3</div>
+        <p class="promo-step-text"><strong>Descreva a promoção</strong> com clareza — valor, período de validade e como aproveitar</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="disqus-wrap">
+    <div class="disqus-section-label">Promoções dos lojistas</div>
+    <div id="disqus_thread"></div>
+    <script>
+    (function() {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://campobelosp.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>
+      Para ver as promoções, ative o JavaScript no seu navegador.
+    </noscript>
+  </div>
+
+</main>
+
+<!-- BOTTOM NAV -->
+<nav class="nav-bottom" aria-label="Navegação principal">
+  <a class="nav-item" href="index.html" aria-label="Início">
+    <div class="nav-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </div>
+    <span>Início</span>
+  </a>
+  <a class="nav-item active" href="promocoes.html" aria-current="page" aria-label="Promoções">
+    <div class="nav-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+    </div>
+    <span>Promoções</span>
+  </a>
+  <a class="nav-item" href="comunidade.html" aria-label="Comunidade">
+    <div class="nav-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    </div>
+    <span>Comunidade</span>
+  </a>
+  <div class="nav-item" role="button" tabindex="0" aria-label="Cupons">
+    <div class="nav-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+    </div>
+    <span>Cupons</span>
+  </div>
+  <div class="nav-item" role="button" tabindex="0" aria-label="Menu">
+    <div class="nav-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+    </div>
+    <span>Menu</span>
+  </div>
+</nav>
+
+</body>
+</html>

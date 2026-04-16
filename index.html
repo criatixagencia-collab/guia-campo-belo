@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q0TDM5LTPM"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-Q0TDM5LTPM');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia Campo Belo · São Paulo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;0,6..96,700;0,6..96,800;1,6..96,600;1,6..96,700;1,6..96,800&family=Epilogue:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+/* ── RESET & TOKENS ─────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --navy:       #1a3a5c;
+  --navy-mid:   #2d5a8e;
+  --navy-light: #e8f0f8;
+  --gold:       #c9a84c;
+  --gold-light: #f5efd4;
+  --gold-dark:  #9a7a30;
+
+  --bg:       #f3f4f7;
+  --surface:  #fefefe;
+  --surface2: #edf0f4;
+
+  --text:   #0f1923;
+  --text2:  #5a6678;
+  --text3:  #9aa3b0;
+
+  --green:  #22c55e;
+  --border: rgba(0,0,0,0.07);
+
+  --sh-xs: 0 1px 3px rgba(0,0,0,.06);
+  --sh-sm: 0 2px 10px rgba(0,0,0,.07);
+  --sh:    0 4px 20px rgba(0,0,0,.10);
+  --sh-lg: 0 8px 32px rgba(0,0,0,.14);
+
+  --r:  10px;
+  --rs: 7px;
+
+  --font:    'Epilogue', -apple-system, BlinkMacSystemFont, sans-serif;
+  --display: 'Bodoni Moda', Georgia, serif;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── HERO ───────────────────────────────────── */
+.hero {
+  background: linear-gradient(165deg, #152f4a 0%, #0b1c2c 100%);
+  padding: 16px 20px 32px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 85% 10%, rgba(201,168,76,.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute; bottom: 0; left: 20px; right: 20px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,.35), transparent);
+  pointer-events: none;
+}
+
+/* hero footer — instagram + clima lado a lado */
+.hero-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 14px;
+  position: relative; z-index: 1;
+  flex-wrap: wrap;
+}
+.weather-widget {
+  display: flex; align-items: center; gap: 3px;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 99px;
+  padding: 3px 8px;
+  opacity: 0;
+  transition: opacity .4s ease;
+  flex-shrink: 0;
+}
+.weather-widget.loaded { opacity: 1; }
+.weather-icon { font-size: 11px; line-height: 1; }
+.weather-temp {
+  font-size: 11px; font-weight: 700;
+  color: #fff; letter-spacing: -.2px; white-space: nowrap;
+}
+.weather-sep {
+  width: 1px; height: 9px;
+  background: rgba(255,255,255,.2);
+  flex-shrink: 0;
+}
+.weather-desc {
+  font-size: 9px; font-weight: 500;
+  color: rgba(255,255,255,.55);
+  white-space: nowrap;
+}
+
+.hero-identity {
+  display: flex; align-items: center; gap: 18px;
+  margin-bottom: 16px; position: relative; z-index: 1;
+}
+.hero-logo {
+  height: 80px; width: auto;
+  object-fit: contain; flex-shrink: 0;
+}
+.hero-identity-text { display: flex; flex-direction: column; gap: 4px; }
+
+/* instagram link no hero */
+.hero-instagram {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11.5px; font-weight: 500;
+  color: rgba(255,255,255,.55);
+  text-decoration: none;
+  letter-spacing: .05px;
+  position: relative; z-index: 1;
+}
+.hero-instagram em {
+  font-style: normal; font-weight: 700;
+  color: var(--gold);
+}
+.hero-instagram:hover { color: rgba(255,255,255,.85); }
+.hero-instagram:hover em { color: #e8c468; }
+.hero-eyebrow {
+  font-size: 9px; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--gold); opacity: .9;
+  margin-bottom: 6px;
+}
+.hero h1 {
+  font-family: var(--display);
+  font-optical-sizing: auto;
+  font-size: clamp(26px, 7.5vw, 38px); font-weight: 800;
+  line-height: 1.04; letter-spacing: -.6px;
+  color: #fff; margin-bottom: 6px;
+}
+.hero h1 em { font-style: italic; color: var(--gold); }
+.hero-sub {
+  font-size: 13px; color: rgba(255,255,255,.5);
+  font-weight: 400; line-height: 1.6; letter-spacing: .15px;
+  max-width: 58ch;
+}
+
+/* ── DESTAQUES CAROUSEL ──────────────────────── */
+.destaques-section {
+  padding: 20px 0 4px;
+}
+.destaques-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px 10px;
+}
+.destaques-eyebrow {
+  font-size: 9px; font-weight: 600;
+  color: var(--text3); letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+.destaques-track {
+  display: flex;
+  gap: 8px;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 20px;
+  scrollbar-width: none;
+  padding: 2px 20px 6px;
+  -webkit-overflow-scrolling: touch;
+  user-select: none;
+}
+.destaques-track::-webkit-scrollbar { display: none; }
+@media (hover: hover) { .destaques-track { cursor: grab; } }
+
+.destaque-card {
+  flex-shrink: 0;
+  width: 158px;
+  height: 116px;
+  border-radius: 9px;
+  overflow: hidden;
+  position: relative;
+  scroll-snap-align: start;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--navy);
+  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(0,0,0,.14);
+  transition: opacity .15s;
+}
+.destaque-card:active { opacity: .85; }
+
+.destaque-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0,0,0,.02) 0%,
+    rgba(0,0,0,.0) 30%,
+    rgba(0,0,0,.68) 100%
+  );
+}
+.destaque-info {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 8px 10px 9px;
+  z-index: 1;
+}
+.destaque-nome {
+  font-family: var(--display);
+  font-optical-sizing: auto;
+  font-size: 11px; font-weight: 700;
+  color: #fff; line-height: 1.2;
+  text-shadow: 0 1px 5px rgba(0,0,0,.5);
+  letter-spacing: -.1px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.destaque-sub {
+  font-size: 8.5px; font-weight: 500;
+  color: rgba(255,255,255,.58);
+  margin-top: 2px; letter-spacing: .15px;
+}
+
+@media (hover: hover) {
+  .destaque-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.2); }
+}
+
+/* ── CATEGORY GRID ──────────────────────────── */
+.section { padding: 0 16px 22px; }
+
+.sec-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 14px; padding-top: 24px;
+}
+.sec-title {
+  font-family: var(--display);
+  font-optical-sizing: auto;
+  font-size: 18px; font-weight: 700; letter-spacing: -.2px;
+  color: var(--text);
+}
+.sec-label {
+  font-size: 9px; font-weight: 600;
+  color: var(--text3); letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+.sec-link {
+  font-size: 11px; font-weight: 600;
+  color: var(--navy); text-decoration: none;
+  background: transparent;
+  border: none;
+  padding: 4px 0;
+  letter-spacing: .2px;
+  border-bottom: 1px solid rgba(26,58,92,.3);
+}
+
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+}
+.cat-card {
+  border-radius: 7px;
+  overflow: hidden; cursor: pointer;
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--navy);
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .45s cubic-bezier(.22,1,.36,1),
+              transform .45s cubic-bezier(.22,1,.36,1);
+}
+.cat-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.cat-card:active { opacity: .85; }
+
+.cat-img-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(8,16,28,.05) 0%,
+    rgba(8,16,28,.0) 25%,
+    rgba(8,16,28,.6) 60%,
+    rgba(8,16,28,.92) 100%
+  );
+}
+.cat-content {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 8px 8px 9px;
+  z-index: 1;
+}
+.cat-name {
+  font-family: var(--display);
+  font-optical-sizing: auto;
+  font-style: italic;
+  font-size: clamp(16px, 4.8vw, 22px); font-weight: 700; color: #fff;
+  line-height: 1.1; margin-bottom: 1px;
+  text-shadow: 0 1px 8px rgba(0,0,0,.9), 0 2px 16px rgba(0,0,0,.6);
+  letter-spacing: -.2px;
+}
+.cat-count { display: none; }
+
+@media (max-width: 600px) {
+  .cat-name { font-size: 13px; }
+  .cat-nome-longo .cat-content { padding-left: 3px; padding-right: 2px; }
+  .cat-nome-longo .cat-name { letter-spacing: -.5px; }
+}
+
+/* ── FILTER TABS ────────────────────────────── */
+.filter-bar {
+  display: flex; gap: 7px;
+  padding: 0 16px 16px;
+  overflow-x: auto; scrollbar-width: none;
+}
+.filter-bar::-webkit-scrollbar { display: none; }
+.filter-tab {
+  display: flex; align-items: center; gap: 5px;
+  padding: 7px 14px;
+  border-radius: 99px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  cursor: pointer;
+  white-space: nowrap; flex-shrink: 0;
+  font-size: 12px; font-weight: 600;
+  color: var(--text2);
+  transition: all .15s;
+  box-shadow: var(--sh-xs);
+}
+.filter-tab.active {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
+.filter-tab .tab-count {
+  font-size: 10px; font-weight: 700;
+  background: rgba(0,0,0,.1);
+  border-radius: 99px;
+  padding: 1px 6px;
+}
+.filter-tab.active .tab-count { background: rgba(255,255,255,.2); }
+
+/* ── CARDS GRID ─────────────────────────────── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 0 16px;
+  margin-bottom: 22px;
+}
+
+.place-card {
+  background: var(--surface);
+  border-radius: var(--r);
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: var(--sh-sm);
+  border: 1px solid var(--border);
+  transition: transform .16s, box-shadow .16s;
+  position: relative;
+}
+.place-card:active {
+  transform: scale(0.97);
+  box-shadow: var(--sh-xs);
+}
+.place-card.is-destaque {
+  border-color: rgba(201,168,76,.4);
+  box-shadow: var(--sh-sm), 0 0 0 1px rgba(201,168,76,.2);
+}
+
+.card-cat-bar {
+  display: flex; align-items: flex-end;
+  padding: 4px 10px;
+  position: relative; overflow: hidden;
+  justify-content: space-between;
+}
+.card-cat-em {
+  font-size: 26px;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.5));
+  line-height: 1;
+}
+.card-sub-tag {
+  font-size: 9px; font-weight: 700;
+  background: rgba(255,255,255,.18);
+  border: 1px solid rgba(255,255,255,.25);
+  color: rgba(255,255,255,.9);
+  border-radius: 99px;
+  padding: 2px 8px;
+  letter-spacing: .3px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  max-width: 80px;
+  backdrop-filter: blur(4px);
+  align-self: flex-start;
+  margin-top: 4px;
+}
+.card-dest-badge {
+  position: absolute; top: 8px; left: 8px;
+  background: var(--gold);
+  color: #2d1a00;
+  font-size: 8.5px; font-weight: 800;
+  padding: 2px 8px; border-radius: 99px;
+  letter-spacing: .3px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.3);
+}
+
+.card-body { padding: 10px 11px 12px; }
+.card-name {
+  font-size: 14px; font-weight: 700; line-height: 1.25;
+  color: var(--text); margin-bottom: 5px;
+}
+.card-ticket {
+  font-size: 11px; font-weight: 600;
+  color: var(--gold-dark);
+  margin-bottom: 4px;
+}
+.card-addr {
+  font-size: 10.5px; color: var(--text3);
+  font-weight: 400; line-height: 1.3;
+  margin-bottom: 4px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.card-meta {
+  font-size: 10px; color: var(--text3); font-weight: 500;
+  letter-spacing: .1px;
+}
+
+/* ── MAP SECTION ────────────────────────────── */
+.map-section { padding: 0 16px 22px; }
+.map-wrap {
+  border-radius: var(--r);
+  overflow: hidden;
+  box-shadow: var(--sh);
+  border: 1px solid var(--border);
+  height: 280px;
+}
+#map { height: 280px; width: 100%; }
+
+/* Leaflet overrides */
+.leaflet-container { font-family: var(--font); }
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  box-shadow: var(--sh);
+  border: none;
+}
+.leaflet-popup-content { margin: 10px 14px; font-size: 13px; }
+.leaflet-popup-content strong { color: var(--navy); }
+.leaflet-popup-content small { display: block; color: var(--text3); font-size: 11px; margin-top: 2px; }
+
+.map-pin {
+  width: 34px; height: 34px;
+  background: var(--navy);
+  border: 2.5px solid rgba(255,255,255,.4);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  box-shadow: 0 3px 10px rgba(0,0,0,.45);
+  transition: transform .15s;
+}
+.map-pin.pin-gold {
+  background: var(--gold);
+  border-color: #fff;
+  box-shadow: 0 3px 10px rgba(201,168,76,.6);
+}
+
+/* ── MODAL ──────────────────────────────────── */
+.modal-overlay {
+  display: none;
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,.48);
+  backdrop-filter: blur(6px);
+  align-items: flex-end;
+}
+.modal-overlay.open { display: flex; }
+
+.modal-sheet {
+  background: var(--surface);
+  border-radius: 22px 22px 0 0;
+  width: 100%; max-height: 88vh;
+  display: flex; flex-direction: column;
+  animation: up .26s cubic-bezier(.32,.72,0,1);
+  overflow: hidden;
+}
+@keyframes up {
+  from { transform: translateY(60px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.modal-handle {
+  width: 32px; height: 4px;
+  background: #DDE2E8; border-radius: 99px;
+  margin: 10px auto 0; flex-shrink: 0;
+}
+
+.modal-header {
+  height: 130px; position: relative;
+  flex-shrink: 0;
+}
+.modal-header-bg {
+  position: absolute; inset: 0;
+}
+.modal-header-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.65) 0%, rgba(0,0,0,.1) 100%);
+}
+.modal-close {
+  position: absolute; top: 12px; right: 14px;
+  width: 32px; height: 32px;
+  background: rgba(0,0,0,.35); border: none;
+  border-radius: 50%; color: #fff;
+  font-size: 14px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px);
+  z-index: 2;
+}
+.modal-header-content {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 0 18px 14px;
+  z-index: 2;
+}
+.modal-cat-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
+  border-radius: 99px; padding: 3px 10px;
+  font-size: 10px; font-weight: 700; color: #fff;
+  letter-spacing: .3px; margin-bottom: 5px;
+  backdrop-filter: blur(4px);
+}
+.modal-name {
+  font-family: var(--display);
+  font-optical-sizing: auto;
+  font-size: 22px; font-weight: 800; color: #fff;
+  line-height: 1.1; letter-spacing: -.3px;
+}
+
+.modal-body {
+  flex: 1; overflow-y: auto;
+  padding: 16px 18px 24px;
+}
+
+.modal-dest-strip {
+  background: linear-gradient(135deg, var(--gold-light), #fff8e6);
+  border: 1px solid rgba(201,168,76,.35);
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 16px;
+}
+.modal-dest-icon { font-size: 20px; flex-shrink: 0; }
+.modal-dest-text { font-size: 13px; font-weight: 600; color: var(--gold-dark); line-height: 1.3; }
+
+.modal-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px; margin-bottom: 16px;
+}
+.modal-cell {
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.modal-cell.full { grid-column: span 2; }
+.modal-cell-label {
+  font-size: 9px; font-weight: 700;
+  color: var(--text3); letter-spacing: .9px;
+  text-transform: uppercase; margin-bottom: 4px;
+}
+.modal-cell-val {
+  font-size: 13px; font-weight: 600; color: var(--text);
+  line-height: 1.35;
+}
+
+.modal-actions {
+  display: flex; gap: 8px; margin-top: 4px;
+}
+.modal-btn {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 12px; border-radius: 12px;
+  border: none; cursor: pointer;
+  font-family: var(--font);
+  font-size: 13px; font-weight: 700;
+  transition: opacity .15s, transform .1s;
+  text-decoration: none;
+}
+.modal-btn:active { opacity: .85; transform: scale(0.97); }
+.btn-wp { background: #22c55e; color: #fff; }
+.btn-ig { background: linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045); color: #fff; }
+.btn-disabled { background: var(--surface2); color: var(--text3); cursor: default; }
+
+/* ── BOTTOM NAV ─────────────────────────────── */
+.nav-bottom {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  display: flex; z-index: 100;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.nav-item {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; padding: 8px 2px 6px;
+  cursor: pointer; gap: 2px; transition: opacity .1s;
+  text-decoration: none;
+}
+.nav-item:active { opacity: .6; }
+.nav-icon {
+  width: 30px; height: 30px; border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text3);
+  transition: background .15s, color .15s;
+}
+.nav-item.active .nav-icon {
+  background: var(--navy-light);
+  color: var(--navy);
+}
+.nav-item > span { font-size: 9px; font-weight: 600; color: var(--text2); }
+.nav-item.active > span { color: var(--navy); }
+
+.pb { height: 72px; }
+
+/* ── HOVER STATES (pointer devices only) ──── */
+@media (hover: hover) {
+  .place-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--sh);
+  }
+  .cat-card:hover {
+    opacity: .9;
+  }
+  .filter-tab:hover:not(.active) {
+    background: var(--navy-light);
+    border-color: rgba(26,58,92,.2);
+    color: var(--navy);
+  }
+  .sec-link:hover {
+    color: var(--navy);
+    border-bottom-color: var(--navy);
+  }
+  .modal-btn:not(.btn-disabled):hover {
+    opacity: .88;
+    transform: translateY(-1px);
+  }
+  .modal-close:hover {
+    background: rgba(0,0,0,.55);
+  }
+}
+
+/* ── FOCUS STYLES ───────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ── MODAL (NON-DESTAQUE STRIP) ─────────────── */
+.modal-dest-strip-plain {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 16px;
+}
+.modal-dest-strip-plain .modal-dest-icon { font-size: 16px; flex-shrink: 0; }
+.modal-dest-strip-plain .modal-dest-text { font-size: 13px; font-weight: 500; color: var(--text2); line-height: 1.3; }
+
+/* ── REDUCED MOTION ─────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-identity">
+    <img src="logo.PNG" alt="Guia Campo Belo" class="hero-logo">
+    <div class="hero-identity-text">
+      <p class="hero-eyebrow">São Paulo · Campo Belo</p>
+      <h1>Guia <em>Campo Belo</em></h1>
+      <p class="hero-sub">Os melhores lugares do bairro, promoções e descontos exclusivos.</p>
+    </div>
+  </div>
+  <div class="hero-footer">
+    <a class="hero-instagram" href="https://instagram.com/campobelo_sp" target="_blank" rel="noopener noreferrer" aria-label="Instagram do Guia Campo Belo">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      Instagram:&nbsp;<em>@campobelo_sp</em>
+    </a>
+    <div class="weather-widget" id="weatherWidget" aria-label="Clima em Campo Belo" aria-live="polite">
+      <span class="weather-icon" id="weatherIcon" aria-hidden="true"></span>
+      <span class="weather-temp" id="weatherTemp"></span>
+      <span class="weather-sep" aria-hidden="true"></span>
+      <span class="weather-desc" id="weatherDesc"></span>
+    </div>
+  </div>
+</div>
+
+<!-- DESTAQUES CAROUSEL -->
+<section class="destaques-section">
+  <div class="destaques-header">
+    <span class="destaques-eyebrow">Em destaque</span>
+  </div>
+  <div class="destaques-track" id="destaqueTrack" role="list" aria-label="Estabelecimentos em destaque"></div>
+</section>
+
+<!-- CATEGORIES -->
+<div class="section" id="catSection">
+  <div class="sec-header">
+    <span class="sec-label">Categorias</span>
+    <a href="#" class="sec-link" onclick="setFilter('Todos');return false;">Ver todos</a>
+  </div>
+  <div class="cat-grid" id="catGrid"></div>
+</div>
+
+<!-- FILTER TABS -->
+<div class="filter-bar" id="filterBar"></div>
+
+<!-- CARDS GRID -->
+<div class="cards-grid" id="cardsGrid"></div>
+
+<!-- MAP -->
+<div class="map-section">
+  <div class="sec-header" style="padding-top:0;">
+    <span class="sec-title">No mapa</span>
+    <span class="sec-label" id="mapCount"></span>
+  </div>
+  <div class="map-wrap">
+    <div id="map"></div>
+  </div>
+</div>
+
+<div class="pb"></div>
+
+<!-- BOTTOM NAV -->
+<nav class="nav-bottom" aria-label="Navegação principal">
+  <div class="nav-item active" aria-current="page" role="link" tabindex="0" aria-label="Início">
+    <div class="nav-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </div>
+    <span>Início</span>
+  </div>
+  <a class="nav-item" href="promocoes.html" aria-label="Promoções">
+    <div class="nav-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+    </div>
+    <span>Promoções</span>
+  </a>
+  <a class="nav-item" href="comunidade.html" aria-label="Comunidade">
+    <div class="nav-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    </div>
+    <span>Comunidade</span>
+  </a>
+  <div class="nav-item" role="button" tabindex="0" aria-label="Cupons">
+    <div class="nav-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+    </div>
+    <span>Cupons</span>
+  </div>
+  <a class="nav-item" href="comunidade.html" aria-label="Menu / Comunidade">
+    <div class="nav-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+    </div>
+    <span>Menu</span>
+  </a>
+</nav>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)" role="dialog" aria-modal="true" aria-labelledby="modalName">
+  <div class="modal-sheet" id="modalSheet">
+    <div class="modal-handle" aria-hidden="true"></div>
+    <div class="modal-header">
+      <div class="modal-header-bg" id="modalHeaderBg" aria-hidden="true"></div>
+      <div class="modal-header-overlay" aria-hidden="true"></div>
+      <button class="modal-close" onclick="closeModal()" aria-label="Fechar">✕</button>
+      <div class="modal-header-content">
+        <div class="modal-cat-pill" id="modalCatPill"></div>
+        <div class="modal-name" id="modalName"></div>
+      </div>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+/* ── DATA ────────────────────────────────────── */
+// cats: todas as categorias em que o lugar aparece (pode ser mais de uma)
+const dados = [
+  {id:1,  nome:"Urban Kitchen",                      cats:["Restaurantes","Cafés & Brunch"],                    sub:"Brunch/Rooftop",          end:"Rua Gabriele D'Annunzio, 1334",      wp:"(11) 99498-3336", ig:"@urbankitchen.br",         ticket:"R$60–120",  desc:"Rooftop com brunch moderno e drinques; ambiente descolado com vista aberta no coração do bairro.", dest:"Brunch e ambiente moderno",       par:"Alto",      obs:"Cozinha natural com teto retrátil, ideal para um brunch relaxado e pet friendly.",          lat:-23.6195, lng:-46.6645},
+  {id:2,  nome:"NB Steak Campo Belo",                cats:["Restaurantes","Carnes & Churrasco"],                sub:"Churrascaria Premium",    end:"Av. Vereador José Diniz, 3864",      wp:"",                ig:"@nbsteak",                 ticket:"R$150+",    desc:"Rodízio premium de cortes nobres em ambiente sofisticado; ideal para quem busca churrasco de alto padrão.", dest:"Rodízio premium",                 par:"Médio",     obs:"Menu degustação com cortes premium servidos à vontade em um ambiente sofisticado e acolhedor.",    lat:-23.6248, lng:-46.6680},
+  {id:3,  nome:"Huto Izakaya",                       cats:["Restaurantes","Japonês & Asiático"],               sub:"Izakaya Japonês",         end:"Rua Jesuíno Maciel, 682",            wp:"",                ig:"@grupo_huto",               ticket:"R$120–200", desc:"Izakaya japonês moderno com drinques autorais e pratos criativos; ótimo para jantar e noite.", dest:"Experiência japonesa moderna",    par:"Alto",      obs:"Japonês sofisticado e intimista no Campo Belo, com sushis impecáveis e ótimos drinks.",             lat:-23.6188, lng:-46.6712},
+  {id:4,  nome:"Maremonti Campo Belo",               cats:["Restaurantes","Culinária Internacional"],          sub:"Italiano",                end:"Rua Princesa Isabel, 953",           wp:"",                ig:"@maremonti_",               ticket:"R$100–180", desc:"Pizzas e massas italianas de rede consagrada; ótimo para jantares em família ou a dois.", dest:"Pizza e massas italianas",        par:"Médio",     obs:"Ambiente aconchegante em casarão preservado, ideal para pizzas individuais e o famoso polpettone recheado.",               lat:-23.6202, lng:-46.6698},
+  {id:5,  nome:"Cris Parrilla Bar",                  cats:["Restaurantes","Carnes & Churrasco"],               sub:"Parrilla Argentina",      end:"Rua República do Iraque, 1326",      wp:"",                ig:"@crisparrillabar",         ticket:"R$80–150",  desc:"Cortes argentinos preparados na parrilla ao vivo; ótimo para grupos e amantes de carnes.", dest:"Parrilla argentina",              par:"Médio",     obs:"Ambiente descontraído com carnes na brasa, música ao vivo e ótimo espaço para crianças.",         lat:-23.6222, lng:-46.6678},
+  {id:6,  nome:"Sauce Burger",                       cats:["Hamburguerias"],                                   sub:"Hamburgueria",            end:"Rua João de Sousa Dias, 475",        wp:"",                ig:"@sauce.burgers",            ticket:"R$40–80",   desc:"Hambúrgueres artesanais com blend próprio; também atende por delivery.", dest:"Burgers artesanais",              par:"Alto",      obs:"Famoso pelos smash burgers suculentos e molhos artesanais variados em um ambiente super descontraído.",                 lat:-23.6182, lng:-46.6658},
+  {id:7,  nome:"Ken Zushi",                          cats:["Japonês & Asiático"],                              sub:"Japonês",                 end:"Rua Barão de Suruí, 190 - 1° andar", wp:"(11) 95924-2994", ig:"@ken_zushi",                ticket:"R$100–200", desc:"Sushi moderno e criativo no 1° andar; peças diferenciadas e cardápio autoral.", dest:"Sushi moderno",                   par:"Alto",      obs:"Culinária japonesa autêntica e peixes frescos em ambiente discreto e acolhedor no Campo Belo.",               lat:-23.6235, lng:-46.6658},
+  {id:8,  nome:"Pizzaria Dona Moema",                cats:["Pizzarias"],                                       sub:"Pizzaria",                end:"",                                   wp:"(11) 5531-3633",  ig:"",                         ticket:"R$60–120",  desc:"Pizzaria tradicional do bairro com delivery rápido e cardápio variado.", dest:"Delivery forte",                  par:"Alto",      obs:"Tradicional pizza de forno a lenha, ideal para um delivery caprichado no Campo Belo.",                    lat:-23.6210, lng:-46.6718},
+  {id:9,  nome:"Pizza Prime Campo Belo",             cats:["Pizzarias"],                                       sub:"Pizzaria",                end:"",                                   wp:"",                ig:"",                         ticket:"R$40–90",   desc:"Pizzaria com foco em delivery rápido e preços acessíveis.", dest:"Delivery",                        par:"Médio",     obs:"Famosa pela massa leve e crocante, oferece ótimas opções veganas e pizzas doces diferenciadas.",              lat:-23.6218, lng:-46.6708},
+  {id:10, nome:"Zi Tereza Pizzaria",                 cats:["Pizzarias"],                                       sub:"Pizzaria Tradicional",    end:"",                                   wp:"(11) 97453-7327", ig:"@zitereza",                ticket:"R$70–130",  desc:"Pizzaria com história no bairro; receitas tradicionais passadas de geração em geração.", dest:"Tradicional",                     par:"Alto",      obs:"Pizzaria tradicional de massa fina e ambiente acolhedor, ideal para jantares tranquilos em família.",                 lat:-23.6228, lng:-46.6700},
+  {id:11, nome:"Café Artigas",                       cats:["Cafés & Brunch"],                                  sub:"Brunch",                  end:"Rua Barão de Jaceguai, 1151",        wp:"(11) 3854-5636",  ig:"@cafeartigas",              ticket:"R$50–90",   desc:"Brunch e café dentro do espaço cultural da icônica Casa Artigas; experiência além do paladar.", dest:"Ambiente cultural",               par:"Alto",      obs:"Gastronomia em ícone modernista, ideal para um almoço tranquilo ao ar livre no pátio.",        lat:-23.6172, lng:-46.6685},
+  {id:12, nome:"O Jardim Café & Brunch",             cats:["Cafés & Brunch"],                                  sub:"Brunch",                  end:"Rua Princesa Isabel, 1372",          wp:"(11) 91236-5678", ig:"@ojardim.sp",               ticket:"R$50–100",  desc:"Brunch aconchegante e pet friendly; jardim charmoso para relaxar a qualquer hora do dia.", dest:"Ambiente aconchegante",           par:"Alto",      obs:"Refúgio arborizado ideal para brunch completo ou trabalhar em um ambiente tranquilo e acolhedor.",     lat:-23.6205, lng:-46.6665},
+  {id:13, nome:"Chocolatria",                        cats:["Cafés & Brunch","Confeitarias & Doces"],           sub:"Chocolateria",            end:"",                                   wp:"",                ig:"@chocolatria",              ticket:"R$30–80",   desc:"Chocolates artesanais e cafés especiais; ótimo para um mimo rápido ou para presentear.", dest:"Chocolate artesanal",             par:"Alto",      obs:"Destaque para os variados choux creams e cafés especiais em ambiente acolhedor e escondidinho.",                  lat:-23.6195, lng:-46.6705},
+  {id:14, nome:"Platz Eurobar",                      cats:["Bares & Drinks"],                                  sub:"Happy Hour",              end:"Rua Cristóvão Pereira, 1252",        wp:"(11) 5531-4036",  ig:"@platz_eurobar",            ticket:"R$50–120",  desc:"Bar de happy hour com cervejas nacionais, importadas e artesanais; petiscos e boa vibe para grupos.", dest:"Drinks e chopp",                  par:"Médio",     obs:"Ambiente charmoso com parklet, famoso pelas caipirinhas caprichadas e crostinis gratinados no happy hour.",             lat:-23.6215, lng:-46.6675},
+  {id:15, nome:"Miles Wine Bar",                     cats:["Bares & Drinks"],                                  sub:"Wine Bar",                end:"Rua Antônio de Macedo Soares, 1373", wp:"(11) 99308-2739", ig:"@mileswinebar",             ticket:"R$120+",    desc:"Wine bar com jazz ao vivo; ambiente sofisticado ideal para noites especiais.", dest:"Vinho + jazz",                    par:"Alto",      obs:"Vinhos e pizzas artesanais em ambiente intimista com jazz ao vivo no Campo Belo.",       lat:-23.6220, lng:-46.6690},
+  {id:16, nome:"Miya Wine Bar",                      cats:["Bares & Drinks"],                                  sub:"Wine Bar",                end:"Rua República do Iraque, 1038",      wp:"",                ig:"@miyawinebar",              ticket:"R$100–180", desc:"Wine bar intimista com boa carta de vinhos; ambiente discreto e aconchegante para a noite.", dest:"Ambiente intimista",              par:"Alto",      obs:"Ótimo para harmonizar vinhos em taça com a premiada tostada de milho do chef.",                  lat:-23.6228, lng:-46.6683},
+  {id:17, nome:"Caetano's Bar",                      cats:["Bares & Drinks"],                                  sub:"Tradicional",             end:"",                                   wp:"",                ig:"",                         ticket:"R$50–100",  desc:"Bar de bairro desde 2005; famoso pelo bolinho de carne e lista com mais de 60 rótulos de cerveja.", dest:"Bar clássico",                    par:"Médio",     obs:"Destaque para o rodízio de parmegiana e o chopp premiado em ambiente familiar.",          lat:-23.6238, lng:-46.6688},
+  {id:18, nome:"Padaria Colonial",                   cats:["Padarias"],                                        sub:"Tradicional",             end:"Rua Demóstenes, 805",                wp:"",                ig:"",                         ticket:"R$30–80",   desc:"Padaria de bairro com café da manhã completo; produtos frescos e fluxo intenso o dia todo.", dest:"Café da manhã",                   par:"Alto",      obs:"Tradicional no bairro, destaca-se pelo pão francês quentinho e buffet completo de café.",              lat:-23.6178, lng:-46.6672},
+  {id:19, nome:"Padaria A Trigueira",                cats:["Padarias"],                                        sub:"Tradicional",             end:"",                                   wp:"(11) 94384-8055", ig:"",                         ticket:"R$30–80",   desc:"Padaria completa com serviço de mesa; opção sólida para o café da manhã e almoço do dia a dia.", dest:"Padaria completa",                par:"Alto",      obs:"Tradicional no bairro, destaca-se pelo buffet de sopas à noite e pães variados.",             lat:-23.6195, lng:-46.6658},
+  {id:20, nome:"Benjamin a Padaria",                 cats:["Padarias"],                                        sub:"Rede",                    end:"Rua Dr. Jesuíno Maciel, 192",        wp:"",                ig:"",                         ticket:"R$30–70",   desc:"Rede moderna de padaria com boa variedade de pães, salgados e doces; rápido e prático.", dest:"Padaria moderna",                 par:"Médio",     obs:"Prática para retirada rápida, oferece croissants amanteigados e ambiente pet friendly no bairro.",                    lat:-23.6208, lng:-46.6652},
+  {id:21, nome:"Toss Baking Unit",                   cats:["Padarias"],                                        sub:"Artesanal",               end:"Av. Ver. José Diniz, 3031",          wp:"",                ig:"@toss.bakingunit",          ticket:"R$40–90",   desc:"Padaria artesanal famosa pelo croissant de amêndoas; viennoiseries e doces fotogênicos que viralizam.", dest:"Padaria estética",                par:"Altíssimo", obs:"Ambiente moderno e descolado com croissants artesanais perfeitos para um café no bairro.",                    lat:-23.6200, lng:-46.6642},
+  {id:22, nome:"Confeitaria Christina",              cats:["Confeitarias & Doces"],                            sub:"Premium",                 end:"",                                   wp:"",                ig:"@confeitariachristina",     ticket:"R$50–120",  desc:"Doces finos e bolos tradicionais de marca consolidada no bairro; qualidade de longa data.", dest:"Doces tradicionais",              par:"Baixo",     obs:"Tradicional reduto austríaco no bairro, perfeito para um café com o autêntico Apfelstrudel.",              lat:-23.6215, lng:-46.6660},
+  {id:23, nome:"Dona Glória Confeitaria",            cats:["Confeitarias & Doces"],                            sub:"Caseira",                 end:"",                                   wp:"(11) 96625-0909", ig:"",                         ticket:"R$40–80",   desc:"Confeitaria caseira com bolos sob encomenda e doces feitos com capricho; atendimento pelo WhatsApp.", dest:"Bolos caseiros",                  par:"Alto",      obs:"Destaque para o famoso bolo de coco gelado e os bolos caseiros com receitas de vó.",                  lat:-23.6225, lng:-46.6648},
+  {id:24, nome:"Tartelier Patisserie",               cats:["Confeitarias & Doces"],                            sub:"Francesa",                end:"",                                   wp:"",                ig:"@tartelier",                ticket:"R$50–120",  desc:"Patisserie com tartes, éclairs e doces finos de alta qualidade; disponível também por delivery.", dest:"Doces finos",                     par:"Alto",      obs:"O mil-folhas crocante é imperdível, especialmente nas versões clássica de baunilha ou pistache.",                   lat:-23.6232, lng:-46.6652},
+  {id:25, nome:"LIVE! Campo Belo",                   cats:["Lojas & Compras"],                                 sub:"Moda Fitness",            end:"Rua João de Souza Dias",             wp:"(11) 93088-4307", ig:"@liveoficial",              ticket:"",          desc:"Loja da marca LIVE! com moda fitness feminina de qualidade; peças para treino e uso casual.", dest:"Moda fitness",                    par:"Alto",      obs:"Espaço moderno com ampla variedade de moda fitness e beachwear de alta performance.",                 lat:-23.6198, lng:-46.6648},
+  {id:26, nome:"Boutique dos Livros",                cats:["Lojas & Compras"],                                 sub:"Livraria",                end:"Rua João de Sousa Dias, 615",        wp:"(11) 94499-6858", ig:"@_boutiquedoslivros_",      ticket:"",          desc:"Livraria independente com curadoria especial e atmosfera aconchegante; ótimo para explorar e descobrir títulos.", dest:"Experiência de leitura",          par:"Alto",      obs:"Livraria aconchegante com café e clube do livro, ideal para garimpar boas leituras no bairro.",             lat:-23.6190, lng:-46.6652},
+  {id:27, nome:"HSE Loja 2",                         cats:["Lojas & Compras"],                                 sub:"Esportes",                end:"Rua Conde de Porto Alegre, 1182",    wp:"(11) 91054-3007", ig:"@hseloja2",                 ticket:"",          desc:"Loja especializada em tênis esportivo com serviço de encordoamento profissional; atendimento técnico e focado.", dest:"Tênis profissional",              par:"Médio",     obs:"Especializada em tênis, oferece encordoamento profissional de raquetes e acessórios para diversos esportes de quadra.",               lat:-23.6232, lng:-46.6638},
+  {id:28, nome:"La Mia Gelateria",                   cats:["Confeitarias & Doces"],                            sub:"Gelateria Italiana",      end:"Rua Vieira de Morais, 329",          wp:"(11) 99318-8348", ig:"@lamia.gelateria",          ticket:"R$30–50",   desc:"Gelatos italianos artesanais da rede La Mia; sabores clássicos e sazonais feitos com ingredientes selecionados.", dest:"Gelatos italianos artesanais",    par:"Alto",      obs:"Gelatos artesanais e picolés variados com preços justos, ideais para levar e estocar em casa.",           lat:-23.6212, lng:-46.6638},
+  {id:29, nome:"Café des Fleurs",                    cats:["Cafés & Brunch","Culinária Internacional"],        sub:"Café Francês",             end:"Rua Gabriele D'Annunzio, 1291",      wp:"(11) 5093-2003",  ig:"@cafedesfleurs_sp",         ticket:"R$40–80",   desc:"Café com tortas e doces no estilo bistrô francês; decoração encantadora e atendimento acolhedor.", dest:"Tortas e doces no estilo francês",par:"Alto",      obs:"Ambiente charmoso estilo parisiense, famoso pelo mil-folhas montado na hora e decoração delicada.",lat:-23.6185, lng:-46.6658},
+  {id:30, nome:"Okone Cozinha Japonesa e Peruana",   cats:["Japonês & Asiático","Culinária Internacional"],   sub:"Nikkei (Japonesa-Peruana)",end:"Rua Gabriele D'Annunzio, 1267",      wp:"(11) 98868-6983", ig:"@Okone.SP",                 ticket:"R$100–200", desc:"Cozinha nikkei autoral com fusão japonesa-peruana; sushi, ceviche e pratos exclusivos em ambiente moderno.", dest:"Pratos fusion (sushi e ceviche)", par:"Médio",     obs:"Destaque para o rodízio completo e a fusão nikkei com peixes sempre muito frescos.",         lat:-23.6187, lng:-46.6660},
+  {id:31, nome:"Omakase Nihon",                      cats:["Japonês & Asiático"],                              sub:"Omakase Japonês",         end:"Rua Antônio de Macedo Soares, 1377", wp:"",                ig:"@omakasenihon",             ticket:"R$250–350", desc:"Menu degustação omakase criado pelo chef; experiência de alta gastronomia japonesa com reserva antecipada.", dest:"Menu degustação Omakase premium", par:"Alto",      obs:"Experiência japonesa autoral com peixes frescos e trilha de jazz em ambiente acolhedor.",lat:-23.6240, lng:-46.6695},
+  {id:32, nome:"Churrascaria Estância Campo Belo",   cats:["Carnes & Churrasco"],                              sub:"Churrascaria Gaúcha",     end:"Av. Vereador José Diniz, 3271",      wp:"(11) 5093-3717",  ig:"@estancia_campo_belo",      ticket:"R$150+",    desc:"Rodízio gaúcho clássico com cortes tradicionais; espaço amplo ideal para grupos e eventos.", dest:"Rodízio gaúcho tradicional",      par:"Médio",     obs:"Rodízio tradicional com buffet variado de frutos do mar, sushi e espaço kids completo.",      lat:-23.6252, lng:-46.6688},
+  {id:33, nome:"Melhor Bocado Café",                 cats:["Cafés & Brunch","Confeitarias & Doces"],           sub:"Café & Doces",            end:"Rua Vieira de Morais, 889",          wp:"(11) 93536-9625", ig:"@melhorbocadocafe",         ticket:"R$30–60",   desc:"Donuts e doces artesanais recém-chegados ao bairro; café especial e ambiente descolado.", dest:"Donuts e doces artesanais",       par:"Alto",      obs:"Parada acolhedora para donuts fofinhos e torrada Petrópolis, ideal para um café sem pressa.",lat:-23.6220, lng:-46.6625},
+  {id:34, nome:"Soffio Pizzeria",                    cats:["Pizzarias"],                                       sub:"Pizzaria Napolitana",     end:"Rua João de Souza Dias, 281",        wp:"",                ig:"@soffiopizzeria",           ticket:"R$120–180", desc:"Pizzas napolitanas de fermentação natural longa; massa leve e ingredientes selecionados pelos sócios do Charles Pizzaria.", dest:"Pizzas de longa fermentação",     par:"Alto",      obs:"Pizzas napolitanas individuais com massa levíssima, cortadas à tesoura pelo premiado chef Dani Branca.",lat:-23.6195, lng:-46.6650},
+  {id:35, nome:"Le Petit Gabriele",                  cats:["Restaurantes","Culinária Internacional"],          sub:"Bistrô Francês",          end:"Rua Gabriele D'Annunzio, 1266",      wp:"(11) 95423-3898", ig:"@lepetitgabriele",          ticket:"R$100–180", desc:"Bistrô francês em casa reformada; pratos clássicos e charme parisiense no Campo Belo.", dest:"Pratos clássicos da culinária francesa",par:"Médio",obs:"Bistrô parisiense acolhedor no Campo Belo, ideal para clássicos franceses e vinhos selecionados.",lat:-23.6187, lng:-46.6662},
+  {id:37, nome:"Espaço Mel Casagrande",               cats:["Lojas & Compras"],                                 sub:"Moda Feminina",           end:"Rua Vieira de Morais, 1230",          wp:"(11) 93088-4307", ig:"@espacomelcasagrande",      ticket:"",          desc:"Moda feminina desde 2016 com curadoria para looks completos; roupas para trabalho, passeio, eventos e moda festa do casual ao sofisticado, além de peças de decoração e itens de mesa posta. Atendimento acolhedor para provar com calma.", dest:"Desde 2016. Moda feminina — casual ao sofisticado + decoração e mesa posta", par:"Alto", obs:"Loja multimarcas charmosa com moda feminina, itens de decoração e estacionamento gratuito na porta.", lat:-23.6228, lng:-46.6612},
+  {id:36, nome:"Delícias do Campo Belo",              cats:["Confeitarias & Doces"],                            sub:"Caseira",                 end:"",                                   wp:"",                ig:"@deliciasdocampobelo",      ticket:"",          desc:"Confeitaria caseira desde 2014; bolos, quiches, salada de frutas e pudim de leite sob encomenda via WhatsApp.", dest:"Desde 2014. Salada de frutas, bolos, quiches e pudim de leite caseiros", par:"Alto", obs:"Seg–Sex 8h30–18h / Sáb 8h30–14h. Reservas pelo WhatsApp. Endereço não encontrado — confirmar diretamente", lat:-23.6210, lng:-46.6670},
+];
+
+/* ── CATEGORY META (fotos Unsplash) ─────────── */
+const CAT_META = {
+  "Restaurantes":            { em:"🍽️", img:"photo-1517248135467-4c7edcad34c4", color:"linear-gradient(145deg,#0d2035,#1a3a5c,#2d5a8e)" },
+  "Carnes & Churrasco":      { em:"🥩",  img:"photo-1529193591184-b1d58069ecdd",  color:"linear-gradient(145deg,#2d0800,#7c1a00,#b83000)" },
+  "Japonês & Asiático":      { em:"🍣",  img:"photo-1562802378-063ec186a863",    color:"linear-gradient(145deg,#1a0028,#440060,#7c3a9e)" },
+  "Pizzarias":               { em:"🍕",  img:"photo-1565299624946-b28f40a0ae38", color:"linear-gradient(145deg,#3d0800,#8c1a00,#c83600)" },
+  "Hamburguerias":           { em:"🍔",  img:"photo-1568901346375-23c9450c58cd", color:"linear-gradient(145deg,#3d1800,#7c3800,#b85400)" },
+  "Cafés & Brunch":          { em:"☕",  img:"photo-1442512595331-e89e73853f31", color:"linear-gradient(145deg,#2d1508,#7c4020,#c9a84c)" },
+  "Bares & Drinks":          { em:"🍷",  img:"photo-1510812431401-41d2bd2722f3", color:"linear-gradient(145deg,#140d30,#2d2060,#5548a0)" },
+  "Padarias":                { em:"🥐",  img:"photo-1509440159596-0249088772ff", color:"linear-gradient(145deg,#3d2008,#8b5a1c,#c9a84c)" },
+  "Confeitarias & Doces":    { em:"🧁",  img:"photo-1488477181946-6428a0291777", color:"linear-gradient(145deg,#3a0e22,#8c2e58,#c96090)" },
+  "Culinária Internacional": { em:"🌍",  img:"photo-1414235077428-338989a2e8c0", color:"linear-gradient(145deg,#0d2e28,#1a5c50,#2e8c78)" },
+  "Lojas & Compras":         { em:"🛍️", img:"photo-1483985988355-763728e1935b", color:"linear-gradient(145deg,#0a2e3a,#1a5c72,#2e8a9c)" },
+};
+
+const UNSPLASH = (id) =>
+  `https://images.unsplash.com/${id}?w=400&h=600&fit=crop&q=80`;
+
+function isDestaque(d) { return d.par === "Alto" || d.par === "Altíssimo"; }
+
+/* ── CATEGORY GRID (fotos) ─────────────────── */
+function buildCatGrid() {
+  const counts = {};
+  dados.forEach(d => d.cats.forEach(c => { counts[c] = (counts[c] || 0) + 1; }));
+  const grid = document.getElementById('catGrid');
+  grid.innerHTML = Object.keys(CAT_META).map(cat => {
+    const m = CAT_META[cat];
+    const n = counts[cat] || 0;
+    const longName = ['Restaurantes','Hamburguerias','Culinária Internacional'].includes(cat);
+    return `<div class="cat-card${longName ? ' cat-nome-longo' : ''}"
+        style="background-image:url(${UNSPLASH(m.img)})"
+        onclick="setFilter('${cat}')"
+        role="button" tabindex="0"
+        aria-label="Filtrar por ${cat}"
+        onkeydown="if(event.key==='Enter'||event.key===' ')setFilter('${cat}')">
+      <div class="cat-img-overlay" aria-hidden="true"></div>
+      <div class="cat-content">
+        <div class="cat-name">${cat}</div>
+        <div class="cat-count">${n} lugar${n !== 1 ? 'es' : ''}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ── FILTER TABS ────────────────────────────── */
+let activeFilter = 'Todos';
+
+function buildFilterBar() {
+  const bar = document.getElementById('filterBar');
+  const counts = { Todos: dados.length };
+  dados.forEach(d => d.cats.forEach(c => { counts[c] = (counts[c] || 0) + 1; }));
+  const tabs = ['Todos', ...Object.keys(CAT_META)];
+  bar.innerHTML = tabs.map(c => {
+    const n = counts[c] || 0;
+    return `<div class="filter-tab${c === activeFilter ? ' active' : ''}"
+      onclick="setFilter('${c}')"
+      role="button" tabindex="0"
+      aria-pressed="${c === activeFilter}"
+      onkeydown="if(event.key==='Enter'||event.key===' ')setFilter('${c}')">
+      ${CAT_META[c] ? `<span aria-hidden="true">${CAT_META[c].em}</span> ` : ''}${c}
+      <span class="tab-count" aria-label="${n} lugares">${n}</span>
+    </div>`;
+  }).join('');
+}
+
+function setFilter(cat) {
+  activeFilter = cat;
+  buildFilterBar();
+  renderCards();
+  window.scrollTo({ top: document.getElementById('filterBar').offsetTop - 60, behavior: 'smooth' });
+}
+
+/* ── CARDS ──────────────────────────────────── */
+function renderCards() {
+  const filtered = activeFilter === 'Todos'
+    ? dados
+    : dados.filter(d => d.cats.includes(activeFilter));
+  const grid = document.getElementById('cardsGrid');
+  grid.innerHTML = filtered.map(d => {
+    const primaryCat = d.cats[0];
+    const m = CAT_META[primaryCat] || {};
+    const hl = isDestaque(d);
+    return `<div class="place-card${hl ? ' is-destaque' : ''}" onclick="openModal(${d.id})" role="button" tabindex="0" aria-label="${d.nome}" onkeydown="if(event.key==='Enter'||event.key===' ')openModal(${d.id})">
+      <div class="card-cat-bar" style="background:${m.color || '#1a3a5c'}">
+        <span class="card-sub-tag">${d.sub}</span>
+      </div>
+      <div class="card-body">
+        <div class="card-name">${d.nome}</div>
+        ${d.ticket ? `<div class="card-ticket">${d.ticket}</div>` : ''}
+        ${d.end ? `<div class="card-addr">${d.end.split(',')[0]}</div>` : ''}
+        ${d.obs ? `<div class="card-meta">${d.obs}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ── MAP ────────────────────────────────────── */
+let map, markers = [];
+
+function initMap() {
+  map = L.map('map', { zoomControl: true, scrollWheelZoom: false }).setView([-23.6208, -46.6675], 14);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '© <a href="https://carto.com/">CARTO</a>',
+    maxZoom: 19
+  }).addTo(map);
+  buildMapMarkers(dados);
+}
+
+function buildMapMarkers(list) {
+  markers.forEach(m => map.removeLayer(m));
+  markers = [];
+  // Deduplicate by id so establishments in multiple categories only get one pin
+  const seen = new Set();
+  list.forEach(d => {
+    if (seen.has(d.id)) return;
+    seen.add(d.id);
+    const hl = isDestaque(d);
+    const em = CAT_META[d.cats[0]]?.em || '📍';
+    const icon = L.divIcon({
+      className: '',
+      html: `<div class="map-pin${hl ? ' pin-gold' : ''}">${em}</div>`,
+      iconSize: [34, 34],
+      iconAnchor: [17, 17],
+      popupAnchor: [0, -20]
+    });
+    const m = L.marker([d.lat, d.lng], { icon })
+      .addTo(map)
+      .bindPopup(`<strong>${d.nome}</strong><small>${d.cats.join(' · ')}</small>${d.end ? `<small>📍 ${d.end}</small>` : ''}`)
+      .on('click', () => openModal(d.id));
+    markers.push(m);
+  });
+  document.getElementById('mapCount').textContent = `${seen.size} lugares`;
+}
+
+/* ── MODAL ──────────────────────────────────── */
+function openModal(id) {
+  const d = dados.find(x => x.id === id);
+  if (!d) return;
+  const primaryCat = d.cats[0];
+  const m = CAT_META[primaryCat] || {};
+  const hl = isDestaque(d);
+
+  document.getElementById('modalHeaderBg').style.background = m.color || '#1a3a5c';
+  document.getElementById('modalCatPill').innerHTML = d.cats.join(' · ');
+  document.getElementById('modalName').textContent = d.nome;
+
+  const body = document.getElementById('modalBody');
+
+  const destRow = hl
+    ? `<div class="modal-dest-strip">
+        <div class="modal-dest-icon" aria-hidden="true">★</div>
+        <div class="modal-dest-text">${d.dest}</div>
+       </div>`
+    : (d.dest
+        ? `<div class="modal-dest-strip-plain">
+            <div class="modal-dest-icon" aria-hidden="true">${m.em||'·'}</div>
+            <div class="modal-dest-text">${d.dest}</div>
+           </div>`
+        : '');
+
+  const cells = [
+    d.desc ? `<div class="modal-cell full"><div class="modal-cell-label">Descrição</div><div class="modal-cell-val">${d.desc}</div></div>` : '',
+    d.ticket ? `<div class="modal-cell"><div class="modal-cell-label">Ticket médio</div><div class="modal-cell-val">${d.ticket}</div></div>` : '',
+    d.end ? `<div class="modal-cell full"><div class="modal-cell-label">Endereço</div><div class="modal-cell-val">${d.end}, Campo Belo — SP</div></div>` : '',
+    `<div class="modal-cell full"><div class="modal-cell-label">Cupom de desconto</div><div class="modal-cell-val">—</div></div>`,
+  ].join('');
+
+  const wpHref = d.wp ? `https://wa.me/55${d.wp.replace(/\D/g,'')}` : '';
+  const igHref = d.ig ? `https://instagram.com/${d.ig.replace('@','')}` : '';
+
+  const actions = `<div class="modal-actions">
+    ${d.wp ? `<a class="modal-btn btn-wp" href="${wpHref}" target="_blank" rel="noopener">WhatsApp</a>`
+            : `<div class="modal-btn btn-disabled" aria-disabled="true">WhatsApp</div>`}
+    ${d.ig ? `<a class="modal-btn btn-ig" href="${igHref}" target="_blank" rel="noopener">Instagram</a>`
+            : `<div class="modal-btn btn-disabled" aria-disabled="true">Instagram</div>`}
+  </div>`;
+
+  body.innerHTML = destRow + `<div class="modal-grid">${cells}</div>` + actions;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+function scrollToMap() {
+  document.querySelector('.map-section').scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ── KEYBOARD: close modal on Escape ─── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.getElementById('modalOverlay').classList.contains('open')) {
+    closeModal();
+  }
+});
+
+/* ── DESTAQUES CAROUSEL ──────────────────────── */
+function buildDestaqueCarousel() {
+  const track = document.getElementById('destaqueTrack');
+  if (!track) return;
+
+  // ── Fotos disponíveis na pasta 'fotos destaques/'
+  // • file: nome do arquivo
+  // • displayName (opcional): nome a exibir se não houver match nos dados
+  //   Se houver match automático, displayName é ignorado e usa dados.nome
+  const DESTAQUE_FILES = [
+    { file: 'live.JPG' },
+    { file: 'deliciasdocampobelo.jpg', displayName: 'Delícias do Campo Belo' },
+  ];
+
+  // Normaliza: minúsculo, sem acento, sem chars especiais
+  function norm(s) {
+    return s.toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]/g, '');
+  }
+
+  // Tenta match bidirecional: stem contém o nome OU nome contém o stem (mín. 3 chars)
+  function findMatch(stem) {
+    if (stem.length < 3) return null;
+    return dados.find(d => {
+      const n = norm(d.nome);
+      return n.includes(stem) || stem.includes(n);
+    }) || null;
+  }
+
+  const items = DESTAQUE_FILES.map(({ file, displayName }) => {
+    const stem  = norm(file.replace(/\.[^.]+$/, ''));
+    const match = findMatch(stem);
+    return {
+      id:          match ? match.id : null,
+      photo:       `fotos destaques/${file}`,
+      displayName: match ? null : (displayName || stem),
+    };
+  });
+
+  if (items.length === 0) {
+    track.closest('.destaques-section').style.display = 'none';
+    return;
+  }
+
+  track.innerHTML = items.map(item => {
+    const d    = item.id ? dados.find(x => x.id === item.id) : null;
+    const nome = d ? d.nome : (item.displayName || '');
+    const sub  = d ? d.sub  : '';
+    const photo = encodeURI(item.photo);
+    const clickable = !!item.id;
+
+    return `<div class="destaque-card" style="background-image:url('${photo}')"
+      ${clickable
+        ? `onclick="openModal(${item.id})" role="listitem button" tabindex="0" aria-label="${nome}" onkeydown="if(event.key==='Enter'||event.key===' ')openModal(${item.id})"`
+        : `role="listitem" aria-label="${nome}"`}>
+      <div class="destaque-overlay" aria-hidden="true"></div>
+      <div class="destaque-info">
+        <div class="destaque-nome">${nome}</div>
+        ${sub ? `<div class="destaque-sub">${sub}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+
+  /* ── Auto-advance ── */
+  const CARD_W = 158 + 8; // card + gap
+  let idx = 0;
+  let autoTimer = null;
+
+  function scrollTo(i) {
+    track.scrollTo({ left: i * CARD_W, behavior: 'smooth' });
+  }
+
+  function advance() {
+    idx = (idx + 1) % items.length;
+    if (idx === 0) {
+      track.scrollTo({ left: 0, behavior: 'instant' });
+    } else {
+      scrollTo(idx);
+    }
+  }
+
+  function startAuto() {
+    stopAuto();
+    autoTimer = setInterval(advance, 4000);
+  }
+
+  function stopAuto() {
+    if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+  }
+
+  /* Touch — browser handles drag natively; we just pause/resume */
+  track.addEventListener('touchstart', stopAuto, { passive: true });
+  track.addEventListener('touchend', () => {
+    setTimeout(() => {
+      idx = Math.round(track.scrollLeft / CARD_W);
+      startAuto();
+    }, 600);
+  }, { passive: true });
+
+  /* Mouse drag (desktop) */
+  let isDown = false, startX = 0, startScroll = 0;
+  track.addEventListener('mousedown', e => {
+    isDown = true; stopAuto();
+    startX = e.pageX; startScroll = track.scrollLeft;
+    track.style.cursor = 'grabbing';
+  });
+  track.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    track.scrollLeft = startScroll - (e.pageX - startX);
+  });
+  ['mouseup', 'mouseleave'].forEach(ev => {
+    track.addEventListener(ev, () => {
+      if (!isDown) return;
+      isDown = false;
+      track.style.cursor = 'grab';
+      idx = Math.round(track.scrollLeft / CARD_W);
+      startAuto();
+    });
+  });
+
+  /* Hover pause */
+  track.addEventListener('mouseenter', () => { if (!isDown) stopAuto(); });
+  track.addEventListener('mouseleave', () => { if (!isDown) startAuto(); });
+
+  startAuto();
+}
+
+/* ── SCROLL ANIMATION — category cards ──────── */
+function initCatAnimations() {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) {
+    document.querySelectorAll('.cat-card').forEach(el => el.classList.add('visible'));
+    return;
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.cat-card').forEach((el, i) => {
+    el.style.transitionDelay = `${i * 42}ms`;
+    observer.observe(el);
+  });
+}
+
+/* ── WEATHER WIDGET ─────────────────────────── */
+async function loadWeather() {
+  // AbortController com fallback manual (AbortSignal.timeout não é universal)
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 6000);
+
+  try {
+    const res = await fetch(
+      'https://wttr.in/Campo+Belo,SP?format=j1',
+      { signal: ctrl.signal }
+    );
+    clearTimeout(timer);
+    if (!res.ok) return;
+
+    const data = await res.json();
+    const cc    = data.current_condition[0];
+    const today = data.weather[0];
+    const temp  = cc.temp_C + '°';
+    const code  = parseInt(cc.weatherCode, 10);
+    const maxT  = today.maxtempC + '°';
+    const minT  = today.mintempC + '°';
+    const rainChance = Math.max(...today.hourly.map(h => parseInt(h.chanceofrain, 10)));
+    const willRain   = rainChance > 40;
+
+    // Mapeamento de weatherCode → emoji
+    const icon =
+      code === 113                          ? '☀️'  :
+      code === 116                          ? '⛅'  :
+      code === 119 || code === 122          ? '☁️'  :
+      code === 143 || code === 248 || code === 260 ? '🌫️' :
+      code === 200 || code >= 386           ? '⛈️'  :
+      code >= 263 && code <= 308            ? '🌧️'  :
+      code >= 311 && code <= 338            ? '🌨️'  :
+      code >= 353 && code <= 381            ? '🌦️'  : '🌤️';
+
+    // Previsão compacta: ↑max ↓min (+ ícone de chuva se vai chover)
+    const forecast = (willRain ? '🌧 ' : '') + '↑' + maxT + ' ↓' + minT;
+
+    document.getElementById('weatherIcon').textContent = icon;
+    document.getElementById('weatherTemp').textContent = temp;
+    document.getElementById('weatherDesc').textContent = forecast;
+    document.getElementById('weatherWidget').classList.add('loaded');
+  } catch {
+    clearTimeout(timer);
+    // Fallback: tenta URL sugerida como texto simples
+    try {
+      const r = await fetch('https://wttr.in/Campo+Belo?format=%c+%t');
+      if (!r.ok) return;
+      const txt = (await r.text()).trim();
+      const sp  = txt.indexOf(' ');
+      if (sp === -1) return;
+      const icon = txt.slice(0, sp);
+      const temp = txt.slice(sp + 1).replace(/^\+/, '');
+      if (!temp) return;
+      document.getElementById('weatherIcon').textContent = icon;
+      document.getElementById('weatherTemp').textContent = temp;
+      document.getElementById('weatherWidget').classList.add('loaded');
+    } catch { /* widget permanece oculto */ }
+  }
+}
+
+/* ── INIT ───────────────────────────────────── */
+buildDestaqueCarousel();
+buildCatGrid();
+buildFilterBar();
+renderCards();
+initMap();
+initCatAnimations();
+loadWeather();
+</script>
+</body>
+</html>
