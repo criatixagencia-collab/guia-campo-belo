@@ -191,7 +191,7 @@ body {
 .destaque-card {
   flex-shrink: 0;
   width: 148px;
-  height: 72px;
+  height: 58px;
   border-radius: 9px;
   overflow: hidden;
   position: relative;
@@ -938,7 +938,7 @@ function renderCards() {
 }
 
 /* ── MAP ────────────────────────────────────── */
-let map, markers = [];
+let map, markers = [], markerMap = {};
 
 function initMap() {
   map = L.map('map', { zoomControl: true, scrollWheelZoom: false }).setView([-23.6208, -46.6675], 14);
@@ -952,6 +952,7 @@ function initMap() {
 function buildMapMarkers(list) {
   markers.forEach(m => map.removeLayer(m));
   markers = [];
+  markerMap = {};
   // Deduplicate by id so establishments in multiple categories only get one pin
   const seen = new Set();
   list.forEach(d => {
@@ -971,14 +972,27 @@ function buildMapMarkers(list) {
       .bindPopup(`<strong>${d.nome}</strong><small>${d.cats.join(' · ')}</small>${d.end ? `<small>📍 ${d.end}</small>` : ''}`)
       .on('click', () => openModal(d.id));
     markers.push(m);
+    markerMap[d.id] = m;
   });
   document.getElementById('mapCount').textContent = `${seen.size} lugares`;
+}
+
+function flyToPlace(d) {
+  if (!map || !d || !d.lat || !d.lng) return;
+  map.flyTo([d.lat, d.lng], 17, {
+    animate: true,
+    duration: 1.4,
+    easeLinearity: 0.2
+  });
+  const marker = markerMap[d.id];
+  if (marker) setTimeout(() => marker.openPopup(), 1500);
 }
 
 /* ── MODAL ──────────────────────────────────── */
 function openModal(id) {
   const d = dados.find(x => x.id === id);
   if (!d) return;
+  flyToPlace(d);
   const primaryCat = d.cats[0];
   const m = CAT_META[primaryCat] || {};
   const hl = isDestaque(d);
