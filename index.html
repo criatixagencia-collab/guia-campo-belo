@@ -269,14 +269,20 @@ body {
 
 .cat-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 5px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px;
 }
 .cat-card {
   border-radius: 7px;
+  border: 0;
+  width: 100%;
+  min-height: 128px;
+  padding: 0;
+  text-align: left;
+  font: inherit;
   overflow: hidden; cursor: pointer;
   position: relative;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 3;
   background-size: cover;
   background-position: center;
   background-color: var(--navy);
@@ -288,6 +294,9 @@ body {
 .cat-card.visible {
   opacity: 1;
   transform: translateY(0);
+}
+.cat-card[aria-pressed="true"] {
+  box-shadow: 0 0 0 3px var(--gold), var(--sh);
 }
 .cat-card:active { opacity: .85; }
 
@@ -318,12 +327,41 @@ body {
 .cat-count { display: none; }
 
 @media (max-width: 600px) {
-  .cat-name { font-size: 13px; }
-  .cat-nome-longo .cat-content { padding-left: 3px; padding-right: 2px; }
-  .cat-nome-longo .cat-name { letter-spacing: -.5px; }
+  .cat-grid { grid-template-columns: 1fr 1fr; }
+  .cat-card { min-height: 116px; aspect-ratio: auto; }
+  .cat-name { font-size: 15px; }
+  .cat-nome-longo .cat-name { font-size: 13px; letter-spacing: -.35px; }
 }
 
-/* ── FILTER TABS ────────────────────────────── */
+/* ── RESULTS + SUBCATEGORY TABS ─────────────── */
+.results-section[hidden] { display: none; }
+.results-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 2px 16px 12px;
+}
+.results-heading {
+  font-family: var(--display);
+  font-size: 21px;
+  line-height: 1.15;
+  color: var(--text);
+}
+.results-eyebrow {
+  margin-bottom: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--gold-dark);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+.results-meta {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text3);
+}
 .filter-bar {
   display: flex; gap: 7px;
   padding: 0 16px 16px;
@@ -339,6 +377,7 @@ body {
   cursor: pointer;
   white-space: nowrap; flex-shrink: 0;
   font-size: 12px; font-weight: 600;
+  font-family: var(--font);
   color: var(--text2);
   transition: all .15s;
   box-shadow: var(--sh-xs);
@@ -363,6 +402,17 @@ body {
   gap: 10px;
   padding: 0 16px;
   margin-bottom: 22px;
+}
+.empty-state {
+  grid-column: 1 / -1;
+  padding: 24px 18px;
+  border: 1px dashed rgba(26,58,92,.22);
+  border-radius: var(--r);
+  background: var(--surface);
+  color: var(--text2);
+  font-size: 12px;
+  line-height: 1.55;
+  text-align: center;
 }
 
 .place-card {
@@ -727,17 +777,24 @@ body {
 <!-- CATEGORIES -->
 <div class="section" id="catSection">
   <div class="sec-header">
-    <span class="sec-label">Categorias</span>
+    <span class="sec-title">Explore as categorias</span>
     <a href="#" class="sec-link" onclick="setFilter('Todos');return false;">Ver todos</a>
   </div>
   <div class="cat-grid" id="catGrid"></div>
 </div>
 
-<!-- FILTER TABS -->
-<div class="filter-bar" id="filterBar"></div>
-
-<!-- CARDS GRID -->
-<div class="cards-grid" id="cardsGrid"></div>
+<!-- RESULTS: subcategorias + estabelecimentos -->
+<section class="results-section" id="resultsSection" hidden aria-labelledby="resultsHeading">
+  <div class="results-head">
+    <div>
+      <p class="results-eyebrow" id="activeCategoryLabel">Todos os locais</p>
+      <h2 class="results-heading" id="resultsHeading">Estabelecimentos</h2>
+    </div>
+    <span class="results-meta" id="resultsMeta" role="status" aria-live="polite" aria-atomic="true"></span>
+  </div>
+  <nav class="filter-bar" id="filterBar" aria-label="Subcategorias"></nav>
+  <div class="cards-grid" id="cardsGrid"></div>
+</section>
 
 <!-- MAP -->
 <div class="map-section">
@@ -800,125 +857,263 @@ body {
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 /* ── DATA ────────────────────────────────────── */
-// cats: todas as categorias em que o lugar aparece (pode ser mais de uma)
+// cats: macrocategorias de exibição; a primeira é a categoria principal.
+// sub: microcategoria usada nas pills, gerada a partir da especialidade do local.
 const dados = [
-  {id:1,  nome:"Urban Kitchen",                      cats:["Restaurantes","Cafés & Brunch"],                    sub:"Brunch/Rooftop",          end:"Rua Gabriele D'Annunzio, 1334",      wp:"(11) 99498-3336", ig:"@urbankitchen.br",         ticket:"R$60–120",  desc:"Rooftop com brunch moderno e drinques; ambiente descolado com vista aberta no coração do bairro.", dest:"Brunch e ambiente moderno",       par:"Alto",      obs:"Cozinha natural com teto retrátil, ideal para um brunch relaxado e pet friendly.",          lat:-23.6195, lng:-46.6645},
-  {id:2,  nome:"NB Steak Campo Belo",                cats:["Restaurantes","Carnes & Churrasco"],                sub:"Churrascaria Premium",    end:"Av. Vereador José Diniz, 3864",      wp:"",                ig:"@nbsteak",                 ticket:"R$150+",    desc:"Rodízio premium de cortes nobres em ambiente sofisticado; ideal para quem busca churrasco de alto padrão.", dest:"Rodízio premium",                 par:"Médio",     obs:"Menu degustação com cortes premium servidos à vontade em um ambiente sofisticado e acolhedor.",    lat:-23.6248, lng:-46.6680},
-  {id:3,  nome:"Huto Izakaya",                       cats:["Restaurantes","Japonês & Asiático"],               sub:"Izakaya Japonês",         end:"Rua Jesuíno Maciel, 682",            wp:"",                ig:"@grupo_huto",               ticket:"R$120–200", desc:"Izakaya japonês moderno com drinques autorais e pratos criativos; ótimo para jantar e noite.", dest:"Experiência japonesa moderna",    par:"Alto",      obs:"Japonês sofisticado e intimista no Campo Belo, com sushis impecáveis e ótimos drinks.",             lat:-23.6188, lng:-46.6712},
-  {id:4,  nome:"Maremonti Campo Belo",               cats:["Restaurantes","Culinária Internacional"],          sub:"Italiano",                end:"Rua Princesa Isabel, 953",           wp:"",                ig:"@maremonti_",               ticket:"R$100–180", desc:"Pizzas e massas italianas de rede consagrada; ótimo para jantares em família ou a dois.", dest:"Pizza e massas italianas",        par:"Médio",     obs:"Ambiente aconchegante em casarão preservado, ideal para pizzas individuais e o famoso polpettone recheado.",               lat:-23.6202, lng:-46.6698},
-  {id:5,  nome:"Cris Parrilla Bar",                  cats:["Restaurantes","Carnes & Churrasco"],               sub:"Parrilla Argentina",      end:"Rua República do Iraque, 1326",      wp:"",                ig:"@crisparrillabar",         ticket:"R$80–150",  desc:"Cortes argentinos preparados na parrilla ao vivo; ótimo para grupos e amantes de carnes.", dest:"Parrilla argentina",              par:"Médio",     obs:"Ambiente descontraído com carnes na brasa, música ao vivo e ótimo espaço para crianças.",         lat:-23.6222, lng:-46.6678},
-  {id:6,  nome:"Sauce Burger",                       cats:["Hamburguerias"],                                   sub:"Hamburgueria",            end:"Rua João de Sousa Dias, 475",        wp:"",                ig:"@sauce.burgers",            ticket:"R$40–80",   desc:"Hambúrgueres artesanais com blend próprio; também atende por delivery.", dest:"Burgers artesanais",              par:"Alto",      obs:"Famoso pelos smash burgers suculentos e molhos artesanais variados em um ambiente super descontraído.",                 lat:-23.6182, lng:-46.6658},
-  {id:7,  nome:"Ken Zushi",                          cats:["Japonês & Asiático"],                              sub:"Japonês",                 end:"Rua Barão de Suruí, 190 - 1° andar", wp:"(11) 95924-2994", ig:"@ken_zushi",                ticket:"R$100–200", desc:"Sushi moderno e criativo no 1° andar; peças diferenciadas e cardápio autoral.", dest:"Sushi moderno",                   par:"Alto",      obs:"Culinária japonesa autêntica e peixes frescos em ambiente discreto e acolhedor no Campo Belo.",               lat:-23.6235, lng:-46.6658},
-  {id:8,  nome:"Pizzaria Dona Moema",                cats:["Pizzarias"],                                       sub:"Pizzaria",                end:"",                                   wp:"(11) 5531-3633",  ig:"",                         ticket:"R$60–120",  desc:"Pizzaria tradicional do bairro com delivery rápido e cardápio variado.", dest:"Delivery forte",                  par:"Alto",      obs:"Tradicional pizza de forno a lenha, ideal para um delivery caprichado no Campo Belo.",                    lat:-23.6210, lng:-46.6718},
-  {id:9,  nome:"Pizza Prime Campo Belo",             cats:["Pizzarias"],                                       sub:"Pizzaria",                end:"",                                   wp:"",                ig:"",                         ticket:"R$40–90",   desc:"Pizzaria com foco em delivery rápido e preços acessíveis.", dest:"Delivery",                        par:"Médio",     obs:"Famosa pela massa leve e crocante, oferece ótimas opções veganas e pizzas doces diferenciadas.",              lat:-23.6218, lng:-46.6708},
-  {id:10, nome:"Zi Tereza Pizzaria",                 cats:["Pizzarias"],                                       sub:"Pizzaria Tradicional",    end:"",                                   wp:"(11) 97453-7327", ig:"@zitereza",                ticket:"R$70–130",  desc:"Pizzaria com história no bairro; receitas tradicionais passadas de geração em geração.", dest:"Tradicional",                     par:"Alto",      obs:"Pizzaria tradicional de massa fina e ambiente acolhedor, ideal para jantares tranquilos em família.",                 lat:-23.6228, lng:-46.6700},
-  {id:11, nome:"Café Artigas",                       cats:["Cafés & Brunch"],                                  sub:"Brunch",                  end:"Rua Barão de Jaceguai, 1151",        wp:"(11) 3854-5636",  ig:"@cafeartigas",              ticket:"R$50–90",   desc:"Brunch e café dentro do espaço cultural da icônica Casa Artigas; experiência além do paladar.", dest:"Ambiente cultural",               par:"Alto",      obs:"Gastronomia em ícone modernista, ideal para um almoço tranquilo ao ar livre no pátio.",        lat:-23.6172, lng:-46.6685},
-  {id:12, nome:"O Jardim Café & Brunch",             cats:["Cafés & Brunch"],                                  sub:"Brunch",                  end:"Rua Princesa Isabel, 1372",          wp:"(11) 91236-5678", ig:"@ojardim.sp",               ticket:"R$50–100",  desc:"Brunch aconchegante e pet friendly; jardim charmoso para relaxar a qualquer hora do dia.", dest:"Ambiente aconchegante",           par:"Alto",      obs:"Refúgio arborizado ideal para brunch completo ou trabalhar em um ambiente tranquilo e acolhedor.",     lat:-23.6205, lng:-46.6665},
-  {id:13, nome:"Chocolatria",                        cats:["Cafés & Brunch","Confeitarias & Doces"],           sub:"Chocolateria",            end:"",                                   wp:"",                ig:"@chocolatria",              ticket:"R$30–80",   desc:"Chocolates artesanais e cafés especiais; ótimo para um mimo rápido ou para presentear.", dest:"Chocolate artesanal",             par:"Alto",      obs:"Destaque para os variados choux creams e cafés especiais em ambiente acolhedor e escondidinho.",                  lat:-23.6195, lng:-46.6705},
-  {id:14, nome:"Platz Eurobar",                      cats:["Bares & Drinks"],                                  sub:"Happy Hour",              end:"Rua Cristóvão Pereira, 1252",        wp:"(11) 5531-4036",  ig:"@platz_eurobar",            ticket:"R$50–120",  desc:"Bar de happy hour com cervejas nacionais, importadas e artesanais; petiscos e boa vibe para grupos.", dest:"Drinks e chopp",                  par:"Médio",     obs:"Ambiente charmoso com parklet, famoso pelas caipirinhas caprichadas e crostinis gratinados no happy hour.",             lat:-23.6215, lng:-46.6675},
-  {id:15, nome:"Miles Wine Bar",                     cats:["Bares & Drinks"],                                  sub:"Wine Bar",                end:"Rua Antônio de Macedo Soares, 1373", wp:"(11) 99308-2739", ig:"@mileswinebar",             ticket:"R$120+",    desc:"Wine bar com jazz ao vivo; ambiente sofisticado ideal para noites especiais.", dest:"Vinho + jazz",                    par:"Alto",      obs:"Vinhos e pizzas artesanais em ambiente intimista com jazz ao vivo no Campo Belo.",       lat:-23.6220, lng:-46.6690},
-  {id:16, nome:"Miya Wine Bar",                      cats:["Bares & Drinks"],                                  sub:"Wine Bar",                end:"Rua República do Iraque, 1038",      wp:"",                ig:"@miyawinebar",              ticket:"R$100–180", desc:"Wine bar intimista com boa carta de vinhos; ambiente discreto e aconchegante para a noite.", dest:"Ambiente intimista",              par:"Alto",      obs:"Ótimo para harmonizar vinhos em taça com a premiada tostada de milho do chef.",                  lat:-23.6228, lng:-46.6683},
-  {id:17, nome:"Caetano's Bar",                      cats:["Bares & Drinks"],                                  sub:"Tradicional",             end:"",                                   wp:"",                ig:"",                         ticket:"R$50–100",  desc:"Bar de bairro desde 2005; famoso pelo bolinho de carne e lista com mais de 60 rótulos de cerveja.", dest:"Bar clássico",                    par:"Médio",     obs:"Destaque para o rodízio de parmegiana e o chopp premiado em ambiente familiar.",          lat:-23.6238, lng:-46.6688},
-  {id:18, nome:"Padaria Colonial",                   cats:["Padarias"],                                        sub:"Tradicional",             end:"Rua Demóstenes, 805",                wp:"",                ig:"",                         ticket:"R$30–80",   desc:"Padaria de bairro com café da manhã completo; produtos frescos e fluxo intenso o dia todo.", dest:"Café da manhã",                   par:"Alto",      obs:"Tradicional no bairro, destaca-se pelo pão francês quentinho e buffet completo de café.",              lat:-23.6178, lng:-46.6672},
-  {id:19, nome:"Padaria A Trigueira",                cats:["Padarias"],                                        sub:"Tradicional",             end:"",                                   wp:"(11) 94384-8055", ig:"",                         ticket:"R$30–80",   desc:"Padaria completa com serviço de mesa; opção sólida para o café da manhã e almoço do dia a dia.", dest:"Padaria completa",                par:"Alto",      obs:"Tradicional no bairro, destaca-se pelo buffet de sopas à noite e pães variados.",             lat:-23.6195, lng:-46.6658},
-  {id:20, nome:"Benjamin a Padaria",                 cats:["Padarias"],                                        sub:"Rede",                    end:"Rua Dr. Jesuíno Maciel, 192",        wp:"",                ig:"",                         ticket:"R$30–70",   desc:"Rede moderna de padaria com boa variedade de pães, salgados e doces; rápido e prático.", dest:"Padaria moderna",                 par:"Médio",     obs:"Prática para retirada rápida, oferece croissants amanteigados e ambiente pet friendly no bairro.",                    lat:-23.6208, lng:-46.6652},
-  {id:21, nome:"Toss Baking Unit",                   cats:["Padarias"],                                        sub:"Artesanal",               end:"Av. Ver. José Diniz, 3031",          wp:"",                ig:"@toss.bakingunit",          ticket:"R$40–90",   desc:"Padaria artesanal famosa pelo croissant de amêndoas; viennoiseries e doces fotogênicos que viralizam.", dest:"Padaria estética",                par:"Altíssimo", obs:"Ambiente moderno e descolado com croissants artesanais perfeitos para um café no bairro.",                    lat:-23.6200, lng:-46.6642},
-  {id:22, nome:"Confeitaria Christina",              cats:["Confeitarias & Doces"],                            sub:"Premium",                 end:"",                                   wp:"",                ig:"@confeitariachristina",     ticket:"R$50–120",  desc:"Doces finos e bolos tradicionais de marca consolidada no bairro; qualidade de longa data.", dest:"Doces tradicionais",              par:"Baixo",     obs:"Tradicional reduto austríaco no bairro, perfeito para um café com o autêntico Apfelstrudel.",              lat:-23.6215, lng:-46.6660},
-  {id:23, nome:"Dona Glória Confeitaria",            cats:["Confeitarias & Doces"],                            sub:"Caseira",                 end:"",                                   wp:"(11) 96625-0909", ig:"",                         ticket:"R$40–80",   desc:"Confeitaria caseira com bolos sob encomenda e doces feitos com capricho; atendimento pelo WhatsApp.", dest:"Bolos caseiros",                  par:"Alto",      obs:"Destaque para o famoso bolo de coco gelado e os bolos caseiros com receitas de vó.",                  lat:-23.6225, lng:-46.6648},
-  {id:24, nome:"Tartelier Patisserie",               cats:["Confeitarias & Doces"],                            sub:"Francesa",                end:"",                                   wp:"",                ig:"@tartelier",                ticket:"R$50–120",  desc:"Patisserie com tartes, éclairs e doces finos de alta qualidade; disponível também por delivery.", dest:"Doces finos",                     par:"Alto",      obs:"O mil-folhas crocante é imperdível, especialmente nas versões clássica de baunilha ou pistache.",                   lat:-23.6232, lng:-46.6652},
-  {id:25, nome:"LIVE! Campo Belo",                   cats:["Lojas & Compras"],                                 sub:"Moda Fitness",            end:"Rua João de Souza Dias",             wp:"(11) 93088-4307", ig:"@liveoficial",              ticket:"",          desc:"Loja da marca LIVE! com moda fitness feminina de qualidade; peças para treino e uso casual.", dest:"Moda fitness",                    par:"Alto",      obs:"Espaço moderno com ampla variedade de moda fitness e beachwear de alta performance.",                 lat:-23.6198, lng:-46.6648},
-  {id:26, nome:"Boutique dos Livros",                cats:["Lojas & Compras"],                                 sub:"Livraria",                end:"Rua João de Sousa Dias, 615",        wp:"(11) 94499-6858", ig:"@_boutiquedoslivros_",      ticket:"",          desc:"Livraria independente com curadoria especial e atmosfera aconchegante; ótimo para explorar e descobrir títulos.", dest:"Experiência de leitura",          par:"Alto",      obs:"Livraria aconchegante com café e clube do livro, ideal para garimpar boas leituras no bairro.",             lat:-23.6190, lng:-46.6652},
-  {id:27, nome:"HSE Loja 2",                         cats:["Lojas & Compras"],                                 sub:"Esportes",                end:"Rua Conde de Porto Alegre, 1182",    wp:"(11) 91054-3007", ig:"@hseloja2",                 ticket:"",          desc:"Loja especializada em tênis esportivo com serviço de encordoamento profissional; atendimento técnico e focado.", dest:"Tênis profissional",              par:"Médio",     obs:"Especializada em tênis, oferece encordoamento profissional de raquetes e acessórios para diversos esportes de quadra.",               lat:-23.6232, lng:-46.6638},
-  {id:28, nome:"La Mia Gelateria",                   cats:["Confeitarias & Doces"],                            sub:"Gelateria Italiana",      end:"Rua Vieira de Morais, 329",          wp:"(11) 99318-8348", ig:"@lamia.gelateria",          ticket:"R$30–50",   desc:"Gelatos italianos artesanais da rede La Mia; sabores clássicos e sazonais feitos com ingredientes selecionados.", dest:"Gelatos italianos artesanais",    par:"Alto",      obs:"Gelatos artesanais e picolés variados com preços justos, ideais para levar e estocar em casa.",           lat:-23.6212, lng:-46.6638},
-  {id:29, nome:"Café des Fleurs",                    cats:["Cafés & Brunch","Culinária Internacional"],        sub:"Café Francês",             end:"Rua Gabriele D'Annunzio, 1291",      wp:"(11) 5093-2003",  ig:"@cafedesfleurs_sp",         ticket:"R$40–80",   desc:"Café com tortas e doces no estilo bistrô francês; decoração encantadora e atendimento acolhedor.", dest:"Tortas e doces no estilo francês",par:"Alto",      obs:"Ambiente charmoso estilo parisiense, famoso pelo mil-folhas montado na hora e decoração delicada.",lat:-23.6185, lng:-46.6658},
-  {id:30, nome:"Okone Cozinha Japonesa e Peruana",   cats:["Japonês & Asiático","Culinária Internacional"],   sub:"Nikkei (Japonesa-Peruana)",end:"Rua Gabriele D'Annunzio, 1267",      wp:"(11) 98868-6983", ig:"@Okone.SP",                 ticket:"R$100–200", desc:"Cozinha nikkei autoral com fusão japonesa-peruana; sushi, ceviche e pratos exclusivos em ambiente moderno.", dest:"Pratos fusion (sushi e ceviche)", par:"Médio",     obs:"Destaque para o rodízio completo e a fusão nikkei com peixes sempre muito frescos.",         lat:-23.6187, lng:-46.6660},
-  {id:31, nome:"Omakase Nihon",                      cats:["Japonês & Asiático"],                              sub:"Omakase Japonês",         end:"Rua Antônio de Macedo Soares, 1377", wp:"",                ig:"@omakasenihon",             ticket:"R$250–350", desc:"Menu degustação omakase criado pelo chef; experiência de alta gastronomia japonesa com reserva antecipada.", dest:"Menu degustação Omakase premium", par:"Alto",      obs:"Experiência japonesa autoral com peixes frescos e trilha de jazz em ambiente acolhedor.",lat:-23.6240, lng:-46.6695},
-  {id:32, nome:"Churrascaria Estância Campo Belo",   cats:["Carnes & Churrasco"],                              sub:"Churrascaria Gaúcha",     end:"Av. Vereador José Diniz, 3271",      wp:"(11) 5093-3717",  ig:"@estancia_campo_belo",      ticket:"R$150+",    desc:"Rodízio gaúcho clássico com cortes tradicionais; espaço amplo ideal para grupos e eventos.", dest:"Rodízio gaúcho tradicional",      par:"Médio",     obs:"Rodízio tradicional com buffet variado de frutos do mar, sushi e espaço kids completo.",      lat:-23.6252, lng:-46.6688},
-  {id:33, nome:"Melhor Bocado Café",                 cats:["Cafés & Brunch","Confeitarias & Doces"],           sub:"Café & Doces",            end:"Rua Vieira de Morais, 889",          wp:"(11) 93536-9625", ig:"@melhorbocadocafe",         ticket:"R$30–60",   desc:"Donuts e doces artesanais recém-chegados ao bairro; café especial e ambiente descolado.", dest:"Donuts e doces artesanais",       par:"Alto",      obs:"Parada acolhedora para donuts fofinhos e torrada Petrópolis, ideal para um café sem pressa.",lat:-23.6220, lng:-46.6625},
-  {id:34, nome:"Soffio Pizzeria",                    cats:["Pizzarias"],                                       sub:"Pizzaria Napolitana",     end:"Rua João de Souza Dias, 281",        wp:"",                ig:"@soffiopizzeria",           ticket:"R$120–180", desc:"Pizzas napolitanas de fermentação natural longa; massa leve e ingredientes selecionados pelos sócios do Charles Pizzaria.", dest:"Pizzas de longa fermentação",     par:"Alto",      obs:"Pizzas napolitanas individuais com massa levíssima, cortadas à tesoura pelo premiado chef Dani Branca.",lat:-23.6195, lng:-46.6650},
-  {id:35, nome:"Le Petit Gabriele",                  cats:["Restaurantes","Culinária Internacional"],          sub:"Bistrô Francês",          end:"Rua Gabriele D'Annunzio, 1266",      wp:"(11) 95423-3898", ig:"@lepetitgabriele",          ticket:"R$100–180", desc:"Bistrô francês em casa reformada; pratos clássicos e charme parisiense no Campo Belo.", dest:"Pratos clássicos da culinária francesa",par:"Médio",obs:"Bistrô parisiense acolhedor no Campo Belo, ideal para clássicos franceses e vinhos selecionados.",lat:-23.6187, lng:-46.6662},
-  {id:37, nome:"Espaço Mel Casagrande",               cats:["Lojas & Compras"],                                 sub:"Moda Feminina",           end:"Rua Vieira de Morais, 1230",          wp:"(11) 93088-4307", ig:"@espacomelcasagrande",      ticket:"",          desc:"Moda feminina desde 2016 com curadoria para looks completos; roupas para trabalho, passeio, eventos e moda festa do casual ao sofisticado, além de peças de decoração e itens de mesa posta. Atendimento acolhedor para provar com calma.", dest:"Desde 2016. Moda feminina — casual ao sofisticado + decoração e mesa posta", par:"Alto", obs:"Loja multimarcas charmosa com moda feminina, itens de decoração e estacionamento gratuito na porta.", lat:-23.6228, lng:-46.6612},
-  {id:36, nome:"Delícias do Campo Belo",              cats:["Confeitarias & Doces"],                            sub:"Caseira",                 end:"",                                   wp:"",                ig:"@deliciasdocampobelo",      ticket:"",          desc:"Confeitaria caseira desde 2014; bolos, quiches, salada de frutas e pudim de leite sob encomenda via WhatsApp.", dest:"Desde 2014. Salada de frutas, bolos, quiches e pudim de leite caseiros", par:"Alto", obs:"Seg–Sex 8h30–18h / Sáb 8h30–14h. Reservas pelo WhatsApp. Endereço não encontrado — confirmar diretamente", lat:-23.6210, lng:-46.6670},
+  {id:1,  nome:"Urban Kitchen",                      cats:["Gastronomia & Delivery","Cafes, Padarias & Doces"],                    sub:"Brunch/Rooftop",          end:"Rua Gabriele D'Annunzio, 1334",      wp:"(11) 99498-3336", ig:"@urbankitchen.br",         ticket:"R$60–120",  desc:"Rooftop com brunch moderno e drinques; ambiente descolado com vista aberta no coração do bairro.", dest:"Brunch e ambiente moderno",       par:"Alto",      obs:"Cozinha natural com teto retrátil, ideal para um brunch relaxado e pet friendly.",          lat:-23.6195, lng:-46.6645},
+  {id:2,  nome:"NB Steak Campo Belo",                cats:["Gastronomia & Delivery"],                sub:"Churrascaria Premium",    end:"Av. Vereador José Diniz, 3864",      wp:"",                ig:"@nbsteak",                 ticket:"R$150+",    desc:"Rodízio premium de cortes nobres em ambiente sofisticado; ideal para quem busca churrasco de alto padrão.", dest:"Rodízio premium",                 par:"Médio",     obs:"Menu degustação com cortes premium servidos à vontade em um ambiente sofisticado e acolhedor.",    lat:-23.6248, lng:-46.6680},
+  {id:3,  nome:"Huto Izakaya",                       cats:["Gastronomia & Delivery"],               sub:"Izakaya Japonês",         end:"Rua Jesuíno Maciel, 682",            wp:"",                ig:"@grupo_huto",               ticket:"R$120–200", desc:"Izakaya japonês moderno com drinques autorais e pratos criativos; ótimo para jantar e noite.", dest:"Experiência japonesa moderna",    par:"Alto",      obs:"Japonês sofisticado e intimista no Campo Belo, com sushis impecáveis e ótimos drinks.",             lat:-23.6188, lng:-46.6712},
+  {id:4,  nome:"Maremonti Campo Belo",               cats:["Gastronomia & Delivery"],          sub:"Italiano",                end:"Rua Princesa Isabel, 953",           wp:"",                ig:"@maremonti_",               ticket:"R$100–180", desc:"Pizzas e massas italianas de rede consagrada; ótimo para jantares em família ou a dois.", dest:"Pizza e massas italianas",        par:"Médio",     obs:"Ambiente aconchegante em casarão preservado, ideal para pizzas individuais e o famoso polpettone recheado.",               lat:-23.6202, lng:-46.6698},
+  {id:5,  nome:"Cris Parrilla Bar",                  cats:["Gastronomia & Delivery"],               sub:"Parrilla Argentina",      end:"Rua República do Iraque, 1326",      wp:"",                ig:"@crisparrillabar",         ticket:"R$80–150",  desc:"Cortes argentinos preparados na parrilla ao vivo; ótimo para grupos e amantes de carnes.", dest:"Parrilla argentina",              par:"Médio",     obs:"Ambiente descontraído com carnes na brasa, música ao vivo e ótimo espaço para crianças.",         lat:-23.6222, lng:-46.6678},
+  {id:6,  nome:"Sauce Burger",                       cats:["Gastronomia & Delivery"],                                   sub:"Hamburgueria",            end:"Rua João de Sousa Dias, 475",        wp:"",                ig:"@sauce.burgers",            ticket:"R$40–80",   desc:"Hambúrgueres artesanais com blend próprio; também atende por delivery.", dest:"Burgers artesanais",              par:"Alto",      obs:"Famoso pelos smash burgers suculentos e molhos artesanais variados em um ambiente super descontraído.",                 lat:-23.6182, lng:-46.6658},
+  {id:7,  nome:"Ken Zushi",                          cats:["Gastronomia & Delivery"],                              sub:"Japonês",                 end:"Rua Barão de Suruí, 190 - 1° andar", wp:"(11) 95924-2994", ig:"@ken_zushi",                ticket:"R$100–200", desc:"Sushi moderno e criativo no 1° andar; peças diferenciadas e cardápio autoral.", dest:"Sushi moderno",                   par:"Alto",      obs:"Culinária japonesa autêntica e peixes frescos em ambiente discreto e acolhedor no Campo Belo.",               lat:-23.6235, lng:-46.6658},
+  {id:8,  nome:"Pizzaria Dona Moema",                cats:["Gastronomia & Delivery"],                                       sub:"Pizzaria",                end:"",                                   wp:"(11) 5531-3633",  ig:"",                         ticket:"R$60–120",  desc:"Pizzaria tradicional do bairro com delivery rápido e cardápio variado.", dest:"Delivery forte",                  par:"Alto",      obs:"Tradicional pizza de forno a lenha, ideal para um delivery caprichado no Campo Belo.",                    lat:-23.6210, lng:-46.6718},
+  {id:9,  nome:"Pizza Prime Campo Belo",             cats:["Gastronomia & Delivery"],                                       sub:"Pizzaria",                end:"",                                   wp:"",                ig:"",                         ticket:"R$40–90",   desc:"Pizzaria com foco em delivery rápido e preços acessíveis.", dest:"Delivery",                        par:"Médio",     obs:"Famosa pela massa leve e crocante, oferece ótimas opções veganas e pizzas doces diferenciadas.",              lat:-23.6218, lng:-46.6708},
+  {id:10, nome:"Zi Tereza Pizzaria",                 cats:["Gastronomia & Delivery"],                                       sub:"Pizzaria Tradicional",    end:"",                                   wp:"(11) 97453-7327", ig:"@zitereza",                ticket:"R$70–130",  desc:"Pizzaria com história no bairro; receitas tradicionais passadas de geração em geração.", dest:"Tradicional",                     par:"Alto",      obs:"Pizzaria tradicional de massa fina e ambiente acolhedor, ideal para jantares tranquilos em família.",                 lat:-23.6228, lng:-46.6700},
+  {id:11, nome:"Café Artigas",                       cats:["Cafes, Padarias & Doces"],                                  sub:"Brunch",                  end:"Rua Barão de Jaceguai, 1151",        wp:"(11) 3854-5636",  ig:"@cafeartigas",              ticket:"R$50–90",   desc:"Brunch e café dentro do espaço cultural da icônica Casa Artigas; experiência além do paladar.", dest:"Ambiente cultural",               par:"Alto",      obs:"Gastronomia em ícone modernista, ideal para um almoço tranquilo ao ar livre no pátio.",        lat:-23.6172, lng:-46.6685},
+  {id:12, nome:"O Jardim Café & Brunch",             cats:["Cafes, Padarias & Doces"],                                  sub:"Brunch",                  end:"Rua Princesa Isabel, 1372",          wp:"(11) 91236-5678", ig:"@ojardim.sp",               ticket:"R$50–100",  desc:"Brunch aconchegante e pet friendly; jardim charmoso para relaxar a qualquer hora do dia.", dest:"Ambiente aconchegante",           par:"Alto",      obs:"Refúgio arborizado ideal para brunch completo ou trabalhar em um ambiente tranquilo e acolhedor.",     lat:-23.6205, lng:-46.6665},
+  {id:13, nome:"Chocolatria",                        cats:["Cafes, Padarias & Doces"],           sub:"Chocolateria",            end:"",                                   wp:"",                ig:"@chocolatria",              ticket:"R$30–80",   desc:"Chocolates artesanais e cafés especiais; ótimo para um mimo rápido ou para presentear.", dest:"Chocolate artesanal",             par:"Alto",      obs:"Destaque para os variados choux creams e cafés especiais em ambiente acolhedor e escondidinho.",                  lat:-23.6195, lng:-46.6705},
+  {id:14, nome:"Platz Eurobar",                      cats:["Gastronomia & Delivery"],                                  sub:"Happy Hour",              end:"Rua Cristóvão Pereira, 1252",        wp:"(11) 5531-4036",  ig:"@platz_eurobar",            ticket:"R$50–120",  desc:"Bar de happy hour com cervejas nacionais, importadas e artesanais; petiscos e boa vibe para grupos.", dest:"Drinks e chopp",                  par:"Médio",     obs:"Ambiente charmoso com parklet, famoso pelas caipirinhas caprichadas e crostinis gratinados no happy hour.",             lat:-23.6215, lng:-46.6675},
+  {id:15, nome:"Miles Wine Bar",                     cats:["Gastronomia & Delivery"],                                  sub:"Wine Bar",                end:"Rua Antônio de Macedo Soares, 1373", wp:"(11) 99308-2739", ig:"@mileswinebar",             ticket:"R$120+",    desc:"Wine bar com jazz ao vivo; ambiente sofisticado ideal para noites especiais.", dest:"Vinho + jazz",                    par:"Alto",      obs:"Vinhos e pizzas artesanais em ambiente intimista com jazz ao vivo no Campo Belo.",       lat:-23.6220, lng:-46.6690},
+  {id:16, nome:"Miya Wine Bar",                      cats:["Gastronomia & Delivery"],                                  sub:"Wine Bar",                end:"Rua República do Iraque, 1038",      wp:"",                ig:"@miyawinebar",              ticket:"R$100–180", desc:"Wine bar intimista com boa carta de vinhos; ambiente discreto e aconchegante para a noite.", dest:"Ambiente intimista",              par:"Alto",      obs:"Ótimo para harmonizar vinhos em taça com a premiada tostada de milho do chef.",                  lat:-23.6228, lng:-46.6683},
+  {id:17, nome:"Caetano's Bar",                      cats:["Gastronomia & Delivery"],                                  sub:"Tradicional",             end:"",                                   wp:"",                ig:"",                         ticket:"R$50–100",  desc:"Bar de bairro desde 2005; famoso pelo bolinho de carne e lista com mais de 60 rótulos de cerveja.", dest:"Bar clássico",                    par:"Médio",     obs:"Destaque para o rodízio de parmegiana e o chopp premiado em ambiente familiar.",          lat:-23.6238, lng:-46.6688},
+  {id:18, nome:"Padaria Colonial",                   cats:["Cafes, Padarias & Doces"],                                        sub:"Tradicional",             end:"Rua Demóstenes, 805",                wp:"",                ig:"",                         ticket:"R$30–80",   desc:"Padaria de bairro com café da manhã completo; produtos frescos e fluxo intenso o dia todo.", dest:"Café da manhã",                   par:"Alto",      obs:"Tradicional no bairro, destaca-se pelo pão francês quentinho e buffet completo de café.",              lat:-23.6178, lng:-46.6672},
+  {id:19, nome:"Padaria A Trigueira",                cats:["Cafes, Padarias & Doces"],                                        sub:"Tradicional",             end:"",                                   wp:"(11) 94384-8055", ig:"",                         ticket:"R$30–80",   desc:"Padaria completa com serviço de mesa; opção sólida para o café da manhã e almoço do dia a dia.", dest:"Padaria completa",                par:"Alto",      obs:"Tradicional no bairro, destaca-se pelo buffet de sopas à noite e pães variados.",             lat:-23.6195, lng:-46.6658},
+  {id:20, nome:"Benjamin a Padaria",                 cats:["Cafes, Padarias & Doces"],                                        sub:"Rede",                    end:"Rua Dr. Jesuíno Maciel, 192",        wp:"",                ig:"",                         ticket:"R$30–70",   desc:"Rede moderna de padaria com boa variedade de pães, salgados e doces; rápido e prático.", dest:"Padaria moderna",                 par:"Médio",     obs:"Prática para retirada rápida, oferece croissants amanteigados e ambiente pet friendly no bairro.",                    lat:-23.6208, lng:-46.6652},
+  {id:21, nome:"Toss Baking Unit",                   cats:["Cafes, Padarias & Doces"],                                        sub:"Artesanal",               end:"Av. Ver. José Diniz, 3031",          wp:"",                ig:"@toss.bakingunit",          ticket:"R$40–90",   desc:"Padaria artesanal famosa pelo croissant de amêndoas; viennoiseries e doces fotogênicos que viralizam.", dest:"Padaria estética",                par:"Altíssimo", obs:"Ambiente moderno e descolado com croissants artesanais perfeitos para um café no bairro.",                    lat:-23.6200, lng:-46.6642},
+  {id:22, nome:"Confeitaria Christina",              cats:["Cafes, Padarias & Doces"],                            sub:"Premium",                 end:"",                                   wp:"",                ig:"@confeitariachristina",     ticket:"R$50–120",  desc:"Doces finos e bolos tradicionais de marca consolidada no bairro; qualidade de longa data.", dest:"Doces tradicionais",              par:"Baixo",     obs:"Tradicional reduto austríaco no bairro, perfeito para um café com o autêntico Apfelstrudel.",              lat:-23.6215, lng:-46.6660},
+  {id:23, nome:"Dona Glória Confeitaria",            cats:["Cafes, Padarias & Doces"],                            sub:"Caseira",                 end:"",                                   wp:"(11) 96625-0909", ig:"",                         ticket:"R$40–80",   desc:"Confeitaria caseira com bolos sob encomenda e doces feitos com capricho; atendimento pelo WhatsApp.", dest:"Bolos caseiros",                  par:"Alto",      obs:"Destaque para o famoso bolo de coco gelado e os bolos caseiros com receitas de vó.",                  lat:-23.6225, lng:-46.6648},
+  {id:24, nome:"Tartelier Patisserie",               cats:["Cafes, Padarias & Doces"],                            sub:"Francesa",                end:"",                                   wp:"",                ig:"@tartelier",                ticket:"R$50–120",  desc:"Patisserie com tartes, éclairs e doces finos de alta qualidade; disponível também por delivery.", dest:"Doces finos",                     par:"Alto",      obs:"O mil-folhas crocante é imperdível, especialmente nas versões clássica de baunilha ou pistache.",                   lat:-23.6232, lng:-46.6652},
+  {id:25, nome:"LIVE! Campo Belo",                   cats:["Moda, Calcados & Acessorios","Academias, Esportes & Bem-Estar"],                                 sub:"Moda Fitness",            end:"Rua João de Souza Dias",             wp:"(11) 93088-4307", ig:"@liveoficial",              ticket:"",          desc:"Loja da marca LIVE! com moda fitness feminina de qualidade; peças para treino e uso casual.", dest:"Moda fitness",                    par:"Alto",      obs:"Espaço moderno com ampla variedade de moda fitness e beachwear de alta performance.",                 lat:-23.6198, lng:-46.6648},
+  {id:26, nome:"Boutique dos Livros",                cats:["Lojas & Presentes"],                                 sub:"Livraria",                end:"Rua João de Sousa Dias, 615",        wp:"(11) 94499-6858", ig:"@_boutiquedoslivros_",      ticket:"",          desc:"Livraria independente com curadoria especial e atmosfera aconchegante; ótimo para explorar e descobrir títulos.", dest:"Experiência de leitura",          par:"Alto",      obs:"Livraria aconchegante com café e clube do livro, ideal para garimpar boas leituras no bairro.",             lat:-23.6190, lng:-46.6652},
+  {id:27, nome:"HSE Loja 2",                         cats:["Academias, Esportes & Bem-Estar","Moda, Calcados & Acessorios"],                                 sub:"Esportes",                end:"Rua Conde de Porto Alegre, 1182",    wp:"(11) 91054-3007", ig:"@hseloja2",                 ticket:"",          desc:"Loja especializada em tênis esportivo com serviço de encordoamento profissional; atendimento técnico e focado.", dest:"Tênis profissional",              par:"Médio",     obs:"Especializada em tênis, oferece encordoamento profissional de raquetes e acessórios para diversos esportes de quadra.",               lat:-23.6232, lng:-46.6638},
+  {id:28, nome:"La Mia Gelateria",                   cats:["Cafes, Padarias & Doces"],                            sub:"Gelateria Italiana",      end:"Rua Vieira de Morais, 329",          wp:"(11) 99318-8348", ig:"@lamia.gelateria",          ticket:"R$30–50",   desc:"Gelatos italianos artesanais da rede La Mia; sabores clássicos e sazonais feitos com ingredientes selecionados.", dest:"Gelatos italianos artesanais",    par:"Alto",      obs:"Gelatos artesanais e picolés variados com preços justos, ideais para levar e estocar em casa.",           lat:-23.6212, lng:-46.6638},
+  {id:29, nome:"Café des Fleurs",                    cats:["Cafes, Padarias & Doces"],        sub:"Café Francês",             end:"Rua Gabriele D'Annunzio, 1291",      wp:"(11) 5093-2003",  ig:"@cafedesfleurs_sp",         ticket:"R$40–80",   desc:"Café com tortas e doces no estilo bistrô francês; decoração encantadora e atendimento acolhedor.", dest:"Tortas e doces no estilo francês",par:"Alto",      obs:"Ambiente charmoso estilo parisiense, famoso pelo mil-folhas montado na hora e decoração delicada.",lat:-23.6185, lng:-46.6658},
+  {id:30, nome:"Okone Cozinha Japonesa e Peruana",   cats:["Gastronomia & Delivery"],   sub:"Nikkei (Japonesa-Peruana)",end:"Rua Gabriele D'Annunzio, 1267",      wp:"(11) 98868-6983", ig:"@Okone.SP",                 ticket:"R$100–200", desc:"Cozinha nikkei autoral com fusão japonesa-peruana; sushi, ceviche e pratos exclusivos em ambiente moderno.", dest:"Pratos fusion (sushi e ceviche)", par:"Médio",     obs:"Destaque para o rodízio completo e a fusão nikkei com peixes sempre muito frescos.",         lat:-23.6187, lng:-46.6660},
+  {id:31, nome:"Omakase Nihon",                      cats:["Gastronomia & Delivery"],                              sub:"Omakase Japonês",         end:"Rua Antônio de Macedo Soares, 1377", wp:"",                ig:"@omakasenihon",             ticket:"R$250–350", desc:"Menu degustação omakase criado pelo chef; experiência de alta gastronomia japonesa com reserva antecipada.", dest:"Menu degustação Omakase premium", par:"Alto",      obs:"Experiência japonesa autoral com peixes frescos e trilha de jazz em ambiente acolhedor.",lat:-23.6240, lng:-46.6695},
+  {id:32, nome:"Churrascaria Estância Campo Belo",   cats:["Gastronomia & Delivery","Festas & Eventos"],                              sub:"Churrascaria Gaúcha",     end:"Av. Vereador José Diniz, 3271",      wp:"(11) 5093-3717",  ig:"@estancia_campo_belo",      ticket:"R$150+",    desc:"Rodízio gaúcho clássico com cortes tradicionais; espaço amplo ideal para grupos e eventos.", dest:"Rodízio gaúcho tradicional",      par:"Médio",     obs:"Rodízio tradicional com buffet variado de frutos do mar, sushi e espaço kids completo.",      lat:-23.6252, lng:-46.6688},
+  {id:33, nome:"Melhor Bocado Café",                 cats:["Cafes, Padarias & Doces"],           sub:"Café & Doces",            end:"Rua Vieira de Morais, 889",          wp:"(11) 93536-9625", ig:"@melhorbocadocafe",         ticket:"R$30–60",   desc:"Donuts e doces artesanais recém-chegados ao bairro; café especial e ambiente descolado.", dest:"Donuts e doces artesanais",       par:"Alto",      obs:"Parada acolhedora para donuts fofinhos e torrada Petrópolis, ideal para um café sem pressa.",lat:-23.6220, lng:-46.6625},
+  {id:34, nome:"Soffio Pizzeria",                    cats:["Gastronomia & Delivery"],                                       sub:"Pizzaria Napolitana",     end:"Rua João de Souza Dias, 281",        wp:"",                ig:"@soffiopizzeria",           ticket:"R$120–180", desc:"Pizzas napolitanas de fermentação natural longa; massa leve e ingredientes selecionados pelos sócios do Charles Pizzaria.", dest:"Pizzas de longa fermentação",     par:"Alto",      obs:"Pizzas napolitanas individuais com massa levíssima, cortadas à tesoura pelo premiado chef Dani Branca.",lat:-23.6195, lng:-46.6650},
+  {id:35, nome:"Le Petit Gabriele",                  cats:["Gastronomia & Delivery"],          sub:"Bistrô Francês",          end:"Rua Gabriele D'Annunzio, 1266",      wp:"(11) 95423-3898", ig:"@lepetitgabriele",          ticket:"R$100–180", desc:"Bistrô francês em casa reformada; pratos clássicos e charme parisiense no Campo Belo.", dest:"Pratos clássicos da culinária francesa",par:"Médio",obs:"Bistrô parisiense acolhedor no Campo Belo, ideal para clássicos franceses e vinhos selecionados.",lat:-23.6187, lng:-46.6662},
+  {id:37, nome:"Espaço Mel Casagrande",               cats:["Moda, Calcados & Acessorios","Casa, Decoracao & Organizacao"],                                 sub:"Moda Feminina",           end:"Rua Vieira de Morais, 1230",          wp:"(11) 93088-4307", ig:"@espacomelcasagrande",      ticket:"",          desc:"Moda feminina desde 2016 com curadoria para looks completos; roupas para trabalho, passeio, eventos e moda festa do casual ao sofisticado, além de peças de decoração e itens de mesa posta. Atendimento acolhedor para provar com calma.", dest:"Desde 2016. Moda feminina — casual ao sofisticado + decoração e mesa posta", par:"Alto", obs:"Loja multimarcas charmosa com moda feminina, itens de decoração e estacionamento gratuito na porta.", lat:-23.6228, lng:-46.6612},
+  {id:36, nome:"Delícias do Campo Belo",              cats:["Cafes, Padarias & Doces"],                            sub:"Caseira",                 end:"",                                   wp:"",                ig:"@deliciasdocampobelo",      ticket:"",          desc:"Confeitaria caseira desde 2014; bolos, quiches, salada de frutas e pudim de leite sob encomenda via WhatsApp.", dest:"Desde 2014. Salada de frutas, bolos, quiches e pudim de leite caseiros", par:"Alto", obs:"Seg–Sex 8h30–18h / Sáb 8h30–14h. Reservas pelo WhatsApp. Endereço não encontrado — confirmar diretamente", lat:-23.6210, lng:-46.6670},
 ];
 
-/* ── CATEGORY META (fotos Unsplash) ─────────── */
+/* ── CATEGORY META (taxonomia do Guia Vila Mascote) ── */
 const CAT_META = {
-  "Restaurantes":            { em:"🍽️", img:"photo-1517248135467-4c7edcad34c4", color:"linear-gradient(145deg,#0d2035,#1a3a5c,#2d5a8e)" },
-  "Carnes & Churrasco":      { em:"🥩",  img:"photo-1529193591184-b1d58069ecdd",  color:"linear-gradient(145deg,#2d0800,#7c1a00,#b83000)" },
-  "Japonês & Asiático":      { em:"🍣",  img:"photo-1562802378-063ec186a863",    color:"linear-gradient(145deg,#1a0028,#440060,#7c3a9e)" },
-  "Pizzarias":               { em:"🍕",  img:"photo-1565299624946-b28f40a0ae38", color:"linear-gradient(145deg,#3d0800,#8c1a00,#c83600)" },
-  "Hamburguerias":           { em:"🍔",  img:"photo-1568901346375-23c9450c58cd", color:"linear-gradient(145deg,#3d1800,#7c3800,#b85400)" },
-  "Cafés & Brunch":          { em:"☕",  img:"photo-1442512595331-e89e73853f31", color:"linear-gradient(145deg,#2d1508,#7c4020,#c9a84c)" },
-  "Bares & Drinks":          { em:"🍷",  img:"photo-1510812431401-41d2bd2722f3", color:"linear-gradient(145deg,#140d30,#2d2060,#5548a0)" },
-  "Padarias":                { em:"🥐",  img:"photo-1509440159596-0249088772ff", color:"linear-gradient(145deg,#3d2008,#8b5a1c,#c9a84c)" },
-  "Confeitarias & Doces":    { em:"🧁",  img:"photo-1488477181946-6428a0291777", color:"linear-gradient(145deg,#3a0e22,#8c2e58,#c96090)" },
-  "Culinária Internacional": { em:"🌍",  img:"photo-1414235077428-338989a2e8c0", color:"linear-gradient(145deg,#0d2e28,#1a5c50,#2e8c78)" },
-  "Lojas & Compras":         { em:"🛍️", img:"photo-1483985988355-763728e1935b", color:"linear-gradient(145deg,#0a2e3a,#1a5c72,#2e8a9c)" },
+  "Gastronomia & Delivery": {
+    label:"Gastronomia", kicker:"Restaurantes, pizzarias, delivery", em:"🍽️",
+    img:"photo-1517248135467-4c7edcad34c4", color:"linear-gradient(145deg,#0d2035,#1a3a5c,#2d5a8e)"
+  },
+  "Cafes, Padarias & Doces": {
+    label:"Cafés & Doces", kicker:"Padarias, bolos, açaí, chocolates", em:"☕",
+    img:"photo-1442512595331-e89e73853f31", color:"linear-gradient(145deg,#2d1508,#7c4020,#c9a84c)"
+  },
+  "Mercados, Emporios & Conveniencia": {
+    label:"Mercados & Conveniência", kicker:"Empórios, hortifruti, suplementos", em:"🛒",
+    img:"photo-1542838132-92c53300491e", color:"linear-gradient(145deg,#12321f,#2f6b42,#5d9465)"
+  },
+  "Saude & Clinicas": {
+    label:"Saúde & Clínicas", kicker:"Clínicas, óticas, nutrição, terapias", em:"🩺",
+    img:"photo-1576091160550-2173dba999ef", color:"linear-gradient(145deg,#0d314b,#246485,#4b94ad)"
+  },
+  "Beleza & Estetica": {
+    label:"Beleza & Estética", kicker:"Salões, estética, spa, barbearias", em:"✨",
+    img:"photo-1522337360788-8b13dee7a37e", color:"linear-gradient(145deg,#3d1730,#8b3f6d,#c8719d)"
+  },
+  "Academias, Esportes & Bem-Estar": {
+    label:"Esportes & Bem-Estar", kicker:"Academias, pilates, yoga, artes marciais", em:"🏃",
+    img:"photo-1534438327276-14e5300c3a48", color:"linear-gradient(145deg,#18351d,#487439,#88a94f)"
+  },
+  "Moda, Calcados & Acessorios": {
+    label:"Moda & Acessórios", kicker:"Roupas, calçados, bolsas, semijoias", em:"🛍️",
+    img:"photo-1483985988355-763728e1935b", color:"linear-gradient(145deg,#25153f,#594080,#9271b2)"
+  },
+  "Casa, Decoracao & Organizacao": {
+    label:"Casa & Decoração", kicker:"Decoração, móveis, organização", em:"🏠",
+    img:"photo-1616486338812-3dadae4b4ace", color:"linear-gradient(145deg,#42261d,#8b5d48,#be8a69)"
+  },
+  "Servicos para Casa": {
+    label:"Serviços para Casa", kicker:"Reformas, lavanderia, limpeza", em:"🧰",
+    img:"photo-1527515637462-cff94eecc1ac", color:"linear-gradient(145deg,#26343d,#526b78,#8499a2)"
+  },
+  "Imoveis & Construcao": {
+    label:"Imóveis & Construção", kicker:"Corretores, construtoras, lançamentos", em:"🏢",
+    img:"photo-1486406146926-c627a92ad1ab", color:"linear-gradient(145deg,#0b1c2c,#1a3a5c,#476b8e)"
+  },
+  "Pets": {
+    label:"Pets", kicker:"Veterinário, pet shop, hotel pet", em:"🐾",
+    img:"photo-1601758228041-f3b2795255f1", color:"linear-gradient(145deg,#164038,#34766a,#69a99a)"
+  },
+  "Educacao & Cursos": {
+    label:"Educação & Cursos", kicker:"Escolas, idiomas, cursos", em:"📚",
+    img:"photo-1509062522246-3755977927d7", color:"linear-gradient(145deg,#12354d,#34739a,#6ba8c8)"
+  },
+  "Infantil & Familia": {
+    label:"Infantil & Família", kicker:"Crianças, família, brinquedos", em:"🧸",
+    img:"photo-1503454537195-1dcabb73ffb9", color:"linear-gradient(145deg,#4c3511,#9b7528,#d8b75d)"
+  },
+  "Festas & Eventos": {
+    label:"Festas & Eventos", kicker:"Buffets, recreação, celebrações", em:"🎉",
+    img:"photo-1511795409834-ef04bbd61622", color:"linear-gradient(145deg,#4b211d,#985246,#d8876e)"
+  },
+  "Lojas & Presentes": {
+    label:"Lojas & Presentes", kicker:"Bazares, música, presentes", em:"🎁",
+    img:"photo-1513201099705-a9746e1e201f", color:"linear-gradient(145deg,#35172f,#743b68,#a86c9b)"
+  },
+  "Instituicoes & Comunidade": {
+    label:"Comunidade", kicker:"Instituições, ações sociais", em:"🤝",
+    img:"photo-1518005020951-eccb494ad742", color:"linear-gradient(145deg,#171e28,#384758,#667485)"
+  }
+};
+
+const ALL_META = {
+  label:"Todos os locais", kicker:"Ver guia completo", em:"📍",
+  img:"photo-1642188537432-41c8a331ebdb",
+  color:"linear-gradient(145deg,#0d2035,#1a3a5c,#2d5a8e)"
 };
 
 const UNSPLASH = (id) =>
-  `https://images.unsplash.com/${id}?w=400&h=600&fit=crop&q=80`;
+  `https://images.unsplash.com/${id}?w=600&h=450&fit=crop&q=80`;
 
 function isDestaque(d) { return d.par === "Alto" || d.par === "Altíssimo"; }
 
-/* ── CATEGORY GRID (fotos) ─────────────────── */
+function formatCategory(cat) {
+  return cat === 'Todos' ? ALL_META.label : (CAT_META[cat]?.label || cat);
+}
+
+/* ── CATEGORY GRID (macrocategorias) ────────── */
 function buildCatGrid() {
   const counts = {};
   dados.forEach(d => d.cats.forEach(c => { counts[c] = (counts[c] || 0) + 1; }));
   const grid = document.getElementById('catGrid');
-  grid.innerHTML = Object.keys(CAT_META).map(cat => {
-    const m = CAT_META[cat];
-    const n = counts[cat] || 0;
-    const longName = ['Restaurantes','Hamburguerias','Culinária Internacional'].includes(cat);
-    return `<div class="cat-card${longName ? ' cat-nome-longo' : ''}"
+  const categories = Object.keys(CAT_META).concat('Todos');
+
+  grid.innerHTML = categories.map(cat => {
+    const m = cat === 'Todos' ? ALL_META : CAT_META[cat];
+    const n = cat === 'Todos' ? dados.length : (counts[cat] || 0);
+    const longName = m.label.length > 18;
+    return `<button type="button"
+        class="cat-card${longName ? ' cat-nome-longo' : ''}"
+        data-category="${cat}"
         style="background-image:url(${UNSPLASH(m.img)})"
-        onclick="setFilter('${cat}')"
-        role="button" tabindex="0"
-        aria-label="Filtrar por ${cat}"
-        onkeydown="if(event.key==='Enter'||event.key===' ')setFilter('${cat}')">
+        aria-pressed="${cat === activeFilter}"
+        aria-label="${m.label}: ${m.kicker}. ${n} lugar${n !== 1 ? 'es' : ''}">
       <div class="cat-img-overlay" aria-hidden="true"></div>
       <div class="cat-content">
-        <div class="cat-name">${cat}</div>
+        <div class="cat-name">${m.label}</div>
         <div class="cat-count">${n} lugar${n !== 1 ? 'es' : ''}</div>
       </div>
-    </div>`;
+    </button>`;
   }).join('');
+
+  grid.querySelectorAll('.cat-card').forEach(card => {
+    card.addEventListener('click', () => setFilter(card.dataset.category));
+  });
 }
 
-/* ── FILTER TABS ────────────────────────────── */
-let activeFilter = 'Todos';
+/* ── SUBCATEGORY FILTERS ────────────────────── */
+let activeFilter = null;
+let activeSubcategory = 'Todos';
 
 function buildFilterBar() {
   const bar = document.getElementById('filterBar');
-  const counts = { Todos: dados.length };
-  dados.forEach(d => d.cats.forEach(c => { counts[c] = (counts[c] || 0) + 1; }));
-  const tabs = ['Todos', ...Object.keys(CAT_META)];
-  bar.innerHTML = tabs.map(c => {
-    const n = counts[c] || 0;
-    return `<div class="filter-tab${c === activeFilter ? ' active' : ''}"
-      onclick="setFilter('${c}')"
-      role="button" tabindex="0"
-      aria-pressed="${c === activeFilter}"
-      onkeydown="if(event.key==='Enter'||event.key===' ')setFilter('${c}')">
-      ${CAT_META[c] ? `<span aria-hidden="true">${CAT_META[c].em}</span> ` : ''}${c}
-      <span class="tab-count" aria-label="${n} lugares">${n}</span>
-    </div>`;
-  }).join('');
+  const source = activeFilter === 'Todos'
+    ? dados
+    : dados.filter(d => d.cats.includes(activeFilter));
+  const subcategories = [...new Set(source.map(d => d.sub).filter(Boolean))]
+    .sort((a, b) => a.localeCompare(b, 'pt-BR'));
+  subcategories.push('Todos');
+
+  bar.replaceChildren();
+  let activeButton = null;
+  subcategories.forEach(subcategory => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = `filter-tab${subcategory === activeSubcategory ? ' active' : ''}`;
+    button.setAttribute('aria-pressed', subcategory === activeSubcategory);
+    button.textContent = subcategory;
+    button.addEventListener('click', () => setSubcategory(subcategory));
+    if (subcategory === activeSubcategory) activeButton = button;
+    bar.appendChild(button);
+  });
+
+  if (activeButton) {
+    (window.requestAnimationFrame || (callback => callback()))(() => {
+      const targetLeft = Math.max(
+        0,
+        (activeButton.offsetLeft || 0) -
+        ((bar.clientWidth || 0) - (activeButton.offsetWidth || 0)) / 2
+      );
+      if (typeof bar.scrollTo === 'function') {
+        bar.scrollTo({ left: targetLeft, behavior: 'smooth' });
+      } else {
+        bar.scrollLeft = targetLeft;
+      }
+    });
+  }
 }
 
 function setFilter(cat) {
   activeFilter = cat;
+  activeSubcategory = 'Todos';
+  updateCategoryState();
+  renderResults();
+  window.scrollTo({
+    top: document.getElementById('resultsSection').offsetTop - 18,
+    behavior: 'smooth'
+  });
+}
+
+function setSubcategory(subcategory) {
+  activeSubcategory = subcategory;
+  renderResults();
+  document.querySelector?.('#filterBar .filter-tab.active')
+    ?.focus({ preventScroll: true });
+}
+
+function updateCategoryState() {
+  document.querySelectorAll('.cat-card').forEach(card => {
+    card.setAttribute('aria-pressed', card.dataset.category === activeFilter);
+  });
+}
+
+function getFilteredData() {
+  const byCategory = activeFilter === 'Todos'
+    ? dados
+    : dados.filter(d => d.cats.includes(activeFilter));
+  const filtered = activeSubcategory === 'Todos'
+    ? byCategory
+    : byCategory.filter(d => d.sub === activeSubcategory);
+  return [...filtered].sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+}
+
+function renderResults() {
+  const section = document.getElementById('resultsSection');
+  if (!activeFilter) {
+    section.hidden = true;
+    return;
+  }
+
+  const filtered = getFilteredData();
+  section.hidden = false;
   buildFilterBar();
-  renderCards();
-  window.scrollTo({ top: document.getElementById('filterBar').offsetTop - 60, behavior: 'smooth' });
+  document.getElementById('activeCategoryLabel').textContent = formatCategory(activeFilter);
+  document.getElementById('resultsHeading').textContent =
+    activeSubcategory === 'Todos' ? 'Estabelecimentos' : activeSubcategory;
+  document.getElementById('resultsMeta').textContent =
+    `${filtered.length} resultado${filtered.length === 1 ? '' : 's'}`;
+  renderCards(filtered);
+  if (map) buildMapMarkers(filtered);
 }
 
 /* ── CARDS ──────────────────────────────────── */
-function renderCards() {
-  const filtered = activeFilter === 'Todos'
-    ? dados
-    : dados.filter(d => d.cats.includes(activeFilter));
+function renderCards(filtered) {
   const grid = document.getElementById('cardsGrid');
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="empty-state" role="status">Ainda não há estabelecimentos cadastrados nesta categoria.</div>';
+    return;
+  }
   grid.innerHTML = filtered.map(d => {
     const primaryCat = d.cats[0];
     const m = CAT_META[primaryCat] || {};
@@ -969,16 +1164,19 @@ function buildMapMarkers(list) {
     });
     const m = L.marker([d.lat, d.lng], { icon })
       .addTo(map)
-      .bindPopup(`<strong>${d.nome}</strong><small>${d.cats.join(' · ')}</small>${d.end ? `<small>📍 ${d.end}</small>` : ''}`)
+      .bindPopup(`<strong>${d.nome}</strong><small>${d.cats.map(formatCategory).join(' · ')}</small>${d.end ? `<small>📍 ${d.end}</small>` : ''}`)
       .on('click', () => openModal(d.id));
     markers.push(m);
     markerMap[d.id] = m;
   });
-  document.getElementById('mapCount').textContent = `${seen.size} lugares`;
+  const total = seen.size;
+  document.getElementById('mapCount').textContent =
+    `${total} ${total === 1 ? 'lugar' : 'lugares'}`;
 }
 
 function flyToPlace(d) {
   if (!map || !d || !d.lat || !d.lng) return;
+  if (!markerMap[d.id]) buildMapMarkers([d]);
   map.flyTo([d.lat, d.lng], 17, {
     animate: true,
     duration: 1.4,
@@ -998,7 +1196,7 @@ function openModal(id) {
   const hl = isDestaque(d);
 
   document.getElementById('modalHeaderBg').style.background = m.color || '#1a3a5c';
-  document.getElementById('modalCatPill').innerHTML = d.cats.join(' · ');
+  document.getElementById('modalCatPill').textContent = d.cats.map(formatCategory).join(' · ');
   document.getElementById('modalName').textContent = d.nome;
 
   const body = document.getElementById('modalBody');
@@ -1270,8 +1468,7 @@ async function loadWeather() {
 /* ── INIT ───────────────────────────────────── */
 buildDestaqueCarousel();
 buildCatGrid();
-buildFilterBar();
-renderCards();
+renderResults();
 initMap();
 initCatAnimations();
 loadWeather();
