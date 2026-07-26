@@ -488,6 +488,10 @@ body {
 .card-meta {
   font-size: 10px; color: var(--text3); font-weight: 500;
   letter-spacing: .1px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
 }
 
 /* ── MAP SECTION ────────────────────────────── */
@@ -649,7 +653,9 @@ body {
 }
 .modal-btn:active { opacity: .85; transform: scale(0.97); }
 .btn-wp { background: #22c55e; color: #fff; }
+.btn-tel { background: var(--navy); color: #fff; }
 .btn-ig { background: linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045); color: #fff; }
+.btn-site { background: var(--gold); color: var(--navy); }
 .btn-disabled { background: var(--surface2); color: var(--text3); cursor: default; }
 
 /* ── BOTTOM NAV ─────────────────────────────── */
@@ -897,6 +903,14 @@ const dados = [
   {id:35, nome:"Le Petit Gabriele",                  cats:["Gastronomia & Delivery"],          sub:"Bistrô Francês",          end:"Rua Gabriele D'Annunzio, 1266",      wp:"(11) 95423-3898", ig:"@lepetitgabriele",          ticket:"R$100–180", desc:"Bistrô francês em casa reformada; pratos clássicos e charme parisiense no Campo Belo.", dest:"Pratos clássicos da culinária francesa",par:"Médio",obs:"Bistrô parisiense acolhedor no Campo Belo, ideal para clássicos franceses e vinhos selecionados.",lat:-23.6187, lng:-46.6662},
   {id:37, nome:"Espaço Mel Casagrande",               cats:["Moda, Calcados & Acessorios","Casa, Decoracao & Organizacao"],                                 sub:"Moda Feminina",           end:"Rua Vieira de Morais, 1230",          wp:"(11) 93088-4307", ig:"@espacomelcasagrande",      ticket:"",          desc:"Moda feminina desde 2016 com curadoria para looks completos; roupas para trabalho, passeio, eventos e moda festa do casual ao sofisticado, além de peças de decoração e itens de mesa posta. Atendimento acolhedor para provar com calma.", dest:"Desde 2016. Moda feminina — casual ao sofisticado + decoração e mesa posta", par:"Alto", obs:"Loja multimarcas charmosa com moda feminina, itens de decoração e estacionamento gratuito na porta.", lat:-23.6228, lng:-46.6612},
   {id:36, nome:"Delícias do Campo Belo",              cats:["Cafes, Padarias & Doces"],                            sub:"Caseira",                 end:"",                                   wp:"",                ig:"@deliciasdocampobelo",      ticket:"",          desc:"Confeitaria caseira desde 2014; bolos, quiches, salada de frutas e pudim de leite sob encomenda via WhatsApp.", dest:"Desde 2014. Salada de frutas, bolos, quiches e pudim de leite caseiros", par:"Alto", obs:"Seg–Sex 8h30–18h / Sáb 8h30–14h. Reservas pelo WhatsApp. Endereço não encontrado — confirmar diretamente", lat:-23.6210, lng:-46.6670},
+  {id:38, nome:"Empório Itiê",                        cats:["Mercados, Emporios & Conveniencia"],                    sub:"Empório de Bebidas",      end:"Rua Viaza, 887",                       wp:"(11) 91280-8800", tel:"(11) 5034-8800", ig:"@emporioitie", site:"https://www.emporioitie.com.br/", horario:"Seg–Sex 10h–17h / Sáb 9h–14h", ticket:"", desc:"Empório de bairro especializado em vinhos nacionais e importados, espumantes, destilados, licores e acessórios para bebidas, com compra online e retirada na loja.", dest:"Vinhos e bebidas especiais", par:"Médio", obs:"Retirada de pedidos disponível na loja.", lat:-23.6349503, lng:-46.6624099},
+  {id:39, nome:"Clínica Campo Belo",                  cats:["Saude & Clinicas"],                                      sub:"Clínica Multidisciplinar",end:"Avenida Vereador José Diniz, 3300, conjunto 201, 2º andar", wp:"(11) 94243-2619", tel:"(11) 5543-8457", ig:"@clinicacampobelo", site:"https://clinicacampobelo.com.br/", horario:"Seg–Sex 8h–18h", ticket:"", desc:"Clínica multidisciplinar com atendimento em otorrinolaringologia, pediatria, clínica médica, ginecologia e obstetrícia e acupuntura.", dest:"Consultas, especialidades médicas e exames", par:"Médio", obs:"", lat:-23.6189402, lng:-46.6762477},
+  {id:40, nome:"Belavie Beauty",                      cats:["Beleza & Estetica"],                                     sub:"Salão de Beleza",         end:"Rua Conde de Porto Alegre, 1369",     wp:"(11) 94046-4448", tel:"(11) 94046-4448", ig:"@belaviesalon", site:"https://www.belaviebeauty.com/", horario:"Seg–Sáb 9h–19h", ticket:"", desc:"Salão com serviços de cabelo, tratamentos capilares, estética, maquiagem, penteados, unhas, cílios, sobrancelhas e produção para noivas.", dest:"Cabelo, estética e bem-estar", par:"Médio", obs:"", lat:-23.6209357, lng:-46.6725849},
+  {id:41, nome:"OMO Lavanderia Especializada Vieira de Morais", cats:["Servicos para Casa"],                          sub:"Lavanderia",              end:"Rua Vieira de Morais, 380",            wp:"", tel:"(11) 93492-3630", ig:"@omolavanderia10", site:"https://www.omolavanderia.com.br/lojas/omo-lavanderia-especializada-vieira-de-morais-rua-vieira-de-morais-380-04617000-236181438-466770436", horario:"Seg–Sex 8h–19h / Sáb 9h–13h", ticket:"", desc:"Unidade Especializada/Express da OMO com serviços profissionais de lavanderia e cuidado de roupas.", dest:"Lavanderia especializada e express", par:"Médio", obs:"", lat:-23.6181438, lng:-46.6770436},
+  {id:42, nome:"Campo Belo Soluções Imobiliárias",    cats:["Imoveis & Construcao"],                                 sub:"Imobiliária",             end:"Rua Estevão Baião, 599",               wp:"(11) 91555-0303", tel:"(11) 2609-9485", ig:"@_campobeloimoveis", site:"https://www.campobeloimoveis.com/", horario:"Seg–Sex 10h–17h", ticket:"", desc:"Imobiliária do bairro dedicada à compra, venda e locação de imóveis, registrada no CRECI J23042.", dest:"Compra, venda e locação de imóveis", par:"Médio", obs:"CRECI J23042.", lat:-23.627301, lng:-46.667841},
+  {id:43, nome:"Vet Quality Hospital Veterinário 24h",cats:["Pets"],                                                  sub:"Hospital Veterinário 24h",end:"Rua Vieira de Morais, 1862",            wp:"(11) 97649-3775", tel:"(11) 5097-9642", ig:"@vetquality", site:"https://vetquality.com.br/", horario:"Aberto 24h todos os dias", ticket:"", desc:"Hospital veterinário 24 horas com pronto atendimento, internação, cirurgias, especialidades e exames para cães e gatos.", dest:"Atendimento veterinário 24 horas", par:"Médio", obs:"", lat:-23.6265796, lng:-46.6656152},
+  {id:44, nome:"Kumon Campo Belo — Gabriele D’Annunzio",cats:["Educacao & Cursos","Infantil & Familia"],              sub:"Cursos Infantis",         end:"Rua Cristóvão Pereira, 1345",           wp:"(11) 94210-8486", tel:"(11) 4306-3033", ig:"@kumoncampobelogabrieledannunzi", site:"https://www.kumon.com.br/sp/campo-belo-vieira-de-morais/", horario:"Seg, ter, qui e sex 9h–18h / Qua 9h–16h30", ticket:"", desc:"Unidade do método Kumon com cursos de matemática, português e inglês, incluindo conteúdos pré-escolares e acompanhamento individualizado.", dest:"Matemática, português e inglês", par:"Médio", obs:"Avaliação gratuita mediante agendamento.", lat:-23.62667, lng:-46.67084},
+  {id:45, nome:"Paróquia Nossa Senhora de Guadalupe",cats:["Instituicoes & Comunidade"],                              sub:"Paróquia Católica",       end:"Rua República do Iraque, 1839",        wp:"(11) 5041-9829", tel:"(11) 5041-9829", ig:"@paroquiansraguadalupe", site:"https://paroquiansguadalupe.com.br/", horario:"Secretaria: ter–sex 8h–12h e 14h–18h / Sáb 8h–12h (até 3/8, ter–sáb 8h–12h)", ticket:"", desc:"Paróquia católica do Campo Belo com missas, confissões, direção espiritual e atendimento de secretaria.", dest:"Missas e vida comunitária", par:"Médio", obs:"Missas: seg 7h30; ter–sáb 8h; dom 8h, 10h e 18h.", lat:-23.6196748, lng:-46.6671922},
 ];
 
 /* ── CATEGORY META (taxonomia do Guia Vila Mascote) ── */
@@ -1126,7 +1140,7 @@ function renderCards(filtered) {
         <div class="card-name">${d.nome}</div>
         ${d.ticket ? `<div class="card-ticket">${d.ticket}</div>` : ''}
         ${d.end ? `<div class="card-addr">${d.end.split(',')[0]}</div>` : ''}
-        ${d.obs ? `<div class="card-meta">${d.obs}</div>` : ''}
+        ${(d.horario || d.obs) ? `<div class="card-meta">${d.horario || d.obs}</div>` : ''}
       </div>
     </div>`;
   }).join('');
@@ -1217,17 +1231,25 @@ function openModal(id) {
     d.desc ? `<div class="modal-cell full"><div class="modal-cell-label">Descrição</div><div class="modal-cell-val">${d.desc}</div></div>` : '',
     d.ticket ? `<div class="modal-cell"><div class="modal-cell-label">Ticket médio</div><div class="modal-cell-val">${d.ticket}</div></div>` : '',
     d.end ? `<div class="modal-cell full"><div class="modal-cell-label">Endereço</div><div class="modal-cell-val">${d.end}, Campo Belo — SP</div></div>` : '',
+    d.horario ? `<div class="modal-cell full"><div class="modal-cell-label">Horário</div><div class="modal-cell-val">${d.horario}</div></div>` : '',
+    d.tel ? `<div class="modal-cell full"><div class="modal-cell-label">Telefone</div><div class="modal-cell-val">${d.tel}</div></div>` : '',
+    d.obs ? `<div class="modal-cell full"><div class="modal-cell-label">Informações</div><div class="modal-cell-val">${d.obs}</div></div>` : '',
     `<div class="modal-cell full"><div class="modal-cell-label">Cupom de desconto</div><div class="modal-cell-val">—</div></div>`,
   ].join('');
 
   const wpHref = d.wp ? `https://wa.me/55${d.wp.replace(/\D/g,'')}` : '';
+  const telHref = d.tel ? `tel:+55${d.tel.replace(/\D/g,'')}` : '';
   const igHref = d.ig ? `https://instagram.com/${d.ig.replace('@','')}` : '';
+  const siteHref = d.site || '';
 
   const actions = `<div class="modal-actions">
     ${d.wp ? `<a class="modal-btn btn-wp" href="${wpHref}" target="_blank" rel="noopener">WhatsApp</a>`
-            : `<div class="modal-btn btn-disabled" aria-disabled="true">WhatsApp</div>`}
+            : d.tel ? `<a class="modal-btn btn-tel" href="${telHref}">Ligar</a>`
+            : `<div class="modal-btn btn-disabled" aria-disabled="true">Contato</div>`}
     ${d.ig ? `<a class="modal-btn btn-ig" href="${igHref}" target="_blank" rel="noopener">Instagram</a>`
-            : `<div class="modal-btn btn-disabled" aria-disabled="true">Instagram</div>`}
+            : d.site ? `<a class="modal-btn btn-site" href="${siteHref}" target="_blank" rel="noopener">Site</a>`
+            : `<div class="modal-btn btn-disabled" aria-disabled="true">Site</div>`}
+    ${d.ig && d.site ? `<a class="modal-btn btn-site" href="${siteHref}" target="_blank" rel="noopener">Site</a>` : ''}
   </div>`;
 
   body.innerHTML = destRow + `<div class="modal-grid">${cells}</div>` + actions;
