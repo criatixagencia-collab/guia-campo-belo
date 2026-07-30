@@ -30,11 +30,11 @@ body {
 }
 
 .flyer-shell--page2 {
-  aspect-ratio: 1080 / 1640;
+  aspect-ratio: 1080 / 1400;
 }
 
 .flyer-shell--page2 .flyer-frame {
-  height: 1640px;
+  height: 1400px;
 }
 
 .flyer-shell--page3 {
@@ -64,6 +64,18 @@ body {
   color: var(--navy);
   font-size: 27px;
   text-align: center;
+}
+
+.desktop-benefits {
+  width: min(calc(100% - 80px), 940px);
+  margin: 28px auto 0;
+  padding: 28px 42px;
+  border-radius: 14px;
+  background: var(--gold);
+  color: var(--navy);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.65;
 }
 
 .desktop-cta strong {
@@ -265,7 +277,8 @@ body {
 
 @media (max-width: 600px) {
   .flyer-shell { display: none; }
-  .desktop-cta { display: none; }
+  .desktop-cta,
+  .desktop-benefits { display: none; }
 
   .mobile-flyer {
     display: flex;
