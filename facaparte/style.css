@@ -21,13 +21,24 @@ body {
   margin: 0 auto;
 }
 
-.flyer-frame {
-  display: block;
+.flyer-shell {
+  position: relative;
   width: 100%;
-  height: auto;
   aspect-ratio: 1080 / 1400;
+  overflow: hidden;
+  background: var(--navy);
+}
+
+.flyer-frame {
+  position: absolute;
+  inset: 0 auto auto 0;
+  display: block;
+  width: 1080px;
+  height: 1400px;
   border: 0;
   background: var(--navy);
+  transform: scale(var(--flyer-scale, 1));
+  transform-origin: top left;
 }
 
 .page-footer {
