@@ -29,6 +29,14 @@ body {
   background: var(--navy);
 }
 
+.flyer-shell--page2 {
+  aspect-ratio: 1080 / 1640;
+}
+
+.flyer-shell--page2 .flyer-frame {
+  height: 1640px;
+}
+
 .flyer-frame {
   position: absolute;
   inset: 0 auto auto 0;
