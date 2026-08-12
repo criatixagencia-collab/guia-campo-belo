@@ -78,6 +78,30 @@ body {
   line-height: 1.65;
 }
 
+.desktop-extra-offer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 28px;
+  align-items: center;
+  width: min(calc(100% - 140px), 940px);
+  margin: 0 auto;
+  padding: 24px 0;
+  border-block: 1px solid rgba(212, 161, 44, .6);
+}
+
+.desktop-extra-offer h2 {
+  margin: 0;
+  font-size: 29px;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.desktop-extra-offer strong {
+  color: var(--gold);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 44px;
+}
+
 .desktop-cta strong {
   display: block;
   margin-top: 5px;
@@ -278,7 +302,8 @@ body {
 @media (max-width: 600px) {
   .flyer-shell { display: none; }
   .desktop-cta,
-  .desktop-benefits { display: none; }
+  .desktop-benefits,
+  .desktop-extra-offer { display: none; }
 
   .mobile-flyer {
     display: flex;
