@@ -38,7 +38,28 @@
         }
       }
 
+      function removeRequestedItem(root) {
+        const removeText = frame.dataset.removeText;
+        if (!removeText) return;
+        const elements = root.querySelectorAll('*');
+
+        elements.forEach((element) => {
+          if (element.shadowRoot) removeRequestedItem(element.shadowRoot);
+          if (element.children.length || element.textContent.trim() !== removeText) return;
+
+          let row = element;
+          while (row && row !== root) {
+            if (row.style?.display === 'flex' && row.textContent.includes('R$')) {
+              row.style.display = 'none';
+              return;
+            }
+            row = row.parentElement;
+          }
+        });
+      }
+
       const retry = window.setInterval(() => {
+        removeRequestedItem(frame.contentDocument.body);
         updatePrices(frame.contentDocument.body);
         if (applied.size === Object.keys(updates).length) window.clearInterval(retry);
       }, 100);
