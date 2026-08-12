@@ -78,15 +78,32 @@ body {
   line-height: 1.65;
 }
 
+.desktop-extra-offers {
+  width: min(calc(100% - 140px), 940px);
+  margin: 0 auto;
+}
+
 .desktop-extra-offer {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 28px;
   align-items: center;
-  width: min(calc(100% - 140px), 940px);
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   padding: 24px 0;
   border-block: 1px solid rgba(212, 161, 44, .6);
+}
+
+.desktop-extra-offer + .desktop-extra-offer {
+  border-top: 0;
+}
+
+.desktop-extra-offer p {
+  margin: 7px 0 0;
+  color: var(--gold);
+  font-size: 23px;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .desktop-extra-offer h2 {
@@ -303,7 +320,7 @@ body {
   .flyer-shell { display: none; }
   .desktop-cta,
   .desktop-benefits,
-  .desktop-extra-offer { display: none; }
+  .desktop-extra-offers { display: none; }
 
   .mobile-flyer {
     display: flex;
