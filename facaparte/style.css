@@ -38,7 +38,7 @@ body {
 }
 
 .flyer-shell--page3 {
-  aspect-ratio: 1080 / 1000;
+  aspect-ratio: 1080 / 900;
 }
 
 .flyer-frame {
@@ -85,13 +85,69 @@ body {
 
 .desktop-extra-offer {
   display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 28px;
+  grid-template-columns: 40px 1px 58px 1fr auto;
+  gap: 22px;
   align-items: center;
   width: 100%;
   margin: 0;
   padding: 24px 0;
   border-block: 1px solid rgba(212, 161, 44, .6);
+}
+
+.desktop-offer-number {
+  color: var(--gold);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 32px;
+  font-style: italic;
+  font-weight: 700;
+}
+
+.desktop-offer-divider {
+  align-self: stretch;
+  width: 1px;
+  background: rgba(212, 161, 44, .6);
+}
+
+.desktop-offer-icon {
+  position: relative;
+  display: block;
+  width: 58px;
+  height: 58px;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+}
+
+.desktop-offer-icon--video::before {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 22px;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  border-left: 15px solid var(--gold);
+}
+
+.desktop-offer-icon--person::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 19px;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+}
+
+.desktop-offer-icon--person::after {
+  content: '';
+  position: absolute;
+  bottom: 9px;
+  left: 15px;
+  width: 24px;
+  height: 15px;
+  border: 2px solid var(--gold);
+  border-bottom: 0;
+  border-radius: 14px 14px 0 0;
 }
 
 .desktop-extra-offer + .desktop-extra-offer {
@@ -108,6 +164,7 @@ body {
 
 .desktop-extra-offer h2 {
   margin: 0;
+  color: var(--gold);
   font-size: 29px;
   line-height: 1.35;
   text-transform: uppercase;
