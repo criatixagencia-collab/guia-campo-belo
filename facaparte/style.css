@@ -38,7 +38,7 @@ body {
 }
 
 .flyer-shell--page3 {
-  aspect-ratio: 1080 / 900;
+  display: none;
 }
 
 .flyer-frame {
@@ -78,21 +78,56 @@ body {
   line-height: 1.65;
 }
 
-.desktop-extra-offers {
-  width: min(calc(100% - 140px), 940px);
-  margin: 0 auto;
+.desktop-services-flyer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 54px 70px 34px;
+  background: var(--navy);
 }
 
-.desktop-extra-offer {
+.desktop-services-logo {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+}
+
+.desktop-services-kicker {
+  margin-top: 20px;
+  color: var(--gold);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: .3em;
+}
+
+.desktop-services-flyer > h1 {
+  margin: 24px 0 44px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 54px;
+  line-height: 1.08;
+  text-align: center;
+}
+
+.desktop-services-flyer > h1 em {
+  color: var(--gold);
+  font-size: 72px;
+}
+
+.desktop-services-offers {
+  width: 100%;
+}
+
+.desktop-service-offer {
   display: grid;
   grid-template-columns: 40px 1px 58px 1fr auto;
   gap: 22px;
   align-items: center;
-  width: 100%;
-  margin: 0;
-  padding: 24px 0;
-  border-block: 1px solid rgba(212, 161, 44, .6);
+  min-height: 126px;
+  padding: 22px 0;
+  border-top: 1px solid rgba(212, 161, 44, .6);
 }
+
+.desktop-service-offer:last-child { border-bottom: 1px solid rgba(212, 161, 44, .6); }
 
 .desktop-offer-number {
   color: var(--gold);
@@ -150,11 +185,7 @@ body {
   border-radius: 14px 14px 0 0;
 }
 
-.desktop-extra-offer + .desktop-extra-offer {
-  border-top: 0;
-}
-
-.desktop-extra-offer p {
+.desktop-service-offer p {
   margin: 7px 0 0;
   color: var(--gold);
   font-size: 23px;
@@ -162,7 +193,7 @@ body {
   text-transform: uppercase;
 }
 
-.desktop-extra-offer h2 {
+.desktop-service-offer h2 {
   margin: 0;
   color: var(--gold);
   font-size: 29px;
@@ -170,11 +201,25 @@ body {
   text-transform: uppercase;
 }
 
-.desktop-extra-offer strong {
+.desktop-service-offer strong {
   color: var(--gold);
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 44px;
 }
+
+.desktop-offer-icon--reach::before,
+.desktop-offer-icon--reach::after {
+  content: '';
+  position: absolute;
+  top: 17px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+}
+
+.desktop-offer-icon--reach::before { left: 9px; }
+.desktop-offer-icon--reach::after { right: 9px; opacity: .7; }
 
 .desktop-cta strong {
   display: block;
@@ -377,7 +422,7 @@ body {
   .flyer-shell { display: none; }
   .desktop-cta,
   .desktop-benefits,
-  .desktop-extra-offers { display: none; }
+  .desktop-services-flyer { display: none; }
 
   .mobile-flyer {
     display: flex;
