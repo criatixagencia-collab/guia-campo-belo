@@ -1294,14 +1294,12 @@ function buildDestaqueCarousel() {
   const track = document.getElementById('destaqueTrack');
   if (!track) return;
 
-  // ── Fotos disponíveis na pasta 'fotos destaques/'
-  // • file: nome do arquivo
-  // • displayName (opcional): nome a exibir se não houver match nos dados
-  //   Se houver match automático, displayName é ignorado e usa dados.nome
-  const DESTAQUE_FILES = [
-    { file: 'rezinhafit.jpg', displayName: 'Rezinha Fit' },
-    { file: 'live.JPG' },
-    { file: 'deliciasdocampobelo.jpg', displayName: 'Delícias do Campo Belo' },
+  // Destaques exibidos na vitrine inicial.
+  // Quando nao houver foto propria, usa a imagem da categoria do cadastro.
+  const DESTAQUE_ITEMS = [
+    { nome: 'Rezinha Fit', file: 'rezinhafit.jpg' },
+    { nome: 'Boutique dos Livros' },
+    { nome: 'Pane & Vino' },
   ];
 
   // Normaliza: minúsculo, sem acento, sem chars especiais
@@ -1311,22 +1309,25 @@ function buildDestaqueCarousel() {
       .replace(/[^a-z0-9]/g, '');
   }
 
-  // Tenta match bidirecional: stem contém o nome OU nome contém o stem (mín. 3 chars)
-  function findMatch(stem) {
-    if (stem.length < 3) return null;
-    return dados.find(d => {
+  function findMatch(value) {
+    const normalized = norm(value);
+    if (normalized.length < 3) return null;
+    return dados.find(d => norm(d.nome) === normalized) || dados.find(d => {
       const n = norm(d.nome);
-      return n.includes(stem) || stem.includes(n);
+      return n.includes(normalized) || normalized.includes(n);
     }) || null;
   }
 
-  const items = DESTAQUE_FILES.map(({ file, displayName }) => {
-    const stem  = norm(file.replace(/\.[^.]+$/, ''));
-    const match = findMatch(stem);
+  const items = DESTAQUE_ITEMS.map(({ nome, file, displayName }) => {
+    const match = findMatch(nome || file.replace(/\.[^.]+$/, ''));
+    const primaryCat = match?.cats?.[0];
+    const categoryPhoto = primaryCat && CAT_META[primaryCat]?.img
+      ? UNSPLASH(CAT_META[primaryCat].img)
+      : UNSPLASH(ALL_META.img);
     return {
       id:          match ? match.id : null,
-      photo:       `fotos destaques/${file}`,
-      displayName: match ? null : (displayName || stem),
+      photo:       file ? `fotos destaques/${file}` : categoryPhoto,
+      displayName: match ? null : (displayName || nome || file),
     };
   });
 
@@ -1339,7 +1340,7 @@ function buildDestaqueCarousel() {
     const d    = item.id ? dados.find(x => x.id === item.id) : null;
     const nome = d ? d.nome : (item.displayName || '');
     const sub  = d ? d.sub  : '';
-    const photo = encodeURI(item.photo);
+    const photo = item.photo.startsWith('http') ? item.photo : encodeURI(item.photo);
     const clickable = !!item.id;
 
     return `<div class="destaque-card" style="background-image:url('${photo}')"
