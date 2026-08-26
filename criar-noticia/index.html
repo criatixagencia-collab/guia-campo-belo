@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#071b33">
+  <meta name="description" content="Crie uma arte de notícia do Guia Campo Belo com sua foto e seu título.">
+  <title>Criar notícia · Guia Campo Belo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #071b33;
+      --navy-soft: #102e4e;
+      --gold: #d5aa34;
+      --ink: #142033;
+      --muted: #657084;
+      --paper: #f4f6f8;
+      --white: #fff;
+      --line: #dfe4ea;
+      --shadow: 0 24px 60px rgba(7, 27, 51, .15);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { color-scheme: light; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 7% 2%, rgba(213, 170, 52, .12), transparent 25rem),
+        var(--paper);
+      color: var(--ink);
+      font-family: "Epilogue", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input, textarea { font: inherit; }
+
+    button, .file-button { -webkit-tap-highlight-color: transparent; }
+
+    .topbar {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 12px clamp(18px, 4vw, 48px);
+      background: var(--navy);
+      border-bottom: 1px solid rgba(213, 170, 52, .35);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .brand img {
+      width: 46px;
+      height: 46px;
+      object-fit: contain;
+    }
+
+    .brand-copy { display: grid; gap: 2px; }
+
+    .brand-copy strong { font-size: 14px; letter-spacing: -.01em; }
+
+    .brand-copy span {
+      color: rgba(255,255,255,.58);
+      font-size: 10px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .back-link {
+      color: rgba(255,255,255,.72);
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .back-link:hover { color: #fff; }
+
+    main {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: clamp(32px, 6vw, 72px) 0 56px;
+    }
+
+    .intro {
+      max-width: 740px;
+      margin-bottom: 30px;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: #9b7920;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--navy);
+      font-size: clamp(30px, 5vw, 54px);
+      line-height: .98;
+      letter-spacing: -.055em;
+    }
+
+    .lede {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: clamp(14px, 2vw, 17px);
+      line-height: 1.65;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(310px, 430px) minmax(300px, 1fr);
+      gap: clamp(24px, 5vw, 68px);
+      align-items: start;
+    }
+
+    .panel {
+      padding: clamp(20px, 3vw, 30px);
+      background: rgba(255,255,255,.9);
+      border: 1px solid rgba(7,27,51,.08);
+      border-radius: 20px;
+      box-shadow: 0 16px 50px rgba(7,27,51,.08);
+    }
+
+    .step {
+      display: flex;
+      gap: 13px;
+      align-items: flex-start;
+      padding-bottom: 24px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .step:last-of-type { padding-bottom: 0; border-bottom: 0; }
+
+    .step-number {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 28px;
+      color: var(--gold);
+      background: var(--navy);
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .step-body { min-width: 0; width: 100%; }
+
+    label, .step-title {
+      display: block;
+      margin: 4px 0 8px;
+      color: var(--navy);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .helper {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .file-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      clip-path: inset(50%);
+    }
+
+    .file-button {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 12px 18px;
+      color: var(--navy);
+      background: #eef3f8;
+      border: 1px dashed #99abc0;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 800;
+      transition: background .2s, border-color .2s, transform .2s;
+    }
+
+    .file-button:hover { background: #e5edf5; border-color: var(--navy-soft); }
+    .file-button:active { transform: translateY(1px); }
+
+    textarea {
+      width: 100%;
+      min-height: 122px;
+      resize: vertical;
+      padding: 14px;
+      color: var(--navy);
+      background: #fff;
+      border: 1px solid #cbd4df;
+      border-radius: 12px;
+      outline: none;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.45;
+      text-transform: uppercase;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    textarea:focus {
+      border-color: var(--navy-soft);
+      box-shadow: 0 0 0 4px rgba(16,46,78,.1);
+    }
+
+    .counter {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 10px;
+      text-align: right;
+    }
+
+    .adjustments { display: grid; gap: 13px; }
+
+    .range-row {
+      display: grid;
+      grid-template-columns: 76px 1fr 38px;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .range-row label { margin: 0; font-size: 11px; font-weight: 700; }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--navy);
+    }
+
+    .range-value { color: var(--muted); font-size: 10px; text-align: right; }
+
+    .actions { display: grid; gap: 10px; margin-top: 28px; }
+
+    .button {
+      min-height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 13px 18px;
+      border: 0;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 800;
+      transition: transform .18s, opacity .18s, background .18s;
+    }
+
+    .button:hover:not(:disabled) { transform: translateY(-1px); }
+    .button:active:not(:disabled) { transform: translateY(0); }
+
+    .button-primary { color: #fff; background: var(--navy); box-shadow: 0 10px 25px rgba(7,27,51,.18); }
+    .button-primary:hover:not(:disabled) { background: #0d2947; }
+    .button-secondary { color: var(--navy); background: transparent; border: 1px solid #cbd4df; }
+
+    .button:disabled { cursor: not-allowed; opacity: .42; }
+
+    .privacy {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    .privacy::before { content: "✓"; color: #28794b; font-weight: 800; }
+
+    .preview-column { min-width: 0; }
+
+    .preview-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 20px;
+      margin: 0 0 12px;
+    }
+
+    .preview-heading h2 { margin: 0; color: var(--navy); font-size: 13px; }
+
+    .preview-heading span { color: var(--muted); font-size: 10px; }
+
+    .canvas-shell {
+      width: min(100%, 540px);
+      margin: 0 auto;
+      position: relative;
+      background: var(--navy);
+      border-radius: 5px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      cursor: grab;
+    }
+
+    canvas:active { cursor: grabbing; }
+
+    .drag-hint {
+      width: fit-content;
+      margin: 16px auto 0;
+      padding: 7px 10px;
+      color: var(--muted);
+      background: rgba(255,255,255,.75);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 10px;
+      text-align: center;
+    }
+
+    .status {
+      min-height: 18px;
+      margin: 12px 0 0;
+      color: #28794b;
+      font-size: 11px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    @media (max-width: 850px) {
+      .workspace { grid-template-columns: 1fr; }
+      .preview-column { order: -1; }
+      .canvas-shell { width: min(100%, 460px); }
+    }
+
+    @media (max-width: 520px) {
+      .topbar { min-height: 62px; padding-inline: 14px; }
+      .brand img { width: 38px; height: 38px; }
+      .brand-copy span { display: none; }
+      .back-link { font-size: 10px; }
+      main { width: min(100% - 24px, 1220px); padding-top: 28px; }
+      .intro { margin-bottom: 22px; }
+      .panel { padding: 18px; border-radius: 16px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="../" aria-label="Voltar ao Guia Campo Belo">
+      <img src="../logo.PNG" alt="Logo Campo Belo">
+      <span class="brand-copy">
+        <strong>Guia Campo Belo</strong>
+        <span>Gerador de notícia</span>
+      </span>
+    </a>
+    <a class="back-link" href="../">← Voltar ao guia</a>
+  </header>
+
+  <main>
+    <section class="intro">
+      <p class="eyebrow">Ferramenta gratuita</p>
+      <h1>Crie seu post<br>de notícia.</h1>
+      <p class="lede">Escolha uma foto, escreva o título e baixe a arte oficial do Campo Belo pronta para publicar.</p>
+    </section>
+
+    <section class="workspace" aria-label="Gerador de post de notícia">
+      <div class="panel">
+        <div class="step">
+          <span class="step-number" aria-hidden="true">1</span>
+          <div class="step-body">
+            <span class="step-title">Escolha a foto</span>
+            <p class="helper">Use uma imagem vertical ou horizontal em boa resolução.</p>
+            <input class="file-input" id="photoInput" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif">
+            <label class="file-button" for="photoInput">＋ Selecionar imagem</label>
+          </div>
+        </div>
+
+        <div class="step">
+          <span class="step-number" aria-hidden="true">2</span>
+          <div class="step-body">
+            <label for="titleInput">Escreva o título</label>
+            <p class="helper">As letras ficam maiúsculas automaticamente.</p>
+            <textarea id="titleInput" maxlength="110" spellcheck="true" placeholder="DIGITE AQUI O TÍTULO DA NOTÍCIA">ONDE E QUANDO ACONTECEM AS FEIRAS LIVRES DO CAMPO BELO</textarea>
+            <div class="counter"><span id="charCount">54</span>/110</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <span class="step-number" aria-hidden="true">3</span>
+          <div class="step-body">
+            <span class="step-title">Ajuste o enquadramento</span>
+            <p class="helper">Você também pode arrastar a foto diretamente na prévia.</p>
+            <div class="adjustments">
+              <div class="range-row">
+                <label for="zoomInput">Zoom</label>
+                <input id="zoomInput" type="range" min="100" max="220" value="100">
+                <span class="range-value" id="zoomValue">100%</span>
+              </div>
+              <div class="range-row">
+                <label for="verticalInput">Vertical</label>
+                <input id="verticalInput" type="range" min="-100" max="100" value="0">
+                <span class="range-value" id="verticalValue">0</span>
+              </div>
+              <div class="range-row">
+                <label for="horizontalInput">Horizontal</label>
+                <input id="horizontalInput" type="range" min="-100" max="100" value="0">
+                <span class="range-value" id="horizontalValue">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="button button-primary" id="downloadButton" type="button" disabled>Baixar post em PNG</button>
+          <button class="button button-secondary" id="resetButton" type="button">Limpar e começar novamente</button>
+        </div>
+        <p class="privacy">Sua foto é processada somente neste aparelho. Nada é enviado ou armazenado pelo site.</p>
+      </div>
+
+      <div class="preview-column">
+        <div class="preview-heading">
+          <h2>Prévia do post</h2>
+          <span>1080 × 1350 px</span>
+        </div>
+        <div class="canvas-shell">
+          <canvas id="postCanvas" width="1080" height="1350" aria-label="Prévia da arte de notícia"></canvas>
+        </div>
+        <p class="drag-hint">Arraste a foto para reposicionar</p>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('postCanvas');
+      const ctx = canvas.getContext('2d', { alpha: false });
+      const photoInput = document.getElementById('photoInput');
+      const titleInput = document.getElementById('titleInput');
+      const charCount = document.getElementById('charCount');
+      const zoomInput = document.getElementById('zoomInput');
+      const verticalInput = document.getElementById('verticalInput');
+      const horizontalInput = document.getElementById('horizontalInput');
+      const zoomValue = document.getElementById('zoomValue');
+      const verticalValue = document.getElementById('verticalValue');
+      const horizontalValue = document.getElementById('horizontalValue');
+      const downloadButton = document.getElementById('downloadButton');
+      const resetButton = document.getElementById('resetButton');
+      const status = document.getElementById('status');
+
+      const WIDTH = 1080;
+      const HEIGHT = 1350;
+      const DEFAULT_TITLE = 'ONDE E QUANDO ACONTECEM AS FEIRAS LIVRES DO CAMPO BELO';
+      const logo = new Image();
+      logo.src = '../logo.PNG';
+
+      let photo = null;
+      let photoUrl = '';
+      let dragStart = null;
+      let lastDraw = null;
+
+      const state = { zoom: 1, x: 0, y: 0 };
+
+      function normalizeTitle(value) {
+        return value.toLocaleUpperCase('pt-BR').replace(/\s+/g, ' ').trim();
+      }
+
+      function resetAdjustments() {
+        state.zoom = 1;
+        state.x = 0;
+        state.y = 0;
+        zoomInput.value = '100';
+        verticalInput.value = '0';
+        horizontalInput.value = '0';
+        updateRangeLabels();
+      }
+
+      function updateRangeLabels() {
+        zoomValue.textContent = `${Math.round(state.zoom * 100)}%`;
+        verticalValue.textContent = String(Math.round(state.y * 100));
+        horizontalValue.textContent = String(Math.round(state.x * 100));
+      }
+
+      function drawPlaceholder() {
+        const bg = ctx.createLinearGradient(0, 0, 0, HEIGHT);
+        bg.addColorStop(0, '#173b60');
+        bg.addColorStop(1, '#071b33');
+        ctx.fillStyle = bg;
+        ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+        ctx.save();
+        ctx.globalAlpha = .16;
+        ctx.strokeStyle = '#d5aa34';
+        ctx.lineWidth = 2;
+        for (let i = -HEIGHT; i < WIDTH; i += 96) {
+          ctx.beginPath();
+          ctx.moveTo(i, 0);
+          ctx.lineTo(i + HEIGHT, HEIGHT);
+          ctx.stroke();
+        }
+        ctx.restore();
+
+        ctx.fillStyle = 'rgba(255,255,255,.92)';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = '800 52px Epilogue, Arial, sans-serif';
+        ctx.fillText('ESCOLHA UMA FOTO', WIDTH / 2, HEIGHT / 2 - 22);
+        ctx.fillStyle = 'rgba(255,255,255,.56)';
+        ctx.font = '600 25px Epilogue, Arial, sans-serif';
+        ctx.fillText('A PRÉVIA APARECERÁ AQUI', WIDTH / 2, HEIGHT / 2 + 42);
+      }
+
+      function getPhotoRect() {
+        const coverScale = Math.max(WIDTH / photo.naturalWidth, HEIGHT / photo.naturalHeight);
+        const scale = coverScale * state.zoom;
+        const width = photo.naturalWidth * scale;
+        const height = photo.naturalHeight * scale;
+        const maxX = Math.max(0, (width - WIDTH) / 2);
+        const maxY = Math.max(0, (height - HEIGHT) / 2);
+        const x = (WIDTH - width) / 2 + state.x * maxX;
+        const y = (HEIGHT - height) / 2 + state.y * maxY;
+        return { x, y, width, height, maxX, maxY };
+      }
+
+      function wrapText(text, maxWidth, fontSize) {
+        ctx.font = `800 ${fontSize}px Epilogue, Arial, sans-serif`;
+        const words = text.split(' ').filter(Boolean);
+        const lines = [];
+        let current = '';
+
+        words.forEach((word) => {
+          const candidate = current ? `${current} ${word}` : word;
+          if (ctx.measureText(candidate).width <= maxWidth || !current) {
+            current = candidate;
+          } else {
+            lines.push(current);
+            current = word;
+          }
+        });
+        if (current) lines.push(current);
+        return lines;
+      }
+
+      function fitHeadline(text) {
+        const maxWidth = 900;
+        const maxHeight = 440;
+        for (let size = 80; size >= 46; size -= 2) {
+          const lines = wrapText(text, maxWidth, size);
+          const lineHeight = size * 1.09;
+          if (lines.length <= 6 && lines.length * lineHeight <= maxHeight) {
+            return { size, lines, lineHeight };
+          }
+        }
+        return { size: 44, lines: wrapText(text, maxWidth, 44), lineHeight: 48 };
+      }
+
+      function drawBranding() {
+        const title = normalizeTitle(titleInput.value) || 'TÍTULO DA NOTÍCIA';
+        const gradient = ctx.createLinearGradient(0, 400, 0, HEIGHT);
+        gradient.addColorStop(0, 'rgba(7,27,51,0)');
+        gradient.addColorStop(.42, 'rgba(7,27,51,.18)');
+        gradient.addColorStop(.63, 'rgba(7,27,51,.72)');
+        gradient.addColorStop(1, 'rgba(7,27,51,1)');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 350, WIDTH, HEIGHT - 350);
+
+        const fitted = fitHeadline(title);
+        const logoSize = 50;
+        const logoX = WIDTH - 72 - logoSize;
+        const logoY = HEIGHT - 67 - logoSize;
+        const goldY = HEIGHT - 73;
+        const blockHeight = fitted.lines.length * fitted.lineHeight;
+        const titleBottom = goldY - 62;
+        const titleTop = titleBottom - blockHeight;
+
+        ctx.fillStyle = '#fff';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'top';
+        ctx.font = `800 ${fitted.size}px Epilogue, Arial, sans-serif`;
+        fitted.lines.forEach((line, index) => {
+          ctx.fillText(line, 72, titleTop + index * fitted.lineHeight);
+        });
+
+        ctx.fillStyle = '#d5aa34';
+        ctx.fillRect(72, goldY, 145, 7);
+
+        if (logo.complete && logo.naturalWidth) {
+          ctx.drawImage(logo, logoX, logoY, logoSize, logoSize);
+        }
+      }
+
+      function render() {
+        ctx.clearRect(0, 0, WIDTH, HEIGHT);
+        if (!photo) {
+          drawPlaceholder();
+          lastDraw = null;
+          return;
+        }
+
+        const rect = getPhotoRect();
+        ctx.drawImage(photo, rect.x, rect.y, rect.width, rect.height);
+        lastDraw = rect;
+        drawBranding();
+      }
+
+      async function loadPhoto(file) {
+        if (!file) return;
+        status.textContent = 'Preparando a imagem…';
+        downloadButton.disabled = true;
+
+        if (photoUrl) URL.revokeObjectURL(photoUrl);
+        photoUrl = URL.createObjectURL(file);
+
+        const image = new Image();
+        image.onload = () => {
+          photo = image;
+          resetAdjustments();
+          render();
+          downloadButton.disabled = false;
+          status.textContent = 'Imagem pronta.';
+          window.setTimeout(() => { status.textContent = ''; }, 1800);
+        };
+        image.onerror = () => {
+          photo = null;
+          render();
+          status.textContent = 'Não foi possível abrir essa imagem. Tente JPG, PNG ou WebP.';
+        };
+        image.src = photoUrl;
+      }
+
+      function syncFromSliders() {
+        state.zoom = Number(zoomInput.value) / 100;
+        state.y = Number(verticalInput.value) / 100;
+        state.x = Number(horizontalInput.value) / 100;
+        updateRangeLabels();
+        render();
+      }
+
+      photoInput.addEventListener('change', (event) => loadPhoto(event.target.files[0]));
+
+      titleInput.addEventListener('input', () => {
+        const upper = titleInput.value.toLocaleUpperCase('pt-BR');
+        if (titleInput.value !== upper) {
+          const cursor = titleInput.selectionStart;
+          titleInput.value = upper;
+          titleInput.setSelectionRange(cursor, cursor);
+        }
+        charCount.textContent = titleInput.value.length;
+        render();
+      });
+
+      [zoomInput, verticalInput, horizontalInput].forEach((input) => {
+        input.addEventListener('input', syncFromSliders);
+      });
+
+      canvas.addEventListener('pointerdown', (event) => {
+        if (!photo) return;
+        canvas.setPointerCapture(event.pointerId);
+        dragStart = { x: event.clientX, y: event.clientY, stateX: state.x, stateY: state.y };
+      });
+
+      canvas.addEventListener('pointermove', (event) => {
+        if (!dragStart || !lastDraw) return;
+        const scaleX = WIDTH / canvas.getBoundingClientRect().width;
+        const scaleY = HEIGHT / canvas.getBoundingClientRect().height;
+        const dx = (event.clientX - dragStart.x) * scaleX;
+        const dy = (event.clientY - dragStart.y) * scaleY;
+        if (lastDraw.maxX > 0) state.x = Math.max(-1, Math.min(1, dragStart.stateX + dx / lastDraw.maxX));
+        if (lastDraw.maxY > 0) state.y = Math.max(-1, Math.min(1, dragStart.stateY + dy / lastDraw.maxY));
+        horizontalInput.value = String(Math.round(state.x * 100));
+        verticalInput.value = String(Math.round(state.y * 100));
+        updateRangeLabels();
+        render();
+      });
+
+      const endDrag = () => { dragStart = null; };
+      canvas.addEventListener('pointerup', endDrag);
+      canvas.addEventListener('pointercancel', endDrag);
+
+      downloadButton.addEventListener('click', () => {
+        if (!photo) return;
+        render();
+        canvas.toBlob((blob) => {
+          if (!blob) return;
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          const date = new Date().toISOString().slice(0, 10);
+          link.href = url;
+          link.download = `campo-belo-noticia-${date}.png`;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+          status.textContent = 'Post baixado com sucesso.';
+          window.setTimeout(() => { status.textContent = ''; }, 2400);
+        }, 'image/png');
+      });
+
+      resetButton.addEventListener('click', () => {
+        if (photoUrl) URL.revokeObjectURL(photoUrl);
+        photoUrl = '';
+        photo = null;
+        photoInput.value = '';
+        titleInput.value = DEFAULT_TITLE;
+        charCount.textContent = titleInput.value.length;
+        resetAdjustments();
+        downloadButton.disabled = true;
+        status.textContent = '';
+        render();
+      });
+
+      logo.addEventListener('load', render);
+      document.fonts.ready.then(render);
+      charCount.textContent = titleInput.value.length;
+      render();
+    })();
+  </script>
+</body>
+</html>
