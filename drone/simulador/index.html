@@ -398,7 +398,7 @@ function dentroCB(lng,lat){let ins=false;
 
 /* ================= TRES ================= */
 const canvas=document.getElementById("cv");
-const renderer=new THREE.WebGLRenderer({canvas,antialias:!MOBILE_UI,powerPreference:"high-performance"});
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:"high-performance"});
 renderer.setPixelRatio(Math.min(devicePixelRatio,MOBILE_UI?1.25:2));
 renderer.shadowMap.enabled=true;
 renderer.shadowMap.type=THREE.PCFSoftShadowMap;
@@ -410,11 +410,16 @@ scene.fog=new THREE.Fog(DIA.nevoa,700,2000);
 const cam=new THREE.PerspectiveCamera(66,1,1,6000);
 const sun=new THREE.DirectionalLight(DIA.sol,DIA.solI);
 sun.castShadow=true;
-sun.shadow.mapSize.set(MOBILE_UI?512:1024,MOBILE_UI?512:1024);
+sun.shadow.mapSize.set(1024,1024);
 sun.shadow.camera.near=50;sun.shadow.camera.far=1600;
 sun.shadow.camera.left=-420;sun.shadow.camera.right=420;
 sun.shadow.camera.top=420;sun.shadow.camera.bottom=-420;
 sun.shadow.bias=-.0004;sun.shadow.normalBias=1.5;
+/* Mantem a projecao alinhada aos texels do shadow map. Sem esse encaixe,
+   a sombra desliza entre pixels ao voar e as fachadas parecem piscar. */
+const SHADOW_TEXEL=840/1024;
+sun.shadow.autoUpdate=false;
+let shadowCellX=Infinity,shadowCellY=Infinity,shadowCellZ=Infinity;
 scene.add(sun);scene.add(sun.target);
 const hemi=new THREE.HemisphereLight(DIA.hemi,DIA.chao,DIA.hemiI);
 scene.add(hemi);
@@ -1664,8 +1669,19 @@ function loop(now){
   const aimY=alt*.5;
   cam.position.set(drone.x-fx*back,gY+camH,drone.z-fz*back);
   cam.lookAt(drone.x+fx*ahead,gY+aimY,drone.z+fz*ahead);
-  sun.position.set(drone.x+180,gY+340,drone.z+140);
-  sun.target.position.set(drone.x,gY,drone.z);
+  const nextShadowX=Math.round(drone.x/SHADOW_TEXEL);
+  const nextShadowY=Math.round(gY/SHADOW_TEXEL);
+  const nextShadowZ=Math.round(drone.z/SHADOW_TEXEL);
+  if(nextShadowX!==shadowCellX||nextShadowY!==shadowCellY||nextShadowZ!==shadowCellZ){
+    shadowCellX=nextShadowX;shadowCellY=nextShadowY;shadowCellZ=nextShadowZ;
+    const shadowX=shadowCellX*SHADOW_TEXEL;
+    const shadowY=shadowCellY*SHADOW_TEXEL;
+    const shadowZ=shadowCellZ*SHADOW_TEXEL;
+    sun.position.set(shadowX+180,shadowY+340,shadowZ+140);
+    sun.target.position.set(shadowX,shadowY,shadowZ);
+    sun.target.updateMatrixWorld();
+    sun.shadow.needsUpdate=true;
+  }
   /* drone 3D: fica um pouco abaixo da linha camera->alvo, inclina e gira as helices */
   {
     /* drone flutua acima dos telhados p/ nunca ser encoberto por predios */
