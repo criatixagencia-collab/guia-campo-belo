@@ -115,6 +115,18 @@ body {
   color: rgba(255,255,255,.55);
   white-space: nowrap;
 }
+.hero-drone {
+  position: relative; z-index: 1;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 16px; padding: 10px 15px;
+  border: 1px solid rgba(201,168,76,.55); border-radius: 10px;
+  background: linear-gradient(135deg,rgba(201,168,76,.2),rgba(201,168,76,.08));
+  color: #fff; text-decoration: none;
+  font-size: 11px; font-weight: 700; letter-spacing: .5px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.15);
+}
+.hero-drone strong { color: var(--gold); font-weight: 800; }
+.hero-drone:hover { background: rgba(201,168,76,.24); }
 
 .hero-identity {
   display: flex; align-items: center; gap: 18px;
@@ -778,6 +790,9 @@ body {
       <span class="weather-desc" id="weatherDesc"></span>
     </div>
   </div>
+  <a class="hero-drone" href="drone/" aria-label="Explorar o Campo Belo com o Drone 3D">
+    <span aria-hidden="true">✦</span> Explore o bairro com o <strong>Drone 3D</strong>
+  </a>
 </div>
 
 <!-- DESTAQUES CAROUSEL -->
@@ -843,6 +858,12 @@ body {
     </div>
     <span>Comunidade</span>
   </a>
+  <a class="nav-item" href="drone/" aria-label="Drone 3D">
+    <div class="nav-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 12h8M12 8v8"/><path d="M7.2 9.2 4.8 6.8M16.8 9.2l2.4-2.4M7.2 14.8l-2.4 2.4M16.8 14.8l2.4 2.4"/><circle cx="4" cy="6" r="2.2"/><circle cx="20" cy="6" r="2.2"/><circle cx="4" cy="18" r="2.2"/><circle cx="20" cy="18" r="2.2"/></svg>
+    </div>
+    <span>Drone 3D</span>
+  </a>
   <a class="nav-item" href="criar-noticia/" aria-label="Criar post de notícia">
     <div class="nav-icon">
       <span aria-hidden="true" style="font-size:24px;font-weight:300;line-height:1">＋</span>
@@ -906,10 +927,10 @@ const dados = [
   {id:30, nome:"Okone Cozinha Japonesa e Peruana",   cats:["Gastronomia & Delivery"],   sub:"Nikkei (Japonesa-Peruana)",end:"Rua Gabriele D'Annunzio, 1267",      wp:"(11) 98868-6983", ig:"@Okone.SP",                 ticket:"R$100–200", desc:"Cozinha nikkei autoral com fusão japonesa-peruana; sushi, ceviche e pratos exclusivos em ambiente moderno.", dest:"Pratos fusion (sushi e ceviche)", par:"Médio",     obs:"Destaque para o rodízio completo e a fusão nikkei com peixes sempre muito frescos.",         lat:-23.6187, lng:-46.6660},
   {id:31, nome:"Omakase Nihon",                      cats:["Gastronomia & Delivery"],                              sub:"Omakase Japonês",         end:"Rua Antônio de Macedo Soares, 1377", wp:"",                ig:"@omakasenihon",             ticket:"R$250–350", desc:"Menu degustação omakase criado pelo chef; experiência de alta gastronomia japonesa com reserva antecipada.", dest:"Menu degustação Omakase premium", par:"Alto",      obs:"Experiência japonesa autoral com peixes frescos e trilha de jazz em ambiente acolhedor.",lat:-23.6240, lng:-46.6695},
   {id:32, nome:"Churrascaria Estância Campo Belo",   cats:["Gastronomia & Delivery","Festas & Eventos"],                              sub:"Churrascaria Gaúcha",     end:"Av. Vereador José Diniz, 3271",      wp:"(11) 5093-3717",  ig:"@estancia_campo_belo",      ticket:"R$150+",    desc:"Rodízio gaúcho clássico com cortes tradicionais; espaço amplo ideal para grupos e eventos.", dest:"Rodízio gaúcho tradicional",      par:"Médio",     obs:"Rodízio tradicional com buffet variado de frutos do mar, sushi e espaço kids completo.",      lat:-23.6252, lng:-46.6688},
-  {id:33, nome:"Melhor Bocado Café",                 cats:["Cafes, Padarias & Doces"],           sub:"Café & Doces",            end:"Rua Vieira de Morais, 889",          wp:"(11) 93536-9625", ig:"@melhorbocadocafe",         ticket:"R$30–60",   desc:"Donuts e doces artesanais recém-chegados ao bairro; café especial e ambiente descolado.", dest:"Donuts e doces artesanais",       par:"Alto",      obs:"Parada acolhedora para donuts fofinhos e torrada Petrópolis, ideal para um café sem pressa.",lat:-23.6220, lng:-46.6625},
+  {id:33, nome:"Melhor Bocado Café",                 cats:["Cafes, Padarias & Doces"],           sub:"Café & Doces",            end:"Rua Vieira de Morais, 889",          wp:"(11) 93536-9625", ig:"@melhorbocadocafe",         ticket:"R$30–60",   desc:"Donuts e doces artesanais recém-chegados ao bairro; café especial e ambiente descolado.", dest:"Donuts e doces artesanais",       par:"Alto",      obs:"Parada acolhedora para donuts fofinhos e torrada Petrópolis, ideal para um café sem pressa.",lat:-23.6210696, lng:-46.6731274},
   {id:34, nome:"Soffio Pizzeria",                    cats:["Gastronomia & Delivery"],                                       sub:"Pizzaria Napolitana",     end:"Rua João de Souza Dias, 281",        wp:"",                ig:"@soffiopizzeria",           ticket:"R$120–180", desc:"Pizzas napolitanas de fermentação natural longa; massa leve e ingredientes selecionados pelos sócios do Charles Pizzaria.", dest:"Pizzas de longa fermentação",     par:"Alto",      obs:"Pizzas napolitanas individuais com massa levíssima, cortadas à tesoura pelo premiado chef Dani Branca.",lat:-23.6195, lng:-46.6650},
   {id:35, nome:"Le Petit Gabriele",                  cats:["Gastronomia & Delivery"],          sub:"Bistrô Francês",          end:"Rua Gabriele D'Annunzio, 1266",      wp:"(11) 95423-3898", ig:"@lepetitgabriele",          ticket:"R$100–180", desc:"Bistrô francês em casa reformada; pratos clássicos e charme parisiense no Campo Belo.", dest:"Pratos clássicos da culinária francesa",par:"Médio",obs:"Bistrô parisiense acolhedor no Campo Belo, ideal para clássicos franceses e vinhos selecionados.",lat:-23.6187, lng:-46.6662},
-  {id:37, nome:"Espaço Mel Casagrande",               cats:["Moda, Calcados & Acessorios","Casa, Decoracao & Organizacao"],                                 sub:"Moda Feminina",           end:"Rua Vieira de Morais, 1230",          wp:"(11) 93088-4307", ig:"@espacomelcasagrande",      ticket:"",          desc:"Moda feminina desde 2016 com curadoria para looks completos; roupas para trabalho, passeio, eventos e moda festa do casual ao sofisticado, além de peças de decoração e itens de mesa posta. Atendimento acolhedor para provar com calma.", dest:"Desde 2016. Moda feminina — casual ao sofisticado + decoração e mesa posta", par:"Alto", obs:"Loja multimarcas charmosa com moda feminina, itens de decoração e estacionamento gratuito na porta.", lat:-23.6228, lng:-46.6612},
+  {id:37, nome:"Espaço Mel Casagrande",               cats:["Moda, Calcados & Acessorios","Casa, Decoracao & Organizacao"],                                 sub:"Moda Feminina",           end:"Rua Vieira de Morais, 1230",          wp:"(11) 93088-4307", ig:"@espacomelcasagrande",      ticket:"",          desc:"Moda feminina desde 2016 com curadoria para looks completos; roupas para trabalho, passeio, eventos e moda festa do casual ao sofisticado, além de peças de decoração e itens de mesa posta. Atendimento acolhedor para provar com calma.", dest:"Desde 2016. Moda feminina — casual ao sofisticado + decoração e mesa posta", par:"Alto", obs:"Loja multimarcas charmosa com moda feminina, itens de decoração e estacionamento gratuito na porta.", lat:-23.6231338, lng:-46.6705573},
   {id:36, nome:"Delícias do Campo Belo",              cats:["Cafes, Padarias & Doces"],                            sub:"Caseira",                 end:"",                                   wp:"",                ig:"@deliciasdocampobelo",      ticket:"",          desc:"Confeitaria caseira desde 2014; bolos, quiches, salada de frutas e pudim de leite sob encomenda via WhatsApp.", dest:"Desde 2014. Salada de frutas, bolos, quiches e pudim de leite caseiros", par:"Alto", obs:"Seg–Sex 8h30–18h / Sáb 8h30–14h. Reservas pelo WhatsApp. Endereço não encontrado — confirmar diretamente", lat:-23.6210, lng:-46.6670},
   {id:38, nome:"Empório Itiê",                        cats:["Mercados, Emporios & Conveniencia"],                    sub:"Empório de Bebidas",      end:"Rua Viaza, 887",                       wp:"(11) 91280-8800", tel:"(11) 5034-8800", ig:"@emporioitie", site:"https://www.emporioitie.com.br/", horario:"Seg–Sex 10h–17h / Sáb 9h–14h", ticket:"", desc:"Empório de bairro especializado em vinhos nacionais e importados, espumantes, destilados, licores e acessórios para bebidas, com compra online e retirada na loja.", dest:"Vinhos e bebidas especiais", par:"Médio", obs:"Retirada de pedidos disponível na loja.", lat:-23.6349503, lng:-46.6624099},
   {id:39, nome:"Clínica Campo Belo",                  cats:["Saude & Clinicas"],                                      sub:"Clínica Multidisciplinar",end:"Avenida Vereador José Diniz, 3300, conjunto 201, 2º andar", wp:"(11) 94243-2619", tel:"(11) 5543-8457", ig:"@clinicacampobelo", site:"https://clinicacampobelo.com.br/", horario:"Seg–Sex 8h–18h", ticket:"", desc:"Clínica multidisciplinar com atendimento em otorrinolaringologia, pediatria, clínica médica, ginecologia e obstetrícia e acupuntura.", dest:"Consultas, especialidades médicas e exames", par:"Médio", obs:"", lat:-23.6189402, lng:-46.6762477},
@@ -925,7 +946,7 @@ const dados = [
   {id:49, nome:"Chaveiro Novo Aeon",                  cats:["Servicos para Casa","Casa, Decoracao & Organizacao"],                    sub:"Chaveiro & Segurança",    end:"Rua Demóstenes, 701",                 wp:"(11) 5093-5292", ig:"@chaveironovoaeon", ticket:"", beneficio:"AEON5 - 5% de desconto", desc:"Soluções em chaves, fechaduras, segurança e serviços para residências, empresas e automóveis.", dest:"Chaves, fechaduras e segurança", par:"Alto", obs:"Cópias de chaves, abertura e troca de fechaduras, fechaduras digitais, serviços automotivos, carimbos, elétrica e gráfica rápida.", lat:-23.6178, lng:-46.6672},
 ];
 
-/* ── CATEGORY META (taxonomia do Guia Vila Mascote) ── */
+/* ── CATEGORY META (taxonomia do Guia Campo Belo) ── */
 const CAT_META = {
   "Gastronomia & Delivery": {
     label:"Gastronomia", kicker:"Restaurantes, pizzarias, delivery", em:"🍽️",
