@@ -29,7 +29,7 @@ gtag("config","G-Q0TDM5LTPM");
   --font-d:"Montserrat",sans-serif;--safe-b:env(safe-area-inset-bottom,0px)}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;
   -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:pan-x pan-y}
-html,body{height:100%;overflow:hidden;touch-action:pan-x pan-y;font-family:var(--font-d);background:var(--navy-deep)}
+html,body{height:100%;height:100dvh;overflow:hidden;touch-action:pan-x pan-y;font-family:var(--font-d);background:var(--navy-deep)}
 button{font-family:var(--font-d);cursor:pointer;border:none;background:none;color:inherit}
 input,textarea,[contenteditable="true"]{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
 #cv{position:fixed;inset:0;display:block}
@@ -127,7 +127,7 @@ input,textarea,[contenteditable="true"]{-webkit-user-select:text;user-select:tex
   background:linear-gradient(180deg,rgba(44,64,112,.8),rgba(20,36,74,.88));
   border:1px solid rgba(236,217,119,.55);
   box-shadow:0 10px 26px rgba(0,0,0,.35),0 0 18px rgba(236,217,119,.2),inset 0 1px 0 rgba(255,255,255,.14)}
-@media (pointer:coarse){
+@media (pointer:coarse), (max-width:820px){
   .stick{display:block}
   /* iOS da zoom automatico ao focar campo com fonte < 16px */
   #searchWrap input{font-size:16px}
@@ -139,7 +139,7 @@ input,textarea,[contenteditable="true"]{-webkit-user-select:text;user-select:tex
   #ruaHud.show{transform:translate(-50%,-50%) translateY(0)}
   .stick{bottom:calc(68px + var(--safe-b))}
 }
-@media (pointer:coarse) and (orientation:landscape){
+@media (pointer:coarse) and (orientation:landscape), (max-width:820px) and (orientation:landscape){
   #nearHud{top:auto;bottom:calc(78px + var(--safe-b))}
   #ruaHud{top:auto;bottom:calc(52px + var(--safe-b));transform:translateX(-50%) translateY(10px)}
   #ruaHud.show{transform:translateX(-50%) translateY(0)}
@@ -203,7 +203,7 @@ input,textarea,[contenteditable="true"]{-webkit-user-select:text;user-select:tex
 #demoCopy span{display:block;font-size:18px;line-height:1.5;opacity:.92}
 #demoStep{display:inline-flex;margin-top:10px;padding:4px 10px;border-radius:99px;
   background:rgba(201,174,36,.16);font-size:10px;font-style:normal;font-weight:900;letter-spacing:.12em;color:var(--gold-soft)}
-@media (pointer:coarse){
+@media (pointer:coarse), (max-width:820px){
   #intro.demo #controlDemo{display:block}
   #intro.demo{justify-content:flex-end;gap:11px;padding:18px 18px calc(24px + var(--safe-b));
     background:linear-gradient(180deg,rgba(10,23,48,.06),rgba(10,23,48,.16) 48%,rgba(10,23,48,.94) 100%)}
@@ -215,10 +215,11 @@ input,textarea,[contenteditable="true"]{-webkit-user-select:text;user-select:tex
   body.tutorial-active #controlDemo{position:absolute;left:50%;top:42%;bottom:auto;
     transform:translate(-50%,-50%)}
   body.tutorial-active #startBtn{display:none}
+  body.tutorial-active #top,body.tutorial-active #chips{opacity:0;pointer-events:none}
   body.tutorial-active .stick{display:block;z-index:520;pointer-events:none}
   body.tutorial-active #controlModeBtn{display:none}
 }
-@media (pointer:coarse) and (orientation:landscape){
+@media (pointer:coarse) and (orientation:landscape), (max-width:820px) and (orientation:landscape){
   #intro.demo{padding:8px;gap:6px}
   #controlDemo{width:min(460px,calc(100vw - 270px));padding:11px 14px 10px}
   #demoCopy b{font-size:18px;margin-bottom:4px}
@@ -359,6 +360,10 @@ window.addEventListener("unhandledrejection",function(e){var b=document.getEleme
 <script type="module">
 import * as THREE from "./three.module.js";
 
+/* Alguns webviews móveis anunciam ponteiro fino. A largura e o suporte a toque
+   mantêm os controles mobile disponíveis mesmo nesses navegadores. */
+const MOBILE_UI=matchMedia("(pointer:coarse)").matches||innerWidth<=820||navigator.maxTouchPoints>0;
+
 /* ================= PROJECAO ================= */
 const C={lat:-23.62008,lng:-46.67225};
 const MLAT=111320,MLON=111320*Math.cos(C.lat*Math.PI/180);
@@ -393,8 +398,8 @@ function dentroCB(lng,lat){let ins=false;
 
 /* ================= TRES ================= */
 const canvas=document.getElementById("cv");
-const renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:"high-performance"});
-renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+const renderer=new THREE.WebGLRenderer({canvas,antialias:!MOBILE_UI,powerPreference:"high-performance"});
+renderer.setPixelRatio(Math.min(devicePixelRatio,MOBILE_UI?1.25:2));
 renderer.shadowMap.enabled=true;
 renderer.shadowMap.type=THREE.PCFSoftShadowMap;
 renderer.outputColorSpace=THREE.SRGBColorSpace;
@@ -405,7 +410,7 @@ scene.fog=new THREE.Fog(DIA.nevoa,700,2000);
 const cam=new THREE.PerspectiveCamera(66,1,1,6000);
 const sun=new THREE.DirectionalLight(DIA.sol,DIA.solI);
 sun.castShadow=true;
-sun.shadow.mapSize.set(1024,1024);
+sun.shadow.mapSize.set(MOBILE_UI?512:1024,MOBILE_UI?512:1024);
 sun.shadow.camera.near=50;sun.shadow.camera.far=1600;
 sun.shadow.camera.left=-420;sun.shadow.camera.right=420;
 sun.shadow.camera.top=420;sun.shadow.camera.bottom=-420;
@@ -1750,7 +1755,7 @@ function loop(now){
   if(cw>0&&ch>0&&(Math.abs(cw-_lastW)>2||Math.abs(ch-_lastH)>2)){
     _lastW=cw;_lastH=ch;
     /* teto no buffer: nunca passa de ~2.5M px (evita OOM de framebuffer no celular) */
-    let pr=Math.min(devicePixelRatio,2);
+    let pr=Math.min(devicePixelRatio,MOBILE_UI?1.25:2);
     while(cw*ch*pr*pr>2500000&&pr>0.75)pr-=0.25;
     renderer.setPixelRatio(pr);
     renderer.setSize(cw,ch,true);
@@ -1782,7 +1787,7 @@ const introEl=document.getElementById("intro");
 const controlDemo=document.getElementById("controlDemo");
 const demoTitle=document.getElementById("demoTitle"),demoText=document.getElementById("demoText");
 const demoStep=document.getElementById("demoStep");
-const mobilePilot=matchMedia("(pointer:coarse)").matches;
+const mobilePilot=MOBILE_UI;
 let introState="loading";
 sb.disabled=true;sb.style.opacity=".55";
 function restoreTutorialDrone(){
