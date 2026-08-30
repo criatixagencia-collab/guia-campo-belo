@@ -1006,6 +1006,7 @@ for(const p of PLACES){
    Os quatro destaques da vitrine recebem um balao e um outdoor grande,
    exatamente acima das coordenadas do estabelecimento. */
 const FEATURED_IDS=new Set([46,26,47,48]); /* Rezinha Fit, Boutique dos Livros, Pane & Vino, Eomma Spa */
+const FEATURED_LOWER=MOBILE_UI?16:0;
 const featuredBalloons=[];
 
 function featuredSignTexture(place){
@@ -1053,30 +1054,31 @@ for(const p of PLACES.filter(place=>FEATURED_IDS.has(place.id))){
 
   const balloon=new THREE.Mesh(new THREE.SphereGeometry(9,28,20),
     new THREE.MeshPhongMaterial({map:sharedBalloonTexture,specular:0xfff0b0,shininess:55}));
-  balloon.scale.set(1.12,1.42,1.12);balloon.position.y=160;balloon.castShadow=true;group.add(balloon);
+  balloon.scale.set(1.12,1.42,1.12);balloon.position.y=160-FEATURED_LOWER;balloon.castShadow=true;group.add(balloon);
   const band=new THREE.Mesh(new THREE.TorusGeometry(8.8,.5,8,28),featuredGold);
-  band.rotation.x=Math.PI/2;band.position.y=158;band.scale.set(1.12,1.12,1.12);group.add(band);
+  band.rotation.x=Math.PI/2;band.position.y=158-FEATURED_LOWER;band.scale.set(1.12,1.12,1.12);group.add(band);
   const knot=new THREE.Mesh(new THREE.ConeGeometry(2.2,4.5,14),featuredNavy);
-  knot.rotation.x=Math.PI;knot.position.y=145.6;group.add(knot);
+  knot.rotation.x=Math.PI;knot.position.y=145.6-FEATURED_LOWER;group.add(knot);
 
   const board=new THREE.Mesh(new THREE.BoxGeometry(49,18.5,1.25),featuredNavy);
-  board.position.y=126;board.castShadow=true;group.add(board);
+  board.position.y=126-FEATURED_LOWER;board.castShadow=true;group.add(board);
   const face=new THREE.Mesh(new THREE.PlaneGeometry(47.5,17.2),
     new THREE.MeshBasicMaterial({map:featuredSignTexture(p),side:THREE.DoubleSide}));
-  face.position.set(0,126,.66);face.renderOrder=24;group.add(face);
+  face.position.set(0,126-FEATURED_LOWER,.66);face.renderOrder=24;group.add(face);
   const ropeGeo=new THREE.BufferGeometry().setFromPoints([
-    new THREE.Vector3(-5.5,148,0),new THREE.Vector3(-21,135.4,0),
-    new THREE.Vector3(21,135.4,0),new THREE.Vector3(5.5,148,0)
+    new THREE.Vector3(-5.5,148-FEATURED_LOWER,0),new THREE.Vector3(-21,135.4-FEATURED_LOWER,0),
+    new THREE.Vector3(21,135.4-FEATURED_LOWER,0),new THREE.Vector3(5.5,148-FEATURED_LOWER,0)
   ]);
   group.add(new THREE.Line(ropeGeo,ropeMaterial));
 
   const shaft=new THREE.Mesh(new THREE.CylinderGeometry(.55,.55,14,10),featuredGold);
-  shaft.position.y=109.5;group.add(shaft);
+  shaft.position.y=109.5-FEATURED_LOWER;group.add(shaft);
   const arrow=new THREE.Mesh(new THREE.ConeGeometry(2.7,6,16),featuredGold);
-  arrow.rotation.x=Math.PI;arrow.position.y=99.5;group.add(arrow);
-  const guide=new THREE.Mesh(new THREE.CylinderGeometry(.17,.17,88,6),
+  arrow.rotation.x=Math.PI;arrow.position.y=99.5-FEATURED_LOWER;group.add(arrow);
+  const guideTop=95.5-FEATURED_LOWER,guideBottom=7.5;
+  const guide=new THREE.Mesh(new THREE.CylinderGeometry(.17,.17,guideTop-guideBottom,6),
     new THREE.MeshBasicMaterial({color:0xe3c64b,transparent:true,opacity:.32,depthWrite:false}));
-  guide.position.y=51.5;group.add(guide);
+  guide.position.y=(guideTop+guideBottom)/2;group.add(guide);
 
   group.traverse(object=>{if(object.isMesh)object.frustumCulled=false;});
   scene.add(group);
@@ -1163,7 +1165,7 @@ canvas.addEventListener("pointerdown",e=>{
 
 /* ================= DRONE ================= */
 const ZMIN=12,ZMAX=19.6;
-const START_ZOOM=18.1;
+const START_ZOOM=MOBILE_UI?17.8:18.1;
 let zoomLvl=START_ZOOM;
 const altFor=z=>(ZMAX-z)*34+16;
 const drone={x:0,z:0,vF:0,vS:0,bearing:0};
