@@ -377,10 +377,28 @@ const CB=[
   [-46.6820928,-23.6193494], /* Roberto Marinho x Santo Amaro */
   [-46.6765568,-23.6085514]
 ];
-/* corte de geometria distante (mobile): so bairro + margem, pra caber na memoria do celular */
+/* No celular, preserva todo o Campo Belo e uma pequena faixa de contexto ao redor.
+   O desktop continua mostrando os bairros vizinhos ate o corte geral. */
 const RCUT=1800, RCUT2=RCUT*RCUT;
 const longe=(x,z)=>x*x+z*z>RCUT2;
 const longePts=pts=>{let x=0,z=0;for(const q of pts){x+=q[0];z+=q[1];}return longe(x/pts.length,z/pts.length);};
+const CBXZ=CB.map(p=>[toX(p[0]),toZ(p[1])]);
+const MOBILE_MARGIN=80,MOBILE_MARGIN2=MOBILE_MARGIN*MOBILE_MARGIN;
+function distSeg2(px,pz,a,b){
+  const dx=b[0]-a[0],dz=b[1]-a[1],l2=dx*dx+dz*dz;
+  let t=l2?((px-a[0])*dx+(pz-a[1])*dz)/l2:0;t=Math.max(0,Math.min(1,t));
+  const qx=a[0]+dx*t,qz=a[1]+dz*t;return (px-qx)*(px-qx)+(pz-qz)*(pz-qz);
+}
+function dentroOuMargemMobile(x,z){
+  if(!MOBILE_UI||dentroCB(x/MLON+C.lng,-z/MLAT+C.lat))return true;
+  for(let i=0;i<CBXZ.length-1;i++)if(distSeg2(x,z,CBXZ[i],CBXZ[i+1])<=MOBILE_MARGIN2)return true;
+  return false;
+}
+function manterPtsMobile(pts){
+  if(!MOBILE_UI)return true;
+  let x=0,z=0;for(const q of pts){x+=q[0];z+=q[1];}
+  return dentroOuMargemMobile(x/pts.length,z/pts.length);
+}
 /* relevo real: grade 64x64 (pontos cotados GeoSampa, IDW) */
 const _R=BAIRRO_RELEVO;
 function T(x,z){
@@ -399,7 +417,7 @@ function dentroCB(lng,lat){let ins=false;
 /* ================= TRES ================= */
 const canvas=document.getElementById("cv");
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:"high-performance"});
-renderer.setPixelRatio(Math.min(devicePixelRatio,MOBILE_UI?1.25:2));
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 renderer.shadowMap.enabled=true;
 renderer.shadowMap.type=THREE.PCFSoftShadowMap;
 renderer.outputColorSpace=THREE.SRGBColorSpace;
@@ -604,7 +622,7 @@ for(const f of BAIRRO_EDIF.features){
   const vm=dentroCB(ring[0][0],ring[0][1]);
   const pts=ringXZ(ring);
   if(pts.length<3)continue;
-  if(longePts(pts))continue;
+  if(longePts(pts)||!manterPtsMobile(pts))continue;
   const h=pr.h,b=pr.b;
   const cw=hex2v(pr.cw||"#ded7c8"),cr=hex2v(pr.col||"#a3a099");
   let cx=0,cz=0;for(const q of pts){cx+=q[0];cz+=q[1];}cx/=pts.length;cz/=pts.length;
@@ -682,7 +700,7 @@ const TONS=["#d8d1c0","#d3ccba","#dcd5c5","#cfc8b6","#d6cfbf","#d0cabb"].map(hex
 for(const f of BAIRRO_LOTES.features){
   const ring=f.geometry.coordinates[0],pts=ringXZ(ring);
   if(pts.length<3)continue;
-  if(longePts(pts))continue;
+  if(longePts(pts)||!manterPtsMobile(pts))continue;
   const vm=dentroCB(ring[0][0],ring[0][1]);
   let col=TONS[(f.properties.t||0)%6];if(!vm)col=mute(col);
   flat(aLote,pts,0.14,col,6,T);
@@ -693,7 +711,7 @@ const aCalc=newAcc();
 for(const f of BAIRRO_CALCADAS.features){
   const pts=ringXZ(f.geometry.coordinates[0]);
   if(pts.length<3)continue;
-  if(longePts(pts))continue;
+  if(longePts(pts)||!manterPtsMobile(pts))continue;
   walls(aCalc,pts,0,0.24,null,4,4,T);cap(aCalc,pts,0.24,null,1.4,T);
 }
 const mCalc=accMesh(aCalc,M.calc,false);mCalc.castShadow=false;
@@ -702,7 +720,7 @@ const aGrass=newAcc(),aQuad=newAcc(),aAgua=newAcc(),aTerra=newAcc();
 for(const f of BAIRRO_VERDE.features){
   const pts=ringXZ(f.geometry.coordinates[0]);
   if(pts.length<3)continue;
-  if(longePts(pts))continue;
+  if(longePts(pts)||!manterPtsMobile(pts))continue;
   const k=f.properties.kind;
   if(k==="verde")flat(aGrass,pts,0.10,null,5,T);
   else if(k==="quadra")flat(aQuad,pts,0.11,null,5,T);
@@ -732,6 +750,7 @@ for(const f of BAIRRO_VIAS.features){
       const t1=k2/nSub,t2=(k2+1)/nSub;
       const p1=[P1[0]+DX*t1,P1[1]+DZ*t1],p2=[P1[0]+DX*t2,P1[1]+DZ*t2];
       const len=LEN/nSub;
+      if(!dentroOuMargemMobile((p1[0]+p2[0])/2,(p1[1]+p2[1])/2))continue;
       const u0=uAt/16,u1=(uAt+len)/16;uAt+=len;
       const q=[[p1[0]+nx*half,p1[1]+nz*half,u0,0],[p1[0]-nx*half,p1[1]-nz*half,u0,1],
                [p2[0]-nx*half,p2[1]-nz*half,u1,1],[p2[0]+nx*half,p2[1]+nz*half,u1,0]];
@@ -748,7 +767,7 @@ const aCar=newAcc();
 for(const f of BAIRRO_CARROS.features){
   const pts=ringXZ(f.geometry.coordinates[0]);
   if(pts.length<3)continue;
-  if(longePts(pts))continue;
+  if(longePts(pts)||!manterPtsMobile(pts))continue;
   const col=hex2v(f.properties.col||"#c9c9c9");
   const dark=[col[0]*.45,col[1]*.45,col[2]*.5];
   const cx=pts.reduce((s,p)=>s+p[0],0)/pts.length, cz=pts.reduce((s,p)=>s+p[1],0)/pts.length;
@@ -771,13 +790,13 @@ for(const f of BAIRRO_ARVORES.features){
   const pr=f.properties;
   const ring=f.geometry.coordinates[0];
   if(pr.col==="#8aab68"||pr.h<=0.5){ /* gramado */
-    const pts=ringXZ(ring);if(pts.length>=3&&!longePts(pts))flat(gramas,pts,0.10,null,5,T);
+    const pts=ringXZ(ring);if(pts.length>=3&&!longePts(pts)&&manterPtsMobile(pts))flat(gramas,pts,0.10,null,5,T);
     continue;
   }
   const cx=ring.slice(0,-1).reduce((s,p)=>s+p[0],0)/(ring.length-1);
   const cy=ring.slice(0,-1).reduce((s,p)=>s+p[1],0)/(ring.length-1);
   const x=toX(cx),z=toZ(cy);
-  if(longe(x,z))continue;
+  if(longe(x,z)||!dentroOuMargemMobile(x,z))continue;
   const r=Math.hypot(toX(ring[0][0])-x,toZ(ring[0][1])-z)||2.5;
   arvs.push({x,z,r,h:pr.h,b:pr.b,vm:dentroCB(cx,cy),col:pr.col||"#4c7a3f",ty:T(x,z)});
 }
@@ -809,6 +828,7 @@ const ruaGrid={};
     const cs=f.geometry.coordinates.map(q=>[toX(q[0]),toZ(q[1])]);
     for(let i=0;i<cs.length-1;i++){
       const sg={x1:cs[i][0],z1:cs[i][1],x2:cs[i+1][0],z2:cs[i+1][1],half,nome};
+      if(!dentroOuMargemMobile((sg.x1+sg.x2)/2,(sg.z1+sg.z2)/2))continue;
       const x0=Math.min(sg.x1,sg.x2),x1=Math.max(sg.x1,sg.x2);
       const z0=Math.min(sg.z1,sg.z2),z1=Math.max(sg.z1,sg.z2);
       for(let gx=Math.floor(x0/40);gx<=Math.floor(x1/40);gx++)
@@ -876,6 +896,7 @@ const nomesRua=[];
       while(acum+len>prox){
         const t2=(prox-acum)/len;
         const mx=p1[0]+dx*t2,mz=p1[1]+dz*t2;
+        if(!dentroOuMargemMobile(mx,mz)){prox+=passo;continue;}
         const ang=Math.atan2(dz,dx);
         const m=new THREE.Mesh(baseGeo,
           new THREE.MeshBasicMaterial({map:nomeTex(nome),transparent:true,
@@ -1773,7 +1794,7 @@ function loop(now){
   if(cw>0&&ch>0&&(Math.abs(cw-_lastW)>2||Math.abs(ch-_lastH)>2)){
     _lastW=cw;_lastH=ch;
     /* teto no buffer: nunca passa de ~2.5M px (evita OOM de framebuffer no celular) */
-    let pr=Math.min(devicePixelRatio,MOBILE_UI?1.25:2);
+    let pr=Math.min(devicePixelRatio,2);
     while(cw*ch*pr*pr>2500000&&pr>0.75)pr-=0.25;
     renderer.setPixelRatio(pr);
     renderer.setSize(cw,ch,true);
