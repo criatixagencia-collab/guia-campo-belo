@@ -489,7 +489,12 @@
       const state = { zoom: 1, x: 0, y: 0 };
 
       function normalizeTitle(value) {
-        return value.toLocaleUpperCase('pt-BR').replace(/\s+/g, ' ').trim();
+        return value
+          .toLocaleUpperCase('pt-BR')
+          .split(/\r?\n/)
+          .map((line) => line.replace(/[ \t]+/g, ' ').trim())
+          .filter(Boolean)
+          .join('\n');
       }
 
       function resetAdjustments() {
@@ -551,20 +556,25 @@
 
       function wrapText(text, maxWidth, fontSize) {
         ctx.font = `800 ${fontSize}px Epilogue, Arial, sans-serif`;
-        const words = text.split(' ').filter(Boolean);
         const lines = [];
-        let current = '';
 
-        words.forEach((word) => {
-          const candidate = current ? `${current} ${word}` : word;
-          if (ctx.measureText(candidate).width <= maxWidth || !current) {
-            current = candidate;
-          } else {
-            lines.push(current);
-            current = word;
-          }
+        text.split('\n').forEach((manualLine) => {
+          const words = manualLine.split(' ').filter(Boolean);
+          let current = '';
+
+          words.forEach((word) => {
+            const candidate = current ? `${current} ${word}` : word;
+            if (ctx.measureText(candidate).width <= maxWidth || !current) {
+              current = candidate;
+            } else {
+              lines.push(current);
+              current = word;
+            }
+          });
+
+          if (current) lines.push(current);
         });
-        if (current) lines.push(current);
+
         return lines;
       }
 
