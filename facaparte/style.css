@@ -267,7 +267,7 @@ body {
 
 .desktop-channel {
   display: grid;
-  grid-template-columns: 52px 1fr;
+  grid-template-columns: 42px 1px 58px 1fr;
   gap: 24px;
   align-items: center;
   min-height: 150px;
@@ -277,14 +277,86 @@ body {
   background: rgba(244, 241, 232, .035);
 }
 
-.desktop-channel--site { grid-template-columns: 1fr; padding-left: 110px; }
-
 .desktop-channel-number {
   color: var(--gold);
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 34px;
   font-style: italic;
   font-weight: 700;
+}
+
+.desktop-channel-divider,
+.mobile-channel-divider {
+  align-self: stretch;
+  width: 1px;
+  background: rgba(212, 161, 44, .6);
+}
+
+.channel-icon {
+  position: relative;
+  display: block;
+  width: 58px;
+  height: 58px;
+  border: 2px solid var(--gold);
+  color: var(--gold);
+}
+
+.channel-icon--instagram { border-radius: 16px; }
+
+.channel-icon--instagram::before {
+  content: '';
+  position: absolute;
+  inset: 13px;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+}
+
+.channel-icon--instagram::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.channel-icon--facebook {
+  border-radius: 50%;
+}
+
+.channel-icon--facebook::before {
+  content: 'f';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding-top: 7px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.channel-icon--website { border-radius: 50%; }
+
+.channel-icon--website::before {
+  content: '';
+  position: absolute;
+  inset: 6px 15px;
+  border: 2px solid var(--gold);
+  border-block: 0;
+  border-radius: 50%;
+}
+
+.channel-icon--website::after {
+  content: '';
+  position: absolute;
+  top: 26px;
+  left: 6px;
+  right: 6px;
+  border-top: 2px solid var(--gold);
 }
 
 .desktop-channel h2 {
@@ -303,28 +375,32 @@ body {
 }
 
 .desktop-reach-card {
+  display: grid;
+  grid-template-columns: .85fr 1.15fr;
   width: min(calc(100% - 80px), 940px);
   margin: 28px auto 10px;
-  padding: 32px 38px;
   border: 1px solid var(--gold);
   border-radius: 8px;
-  text-align: center;
+  overflow: hidden;
 }
 
 .desktop-reach-card > strong {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 38px;
-  line-height: 1.15;
+  align-self: center;
+  padding: 32px 34px;
+  font-size: 30px;
+  line-height: 1.12;
 }
 
 .desktop-reach-card > strong span,
 .desktop-reach-card b { color: var(--gold); }
 
 .desktop-reach-card p {
-  margin: 20px auto 0;
-  max-width: 760px;
-  font-size: 21px;
-  line-height: 1.55;
+  margin: 0;
+  padding: 30px 34px;
+  border-left: 1px solid rgba(212, 161, 44, .7);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.5;
 }
 
 .mobile-logo {
@@ -498,7 +574,7 @@ body {
 
 .mobile-channel {
   display: grid;
-  grid-template-columns: 28px 1fr;
+  grid-template-columns: 24px 1px 46px 1fr;
   gap: 12px;
   align-items: center;
   padding: 19px;
@@ -507,15 +583,25 @@ body {
   background: rgba(244, 241, 232, .035);
 }
 
-.mobile-channel--site { grid-template-columns: 1fr; padding-left: 59px; }
-
-.mobile-channel > span {
+.mobile-channel-number {
   color: var(--gold);
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 22px;
   font-style: italic;
   font-weight: 700;
 }
+
+.mobile-channel .channel-icon {
+  width: 46px;
+  height: 46px;
+}
+
+.mobile-channel .channel-icon--instagram { border-radius: 13px; }
+.mobile-channel .channel-icon--instagram::before { inset: 10px; }
+.mobile-channel .channel-icon--instagram::after { top: 8px; right: 8px; width: 5px; height: 5px; }
+.mobile-channel .channel-icon--facebook::before { padding-top: 6px; font-size: 38px; }
+.mobile-channel .channel-icon--website::before { inset: 5px 12px; }
+.mobile-channel .channel-icon--website::after { top: 20px; left: 5px; right: 5px; }
 
 .mobile-channel h2 {
   margin: 0;
@@ -530,6 +616,31 @@ body {
   font-size: 15px;
   font-weight: 700;
   text-transform: uppercase;
+}
+
+.mobile-reach-card {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  padding: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: left;
+}
+
+.mobile-reach-card > strong {
+  align-self: center;
+  padding: 18px 14px;
+  font-size: 15px;
+  line-height: 1.18;
+}
+
+.mobile-reach-card p {
+  margin: 0;
+  padding: 17px 14px;
+  border-left: 1px solid rgba(212, 161, 44, .7);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.45;
 }
 
 .page-footer {
