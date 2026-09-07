@@ -29,15 +29,15 @@ body {
   background: var(--navy);
 }
 
-.flyer-shell--page2 {
+.flyer-shell--offer {
   aspect-ratio: 1080 / 1400;
 }
 
-.flyer-shell--page2 .flyer-frame {
+.flyer-shell--offer .flyer-frame {
   height: 1400px;
 }
 
-.flyer-shell--page3 {
+.flyer-shell--services {
   display: none;
 }
 
@@ -114,20 +114,22 @@ body {
 }
 
 .desktop-services-offers {
+  display: grid;
+  gap: 16px;
   width: 100%;
 }
 
 .desktop-service-offer {
   display: grid;
   grid-template-columns: 40px 1px 58px 1fr auto;
-  gap: 22px;
+  gap: 24px;
   align-items: center;
   min-height: 126px;
-  padding: 22px 0;
-  border-top: 1px solid rgba(212, 161, 44, .6);
+  padding: 24px 26px;
+  border: 1px solid rgba(212, 161, 44, .55);
+  border-radius: 8px;
+  background: rgba(244, 241, 232, .035);
 }
-
-.desktop-service-offer:last-child { border-bottom: 1px solid rgba(212, 161, 44, .6); }
 
 .desktop-offer-number {
   color: var(--gold);
@@ -195,8 +197,8 @@ body {
 
 .desktop-service-offer h2 {
   margin: 0;
-  color: var(--gold);
-  font-size: 29px;
+  color: var(--paper);
+  font-size: 27px;
   line-height: 1.35;
   text-transform: uppercase;
 }
@@ -204,7 +206,8 @@ body {
 .desktop-service-offer strong {
   color: var(--gold);
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: 44px;
+  font-size: 40px;
+  white-space: nowrap;
 }
 
 .desktop-offer-icon--reach::before,
@@ -310,21 +313,31 @@ body {
 
 .mobile-offers {
   display: grid;
-  gap: 0;
+  gap: 14px;
   width: 100%;
-  border-block: 1px solid rgba(212, 161, 44, .55);
 }
 
 .mobile-offer {
   display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 18px;
+  grid-template-columns: auto 1fr;
+  gap: 10px 14px;
   align-items: center;
-  padding: 22px 0;
+  padding: 18px;
+  border: 1px solid rgba(212, 161, 44, .55);
+  border-radius: 8px;
+  background: rgba(244, 241, 232, .035);
 }
 
-.mobile-offer + .mobile-offer {
-  border-top: 1px solid rgba(212, 161, 44, .55);
+.mobile-offer > div:first-child {
+  grid-column: 1 / -1;
+}
+
+.mobile-offer-number {
+  color: var(--gold);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 700;
 }
 
 .mobile-offer h2 {
@@ -344,6 +357,8 @@ body {
 }
 
 .mobile-price {
+  grid-column: 2;
+  justify-self: end;
   color: var(--gold);
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 31px;
