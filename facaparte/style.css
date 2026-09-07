@@ -29,14 +29,6 @@ body {
   background: var(--navy);
 }
 
-.flyer-shell--offer {
-  aspect-ratio: 1080 / 1400;
-}
-
-.flyer-shell--offer .flyer-frame {
-  height: 1400px;
-}
-
 .flyer-shell--services {
   display: none;
 }
@@ -117,6 +109,15 @@ body {
   display: grid;
   gap: 16px;
   width: 100%;
+}
+
+.services-divider-title {
+  padding: 18px 0 6px;
+  color: var(--gold);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: .3em;
+  text-align: center;
 }
 
 .desktop-service-offer {
@@ -229,6 +230,101 @@ body {
   margin-top: 5px;
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 48px;
+}
+
+.desktop-channels-flyer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 1050px;
+  padding: 62px 70px 42px;
+  background: var(--navy);
+}
+
+.desktop-channels-flyer > h1 {
+  margin: 28px 0 12px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 72px;
+  line-height: 1.05;
+  text-align: center;
+}
+
+.desktop-channels-flyer > h1 em { color: var(--gold); }
+
+.desktop-channels-intro {
+  margin: 0 0 42px;
+  color: var(--gold);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 32px;
+  font-style: italic;
+}
+
+.desktop-channels-list {
+  display: grid;
+  gap: 18px;
+  width: 100%;
+}
+
+.desktop-channel {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 24px;
+  align-items: center;
+  min-height: 150px;
+  padding: 28px 34px;
+  border: 1px solid rgba(212, 161, 44, .55);
+  border-radius: 8px;
+  background: rgba(244, 241, 232, .035);
+}
+
+.desktop-channel--site { grid-template-columns: 1fr; padding-left: 110px; }
+
+.desktop-channel-number {
+  color: var(--gold);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 34px;
+  font-style: italic;
+  font-weight: 700;
+}
+
+.desktop-channel h2 {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.desktop-channel p {
+  margin: 8px 0 0;
+  color: var(--gold);
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.desktop-reach-card {
+  width: min(calc(100% - 80px), 940px);
+  margin: 28px auto 10px;
+  padding: 32px 38px;
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.desktop-reach-card > strong {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 38px;
+  line-height: 1.15;
+}
+
+.desktop-reach-card > strong span,
+.desktop-reach-card b { color: var(--gold); }
+
+.desktop-reach-card p {
+  margin: 20px auto 0;
+  max-width: 760px;
+  font-size: 21px;
+  line-height: 1.55;
 }
 
 .mobile-logo {
@@ -388,6 +484,54 @@ body {
   text-align: center;
 }
 
+.mobile-channels {
+  display: grid;
+  gap: 14px;
+  width: 100%;
+}
+
+.mobile-offers .services-divider-title {
+  padding: 16px 0 4px;
+  font-size: 13px;
+  letter-spacing: .22em;
+}
+
+.mobile-channel {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 19px;
+  border: 1px solid rgba(212, 161, 44, .55);
+  border-radius: 8px;
+  background: rgba(244, 241, 232, .035);
+}
+
+.mobile-channel--site { grid-template-columns: 1fr; padding-left: 59px; }
+
+.mobile-channel > span {
+  color: var(--gold);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 700;
+}
+
+.mobile-channel h2 {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.mobile-channel p {
+  margin: 7px 0 0;
+  color: var(--gold);
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
 .page-footer {
   display: grid;
   gap: 18px;
@@ -436,6 +580,8 @@ body {
 @media (max-width: 600px) {
   .flyer-shell { display: none; }
   .desktop-cta,
+  .desktop-channels-flyer,
+  .desktop-reach-card,
   .desktop-benefits,
   .desktop-services-flyer { display: none; }
 
