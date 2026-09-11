@@ -78,6 +78,68 @@ body {
   background: var(--navy);
 }
 
+.desktop-how-flyer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 1180px;
+  padding: 58px 70px 48px;
+  background: var(--navy);
+}
+
+.desktop-how-flyer > h1 {
+  margin: 20px 0 42px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 58px;
+  line-height: 1.08;
+  text-align: center;
+}
+
+.desktop-how-flyer > h1 em { color: var(--gold); }
+
+.desktop-how-steps {
+  display: grid;
+  gap: 18px;
+  width: 100%;
+}
+
+.desktop-how-step {
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  gap: 26px;
+  align-items: start;
+  padding: 30px 34px;
+  border: 1px solid rgba(212, 161, 44, .55);
+  border-radius: 8px;
+  background: rgba(244, 241, 232, .035);
+}
+
+.how-step-number {
+  color: var(--gold);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 42px;
+  font-style: italic;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.desktop-how-step h2,
+.mobile-how-step h2 {
+  margin: 0 0 10px;
+  color: var(--gold);
+  font-size: 25px;
+  text-transform: uppercase;
+}
+
+.desktop-how-step p {
+  margin: 0;
+  font-size: 23px;
+  line-height: 1.5;
+}
+
+.desktop-how-step strong,
+.mobile-how-step strong { color: var(--gold); }
+
 .desktop-services-logo {
   width: 150px;
   height: 150px;
@@ -267,7 +329,7 @@ body {
 
 .desktop-channel {
   display: grid;
-  grid-template-columns: 42px 1px 58px 1fr;
+  grid-template-columns: 42px 1px 58px minmax(0, 1fr) auto;
   gap: 24px;
   align-items: center;
   min-height: 150px;
@@ -275,6 +337,36 @@ body {
   border: 1px solid rgba(212, 161, 44, .55);
   border-radius: 8px;
   background: rgba(244, 241, 232, .035);
+}
+
+.channel-content { min-width: 0; }
+
+.channel-link {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 16px;
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  background: var(--gold);
+  color: var(--navy);
+  font-size: 15px;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform .18s ease, background .18s ease;
+}
+
+.channel-link:hover {
+  background: #e3b643;
+  transform: translateY(-2px);
+}
+
+.channel-link:focus-visible {
+  outline: 3px solid var(--paper);
+  outline-offset: 3px;
 }
 
 .desktop-channel-number {
@@ -566,6 +658,36 @@ body {
   width: 100%;
 }
 
+.mobile-how-steps {
+  display: grid;
+  gap: 14px;
+  width: 100%;
+}
+
+.mobile-how-step {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 14px;
+  padding: 20px 18px;
+  border: 1px solid rgba(212, 161, 44, .55);
+  border-radius: 8px;
+  background: rgba(244, 241, 232, .035);
+}
+
+.mobile-how-step .how-step-number { font-size: 27px; }
+
+.mobile-how-step h2 {
+  margin-bottom: 8px;
+  font-size: 16px;
+  line-height: 1.3;
+}
+
+.mobile-how-step p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
 .mobile-offers .services-divider-title {
   padding: 16px 0 4px;
   font-size: 13px;
@@ -581,6 +703,13 @@ body {
   border: 1px solid rgba(212, 161, 44, .55);
   border-radius: 8px;
   background: rgba(244, 241, 232, .035);
+}
+
+.mobile-channel .channel-link {
+  min-height: 40px;
+  margin-top: 13px;
+  padding: 9px 12px;
+  font-size: 13px;
 }
 
 .mobile-channel-number {
@@ -609,6 +738,8 @@ body {
   line-height: 1.3;
   text-transform: uppercase;
 }
+
+.mobile-channel:nth-child(3) h2 { font-size: 16px; }
 
 .mobile-channel p {
   margin: 7px 0 0;
@@ -695,6 +826,7 @@ body {
   .desktop-reach-card,
   .desktop-benefits,
   .desktop-services-flyer { display: none; }
+  .desktop-how-flyer { display: none; }
 
   .mobile-flyer {
     display: flex;
