@@ -1369,62 +1369,80 @@ function updateMiniGame(dt,px,py,pz){
     }
   }
 }
-/* ===== Marco 3D inspirado na Paróquia Nossa Senhora de Guadalupe ===== */
+/* ===== Paróquia Nossa Senhora de Guadalupe — reconstruída pelas referências aéreas ===== */
 (function(){
-  const fx=CHURCH.x,fz=CHURCH.z,ea=-13.9*Math.PI/180;   // centro/ângulo do retângulo real
+  const fx=CHURCH.x,fz=CHURCH.z,ea=-13.9*Math.PI/180;
   const gy=T(fx,fz);
-  const mCream=new THREE.MeshLambertMaterial({color:0xe9e1cf});
-  const mTile=new THREE.MeshLambertMaterial({color:0xbf5630});
-  const mCross=new THREE.MeshLambertMaterial({color:0x8f4322});
+  const mWall=new THREE.MeshLambertMaterial({color:0xd8d8d0});
+  const mWallLight=new THREE.MeshLambertMaterial({color:0xeeeae0});
+  const mRoof=new THREE.MeshLambertMaterial({color:0x777c7b});
+  const mRoofLight=new THREE.MeshLambertMaterial({color:0xaeb3b1});
+  const mDark=new THREE.MeshLambertMaterial({color:0x394448});
+  const mCross=new THREE.MeshLambertMaterial({color:0x686d6c});
   const g=new THREE.Group();
-  const W=37.5,D=19,wallH=11;   // levemente maior/mais alta que o footprint p/ cobrir o predio generico
-  const nave=new THREE.Mesh(new THREE.BoxGeometry(W,wallH,D),mCream);
-  nave.position.y=wallH/2;nave.castShadow=true;nave.receiveShadow=true;g.add(nave);
-  /* telhado laranja: 5 costelas correndo ao longo do comprimento (W) */
-  const nRibs=5,ribW=D/nRibs,ridgeH=3.4;
-  const sh=new THREE.Shape();sh.moveTo(-ribW/2,0);sh.lineTo(ribW/2,0);sh.lineTo(0,ridgeH);sh.lineTo(-ribW/2,0);
-  const rg=new THREE.ExtrudeGeometry(sh,{depth:W,bevelEnabled:false});rg.translate(0,0,-W/2);
-  for(let i=0;i<nRibs;i++){const r=new THREE.Mesh(rg,mTile);
-    r.rotation.y=Math.PI/2;r.position.set(0,wallH,-D/2+ribW*(i+.5));r.castShadow=true;g.add(r);}
-  /* ---- torre: coluna alta, cruz nos 4 lados, campanario com sino, cruz fina no topo ---- */
-  const tw=5.5,shaftH=28,tx=-W/2+tw*0.55,tz=D*0.22;
-  const tower=new THREE.Mesh(new THREE.BoxGeometry(tw,shaftH,tw),mCream);
-  tower.position.set(tx,shaftH/2,tz);tower.castShadow=true;tower.receiveShadow=true;g.add(tower);
-  /* cruz impressa nos QUATRO lados da coluna */
-  const cyH=10,cyW=1.1,chW=4.2,chH=1.1,cT=0.35;
-  const cyY=shaftH*0.55,chY=shaftH*0.64,off=tw/2+cT/2+0.02;
-  for(let s=0;s<4;s++){
-    let vx=tx,vz=tz,vg,hg;
-    if(s===0){vx=tx+off;vg=[cT,cyH,cyW];hg=[cT,chH,chW];}
-    else if(s===1){vx=tx-off;vg=[cT,cyH,cyW];hg=[cT,chH,chW];}
-    else if(s===2){vz=tz+off;vg=[cyW,cyH,cT];hg=[chW,chH,cT];}
-    else{vz=tz-off;vg=[cyW,cyH,cT];hg=[chW,chH,cT];}
-    const bv=new THREE.Mesh(new THREE.BoxGeometry(vg[0],vg[1],vg[2]),mCross);
-    bv.position.set(vx,cyY,vz);bv.castShadow=true;g.add(bv);
-    const bh=new THREE.Mesh(new THREE.BoxGeometry(hg[0],hg[1],hg[2]),mCross);
-    bh.position.set(vx,chY,vz);bh.castShadow=true;g.add(bh);
+  function box(w,h,d,mat,x,y,z,shadow=true){
+    const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);
+    m.position.set(x,y,z);m.castShadow=shadow;m.receiveShadow=true;g.add(m);return m;
   }
-  /* campanario aberto: 4 pilares + laje */
-  const belH=6,belY=shaftH,postT=0.75,hp=tw/2-postT/2;
-  for(const pp of [[hp,hp],[hp,-hp],[-hp,hp],[-hp,-hp]]){
-    const p=new THREE.Mesh(new THREE.BoxGeometry(postT,belH,postT),mCream);
-    p.position.set(tx+pp[0],belY+belH/2,tz+pp[1]);p.castShadow=true;g.add(p);
+
+  /* nave baixa e larga, com o conjunto de coberturas metálicas visto nas imagens */
+  const W=43,D=27,wallH=7.2;
+  box(W,wallH,D,mWall,0,wallH/2,0);
+  box(W+1.2,.45,D+1.2,mRoofLight,0,wallH+.1,0);
+  const nBays=4,bayD=D/nBays,ridgeH=2.15;
+  const sh=new THREE.Shape();
+  sh.moveTo(-bayD/2,0);sh.lineTo(bayD/2,0);sh.lineTo(0,ridgeH);sh.lineTo(-bayD/2,0);
+  const roofGeo=new THREE.ExtrudeGeometry(sh,{depth:W,bevelEnabled:false});roofGeo.translate(0,0,-W/2);
+  for(let i=0;i<nBays;i++){
+    const roof=new THREE.Mesh(roofGeo,mRoof);
+    roof.rotation.y=Math.PI/2;roof.position.set(0,wallH,-D/2+bayD*(i+.5));roof.castShadow=true;roof.receiveShadow=true;g.add(roof);
+    box(W+.5,.22,.32,mRoofLight,0,wallH+ridgeH+.02,-D/2+bayD*(i+.5),false);
   }
-  const slab=new THREE.Mesh(new THREE.BoxGeometry(tw+0.8,0.6,tw+0.8),mTile);
-  slab.position.set(tx,belY+belH+0.3,tz);slab.castShadow=true;g.add(slab);
-  /* sino */
-  const mBell=new THREE.MeshLambertMaterial({color:0x8a6a2f});
-  const bell=new THREE.Mesh(new THREE.CylinderGeometry(0.62,1.25,2.1,12),mBell);
-  bell.position.set(tx,belY+belH*0.55,tz);bell.castShadow=true;g.add(bell);
-  const bellCap=new THREE.Mesh(new THREE.SphereGeometry(0.35,8,6),mBell);
-  bellCap.position.set(tx,belY+belH*0.55+0.95,tz);g.add(bellCap);
-  /* cruz fina no topo, acima do sino */
-  const mThin=new THREE.MeshLambertMaterial({color:0x6b6f74});
-  const topY=belY+belH+0.6;
-  const mast=new THREE.Mesh(new THREE.BoxGeometry(0.42,7.5,0.42),mThin);
-  mast.position.set(tx,topY+3.75,tz);mast.castShadow=true;g.add(mast);
-  const arm=new THREE.Mesh(new THREE.BoxGeometry(3,0.42,0.42),mThin);
-  arm.position.set(tx,topY+5.4,tz);arm.castShadow=true;g.add(arm);
+  for(let i=1;i<nBays;i++)box(W+.6,.20,.34,mDark,0,wallH+.16,-D/2+bayD*i,false);
+
+  /* bloco posterior e marquise lateral, ambos visíveis nas tomadas oblíquas */
+  box(40,5.8,8.2,mWallLight,2,2.9,D/2+4.1);
+  box(41,.45,8.8,mRoof,2,6.02,D/2+4.1);
+  box(35,.38,4.4,mRoofLight,2,4.8,-D/2-2.1);
+  for(let x=-14;x<=16;x+=6)box(.38,4.7,.38,mWallLight,x,2.35,-D/2-3.7);
+
+  /* fachada frontal escalonada, com porta central e frisos verticais */
+  const frontX=-W/2-.85;
+  box(1.7,8.8,21,mWallLight,frontX,4.4,0);
+  box(1.9,10.2,8.6,mWallLight,frontX-.15,5.1,0);
+  box(.20,5.0,4.0,mDark,frontX-1.0,2.5,0,false);
+  for(const z of [-8,-5.4,5.4,8])box(.25,6.3,.52,mRoofLight,frontX-1.0,4.2,z,false);
+  box(.24,3.4,.42,mCross,frontX-1.15,7.25,0);
+  box(.24,.42,2.35,mCross,frontX-1.15,7.75,0);
+
+  /* janelas estreitas repetidas ao longo das duas laterais */
+  for(let x=-15;x<=16;x+=5.2){
+    box(2.0,2.3,.16,mDark,x,3.25,-D/2-.09,false);
+    box(2.0,2.3,.16,mDark,x,3.25,D/2+.09,false);
+  }
+
+  /* torre real: delgada, frontal e lateral à nave — sem o campanário monumental da Mascote */
+  const tx=-W/2-1.3,tz=D/2-4.0,tw=4.2,shaftH=14.2;
+  box(tw,shaftH,tw,mWallLight,tx,shaftH/2,tz);
+  box(tw+1,.48,tw+1,mRoofLight,tx,shaftH+.24,tz);
+  box(3.55,2.6,3.55,mWall,tx,shaftH+1.55,tz);
+  const slotY=shaftH+1.55,off=tw/2+.08;
+  box(.18,1.55,1.25,mDark,tx-off,slotY,tz,false);
+  box(.18,1.55,1.25,mDark,tx+off,slotY,tz,false);
+  box(1.25,1.55,.18,mDark,tx,slotY,tz-tw/2-.08,false);
+  box(1.25,1.55,.18,mDark,tx,slotY,tz+tw/2+.08,false);
+  const cap=new THREE.Mesh(new THREE.ConeGeometry(3.05,2.25,4),mRoof);
+  cap.position.set(tx,shaftH+4.0,tz);cap.rotation.y=Math.PI/4;cap.castShadow=true;g.add(cap);
+  const topY=shaftH+5.1;
+  box(.34,3.3,.34,mCross,tx,topY+1.65,tz);
+  box(2.2,.34,.34,mCross,tx,topY+2.2,tz);
+
+  /* volumes baixos de apoio que completam a implantação irregular do quarteirão */
+  box(11,5.2,7.5,mWall,12,2.6,-D/2-1.1);
+  box(11.5,.4,8,mRoof,12,5.4,-D/2-1.1);
+  box(7.5,4.4,7,mWallLight,-13,2.2,D/2+2.2);
+  box(8,.38,7.5,mRoof,-13,4.58,D/2+2.2);
+
   g.position.set(fx,gy,fz);
   g.rotation.y=-ea;
   scene.add(g);
