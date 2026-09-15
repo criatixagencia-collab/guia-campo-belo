@@ -858,6 +858,21 @@ body {
   text-transform: uppercase;
 }
 
+.page-navigation {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  width: min(100%, 760px);
+  margin: 0 auto;
+}
+
+.page-navigation--single {
+  grid-template-columns: minmax(0, 430px);
+  justify-content: center;
+}
+
+.page-navigation .next-page { width: 100%; }
+
 .next-page {
   display: inline-flex;
   min-height: 54px;
@@ -911,5 +926,6 @@ body {
   }
 
   .page-footer { padding-bottom: 30px; }
+  .page-navigation { grid-template-columns: 1fr; }
   .next-page { min-height: 50px; font-size: 15px; }
 }
