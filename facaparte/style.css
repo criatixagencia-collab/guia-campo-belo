@@ -273,6 +273,35 @@ body {
   white-space: nowrap;
 }
 
+.learn-more-card {
+  display: flex;
+  min-height: 72px;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 24px;
+  border: 2px solid var(--gold);
+  border-radius: 8px;
+  background: var(--gold);
+  color: var(--navy);
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.3;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background .18s ease, transform .18s ease;
+}
+
+.learn-more-card:hover {
+  background: #e3b643;
+  transform: translateY(-2px);
+}
+
+.learn-more-card:focus-visible {
+  outline: 3px solid var(--paper);
+  outline-offset: 3px;
+}
+
 .desktop-offer-icon--reach::before,
 .desktop-offer-icon--reach::after {
   content: '';
@@ -834,6 +863,12 @@ body {
     align-items: center;
     gap: 26px;
     padding: 34px 22px 18px;
+  }
+
+  .mobile-offers .learn-more-card {
+    min-height: 62px;
+    padding: 15px 18px;
+    font-size: 14px;
   }
 
   .page-footer { padding-bottom: 30px; }
