@@ -250,6 +250,25 @@ body {
   border-radius: 14px 14px 0 0;
 }
 
+.desktop-offer-icon--news::before {
+  content: '';
+  position: absolute;
+  inset: 13px 14px;
+  border: 2px solid var(--gold);
+  border-radius: 2px;
+}
+
+.desktop-offer-icon--news::after {
+  content: '';
+  position: absolute;
+  top: 21px;
+  left: 20px;
+  width: 16px;
+  height: 2px;
+  background: var(--gold);
+  box-shadow: 0 7px 0 var(--gold), 0 14px 0 var(--gold);
+}
+
 .desktop-service-offer p {
   margin: 7px 0 0;
   color: var(--gold);
@@ -271,6 +290,16 @@ body {
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 40px;
   white-space: nowrap;
+}
+
+.desktop-service-offer--included strong {
+  max-width: 190px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 22px;
+  line-height: 1.15;
+  text-align: right;
+  text-transform: uppercase;
+  white-space: normal;
 }
 
 .learn-more-card {
@@ -657,6 +686,16 @@ body {
   font-size: 31px;
   font-weight: 700;
   white-space: nowrap;
+}
+
+.mobile-price--included {
+  max-width: 170px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  line-height: 1.2;
+  text-align: right;
+  text-transform: uppercase;
+  white-space: normal;
 }
 
 .mobile-list {
