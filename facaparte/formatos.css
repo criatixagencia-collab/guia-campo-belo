@@ -160,6 +160,13 @@ body {
 
 .reference span { font-size: 18px; }
 
+.reference--additional {
+  display: flex;
+  width: max-content;
+  max-width: 100%;
+  margin-top: 10px;
+}
+
 .reference:hover {
   background: var(--gold);
   color: var(--navy);
