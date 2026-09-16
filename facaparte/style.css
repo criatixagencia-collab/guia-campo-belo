@@ -199,6 +199,15 @@ body {
   width: 100%;
 }
 
+.services-step-intro {
+  margin: 14px 0 -14px;
+  color: var(--paper);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+}
+
 .services-divider-title {
   padding: 18px 0 6px;
   color: var(--gold);
@@ -818,6 +827,8 @@ body {
   font-size: 13px;
   letter-spacing: .22em;
 }
+
+.mobile-offers .services-step-intro { font-size: 16px; }
 
 .mobile-channel {
   display: grid;
