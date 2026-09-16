@@ -172,6 +172,8 @@ body {
   letter-spacing: .3em;
 }
 
+.desktop-how-flyer .desktop-services-kicker { font-size: 24px; }
+
 .desktop-services-flyer > h1 {
   margin: 24px 0 18px;
   font-family: Georgia, 'Times New Roman', serif;
@@ -611,6 +613,8 @@ body {
   letter-spacing: .24em;
   text-align: center;
 }
+
+.mobile-flyer--how .mobile-kicker { font-size: 15px; }
 
 .mobile-title {
   margin: 0;
