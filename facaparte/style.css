@@ -318,6 +318,16 @@ body {
   white-space: nowrap;
 }
 
+.desktop-service-offer.popular-offer {
+  grid-template-columns: 36px 1px 54px minmax(0, 1fr) auto;
+  gap: 18px;
+}
+
+.desktop-service-offer.popular-offer h2 { font-size: 23px; }
+.desktop-service-offer.popular-offer strong { font-size: 31px; }
+.desktop-service-offer.popular-offer--free strong { font-size: 36px; }
+.desktop-service-offer.popular-offer--free p { margin-top: 5px; font-size: 16px; }
+
 .desktop-service-offer--included strong {
   max-width: 190px;
   font-family: Arial, Helvetica, sans-serif;
