@@ -949,6 +949,8 @@ const dados = [
   {id:52, nome:"Studio Andréa Aronne",                 cats:["Beleza & Estetica"],                                              sub:"Salão de Beleza",         end:"Rua João de Sousa Dias, 631",         wp:"(11) 5533-4322", tel:"(11) 5533-4322", ig:"@studioandreaaronne", site:"https://www.trinks.com/studio-andrea-aronne", ticket:"", desc:"Salão com serviços de cabelo, unhas, depilação, podologia, maquiagem, barbearia, estética e design de sobrancelhas.", dest:"Beleza e autocuidado em um só endereço", par:"Alto", obs:"Estrutura completa, ambiente organizado e equipe atenciosa para diferentes cuidados de beleza.", lat:-23.621604, lng:-46.6741874},
   {id:53, nome:"Usaflex Campo Belo",                   cats:["Moda, Calcados & Acessorios"],                                    sub:"Calçados Femininos",      end:"Rua Vieira de Morais",                wp:"", ig:"@usaflex", site:"https://www.usaflex.com.br/", ticket:"", desc:"Nova unidade da marca brasileira de calçados femininos conhecida por combinar conforto, tecnologia e estilo para o dia a dia.", dest:"Calçados femininos com conforto e tecnologia", par:"Alto", obs:"Post informou nova loja na Rua Vieira de Morais; número exato e inauguração devem ser confirmados diretamente com a marca.", lat:-23.6212, lng:-46.6678},
   {id:54, nome:"Cabana Burger Campo Belo",             cats:["Gastronomia & Delivery"],                                       sub:"Hamburgueria",            end:"Rua Demóstenes, 806",                 wp:"", ig:"@cabana.burger", site:"https://cabanaburger.com.br/", ticket:"", desc:"Hamburgueria premium com smash burgers, batata fresca cortada na própria unidade, salão para receber o público e operação também voltada ao delivery.", dest:"Smash burgers, batata fresca e salão com 120 lugares", par:"Alto", obs:"Unidade Campo Belo inaugurada na Rua Demóstenes, com funcionamento diário das 11h às 23h.", lat:-23.6178, lng:-46.6672},
+  {id:55, nome:"Andrea Zucci Acessórios",              cats:["Moda, Calcados & Acessorios","Lojas & Presentes"],                sub:"Semijoias",               end:"Rua Pascal, 938",                     wp:"(11) 96596-2222", ig:"@andreazucciacessorios", site:"https://www.andreazucci.com.br/", ticket:"", desc:"Semijoias e acessórios modernos, hipoalergênicos, banhados a ouro 18k e ródio branco. A marca reúne peças sofisticadas e criações autorais da Andrea Zucci.", dest:"Semijoias modernas e acessórios no Campo Belo", par:"Alto", obs:"Loja física e online, com entrega para todo o Brasil.", lat:-23.6207, lng:-46.6712},
+  {id:56, nome:"Clinic Body&Mind",                     cats:["Beleza & Estetica","Academias, Esportes & Bem-Estar"],            sub:"Estética Integrativa",    end:"Rua João Álvares Soares, 1411, Sobreloja", wp:"", tel:"(11) 2306-7300", ig:"@clinicbodymind_", ticket:"", desc:"Clínica de estética integrativa e bem-estar da Gi Alberti, com massagens, tratamentos faciais e corporais e tecnologias como Ultraformer, Hi-Pro, radiofrequência e criofrequência.", dest:"Estética, tecnologia e bem-estar no Campo Belo", par:"Alto", obs:"Clinic Body&Mind by Gi Alberti.", lat:-23.6208006, lng:-46.6708426},
 ];
 
 /* ── CATEGORY META (taxonomia do Guia Campo Belo) ── */
@@ -1324,11 +1326,13 @@ function buildDestaqueCarousel() {
   // Destaques exibidos na vitrine inicial.
   // Quando nao houver foto propria, usa a imagem da categoria do cadastro.
   const DESTAQUE_ITEMS = [
-    { nome: 'LePuy Moda Feminina' },
-    { nome: 'Nórdico Padaria' },
     { nome: 'Studio Andréa Aronne' },
-    { nome: 'Usaflex Campo Belo' },
-    { nome: 'Cabana Burger Campo Belo' },
+    { nome: 'Andrea Zucci Acessórios' },
+    { nome: 'Nórdico Padaria' },
+    { nome: 'Chaveiro Novo Aeon' },
+    { nome: 'Eomma Spa' },
+    { nome: 'Rezinha Fit', file: 'rezinhafit.jpg' },
+    { nome: 'Clinic Body&Mind' },
   ];
 
   // Normaliza: minúsculo, sem acento, sem chars especiais
