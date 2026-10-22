@@ -255,6 +255,28 @@
 
     .range-value { color: var(--muted); font-size: 10px; text-align: right; }
 
+    .select-row {
+      display: grid;
+      grid-template-columns: 76px 1fr;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .select-row label { margin: 0; font-size: 11px; font-weight: 700; }
+
+    select {
+      width: 100%;
+      min-height: 32px;
+      padding: 6px 9px;
+      color: var(--navy);
+      background: #fff;
+      border: 1px solid #cbd4df;
+      border-radius: 8px;
+      font: inherit;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
     .actions { display: grid; gap: 10px; margin-top: 28px; }
 
     .button {
@@ -415,8 +437,8 @@
         <div class="step">
           <span class="step-number" aria-hidden="true">3</span>
           <div class="step-body">
-            <span class="step-title">Ajuste o enquadramento</span>
-            <p class="helper">Você também pode arrastar a foto diretamente na prévia.</p>
+            <span class="step-title">Ajuste a foto e o título</span>
+            <p class="helper">Arraste a foto na prévia e controle a quebra de linha e o tamanho do título.</p>
             <div class="adjustments">
               <div class="range-row">
                 <label for="zoomInput">Zoom</label>
@@ -438,7 +460,14 @@
                 <input id="titleSizeInput" type="range" min="46" max="80" step="2" value="80">
                 <span class="range-value" id="titleSizeValue">80 px</span>
               </div>
-              <p class="helper adjustment-note">Em títulos muito longos, o tamanho pode ser reduzido automaticamente para caber na arte.</p>
+              <div class="select-row">
+                <label for="lineBreakInput">Quebra de linha</label>
+                <select id="lineBreakInput">
+                  <option value="manual" selected>Respeitar Enter</option>
+                  <option value="auto">Automática</option>
+                </select>
+              </div>
+              <p class="helper adjustment-note">Em “Respeitar Enter”, cada Enter no título vira uma nova linha na imagem. Títulos muito longos podem reduzir automaticamente para caber.</p>
             </div>
           </div>
         </div>
@@ -458,7 +487,7 @@
         <div class="canvas-shell">
           <canvas id="postCanvas" width="1080" height="1350" aria-label="Prévia da arte de notícia"></canvas>
         </div>
-        <p class="drag-hint">Arraste a foto para reposicionar</p>
+        <p class="drag-hint">Arraste a foto ou o título diretamente na prévia</p>
         <p class="status" id="status" role="status" aria-live="polite"></p>
       </div>
     </section>
@@ -475,6 +504,7 @@
       const verticalInput = document.getElementById('verticalInput');
       const horizontalInput = document.getElementById('horizontalInput');
       const titleSizeInput = document.getElementById('titleSizeInput');
+      const lineBreakInput = document.getElementById('lineBreakInput');
       const zoomValue = document.getElementById('zoomValue');
       const verticalValue = document.getElementById('verticalValue');
       const horizontalValue = document.getElementById('horizontalValue');
@@ -493,8 +523,17 @@
       let photoUrl = '';
       let dragStart = null;
       let lastDraw = null;
+      let lastTitleDraw = null;
 
-      const state = { zoom: 1, x: 0, y: 0, titleSize: 80 };
+      const state = {
+        zoom: 1,
+        x: 0,
+        y: 0,
+        titleSize: 80,
+        lineBreak: 'manual',
+        titleX: 0,
+        titleY: 0,
+      };
 
       function normalizeTitle(value) {
         return value
@@ -513,7 +552,11 @@
         verticalInput.value = '0';
         horizontalInput.value = '0';
         titleSizeInput.value = '80';
+        lineBreakInput.value = 'manual';
         state.titleSize = 80;
+        state.lineBreak = 'manual';
+        state.titleX = 0;
+        state.titleY = 0;
         updateRangeLabels();
       }
 
@@ -565,11 +608,14 @@
         return { x, y, width, height, maxX, maxY };
       }
 
-      function wrapText(text, maxWidth, fontSize) {
+      function wrapText(text, maxWidth, fontSize, preserveManualBreaks = true) {
         ctx.font = `800 ${fontSize}px Epilogue, Arial, sans-serif`;
         const lines = [];
+        const sourceLines = preserveManualBreaks
+          ? text.split('\n')
+          : [text.replace(/\s+/g, ' ').trim()];
 
-        text.split('\n').forEach((manualLine) => {
+        sourceLines.forEach((manualLine) => {
           const words = manualLine.split(' ').filter(Boolean);
           let current = '';
 
@@ -592,14 +638,15 @@
       function fitHeadline(text) {
         const maxWidth = 900;
         const maxHeight = 440;
+        const preserveManualBreaks = state.lineBreak === 'manual';
         for (let size = state.titleSize; size >= 46; size -= 2) {
-          const lines = wrapText(text, maxWidth, size);
+          const lines = wrapText(text, maxWidth, size, preserveManualBreaks);
           const lineHeight = size * 1.09;
           if (lines.length <= 6 && lines.length * lineHeight <= maxHeight) {
             return { size, lines, lineHeight };
           }
         }
-        return { size: 44, lines: wrapText(text, maxWidth, 44), lineHeight: 48 };
+        return { size: 44, lines: wrapText(text, maxWidth, 44, preserveManualBreaks), lineHeight: 48 };
       }
 
       function drawBranding() {
@@ -616,21 +663,33 @@
         const logoSize = 50;
         const logoX = WIDTH - 72 - logoSize;
         const logoY = HEIGHT - 67 - logoSize;
-        const goldY = HEIGHT - 73;
+        const baseGoldY = HEIGHT - 73;
         const blockHeight = fitted.lines.length * fitted.lineHeight;
-        const titleBottom = goldY - 62;
-        const titleTop = titleBottom - blockHeight;
+        const baseTitleBottom = baseGoldY - 62;
+        const baseTitleTop = baseTitleBottom - blockHeight;
+        const titleX = 72 + state.titleX;
+        const titleTop = baseTitleTop + state.titleY;
+        const goldY = baseGoldY + state.titleY;
 
         ctx.fillStyle = '#fff';
         ctx.textAlign = 'left';
         ctx.textBaseline = 'top';
         ctx.font = `800 ${fitted.size}px Epilogue, Arial, sans-serif`;
         fitted.lines.forEach((line, index) => {
-          ctx.fillText(line, 72, titleTop + index * fitted.lineHeight);
+          ctx.fillText(line, titleX, titleTop + index * fitted.lineHeight);
         });
 
+        const titleWidth = Math.max(...fitted.lines.map((line) => ctx.measureText(line).width), 0);
+        lastTitleDraw = {
+          x: titleX,
+          y: titleTop,
+          width: titleWidth,
+          height: blockHeight,
+          baseTitleTop,
+        };
+
         ctx.fillStyle = '#d5aa34';
-        ctx.fillRect(72, goldY, 145, 7);
+        ctx.fillRect(titleX, goldY, 145, 7);
 
         if (logo.complete && logo.naturalWidth) {
           ctx.drawImage(logo, logoX, logoY, logoSize, logoSize);
@@ -642,6 +701,7 @@
         if (!photo) {
           drawPlaceholder();
           lastDraw = null;
+          lastTitleDraw = null;
           return;
         }
 
@@ -681,6 +741,7 @@
         state.y = Number(verticalInput.value) / 100;
         state.x = Number(horizontalInput.value) / 100;
         state.titleSize = Number(titleSizeInput.value);
+        state.lineBreak = lineBreakInput.value;
         updateRangeLabels();
         render();
       }
@@ -698,14 +759,40 @@
         render();
       });
 
-      [zoomInput, verticalInput, horizontalInput, titleSizeInput].forEach((input) => {
+      [zoomInput, verticalInput, horizontalInput, titleSizeInput, lineBreakInput].forEach((input) => {
         input.addEventListener('input', syncFromSliders);
+        input.addEventListener('change', syncFromSliders);
       });
 
       canvas.addEventListener('pointerdown', (event) => {
         if (!photo) return;
         canvas.setPointerCapture(event.pointerId);
-        dragStart = { x: event.clientX, y: event.clientY, stateX: state.x, stateY: state.y };
+        const bounds = canvas.getBoundingClientRect();
+        const scaleX = WIDTH / bounds.width;
+        const scaleY = HEIGHT / bounds.height;
+        const pointX = (event.clientX - bounds.left) * scaleX;
+        const pointY = (event.clientY - bounds.top) * scaleY;
+        const titleHit = lastTitleDraw && pointX >= lastTitleDraw.x - 24
+          && pointX <= lastTitleDraw.x + lastTitleDraw.width + 24
+          && pointY >= lastTitleDraw.y - 24
+          && pointY <= lastTitleDraw.y + lastTitleDraw.height + 24;
+
+        if (titleHit) {
+          dragStart = {
+            mode: 'title',
+            x: event.clientX,
+            y: event.clientY,
+            titleX: state.titleX,
+            titleY: state.titleY,
+            titleWidth: lastTitleDraw.width,
+            titleHeight: lastTitleDraw.height,
+            baseTitleTop: lastTitleDraw.baseTitleTop,
+          };
+          canvas.style.cursor = 'move';
+          return;
+        }
+
+        dragStart = { mode: 'photo', x: event.clientX, y: event.clientY, stateX: state.x, stateY: state.y };
       });
 
       canvas.addEventListener('pointermove', (event) => {
@@ -714,6 +801,18 @@
         const scaleY = HEIGHT / canvas.getBoundingClientRect().height;
         const dx = (event.clientX - dragStart.x) * scaleX;
         const dy = (event.clientY - dragStart.y) * scaleY;
+
+        if (dragStart.mode === 'title') {
+          const minTitleX = 20 - 72;
+          const maxTitleX = WIDTH - 20 - dragStart.titleWidth - 72;
+          const minTitleY = 40 - dragStart.baseTitleTop;
+          const maxTitleY = HEIGHT - 100 - dragStart.titleHeight - dragStart.baseTitleTop;
+          state.titleX = Math.max(minTitleX, Math.min(maxTitleX, dragStart.titleX + dx));
+          state.titleY = Math.max(minTitleY, Math.min(maxTitleY, dragStart.titleY + dy));
+          render();
+          return;
+        }
+
         if (lastDraw.maxX > 0) state.x = Math.max(-1, Math.min(1, dragStart.stateX + dx / lastDraw.maxX));
         if (lastDraw.maxY > 0) state.y = Math.max(-1, Math.min(1, dragStart.stateY + dy / lastDraw.maxY));
         horizontalInput.value = String(Math.round(state.x * 100));
@@ -722,7 +821,10 @@
         render();
       });
 
-      const endDrag = () => { dragStart = null; };
+      const endDrag = () => {
+        dragStart = null;
+        canvas.style.cursor = 'grab';
+      };
       canvas.addEventListener('pointerup', endDrag);
       canvas.addEventListener('pointercancel', endDrag);
 
