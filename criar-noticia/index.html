@@ -433,6 +433,12 @@
                 <input id="horizontalInput" type="range" min="-100" max="100" value="0">
                 <span class="range-value" id="horizontalValue">0</span>
               </div>
+              <div class="range-row">
+                <label for="titleSizeInput">Tamanho do título</label>
+                <input id="titleSizeInput" type="range" min="46" max="80" step="2" value="80">
+                <span class="range-value" id="titleSizeValue">80 px</span>
+              </div>
+              <p class="helper adjustment-note">Em títulos muito longos, o tamanho pode ser reduzido automaticamente para caber na arte.</p>
             </div>
           </div>
         </div>
@@ -468,9 +474,11 @@
       const zoomInput = document.getElementById('zoomInput');
       const verticalInput = document.getElementById('verticalInput');
       const horizontalInput = document.getElementById('horizontalInput');
+      const titleSizeInput = document.getElementById('titleSizeInput');
       const zoomValue = document.getElementById('zoomValue');
       const verticalValue = document.getElementById('verticalValue');
       const horizontalValue = document.getElementById('horizontalValue');
+      const titleSizeValue = document.getElementById('titleSizeValue');
       const downloadButton = document.getElementById('downloadButton');
       const resetButton = document.getElementById('resetButton');
       const status = document.getElementById('status');
@@ -486,7 +494,7 @@
       let dragStart = null;
       let lastDraw = null;
 
-      const state = { zoom: 1, x: 0, y: 0 };
+      const state = { zoom: 1, x: 0, y: 0, titleSize: 80 };
 
       function normalizeTitle(value) {
         return value
@@ -504,6 +512,8 @@
         zoomInput.value = '100';
         verticalInput.value = '0';
         horizontalInput.value = '0';
+        titleSizeInput.value = '80';
+        state.titleSize = 80;
         updateRangeLabels();
       }
 
@@ -511,6 +521,7 @@
         zoomValue.textContent = `${Math.round(state.zoom * 100)}%`;
         verticalValue.textContent = String(Math.round(state.y * 100));
         horizontalValue.textContent = String(Math.round(state.x * 100));
+        titleSizeValue.textContent = `${Math.round(state.titleSize)} px`;
       }
 
       function drawPlaceholder() {
@@ -581,7 +592,7 @@
       function fitHeadline(text) {
         const maxWidth = 900;
         const maxHeight = 440;
-        for (let size = 80; size >= 46; size -= 2) {
+        for (let size = state.titleSize; size >= 46; size -= 2) {
           const lines = wrapText(text, maxWidth, size);
           const lineHeight = size * 1.09;
           if (lines.length <= 6 && lines.length * lineHeight <= maxHeight) {
@@ -669,6 +680,7 @@
         state.zoom = Number(zoomInput.value) / 100;
         state.y = Number(verticalInput.value) / 100;
         state.x = Number(horizontalInput.value) / 100;
+        state.titleSize = Number(titleSizeInput.value);
         updateRangeLabels();
         render();
       }
@@ -686,7 +698,7 @@
         render();
       });
 
-      [zoomInput, verticalInput, horizontalInput].forEach((input) => {
+      [zoomInput, verticalInput, horizontalInput, titleSizeInput].forEach((input) => {
         input.addEventListener('input', syncFromSliders);
       });
 
