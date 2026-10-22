@@ -428,7 +428,7 @@
           <span class="step-number" aria-hidden="true">2</span>
           <div class="step-body">
             <label for="titleInput">Escreva o título</label>
-            <p class="helper">As letras ficam maiúsculas automaticamente.</p>
+            <p class="helper">As letras ficam maiúsculas automaticamente. Pressione Enter para criar uma nova linha na imagem.</p>
             <textarea id="titleInput" maxlength="110" spellcheck="true" placeholder="DIGITE AQUI O TÍTULO DA NOTÍCIA">ONDE E QUANDO ACONTECEM AS FEIRAS LIVRES DO CAMPO BELO</textarea>
             <div class="counter"><span id="charCount">54</span>/110</div>
           </div>
@@ -540,7 +540,6 @@
           .toLocaleUpperCase('pt-BR')
           .split(/\r?\n/)
           .map((line) => line.replace(/[ \t]+/g, ' ').trim())
-          .filter(Boolean)
           .join('\n');
       }
 
@@ -619,6 +618,11 @@
           const words = manualLine.split(' ').filter(Boolean);
           let current = '';
 
+          if (!words.length) {
+            lines.push('');
+            return;
+          }
+
           words.forEach((word) => {
             const candidate = current ? `${current} ${word}` : word;
             if (ctx.measureText(candidate).width <= maxWidth || !current) {
@@ -669,7 +673,7 @@
         const baseTitleTop = baseTitleBottom - blockHeight;
         const titleX = 72 + state.titleX;
         const titleTop = baseTitleTop + state.titleY;
-        const goldY = baseGoldY + state.titleY;
+        const goldY = baseGoldY;
 
         ctx.fillStyle = '#fff';
         ctx.textAlign = 'left';
@@ -689,7 +693,7 @@
         };
 
         ctx.fillStyle = '#d5aa34';
-        ctx.fillRect(titleX, goldY, 145, 7);
+        ctx.fillRect(72, goldY, 145, 7);
 
         if (logo.complete && logo.naturalWidth) {
           ctx.drawImage(logo, logoX, logoY, logoSize, logoSize);
@@ -757,6 +761,10 @@
         }
         charCount.textContent = titleInput.value.length;
         render();
+      });
+
+      titleInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') window.requestAnimationFrame(render);
       });
 
       [zoomInput, verticalInput, horizontalInput, titleSizeInput, lineBreakInput].forEach((input) => {
