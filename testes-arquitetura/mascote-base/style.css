@@ -885,14 +885,6 @@ h2 {
   object-fit: contain;
 }
 
-/* Mantém a composição do guia proporcional em monitores largos. */
-@media (min-width: 821px) {
-  main {
-    width: min(100%, 1280px);
-    margin-inline: auto;
-  }
-}
-
 @media (max-width: 820px) {
   .hero-topbar,
   .site-footer {
