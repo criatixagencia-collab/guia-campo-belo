@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revista Digital Campo Belo</title>
+  <meta name="description" content="Teste local da Revista Digital Campo Belo com estabelecimentos, categorias e mapa do bairro.">
+  <meta name="robots" content="noindex,nofollow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@1&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <link rel="icon" href="../../logo.PNG">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <header class="hero-topbar" aria-label="Revista Digital Campo Belo">
+        <a class="brand" href="https://instagram.com/campobelo_sp" target="_blank" rel="noopener" aria-label="Instagram da Revista Digital Campo Belo">
+          <img src="../../logo.PNG" alt="Campo Belo" class="brand-mark">
+          <span class="brand-copy">
+            <strong>Revista Digital Campo Belo</strong>
+            <span>@campobelo_sp</span>
+          </span>
+        </a>
+
+        <div class="topbar-actions">
+          <div class="weather-widget" id="weatherWidget" aria-label="Previsão do Tempo no Campo Belo" aria-live="polite">
+            <span class="weather-title">Previsão do Tempo no Campo Belo</span>
+            <span class="weather-now">
+              <span class="weather-icon" id="weatherIcon" aria-hidden="true"></span>
+              <span class="weather-temp" id="weatherTemp"></span>
+              <span class="weather-sep" aria-hidden="true"></span>
+              <span class="weather-desc" id="weatherDesc">Carregando previsão...</span>
+            </span>
+          </div>
+
+          <a class="drone-btn" href="../../drone/" aria-label="Jogar Drone 3D pelo Campo Belo">Drone</a>
+        </div>
+      </header>
+
+      <div class="hero-content">
+        <h1><span>Campo Belo</span> <em>tudo o que você precisa, aqui no bairro.</em></h1>
+
+        <form class="search-panel" id="searchForm" role="search">
+          <div class="field search-field">
+            <label for="searchInput">Escreva ou explore as categorias abaixo</label>
+            <input id="searchInput" type="search" placeholder="nome do lugar ou palavra-chave" autocomplete="off">
+          </div>
+
+          <button type="submit" aria-label="Buscar">
+            <span aria-hidden="true">⌕</span>
+            Buscar
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <section class="category-section" aria-labelledby="categoryHeading">
+      <div class="section-heading">
+        <h2 id="categoryHeading">Explore as categorias</h2>
+      </div>
+      <div class="category-grid" id="categoryGrid"></div>
+    </section>
+
+    <section class="results-section" aria-labelledby="resultsHeading">
+      <div class="results-topbar">
+        <div>
+          <p class="eyebrow" id="activeCategoryLabel">Todos os locais</p>
+          <h2 id="resultsHeading">Estabelecimentos</h2>
+        </div>
+        <select id="sortSelect" aria-label="Ordenar estabelecimentos">
+          <option value="az">A-Z</option>
+          <option value="recentes">Mais recentes</option>
+          <option value="citados">Mais citados</option>
+        </select>
+      </div>
+
+      <nav class="subnav" id="subnav" aria-label="Subcategorias"></nav>
+
+      <div class="results-meta" id="resultsMeta"></div>
+      <div class="cards-list" id="cardsList"></div>
+    </section>
+
+    <section class="map-section" aria-labelledby="mapHeading">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Mapa real</p>
+          <h2 id="mapHeading">No mapa</h2>
+        </div>
+        <span class="map-count" id="mapCount">0 locais</span>
+      </div>
+      <div class="map-layout">
+        <div class="map-wrap">
+          <div id="map" aria-label="Mapa dos estabelecimentos do Campo Belo"></div>
+        </div>
+        <div class="map-list" id="mapList" aria-label="Locais no mapa"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <img src="../../logo.PNG" alt="" class="footer-mark" aria-hidden="true">
+    <p>Revista Digital Campo Belo</p>
+  </footer>
+
+  <script src="dados.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+
