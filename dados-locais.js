@@ -402,6 +402,8 @@ window.DADOS_LOCAIS = [
     "end": "Rua Vieira de Moarais 1074",
     "bairro": "Campo Belo",
     "ig": "meugourmetrestaurante",
+    "lat": -23.6222878,
+    "lng": -46.6718824,
     "telefone": "11 91002-8182",
     "whatsapp": "11 91002-8182",
     "horario": "Domingo Fechado · Segunda 11:30h – 15:00h · Terça 11:30h – 15:00h · Quarta 11:30h – 15:00h · Quinta 11:30h – 15:00h · Sexta 11:30h – 15:00h · Sábado 11:30h – 15:00h"
@@ -1191,6 +1193,8 @@ window.DADOS_LOCAIS = [
     "end": "Rua Gabriele D'Annunzio, 1263 e 1287",
     "bairro": "Campo Belo",
     "ig": "mediterrainpadaria",
+    "lat": -23.6258165,
+    "lng": -46.672241,
     "telefone": "11 96587-6942",
     "whatsapp": "11 96587-6942",
     "horario": "Domingo 07:30h – 15:00h · Segunda Fechado · Terça 07:30h – 20:00h · Quarta 07:30h – 20:00h · Quinta 07:30h – 20:00h · Sexta 07:30h – 20:00h · Sábado 07:30h – 17:00h"
@@ -1527,6 +1531,8 @@ window.DADOS_LOCAIS = [
     "end": "Rua Viera de morais 1319",
     "bairro": "Campo Belo",
     "ig": "senhorsmartcampobelo",
+    "lat": -23.6235881,
+    "lng": -46.6698721,
     "telefone": "11 94514-5551",
     "whatsapp": "11 94514-5551",
     "horario": "Domingo Fechado · Segunda 09:00h – 19:00h · Terça 09:00h – 19:00h · Quarta 09:00h – 19:00h · Quinta 09:00h – 19:00h · Sexta 09:00h – 19:00h · Sábado Fechado"
@@ -1556,9 +1562,11 @@ window.DADOS_LOCAIS = [
       "Pizzarias"
     ],
     "sub": "",
-    "end": "",
+    "end": "Avenida Vereador José Diniz, 3401",
     "bairro": "",
     "ig": "zitereza",
+    "lat": -23.617800014847,
+    "lng": -46.675726029405,
     "horario": "Domingo 18:00h – 00:00h · Segunda 18:00h – 00:00h · Terça 18:00h – 00:00h · Quarta 18:00h – 00:00h · Quinta 18:00h – 00:00h · Sexta 18:00h – 01:00h · Sábado 18:00h – 01:00h"
   },
   {
@@ -1706,6 +1714,8 @@ window.DADOS_LOCAIS = [
     "end": "Rua Gabriele D'Annunzio, 1291",
     "bairro": "Campo Belo",
     "ig": "cafedesfleur_sp",
+    "lat": -23.62594,
+    "lng": -46.6721193,
     "telefone": "11 97060-2601",
     "whatsapp": "11 97060-2601",
     "horario": "Domingo 10:00h – 18:00h · Segunda Fechado · Terça 12:00h – 19:00h · Quarta 12:00h – 19:00h · Quinta 12:00h – 19:00h · Sexta 12:00h – 19:00h · Sábado 10:00h – 19:00h"
@@ -1789,6 +1799,8 @@ window.DADOS_LOCAIS = [
     "end": "Rua Vieira de Moarais 1124",
     "bairro": "Campo Belo",
     "ig": "redballoon_campobelo",
+    "lat": -23.6225927,
+    "lng": -46.6714481,
     "horario": "Segunda 08:30h – 19:00h · Terça 08:30h – 19:00h · Quarta 08:30h – 19:00h · Quinta 08:30h – 19:00h · Sexta 08:30h – 17:00h"
   },
   {
@@ -1819,6 +1831,8 @@ window.DADOS_LOCAIS = [
     "end": "Rua João de Souza 214",
     "bairro": "Campo Belo",
     "ig": "bombeefcampobelo",
+    "lat": -23.6242264,
+    "lng": -46.6707299,
     "telefone": "11 97393-0214",
     "whatsapp": "11 97393-0214",
     "horario": "Domingo 09:00h – 17:00h · Segunda 09:00h – 20:00h · Terça 09:00h – 20:00h · Quarta 09:00h – 20:00h · Quinta 09:00h – 20:00h · Sexta 09:00h – 20:00h · Sábado 09:00h – 20:00h"
@@ -1851,6 +1865,8 @@ window.DADOS_LOCAIS = [
     "end": "Rua Viera de morais 1366",
     "bairro": "Campo Belo",
     "ig": "lczengenharia",
+    "lat": -23.6240883,
+    "lng": -46.669723,
     "telefone": "11 94185-0240",
     "whatsapp": "11 94185-0240",
     "horario": "Domingo Fechado · Segunda 08:00h – 18:00h · Terça 08:00h – 18:00h · Quarta 08:00h – 18:00h · Quinta 08:00h – 18:00h · Sexta 08:00h – 18:00h · Sábado Fechado"
@@ -1898,6 +1914,8 @@ window.DADOS_LOCAIS = [
     "end": "Av das Nações Unidas, 12551",
     "bairro": "Cidade Monções",
     "ig": "premiumtasting",
+    "lat": -23.6089803,
+    "lng": -46.6961636,
     "telefone": "11 98918-4423",
     "whatsapp": "11 98918-4423",
     "horario": "Domingo Aberto o dia todo · Segunda Aberto o dia todo · Terça Aberto o dia todo · Quarta Aberto o dia todo · Quinta Aberto o dia todo · Sexta Aberto o dia todo · Sábado Aberto o dia todo"
@@ -1978,6 +1996,8 @@ window.DADOS_LOCAIS = [
     "end": "Rua Estevão Baião, 520",
     "bairro": "Vila Congonhas",
     "ig": "guiacampobeloeregiao",
+    "lat": -23.6289919,
+    "lng": -46.6684254,
     "horario": "Segunda Fechado · Terça Aberto o dia todo · Quarta Aberto o dia todo · Quinta Aberto o dia todo · Sexta Aberto o dia todo"
   },
   {
@@ -1991,6 +2011,8 @@ window.DADOS_LOCAIS = [
     "end": "Rua João de Sousa Dias, 595",
     "bairro": "Campo Belo",
     "ig": "guiacampobeloeregiao",
+    "lat": -23.6258892,
+    "lng": -46.6761408,
     "lat": -23.6246617,
     "lng": -46.670358,
     "horario": "Domingo Fechado · Segunda 10:00h – 18:00h · Terça 10:00h – 18:00h · Quarta 10:00h – 18:00h · Quinta 10:00h – 18:00h · Sexta 10:00h – 18:00h · Sábado 09:00h – 16:00h"
@@ -2023,6 +2045,8 @@ window.DADOS_LOCAIS = [
     "end": "Avenida Jornalista Roberto Marinho 2971",
     "bairro": "Cidade Monções",
     "ig": "guiacampobeloeregiao",
+    "lat": -23.6258892,
+    "lng": -46.6761408,
     "horario": "Domingo Fechado · Segunda 06:00h – 22:00h · Terça 06:00h – 22:00h · Quarta 06:00h – 22:00h · Quinta 06:00h – 22:00h · Sexta 06:00h – 22:00h · Sábado 07:00h – 18:00h"
   },
   {
@@ -2117,6 +2141,8 @@ window.DADOS_LOCAIS = [
     "end": "Rua Dr. Ubaldo Franco Caiubi 370",
     "bairro": "",
     "ig": "RGONZALESMODAS",
+    "lat": -23.659773987559,
+    "lng": -46.67252003526,
     "telefone": "11 97807-6841",
     "whatsapp": "11 97807-6841",
     "horario": "Domingo 08:00h – 18:00h · Segunda 08:00h – 18:00h · Terça 08:00h – 18:00h · Quarta 08:00h – 18:00h · Quinta 08:00h – 18:00h · Sexta 08:00h – 18:00h · Sábado 08:00h – 18:00h"
