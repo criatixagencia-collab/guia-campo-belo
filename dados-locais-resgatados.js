@@ -48,5 +48,6 @@ window.DADOS_LOCAIS_RESGATADOS = [
   {id:253,registro:'historico-53',nome:'Usaflex Campo Belo',cats:['Moda & Roupas'],sub:'Moda & Roupas',end:'Rua Vieira de Moraes, 1183',ig:'usaflex',lat:-23.622801999386,lng:-46.670892018206},
   {id:254,registro:'historico-54',nome:'Cabana Burger Campo Belo',cats:['Hamburguerias'],sub:'Hamburguerias',end:'Rua Demóstenes 806',ig:'cabana.burger',lat:-23.617695995428,lng:-46.672276960068},
   {id:255,registro:'fonte-publica-2026-10-26',nome:'Elma Martins Hair Spa',cats:['Salão de Beleza'],sub:'Salão de Beleza',end:'Rua Demóstenes, 943 - Campo Belo, São Paulo - SP, 04614-401',ig:'elmamartinshairspa',telefone:'11 91261-1374'},
-  {id:256,registro:'fonte-publica-2026-10-26',nome:'Dra. Beatriz Baracioli',cats:['Saúde & Bem-estar'],sub:'Odontologia',end:'Rua Antônio de Macedo Soares, 1391 - Campo Belo, São Paulo - SP, 04607-002',ig:'dra.bbaracioli',telefone:'11 99677-2110',horario:'Segunda a sábado',obs:'Atendimentos de segunda a sábado.'}
+  {id:256,registro:'fonte-publica-2026-10-26',nome:'Dra. Beatriz Baracioli',cats:['Saúde & Bem-estar'],sub:'Odontologia',end:'Rua Antônio de Macedo Soares, 1391 - Campo Belo, São Paulo - SP, 04607-002',ig:'dra.bbaracioli',telefone:'11 99677-2110',horario:'Segunda a sábado',obs:'Atendimentos de segunda a sábado.'},
+  {id:257,registro:'fonte-publica-2026-10-26',nome:'Beatriz Silva Massoterapia',cats:['Saúde & Bem-estar'],sub:'Massoterapia',ig:'massoterapeuta.beatrizsilva',whatsapp:'17 99178-4005',horario:'Segunda a sexta 09:00h – 20:00h',obs:'Atendimento domiciliar no Campo Belo.'}
 ];
