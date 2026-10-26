@@ -46,5 +46,6 @@ window.DADOS_LOCAIS_RESGATADOS = [
   {id:251,registro:'historico-51',nome:'Nórdico Padaria',cats:['Padaria'],sub:'Padaria',end:'Rua Morais de Barros 1009, Loja 01',ig:'nordicopadaria',lat:-23.614909096442,lng:-46.674017126986},
   {id:252,registro:'historico-52',nome:'Studio Andréa Aronne',cats:['Salão de Beleza'],sub:'Salão de Beleza',end:'Rua João de Sousa Dias 631',ig:'studioandreaaronne',lat:-23.621868003915,lng:-46.674050989875,telefone:'11 5533-4322',horario:'Terça e quarta 09:00h – 19:00h · Quinta 09:00h – 20:00h · Sexta 08:30h – 20:00h · Sábado 08:30h – 19:00h'},
   {id:253,registro:'historico-53',nome:'Usaflex Campo Belo',cats:['Moda & Roupas'],sub:'Moda & Roupas',end:'Rua Vieira de Moraes, 1183',ig:'usaflex',lat:-23.622801999386,lng:-46.670892018206},
-  {id:254,registro:'historico-54',nome:'Cabana Burger Campo Belo',cats:['Hamburguerias'],sub:'Hamburguerias',end:'Rua Demóstenes 806',ig:'cabana.burger',lat:-23.617695995428,lng:-46.672276960068}
+  {id:254,registro:'historico-54',nome:'Cabana Burger Campo Belo',cats:['Hamburguerias'],sub:'Hamburguerias',end:'Rua Demóstenes 806',ig:'cabana.burger',lat:-23.617695995428,lng:-46.672276960068},
+  {id:255,registro:'fonte-publica-2026-10-26',nome:'Elma Martins Hair Spa',cats:['Salão de Beleza'],sub:'Salão de Beleza',end:'Rua Demóstenes, 943 - Campo Belo, São Paulo - SP, 04614-401',ig:'elmamartinshairspa',telefone:'11 91261-1374'}
 ];
