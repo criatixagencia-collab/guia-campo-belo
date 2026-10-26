@@ -199,6 +199,8 @@ window.DADOS_LOCAIS = [
     "bairro": "Campo Belo",
     "ig": "congeladosrezinhafit",
     "telefone": "11 99889-0097",
+    "lat": -23.623363000165,
+    "lng": -46.672180987276,
     "whatsapp": "11 99889-0097",
     "horario": "Domingo Fechado · Segunda 09:00h – 17:00h · Terça 09:00h – 17:00h · Quarta 09:00h – 17:00h · Quinta 09:00h – 17:00h · Sexta 09:00h – 17:00h · Sábado 10:00h – 15:00h"
   },
