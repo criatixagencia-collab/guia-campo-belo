@@ -635,20 +635,22 @@ body {
   position: fixed; inset: 0; z-index: 500;
   background: rgba(0,0,0,.48);
   backdrop-filter: blur(6px);
-  align-items: flex-end;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 16px;
 }
 .modal-overlay.open { display: flex; }
 
 .modal-sheet {
   background: var(--surface);
-  border-radius: 22px 22px 0 0;
-  width: 100%; max-height: 88vh;
+  border-radius: 22px;
+  width: min(520px, 100%); max-height: calc(100vh - 32px);
   display: flex; flex-direction: column;
-  animation: up .26s cubic-bezier(.32,.72,0,1);
+  animation: down .26s cubic-bezier(.32,.72,0,1);
   overflow: hidden;
 }
-@keyframes up {
-  from { transform: translateY(60px); opacity: 0; }
+@keyframes down {
+  from { transform: translateY(-24px); opacity: 0; }
   to   { transform: translateY(0);    opacity: 1; }
 }
 
@@ -843,6 +845,14 @@ body {
 }
 
 @media (max-width: 600px) {
+  .modal-overlay {
+    padding: 0;
+  }
+  .modal-sheet {
+    width: 100%;
+    max-height: 88vh;
+    border-radius: 0 0 22px 22px;
+  }
   .hero h1 {
     font-size: 21px;
     letter-spacing: -.35px;
