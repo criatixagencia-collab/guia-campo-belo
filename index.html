@@ -194,6 +194,7 @@ body {
   padding: 2px 20px 6px;
   -webkit-overflow-scrolling: touch;
   user-select: none;
+  touch-action: pan-y;
 }
 .destaques-track::-webkit-scrollbar { display: none; }
 .destaque-lane {
@@ -267,6 +268,8 @@ body {
 }
 
 @media (hover: hover) {
+  .destaques-track { cursor: grab; }
+  .destaques-track.is-dragging { cursor: grabbing; }
   .destaque-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.2); }
 }
 
@@ -1828,7 +1831,12 @@ function buildDestaqueCarousel() {
   // primeiro reapareça pela direita sem salto visível.
   track.innerHTML = `<div class="destaque-lane">${firstSet}${prefersReduced ? '' : items.map(item => cardMarkup(item, true)).join('')}</div>`;
 
+  let suppressNextClick = false;
   track.addEventListener('click', event => {
+    if (suppressNextClick) {
+      suppressNextClick = false;
+      return;
+    }
     const card = event.target.closest('.destaque-card[data-place-id]');
     if (!card || !track.contains(card)) return;
     const id = Number(card.dataset.placeId);
@@ -1844,6 +1852,11 @@ function buildDestaqueCarousel() {
   let previousTime = 0;
   let paused = false;
   const speed = 24; // px/s: mais dinâmico, mas ainda confortável para leitura.
+  let dragging = false;
+  let dragMoved = false;
+  let pointerId = null;
+  let dragStartX = 0;
+  let dragStartOffset = 0;
 
   function measureCycle() {
     const card = lane.querySelector('.destaque-card:not([data-carousel-clone])');
@@ -1866,14 +1879,54 @@ function buildDestaqueCarousel() {
   function pauseMotion() { paused = true; }
   function resumeMotion() { paused = false; previousTime = 0; }
 
+  function normalizeOffset(value) {
+    if (!cycleWidth) return 0;
+    return ((value % cycleWidth) + cycleWidth) % cycleWidth;
+  }
+
+  function endDrag(event) {
+    if (!dragging || (pointerId !== null && event.pointerId !== pointerId)) return;
+    dragging = false;
+    track.classList.remove('is-dragging');
+    if (track.hasPointerCapture?.(pointerId)) track.releasePointerCapture(pointerId);
+    pointerId = null;
+    if (dragMoved) {
+      // Evita abrir um estabelecimento ao terminar um arraste sobre um card.
+      suppressNextClick = true;
+      setTimeout(() => { suppressNextClick = false; }, 0);
+    }
+    setTimeout(resumeMotion, 900);
+  }
+
   measureCycle();
   window.addEventListener('resize', measureCycle, { passive: true });
   track.addEventListener('mouseenter', pauseMotion);
   track.addEventListener('mouseleave', resumeMotion);
   track.addEventListener('focusin', pauseMotion);
   track.addEventListener('focusout', resumeMotion);
-  track.addEventListener('touchstart', pauseMotion, { passive: true });
-  track.addEventListener('touchend', () => setTimeout(resumeMotion, 900), { passive: true });
+  // Arraste horizontal: mouse no desktop e dedo no celular.
+  track.addEventListener('pointerdown', event => {
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    dragging = true;
+    dragMoved = false;
+    pointerId = event.pointerId;
+    dragStartX = event.clientX;
+    dragStartOffset = offset;
+    pauseMotion();
+    track.classList.add('is-dragging');
+    track.setPointerCapture?.(pointerId);
+  });
+  track.addEventListener('pointermove', event => {
+    if (!dragging || event.pointerId !== pointerId) return;
+    const delta = event.clientX - dragStartX;
+    if (Math.abs(delta) > 4) dragMoved = true;
+    if (!dragMoved) return;
+    event.preventDefault();
+    offset = normalizeOffset(dragStartOffset - delta);
+    lane.style.transform = `translate3d(${-offset}px, 0, 0)`;
+  });
+  track.addEventListener('pointerup', endDrag);
+  track.addEventListener('pointercancel', endDrag);
   animationFrame = requestAnimationFrame(animate);
 
   // O loop vive enquanto a página estiver aberta; cancelar ao sair evita
