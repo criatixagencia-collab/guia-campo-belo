@@ -818,7 +818,7 @@ body {
 <!-- DIRECTORY SEARCH + CATEGORIES -->
 <div class="section" id="catSection">
   <label class="directory-search" for="directorySearch">
-    <span>Buscar na lista de locais</span>
+    <span>Buscar estabelecimentos</span>
     <input id="directorySearch" type="search" autocomplete="off" placeholder="Nome, categoria ou endereço" aria-controls="cardsGrid">
   </label>
   <div class="sec-header">
@@ -1552,8 +1552,9 @@ loadWeather();
 const directorySearch = document.getElementById('directorySearch');
 function applyDirectorySearch(value) {
   const resultsSection = document.getElementById('resultsSection');
-  const shouldReveal = resultsSection.hidden && String(value || '').trim();
-  searchTerm = directorySearch.value;
+  const query = String(value || '');
+  const shouldReveal = normalized(query).trim();
+  searchTerm = query;
   activeFilter = 'Todos';
   activeSubcategory = 'Todos';
   updateCategoryState();
@@ -1564,6 +1565,7 @@ function applyDirectorySearch(value) {
 }
 directorySearch.addEventListener('input', () => applyDirectorySearch(directorySearch.value));
 directorySearch.addEventListener('search', () => applyDirectorySearch(directorySearch.value));
+directorySearch.addEventListener('change', () => applyDirectorySearch(directorySearch.value));
 </script>
 </body>
 </html>
