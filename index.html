@@ -984,65 +984,56 @@ const UNSPLASH = (id) =>
 
 function isDestaque() { return false; }
 
-// As categorias importadas preservam seu nome original e recebem uma imagem
-// coerente com o seu tema. Assim, nenhuma delas recorre à imagem genérica.
-const SOURCE_CATEGORY_THEME = {
-  "Academia": "Academias, Esportes & Bem-Estar",
-  "Agência de Viagens": "Instituicoes & Comunidade",
-  "Atelier": "Casa, Decoracao & Organizacao",
-  "Aula de Música": "Educacao & Cursos",
-  "Barbearias": "Beleza & Estetica",
-  "Beleza": "Beleza & Estetica",
-  "Bicicletaria": "Academias, Esportes & Bem-Estar",
-  "Bijuteria e Acessórios": "Moda, Calcados & Acessorios",
-  "Cafés": "Cafes, Padarias & Doces",
-  "Cama, Mesa e Banho": "Casa, Decoracao & Organizacao",
-  "Casa de Bolos": "Cafes, Padarias & Doces",
-  "Chocolateira": "Cafes, Padarias & Doces",
-  "Clínicas & Consultórios": "Saude & Clinicas",
-  "Colchões": "Casa, Decoracao & Organizacao",
-  "Compras": "Lojas & Presentes",
-  "Confeitaria": "Cafes, Padarias & Doces",
-  "Coworking": "Instituicoes & Comunidade",
-  "Decoração & Design": "Casa, Decoracao & Organizacao",
-  "Doceria": "Cafes, Padarias & Doces",
-  "Educação & Cursos": "Educacao & Cursos",
-  "Espaço para Festas": "Festas & Eventos",
-  "Floricultura": "Festas & Eventos",
-  "Funilaria e Pintura": "Servicos para Casa",
-  "Gastronomia": "Gastronomia & Delivery",
-  "Hamburguerias": "Gastronomia & Delivery",
-  "Imobiliárias": "Imoveis & Construcao",
-  "Lazer": "Festas & Eventos",
-  "Leilões": "Instituicoes & Comunidade",
-  "Loja de Decoração": "Casa, Decoracao & Organizacao",
-  "Loja de Roupas": "Moda, Calcados & Acessorios",
-  "Marketing Digital": "Instituicoes & Comunidade",
-  "Moda & Roupas": "Moda, Calcados & Acessorios",
-  "Odontologia": "Saude & Clinicas",
-  "Padaria": "Cafes, Padarias & Doces",
-  "Perfumaria": "Beleza & Estetica",
-  "PetShop": "Pets",
-  "Pilates & Yoga": "Academias, Esportes & Bem-Estar",
-  "Pizzarias": "Gastronomia & Delivery",
-  "Produtos Naturais": "Mercados, Emporios & Conveniencia",
-  "Restaurantes": "Gastronomia & Delivery",
-  "Salão de Beleza": "Beleza & Estetica",
-  "Sapataria": "Moda, Calcados & Acessorios",
-  "Segurança Patrimonial": "Servicos para Casa",
-  "Serviços Automotivos": "Servicos para Casa",
-  "Sex Shop": "Lojas & Presentes",
-  "Sorveteria & Doces": "Cafes, Padarias & Doces",
-  "Supermercados": "Mercados, Emporios & Conveniencia",
-  "Suplementos Alimentares": "Mercados, Emporios & Conveniencia"
+const MACRO_ORDER = [
+  'Comer & Beber', 'Beleza & Salões', 'Saúde & Bem-estar', 'Compras & Conveniência',
+  'Moda & Acessórios', 'Casa & Decoração', 'Pets', 'Serviços Profissionais',
+  'Mobilidade', 'Lazer, Viagens & Eventos', 'Imóveis', 'Educação & Cultura'
+];
+
+const MACRO_META = {
+  'Comer & Beber': { ...CAT_META['Gastronomia & Delivery'], label: 'Comer & Beber' },
+  'Beleza & Salões': { ...CAT_META['Beleza & Estetica'], label: 'Beleza & Salões' },
+  'Saúde & Bem-estar': { ...CAT_META['Saude & Clinicas'], label: 'Saúde & Bem-estar' },
+  'Compras & Conveniência': { ...CAT_META['Mercados, Emporios & Conveniencia'], label: 'Compras & Conveniência' },
+  'Moda & Acessórios': { ...CAT_META['Moda, Calcados & Acessorios'], label: 'Moda & Acessórios' },
+  'Casa & Decoração': { ...CAT_META['Casa, Decoracao & Organizacao'], label: 'Casa & Decoração' },
+  'Pets': { ...CAT_META['Pets'], label: 'Pets' },
+  'Serviços Profissionais': { ...CAT_META['Servicos para Casa'], label: 'Serviços Profissionais' },
+  'Mobilidade': { ...CAT_META['Academias, Esportes & Bem-Estar'], label: 'Mobilidade' },
+  'Lazer, Viagens & Eventos': { ...CAT_META['Festas & Eventos'], label: 'Lazer, Viagens & Eventos' },
+  'Imóveis': { ...CAT_META['Imoveis & Construcao'], label: 'Imóveis' },
+  'Educação & Cultura': { ...CAT_META['Educacao & Cursos'], label: 'Educação & Cultura' }
 };
 
+const SOURCE_CATEGORY_TO_MACRO = {
+  'Restaurantes': 'Comer & Beber', 'Cafés': 'Comer & Beber', 'Padaria': 'Comer & Beber',
+  'Pizzarias': 'Comer & Beber', 'Hamburguerias': 'Comer & Beber', 'Gastronomia': 'Comer & Beber',
+  'Doceria': 'Comer & Beber', 'Confeitaria': 'Comer & Beber', 'Chocolateira': 'Comer & Beber',
+  'Sorveteria & Doces': 'Comer & Beber', 'Casa de Bolos': 'Comer & Beber',
+  'Beleza': 'Beleza & Salões', 'Salão de Beleza': 'Beleza & Salões',
+  'Barbearias': 'Beleza & Salões', 'Perfumaria': 'Beleza & Salões',
+  'Clínicas & Consultórios': 'Saúde & Bem-estar', 'Odontologia': 'Saúde & Bem-estar',
+  'Academia': 'Saúde & Bem-estar', 'Pilates & Yoga': 'Saúde & Bem-estar',
+  'Suplementos Alimentares': 'Saúde & Bem-estar', 'Produtos Naturais': 'Saúde & Bem-estar',
+  'Compras': 'Compras & Conveniência', 'Supermercados': 'Compras & Conveniência',
+  'Moda & Roupas': 'Moda & Acessórios', 'Loja de Roupas': 'Moda & Acessórios',
+  'Bijuteria e Acessórios': 'Moda & Acessórios', 'Sapataria': 'Moda & Acessórios', 'Sex Shop': 'Moda & Acessórios',
+  'Atelier': 'Casa & Decoração', 'Decoração & Design': 'Casa & Decoração',
+  'Loja de Decoração': 'Casa & Decoração', 'Cama, Mesa e Banho': 'Casa & Decoração',
+  'Colchões': 'Casa & Decoração', 'Floricultura': 'Casa & Decoração',
+  'PetShop': 'Pets',
+  'Marketing Digital': 'Serviços Profissionais', 'Coworking': 'Serviços Profissionais',
+  'Segurança Patrimonial': 'Serviços Profissionais', 'Leilões': 'Serviços Profissionais',
+  'Bicicletaria': 'Mobilidade', 'Funilaria e Pintura': 'Mobilidade', 'Serviços Automotivos': 'Mobilidade',
+  'Agência de Viagens': 'Lazer, Viagens & Eventos', 'Espaço para Festas': 'Lazer, Viagens & Eventos', 'Lazer': 'Lazer, Viagens & Eventos',
+  'Imobiliárias': 'Imóveis',
+  'Educação & Cursos': 'Educação & Cultura', 'Aula de Música': 'Educação & Cultura'
+};
+
+function macroFor(d) { return SOURCE_CATEGORY_TO_MACRO[d.cats[0]]; }
+
 function categoryMeta(cat) {
-  if (CAT_META[cat]) return CAT_META[cat];
-  const themed = CAT_META[SOURCE_CATEGORY_THEME[cat]];
-  return themed
-    ? { ...themed, label: cat, kicker: 'Ver locais' }
-    : { label: cat, kicker: 'Ver locais', em: '📍', img: ALL_META.img, color: ALL_META.color };
+  return MACRO_META[cat] || { label: cat, kicker: 'Ver locais', em: '📍', img: ALL_META.img, color: ALL_META.color };
 }
 
 function formatCategory(cat) {
@@ -1052,9 +1043,12 @@ function formatCategory(cat) {
 /* ── CATEGORY GRID ──────────────────────────── */
 function buildCatGrid() {
   const counts = {};
-  dados.forEach(d => d.cats.forEach(c => { counts[c] = (counts[c] || 0) + 1; }));
+  dados.forEach(d => {
+    const macro = macroFor(d);
+    counts[macro] = (counts[macro] || 0) + 1;
+  });
   const grid = document.getElementById('catGrid');
-  const categories = Object.keys(counts).sort((a, b) => a.localeCompare(b, 'pt-BR')).concat('Todos');
+  const categories = MACRO_ORDER.filter(category => counts[category]).concat('Todos');
   grid.innerHTML = categories.map(cat => {
     const m = cat === 'Todos' ? ALL_META : categoryMeta(cat);
     const n = cat === 'Todos' ? dados.length : counts[cat];
@@ -1076,8 +1070,8 @@ function buildFilterBar() {
   const bar = document.getElementById('filterBar');
   const source = activeFilter === 'Todos'
     ? dados
-    : dados.filter(d => d.cats.includes(activeFilter));
-  const subcategories = [...new Set(source.map(d => d.sub).filter(Boolean))]
+    : dados.filter(d => macroFor(d) === activeFilter);
+  const subcategories = [...new Set(source.map(d => d.cats[0]))]
     .sort((a, b) => a.localeCompare(b, 'pt-BR'));
   subcategories.push('Todos');
 
@@ -1137,10 +1131,10 @@ function updateCategoryState() {
 function getFilteredData() {
   const byCategory = activeFilter === 'Todos'
     ? dados
-    : dados.filter(d => d.cats.includes(activeFilter));
-  const filtered = activeSubcategory === 'Todos' ? byCategory : byCategory.filter(d => d.sub === activeSubcategory);
+    : dados.filter(d => macroFor(d) === activeFilter);
+  const filtered = activeSubcategory === 'Todos' ? byCategory : byCategory.filter(d => d.cats[0] === activeSubcategory);
   const needle = normalized(searchTerm).trim();
-  const searched = needle ? filtered.filter(d => normalized([d.nome, d.cats.join(' '), d.end, d.bairro].join(' ')).includes(needle)) : filtered;
+  const searched = needle ? filtered.filter(d => normalized([d.nome, d.cats.join(' '), macroFor(d), d.end, d.bairro].join(' ')).includes(needle)) : filtered;
   return [...searched].sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
 }
 
@@ -1171,12 +1165,12 @@ function renderCards(filtered) {
     return;
   }
   grid.innerHTML = filtered.map(d => {
-    const primaryCat = d.cats[0];
-    const m = categoryMeta(primaryCat);
+    const sourceCategory = d.cats[0];
+    const m = categoryMeta(macroFor(d));
     const hl = isDestaque(d);
     return `<div class="place-card${hl ? ' is-destaque' : ''}" onclick="openModal(${d.id})" role="button" tabindex="0" aria-label="${d.nome}" onkeydown="if(event.key==='Enter'||event.key===' ')openModal(${d.id})">
       <div class="card-cat-bar" style="background:${m.color || '#1a3a5c'}">
-        <span class="card-sub-tag">${d.sub || formatCategory(primaryCat)}</span>
+        <span class="card-sub-tag">${sourceCategory}</span>
       </div>
       <div class="card-body">
         <div class="card-name">${d.nome}</div>
@@ -1214,7 +1208,7 @@ function buildMapMarkers(list) {
     if (seen.has(d.id)) return;
     seen.add(d.id);
     const hl = isDestaque(d);
-    const em = categoryMeta(d.cats[0]).em || '📍';
+    const em = categoryMeta(macroFor(d)).em || '📍';
     const icon = L.divIcon({
       className: '',
       html: `<div class="map-pin${hl ? ' pin-gold' : ''}">${em}</div>`,
@@ -1224,7 +1218,7 @@ function buildMapMarkers(list) {
     });
     const m = L.marker([d.lat, d.lng], { icon })
       .addTo(map)
-      .bindPopup(`<strong>${d.nome}</strong><small>${d.cats.map(formatCategory).join(' · ')}</small>${d.end ? `<small>📍 ${d.end}</small>` : ''}`)
+      .bindPopup(`<strong>${d.nome}</strong><small>${formatCategory(macroFor(d))} · ${d.cats[0]}</small>${d.end ? `<small>📍 ${d.end}</small>` : ''}`)
       .on('click', () => openModal(d.id));
     markers.push(m);
     markerMap[d.id] = m;
@@ -1251,12 +1245,11 @@ function openModal(id) {
   const d = dados.find(x => x.id === id);
   if (!d) return;
   flyToPlace(d);
-  const primaryCat = d.cats[0];
-  const m = categoryMeta(primaryCat);
+  const m = categoryMeta(macroFor(d));
   const hl = isDestaque(d);
 
   document.getElementById('modalHeaderBg').style.background = m.color || '#1a3a5c';
-  document.getElementById('modalCatPill').textContent = d.cats.map(formatCategory).join(' · ');
+  document.getElementById('modalCatPill').textContent = `${formatCategory(macroFor(d))} · ${d.cats[0]}`;
   document.getElementById('modalName').textContent = d.nome;
 
   const body = document.getElementById('modalBody');
