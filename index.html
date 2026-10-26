@@ -262,6 +262,9 @@ body {
 .directory-search { display: grid; gap: 7px; margin: 24px 0 4px; font-size: 10px; font-weight: 700; color: var(--text2); letter-spacing: .6px; text-transform: uppercase; }
 .directory-search input { width: 100%; border: 1px solid var(--border); border-radius: var(--rs); background: var(--surface); color: var(--text); padding: 13px 14px; font: 500 14px var(--font); text-transform: none; letter-spacing: 0; outline: none; box-shadow: var(--sh-xs); }
 .directory-search input:focus { border-color: var(--navy-mid); box-shadow: 0 0 0 3px rgba(45,90,142,.12); }
+.search-results-btn { margin: 8px 0 0; border: 1px solid var(--navy-mid); border-radius: var(--rs); background: var(--navy); color: #fff; padding: 9px 13px; font: 700 11px var(--font); letter-spacing: .2px; cursor: pointer; }
+.search-results-btn:hover { background: var(--navy-mid); }
+.search-results-btn[hidden] { display: none; }
 
 /* ── CATEGORY GRID ──────────────────────────── */
 .section { padding: 0 16px 22px; }
@@ -821,6 +824,7 @@ body {
     <span>Buscar estabelecimentos</span>
     <input id="directorySearch" type="search" autocomplete="off" placeholder="Nome, categoria ou endereço" aria-controls="cardsGrid">
   </label>
+  <button type="button" class="search-results-btn" id="searchResultsBtn" aria-controls="resultsSection" hidden>Ver resultados</button>
   <div class="sec-header">
     <span class="sec-title">Explore as categorias</span>
     <a href="#" class="sec-link" onclick="setFilter('Todos');return false;">Ver todos</a>
@@ -1550,22 +1554,25 @@ initMap();
 initCatAnimations();
 loadWeather();
 const directorySearch = document.getElementById('directorySearch');
+const searchResultsBtn = document.getElementById('searchResultsBtn');
 function applyDirectorySearch(value) {
-  const resultsSection = document.getElementById('resultsSection');
   const query = String(value || '');
-  const shouldReveal = normalized(query).trim();
   searchTerm = query;
   activeFilter = 'Todos';
   activeSubcategory = 'Todos';
   updateCategoryState();
   renderResults();
-  if (shouldReveal) {
-    requestAnimationFrame(() => resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' }));
-  }
+  const count = getFilteredData().length;
+  const hasQuery = normalized(query).trim().length > 0;
+  searchResultsBtn.hidden = !hasQuery;
+  searchResultsBtn.textContent = `Ver ${count} resultado${count === 1 ? '' : 's'}`;
 }
 directorySearch.addEventListener('input', () => applyDirectorySearch(directorySearch.value));
 directorySearch.addEventListener('search', () => applyDirectorySearch(directorySearch.value));
 directorySearch.addEventListener('change', () => applyDirectorySearch(directorySearch.value));
+searchResultsBtn.addEventListener('click', () => {
+  document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
 </script>
 </body>
 </html>
