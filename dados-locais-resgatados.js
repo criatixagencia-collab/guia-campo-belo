@@ -32,7 +32,7 @@ window.DADOS_LOCAIS_RESGATADOS = [
   {id:232,registro:'historico-32',nome:'Churrascaria Estância Campo Belo',cats:['Restaurantes'],sub:'Restaurantes',end:'Avenida Vereador José Diniz 3271',ig:'estancia_campo_belo',lat:-23.61864901782,lng:-46.676666981856},
   {id:234,registro:'historico-34',nome:'Soffio Pizzeria',cats:['Pizzarias'],sub:'Pizzarias',end:'Rua João de Sousa Dias 281',ig:'soffiopizzeria',lat:-23.623881001782,lng:-46.671355034537},
   {id:235,registro:'historico-35',nome:'Le Petit Gabriele',cats:['Restaurantes'],sub:'Restaurantes',end:'Rua Gabriele D’Annunzio 1266',ig:'lepetitgabriele',lat:-23.625933981326,lng:-46.672318031393},
-  {id:236,registro:'historico-37',nome:'Delícias do Campo Belo',cats:['Cafés'],sub:'Cafés',ig:'deliciasdocampobelo'},
+  {id:236,registro:'historico-37',nome:'Delícias do Campo Belo',cats:['Cafés'],sub:'Cafés',end:'Rua João de Sousa Dias, 569',ig:'deliciasdocampobelo',lat:-23.622291583392,lng:-46.673499879741},
   {id:237,registro:'historico-36',nome:'Espaço Mel Casagrande',cats:['Moda & Roupas'],sub:'Moda & Roupas',end:'Rua Vieira de Morais 1230',ig:'espacomelcasagrande',lat:-23.623136982146,lng:-46.670702000461},
   {id:238,registro:'historico-38',nome:'Empório Itiê',cats:['Compras'],sub:'Compras',end:'Rua Viaza 887',ig:'emporioitie',lat:-23.635057389566,lng:-46.662412968773},
   {id:239,registro:'historico-39',nome:'Clínica Campo Belo',cats:['Clínicas & Consultórios'],sub:'Clínicas & Consultórios',end:'Avenida Vereador José Diniz 3300, conjunto 201, 2º andar',ig:'clinicacampobelo',lat:-23.619002901772,lng:-46.676136407385,telefone:'11 5543-8457',whatsapp:'11 94243-2619',horario:'Segunda a sexta 08:00h – 18:00h'},
