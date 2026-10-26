@@ -1318,15 +1318,15 @@ function buildDestaqueCarousel() {
   if (!track) return;
 
   // Destaques exibidos na vitrine inicial.
-  // Quando nao houver foto propria, usa a imagem da categoria do cadastro.
+  // Cada item usa imagem pública específica ou arte identificada quando a foto não é reutilizável.
   const DESTAQUE_ITEMS = [
-    { nome: 'Studio Andréa Aronne' },
-    { nome: 'Andrea Zucci Acessórios' },
-    { nome: 'Nórdico Padaria' },
-    { nome: 'Chaveiro Novo Aeon' },
-    { nome: 'Eomma Spa' },
+    { nome: 'Studio Andréa Aronne', file: 'studio-andrea-aronne.jpg' },
+    { nome: 'Andrea Zucci Acessórios', file: 'andrea-zucci.webp' },
+    { nome: 'Nórdico Padaria', file: 'nordico-padaria.png' },
+    { nome: 'Chaveiro Novo Aeon', file: 'chaveiro-novo-aeon.svg' },
+    { nome: 'Eomma Spa', file: 'eomma-spa.png' },
     { nome: 'Rezinha Fit', file: 'rezinhafit.jpg' },
-    { nome: 'Clinic Body&Mind' },
+    { nome: 'Clinic Body&Mind', file: 'clinic-bodymind.jpg' },
   ];
 
   // Normaliza: minúsculo, sem acento, sem chars especiais

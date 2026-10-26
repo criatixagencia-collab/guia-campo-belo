@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-labelledby="title desc">
+  <title id="title">Chaveiro Novo Aeon</title>
+  <desc id="desc">Arte identificada para o Chaveiro Novo Aeon, Campo Belo</desc>
+  <rect width="800" height="500" fill="#17212b"/>
+  <path d="M286 196a77 77 0 1 0 48 137l95 95h44v-32h32v-32h32v-42l-112-112a77 77 0 0 0-137-14Zm77 16a29 29 0 1 1 0 58 29 29 0 0 1 0-58Z" fill="#d5ad59"/>
+  <path d="M110 396h580" stroke="#d5ad59" stroke-width="4"/>
+  <text x="400" y="110" fill="#f9f6ef" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="700" letter-spacing="3" text-anchor="middle">CHAVEIRO</text>
+  <text x="400" y="158" fill="#d5ad59" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="700" letter-spacing="3" text-anchor="middle">NOVO AEON</text>
+  <text x="400" y="458" fill="#f9f6ef" font-family="Arial, Helvetica, sans-serif" font-size="18" letter-spacing="4" text-anchor="middle">CAMPO BELO • SÃO PAULO</text>
+</svg>
