@@ -593,14 +593,68 @@ body {
 
 /* ── MAP SECTION ────────────────────────────── */
 .map-section { padding: 0 16px 22px; }
+.map-section .sec-header { align-items: flex-end; }
+.map-heading-copy { display: grid; gap: 4px; }
+.map-eyebrow {
+  font-size: 9px; font-weight: 700;
+  color: var(--gold-dark); letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+.map-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(250px, .34fr);
+  gap: 12px;
+}
+.map-layout.map-only { grid-template-columns: 1fr; }
 .map-wrap {
+  min-height: 430px;
   border-radius: var(--r);
   overflow: hidden;
   box-shadow: var(--sh);
   border: 1px solid var(--border);
-  height: 280px;
+  height: 430px;
 }
-#map { height: 280px; width: 100%; }
+#map { height: 430px; width: 100%; background: var(--navy-light); }
+.map-list {
+  max-height: 430px;
+  overflow: auto;
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  padding-right: 2px;
+}
+.map-list-item {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 7px;
+  align-items: center;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 9px;
+  color: var(--text);
+  background: var(--surface);
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+.map-list-item > .map-pin { grid-row: span 2; width: 28px; height: 28px; box-shadow: none; }
+.map-list-item strong, .map-list-item small {
+  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.map-list-item strong { color: var(--navy); font-size: 12px; }
+.map-list-item small { color: var(--text2); font-size: 10px; }
+.map-list-item.active, .map-list-item:hover {
+  border-color: var(--navy-mid);
+  background: var(--gold-light);
+}
+.map-empty { margin: 0; color: var(--text2); font-size: 12px; }
+
+@media (max-width: 800px) {
+  .map-layout { grid-template-columns: 1fr; }
+  .map-wrap, #map { min-height: 360px; height: 360px; }
+  .map-list { max-height: 280px; }
+}
 
 /* Leaflet overrides */
 .leaflet-container { font-family: var(--font); }
@@ -925,16 +979,22 @@ body {
   <div class="cards-grid" id="cardsGrid"></div>
 </section>
 
-<!-- MAP -->
-<div class="map-section" hidden>
+<!-- MAPA REAL -->
+<section class="map-section" hidden aria-labelledby="mapHeading">
   <div class="sec-header" style="padding-top:0;">
-    <span class="sec-title">No mapa</span>
+    <div class="map-heading-copy">
+      <span class="map-eyebrow">Mapa real</span>
+      <h2 class="sec-title" id="mapHeading">No mapa</h2>
+    </div>
     <span class="sec-label" id="mapCount"></span>
   </div>
-  <div class="map-wrap">
-    <div id="map"></div>
+  <div class="map-layout">
+    <div class="map-wrap">
+      <div id="map" aria-label="Mapa dos estabelecimentos do Campo Belo"></div>
+    </div>
+    <div class="map-list" id="mapList" aria-label="Locais no mapa"></div>
   </div>
-</div>
+</section>
 
 <div class="pb"></div>
 
@@ -1452,15 +1512,83 @@ function renderCards(filtered) {
 /* ── MAP ────────────────────────────────────── */
 let map, markers = [], markerMap = {};
 
+const MAP_CENTER = [-23.6208, -46.6675];
+const MAP_INITIAL_ZOOM = 14;
+
+function mapPinIcon(d, selected = false) {
+  const em = categoryMeta(macroFor(d)).em || '📍';
+  return `<span class="map-pin${selected ? ' pin-gold' : ''}">${em}</span>`;
+}
+
+function renderMapList(list) {
+  const mapList = document.getElementById('mapList');
+  const mapLayout = document.querySelector('.map-layout');
+  if (!mapList) return;
+
+  const geocoded = list.filter(d => Number.isFinite(d.lat) && Number.isFinite(d.lng));
+  mapLayout?.classList.toggle('map-only', geocoded.length === 0);
+  if (!geocoded.length) {
+    mapList.innerHTML = '<p class="map-empty">Nenhum local com mapa para este filtro.</p>';
+    return;
+  }
+
+  const seen = new Set();
+  const unique = geocoded.filter(d => {
+    if (seen.has(d.id)) return false;
+    seen.add(d.id);
+    return true;
+  });
+  mapList.innerHTML = unique.map(d => `
+    <button class="map-list-item" type="button" data-id="${d.id}">
+      ${mapPinIcon(d)}
+      <strong>${d.nome}</strong>
+      <small>${d.end || 'Campo Belo'}</small>
+    </button>
+  `).join('');
+
+  mapList.querySelectorAll('.map-list-item').forEach(button => {
+    button.addEventListener('click', () => {
+      const item = dados.find(d => d.id === Number(button.dataset.id));
+      focusMapPlace(item);
+    });
+  });
+}
+
+function focusMapPlace(d) {
+  if (!map || !d || !Number.isFinite(d.lat) || !Number.isFinite(d.lng)) return;
+  const marker = markerMap[d.id];
+  Object.entries(markerMap).forEach(([id, entry]) => {
+    const target = dados.find(item => item.id === Number(id));
+    if (target) entry.setIcon(L.divIcon({
+      className: '',
+      html: mapPinIcon(target, target.id === d.id),
+      iconSize: [34, 34],
+      iconAnchor: [17, 17],
+      popupAnchor: [0, -20]
+    }));
+  });
+  document.querySelectorAll('.map-list-item').forEach(button => {
+    button.classList.toggle('active', Number(button.dataset.id) === d.id);
+  });
+  map.flyTo([d.lat, d.lng], 16, { animate: true, duration: .7 });
+  if (marker) marker.openPopup();
+}
+
 function initMap() {
   const geocoded = dados.filter(d => Number.isFinite(d.lat) && Number.isFinite(d.lng));
   if (!geocoded.length) return;
   document.querySelector('.map-section').hidden = false;
-  map = L.map('map', { zoomControl: true, scrollWheelZoom: false }).setView([-23.6208, -46.6675], 14);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=cb1_4v6x_1_f119be1839a5151425c7778a', {
-    attribution: '© <a href="https://carto.com/">CARTO</a>',
+  map = L.map('map', { zoomControl: true, scrollWheelZoom: false }).setView(MAP_CENTER, MAP_INITIAL_ZOOM);
+  const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors',
     maxZoom: 19
-  }).addTo(map);
+  });
+  const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri, Maxar, Earthstar Geographics, and the GIS User Community',
+    maxZoom: 19
+  });
+  streetLayer.addTo(map);
+  L.control.layers({ 'Mapa': streetLayer, 'Satélite': satelliteLayer }, null, { collapsed: false }).addTo(map);
   buildMapMarkers(dados);
 }
 
@@ -1469,16 +1597,15 @@ function buildMapMarkers(list) {
   markers = [];
   markerMap = {};
   const geocoded = list.filter(d => Number.isFinite(d.lat) && Number.isFinite(d.lng));
+  renderMapList(geocoded);
   // Deduplicate by id so establishments in multiple categories only get one pin
   const seen = new Set();
   geocoded.forEach(d => {
     if (seen.has(d.id)) return;
     seen.add(d.id);
-    const hl = isDestaque(d);
-    const em = categoryMeta(macroFor(d)).em || '📍';
     const icon = L.divIcon({
       className: '',
-      html: `<div class="map-pin${hl ? ' pin-gold' : ''}">${em}</div>`,
+      html: mapPinIcon(d),
       iconSize: [34, 34],
       iconAnchor: [17, 17],
       popupAnchor: [0, -20]
@@ -1486,25 +1613,31 @@ function buildMapMarkers(list) {
     const m = L.marker([d.lat, d.lng], { icon })
       .addTo(map)
       .bindPopup(`<strong>${d.nome}</strong><small>${formatCategory(macroFor(d))} · ${d.cats[0]}</small>${d.end ? `<small>📍 ${d.end}</small>` : ''}`)
-      .on('click', () => openModal(d.id));
+      .on('click', () => focusMapPlace(d));
     markers.push(m);
     markerMap[d.id] = m;
   });
   const total = seen.size;
   document.getElementById('mapCount').textContent =
     `${total} ${total === 1 ? 'local geolocalizado' : 'locais geolocalizados'}`;
+
+  const showingSubset = list.length < dados.length || Boolean(searchTerm) || activeSubcategory !== 'Todos';
+  if (showingSubset && geocoded.length > 1) {
+    map.fitBounds(L.latLngBounds(geocoded.map(d => [d.lat, d.lng])), { padding: [26, 26], maxZoom: 15 });
+  } else if (showingSubset && geocoded.length === 1) {
+    map.setView([geocoded[0].lat, geocoded[0].lng], 16);
+  } else {
+    map.setView(MAP_CENTER, MAP_INITIAL_ZOOM);
+  }
 }
 
 function flyToPlace(d) {
   if (!map || !d || !d.lat || !d.lng) return;
-  if (!markerMap[d.id]) buildMapMarkers([d]);
-  map.flyTo([d.lat, d.lng], 17, {
-    animate: true,
-    duration: 1.4,
-    easeLinearity: 0.2
-  });
-  const marker = markerMap[d.id];
-  if (marker) setTimeout(() => marker.openPopup(), 1500);
+  if (!markerMap[d.id]) {
+    const current = getFilteredData();
+    buildMapMarkers(current.some(item => item.id === d.id) ? current : dados);
+  }
+  focusMapPlace(d);
 }
 
 /* ── MODAL ──────────────────────────────────── */
