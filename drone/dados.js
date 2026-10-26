@@ -1,1110 +1,3246 @@
-/* DADOS DO DRONE GERADOS A PARTIR DE index.html
+/* DADOS DO DRONE GERADOS A PARTIR DAS BASES DO DIRETÓRIO
    Não editar manualmente. Execute: node scripts/build_drone_data.mjs
-   Total: 49; com coordenadas: 49. */
+   Total: 180; com coordenadas: 179. */
 
 const dados = [
   {
     "id": 1,
-    "nome": "Urban Kitchen",
-    "categoriaPrincipal": "Gastronomia & Delivery",
+    "nome": "Baita Juice Café",
+    "categoriaPrincipal": "Cafés",
     "categorias": [
-      "Gastronomia & Delivery",
-      "Cafes, Padarias & Doces"
+      "Cafés"
     ],
-    "subcategoria": "Brunch/Rooftop",
-    "endereco": "Rua Gabriele D'Annunzio, 1334",
-    "lat": -23.6195,
-    "lng": -46.6645,
-    "telefones": [
-      "(11) 99498-3336"
-    ],
-    "instagram": "@urbankitchen.br",
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Morais, 1008",
+    "lat": -23.6217767,
+    "lng": -46.6722366,
+    "telefones": [],
+    "instagram": "baitajuice",
     "site": "",
-    "descricao": "Rooftop com brunch moderno e drinques; ambiente descolado com vista aberta no coração do bairro.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Brunch e ambiente moderno",
-      "Cozinha natural com teto retrátil, ideal para um brunch relaxado e pet friendly."
-    ]
+    "termosBusca": []
   },
   {
     "id": 2,
-    "nome": "NB Steak Campo Belo",
-    "categoriaPrincipal": "Gastronomia & Delivery",
+    "nome": "Alle Gourmet",
+    "categoriaPrincipal": "Restaurantes",
     "categorias": [
-      "Gastronomia & Delivery"
+      "Restaurantes"
     ],
-    "subcategoria": "Churrascaria Premium",
-    "endereco": "Av. Vereador José Diniz, 3864",
-    "lat": -23.6248,
-    "lng": -46.668,
+    "subcategoria": "",
+    "endereco": "Rua Pascal, 656",
+    "lat": -23.616258,
+    "lng": -46.6774184,
     "telefones": [],
-    "instagram": "@nbsteak",
+    "instagram": "alle.gourmet",
     "site": "",
-    "descricao": "Rodízio premium de cortes nobres em ambiente sofisticado; ideal para quem busca churrasco de alto padrão.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Rodízio premium",
-      "Menu degustação com cortes premium servidos à vontade em um ambiente sofisticado e acolhedor."
-    ]
+    "termosBusca": []
   },
   {
     "id": 3,
-    "nome": "Huto Izakaya",
-    "categoriaPrincipal": "Gastronomia & Delivery",
+    "nome": "Atelier Alessandra Sakai",
+    "categoriaPrincipal": "Atelier",
     "categorias": [
-      "Gastronomia & Delivery"
+      "Atelier"
     ],
-    "subcategoria": "Izakaya Japonês",
-    "endereco": "Rua Jesuíno Maciel, 682",
-    "lat": -23.6188,
-    "lng": -46.6712,
+    "subcategoria": "",
+    "endereco": "Rua Zacarias de Gois, 1064",
+    "lat": -23.6273439,
+    "lng": -46.6753993,
     "telefones": [],
-    "instagram": "@grupo_huto",
+    "instagram": "atelier_alessandra_sakai",
     "site": "",
-    "descricao": "Izakaya japonês moderno com drinques autorais e pratos criativos; ótimo para jantar e noite.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Experiência japonesa moderna",
-      "Japonês sofisticado e intimista no Campo Belo, com sushis impecáveis e ótimos drinks."
-    ]
+    "termosBusca": []
   },
   {
     "id": 4,
-    "nome": "Maremonti Campo Belo",
-    "categoriaPrincipal": "Gastronomia & Delivery",
+    "nome": "Brownie Affair",
+    "categoriaPrincipal": "Cafés",
     "categorias": [
-      "Gastronomia & Delivery"
+      "Cafés"
     ],
-    "subcategoria": "Italiano",
-    "endereco": "Rua Princesa Isabel, 953",
-    "lat": -23.6202,
-    "lng": -46.6698,
+    "subcategoria": "",
+    "endereco": "Rua João de Sousa Dias, 453",
+    "lat": -23.6246617,
+    "lng": -46.670358,
     "telefones": [],
-    "instagram": "@maremonti_",
+    "instagram": "brownie_affair",
     "site": "",
-    "descricao": "Pizzas e massas italianas de rede consagrada; ótimo para jantares em família ou a dois.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Pizza e massas italianas",
-      "Ambiente aconchegante em casarão preservado, ideal para pizzas individuais e o famoso polpettone recheado."
-    ]
+    "termosBusca": []
   },
   {
     "id": 5,
-    "nome": "Cris Parrilla Bar",
-    "categoriaPrincipal": "Gastronomia & Delivery",
+    "nome": "Maioli Design",
+    "categoriaPrincipal": "Marketing Digital",
     "categorias": [
-      "Gastronomia & Delivery"
+      "Marketing Digital"
     ],
-    "subcategoria": "Parrilla Argentina",
-    "endereco": "Rua República do Iraque, 1326",
-    "lat": -23.6222,
-    "lng": -46.6678,
+    "subcategoria": "",
+    "endereco": "Rua Cristovão Pereira, 1626",
+    "lat": -23.6261843,
+    "lng": -46.6698556,
     "telefones": [],
-    "instagram": "@crisparrillabar",
+    "instagram": "maiolidesign",
     "site": "",
-    "descricao": "Cortes argentinos preparados na parrilla ao vivo; ótimo para grupos e amantes de carnes.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Parrilla argentina",
-      "Ambiente descontraído com carnes na brasa, música ao vivo e ótimo espaço para crianças."
-    ]
+    "termosBusca": []
   },
   {
     "id": 6,
-    "nome": "Sauce Burger",
-    "categoriaPrincipal": "Gastronomia & Delivery",
+    "nome": "Banzai Branding e Marketing",
+    "categoriaPrincipal": "Marketing Digital",
     "categorias": [
-      "Gastronomia & Delivery"
+      "Marketing Digital"
     ],
-    "subcategoria": "Hamburgueria",
-    "endereco": "Rua João de Sousa Dias, 475",
-    "lat": -23.6182,
-    "lng": -46.6658,
+    "subcategoria": "",
+    "endereco": "Rua Cristovão Pereira, 1626",
+    "lat": -23.6261843,
+    "lng": -46.6698556,
     "telefones": [],
-    "instagram": "@sauce.burgers",
+    "instagram": "banzaibmkt",
     "site": "",
-    "descricao": "Hambúrgueres artesanais com blend próprio; também atende por delivery.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Burgers artesanais",
-      "Famoso pelos smash burgers suculentos e molhos artesanais variados em um ambiente super descontraído."
-    ]
+    "termosBusca": []
   },
   {
     "id": 7,
-    "nome": "Ken Zushi",
-    "categoriaPrincipal": "Gastronomia & Delivery",
+    "nome": "Samara Estética",
+    "categoriaPrincipal": "Beleza",
     "categorias": [
-      "Gastronomia & Delivery"
+      "Beleza"
     ],
-    "subcategoria": "Japonês",
-    "endereco": "Rua Barão de Suruí, 190 - 1° andar",
-    "lat": -23.6235,
-    "lng": -46.6658,
-    "telefones": [
-      "(11) 95924-2994"
-    ],
-    "instagram": "@ken_zushi",
+    "subcategoria": "",
+    "endereco": "Rua conde de Porto Alegre, 1752",
+    "lat": -23.622107,
+    "lng": -46.6735635,
+    "telefones": [],
+    "instagram": "samara.estetica",
     "site": "",
-    "descricao": "Sushi moderno e criativo no 1° andar; peças diferenciadas e cardápio autoral.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Sushi moderno",
-      "Culinária japonesa autêntica e peixes frescos em ambiente discreto e acolhedor no Campo Belo."
-    ]
+    "termosBusca": []
   },
   {
     "id": 8,
-    "nome": "Pizzaria Dona Moema",
-    "categoriaPrincipal": "Gastronomia & Delivery",
+    "nome": "Clínica Chang",
+    "categoriaPrincipal": "Beleza",
     "categorias": [
-      "Gastronomia & Delivery"
+      "Beleza"
     ],
-    "subcategoria": "Pizzaria",
-    "endereco": "",
-    "lat": -23.621,
-    "lng": -46.6718,
-    "telefones": [
-      "(11) 5531-3633"
-    ],
-    "instagram": "",
+    "subcategoria": "",
+    "endereco": "Av Vereador jose diniz, 3300",
+    "lat": -23.621841,
+    "lng": -46.6794606,
+    "telefones": [],
+    "instagram": "dradanielechang",
     "site": "",
-    "descricao": "Pizzaria tradicional do bairro com delivery rápido e cardápio variado.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Delivery forte",
-      "Tradicional pizza de forno a lenha, ideal para um delivery caprichado no Campo Belo."
-    ]
+    "termosBusca": []
   },
   {
     "id": 9,
-    "nome": "Pizza Prime Campo Belo",
-    "categoriaPrincipal": "Gastronomia & Delivery",
+    "nome": "Studio Terapia",
+    "categoriaPrincipal": "Pilates & Yoga",
     "categorias": [
-      "Gastronomia & Delivery"
+      "Pilates & Yoga"
     ],
-    "subcategoria": "Pizzaria",
-    "endereco": "",
-    "lat": -23.6218,
-    "lng": -46.6708,
+    "subcategoria": "",
+    "endereco": "Rua Zacarias de Gois, 1202",
+    "lat": -23.6273439,
+    "lng": -46.6753993,
     "telefones": [],
-    "instagram": "",
+    "instagram": "studioterapia_pilatesfisio",
     "site": "",
-    "descricao": "Pizzaria com foco em delivery rápido e preços acessíveis.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Delivery",
-      "Famosa pela massa leve e crocante, oferece ótimas opções veganas e pizzas doces diferenciadas."
-    ]
+    "termosBusca": []
   },
   {
     "id": 10,
-    "nome": "Zi Tereza Pizzaria",
-    "categoriaPrincipal": "Gastronomia & Delivery",
+    "nome": "Loiva Bertol - Viagens que criam memórias",
+    "categoriaPrincipal": "Agência de Viagens",
     "categorias": [
-      "Gastronomia & Delivery"
+      "Agência de Viagens"
     ],
-    "subcategoria": "Pizzaria Tradicional",
-    "endereco": "",
-    "lat": -23.6228,
-    "lng": -46.67,
-    "telefones": [
-      "(11) 97453-7327"
-    ],
-    "instagram": "@zitereza",
+    "subcategoria": "",
+    "endereco": "Rua Jesuíno Maciel, 909",
+    "lat": -23.6162359,
+    "lng": -46.6757081,
+    "telefones": [],
+    "instagram": "loivabertol",
     "site": "",
-    "descricao": "Pizzaria com história no bairro; receitas tradicionais passadas de geração em geração.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Tradicional",
-      "Pizzaria tradicional de massa fina e ambiente acolhedor, ideal para jantares tranquilos em família."
-    ]
+    "termosBusca": []
   },
   {
     "id": 11,
-    "nome": "Café Artigas",
-    "categoriaPrincipal": "Cafes, Padarias & Doces",
+    "nome": "Nutrafit",
+    "categoriaPrincipal": "Suplementos Alimentares",
     "categorias": [
-      "Cafes, Padarias & Doces"
+      "Suplementos Alimentares"
     ],
-    "subcategoria": "Brunch",
-    "endereco": "Rua Barão de Jaceguai, 1151",
-    "lat": -23.6172,
-    "lng": -46.6685,
-    "telefones": [
-      "(11) 3854-5636"
-    ],
-    "instagram": "@cafeartigas",
+    "subcategoria": "",
+    "endereco": "Rua Barão de Jaceguai, 1365",
+    "lat": -23.6256697,
+    "lng": -46.6797248,
+    "telefones": [],
+    "instagram": "nutrafitcampobelo",
     "site": "",
-    "descricao": "Brunch e café dentro do espaço cultural da icônica Casa Artigas; experiência além do paladar.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Ambiente cultural",
-      "Gastronomia em ícone modernista, ideal para um almoço tranquilo ao ar livre no pátio."
-    ]
+    "termosBusca": []
   },
   {
     "id": 12,
-    "nome": "O Jardim Café & Brunch",
-    "categoriaPrincipal": "Cafes, Padarias & Doces",
+    "nome": "Rezinha Fit Congelados e Saudáveis",
+    "categoriaPrincipal": "Gastronomia",
     "categorias": [
-      "Cafes, Padarias & Doces"
+      "Gastronomia"
     ],
-    "subcategoria": "Brunch",
-    "endereco": "Rua Princesa Isabel, 1372",
-    "lat": -23.6205,
-    "lng": -46.6665,
-    "telefones": [
-      "(11) 91236-5678"
-    ],
-    "instagram": "@ojardim.sp",
+    "subcategoria": "",
+    "endereco": "Rua João de Souza Dias, 377",
+    "lat": -23.623363000165,
+    "lng": -46.672180987276,
+    "telefones": [],
+    "instagram": "congeladosrezinhafit",
     "site": "",
-    "descricao": "Brunch aconchegante e pet friendly; jardim charmoso para relaxar a qualquer hora do dia.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Ambiente aconchegante",
-      "Refúgio arborizado ideal para brunch completo ou trabalhar em um ambiente tranquilo e acolhedor."
-    ]
+    "termosBusca": []
   },
   {
     "id": 13,
-    "nome": "Chocolatria",
-    "categoriaPrincipal": "Cafes, Padarias & Doces",
+    "nome": "Viva Corpus Pilates",
+    "categoriaPrincipal": "Pilates & Yoga",
     "categorias": [
-      "Cafes, Padarias & Doces"
+      "Pilates & Yoga"
     ],
-    "subcategoria": "Chocolateria",
-    "endereco": "",
-    "lat": -23.6195,
-    "lng": -46.6705,
+    "subcategoria": "",
+    "endereco": "Rua Antônio de Macedo Soares, 1225",
+    "lat": -23.6210065,
+    "lng": -46.6740029,
     "telefones": [],
-    "instagram": "@chocolatria",
+    "instagram": "vivacorpus_",
     "site": "",
-    "descricao": "Chocolates artesanais e cafés especiais; ótimo para um mimo rápido ou para presentear.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Chocolate artesanal",
-      "Destaque para os variados choux creams e cafés especiais em ambiente acolhedor e escondidinho."
-    ]
+    "termosBusca": []
   },
   {
     "id": 14,
-    "nome": "Platz Eurobar",
-    "categoriaPrincipal": "Gastronomia & Delivery",
+    "nome": "Barbearia Muchacho",
+    "categoriaPrincipal": "Barbearias",
     "categorias": [
-      "Gastronomia & Delivery"
+      "Barbearias"
     ],
-    "subcategoria": "Happy Hour",
-    "endereco": "Rua Cristóvão Pereira, 1252",
-    "lat": -23.6215,
-    "lng": -46.6675,
-    "telefones": [
-      "(11) 5531-4036"
-    ],
-    "instagram": "@platz_eurobar",
+    "subcategoria": "",
+    "endereco": "Rua Dr. Jesuíno Maciel, 868",
+    "lat": -23.6174472,
+    "lng": -46.6741801,
+    "telefones": [],
+    "instagram": "muchacho_campobelo",
     "site": "",
-    "descricao": "Bar de happy hour com cervejas nacionais, importadas e artesanais; petiscos e boa vibe para grupos.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Drinks e chopp",
-      "Ambiente charmoso com parklet, famoso pelas caipirinhas caprichadas e crostinis gratinados no happy hour."
-    ]
+    "termosBusca": []
   },
   {
     "id": 15,
-    "nome": "Miles Wine Bar",
-    "categoriaPrincipal": "Gastronomia & Delivery",
+    "nome": "Morana",
+    "categoriaPrincipal": "Bijuteria e Acessórios",
     "categorias": [
-      "Gastronomia & Delivery"
+      "Bijuteria e Acessórios"
     ],
-    "subcategoria": "Wine Bar",
-    "endereco": "Rua Antônio de Macedo Soares, 1373",
-    "lat": -23.622,
-    "lng": -46.669,
-    "telefones": [
-      "(11) 99308-2739"
-    ],
-    "instagram": "@mileswinebar",
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Morais, 1064",
+    "lat": -23.6221169,
+    "lng": -46.6718161,
+    "telefones": [],
+    "instagram": "moranacampobelo",
     "site": "",
-    "descricao": "Wine bar com jazz ao vivo; ambiente sofisticado ideal para noites especiais.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Vinho + jazz",
-      "Vinhos e pizzas artesanais em ambiente intimista com jazz ao vivo no Campo Belo."
-    ]
+    "termosBusca": []
   },
   {
     "id": 16,
-    "nome": "Miya Wine Bar",
-    "categoriaPrincipal": "Gastronomia & Delivery",
+    "nome": "Dudaraday",
+    "categoriaPrincipal": "Clínicas & Consultórios",
     "categorias": [
-      "Gastronomia & Delivery"
+      "Clínicas & Consultórios"
     ],
-    "subcategoria": "Wine Bar",
-    "endereco": "Rua República do Iraque, 1038",
-    "lat": -23.6228,
-    "lng": -46.6683,
+    "subcategoria": "",
+    "endereco": "Rua Pascal, 648",
+    "lat": -23.6222314,
+    "lng": -46.669954,
     "telefones": [],
-    "instagram": "@miyawinebar",
+    "instagram": "dudaraesteticaavancada",
     "site": "",
-    "descricao": "Wine bar intimista com boa carta de vinhos; ambiente discreto e aconchegante para a noite.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Ambiente intimista",
-      "Ótimo para harmonizar vinhos em taça com a premiada tostada de milho do chef."
-    ]
+    "termosBusca": []
   },
   {
     "id": 17,
-    "nome": "Caetano's Bar",
-    "categoriaPrincipal": "Gastronomia & Delivery",
+    "nome": "Studio 81 Hair - Unidade 2",
+    "categoriaPrincipal": "Salão de Beleza",
     "categorias": [
-      "Gastronomia & Delivery"
+      "Salão de Beleza"
     ],
-    "subcategoria": "Tradicional",
-    "endereco": "",
-    "lat": -23.6238,
-    "lng": -46.6688,
+    "subcategoria": "",
+    "endereco": "Rua Dr. Jesuíno Maciel, 874",
+    "lat": -23.6162359,
+    "lng": -46.6757081,
     "telefones": [],
-    "instagram": "",
+    "instagram": "studio81unidade2",
     "site": "",
-    "descricao": "Bar de bairro desde 2005; famoso pelo bolinho de carne e lista com mais de 60 rótulos de cerveja.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Bar clássico",
-      "Destaque para o rodízio de parmegiana e o chopp premiado em ambiente familiar."
-    ]
+    "termosBusca": []
   },
   {
     "id": 18,
-    "nome": "Padaria Colonial",
-    "categoriaPrincipal": "Cafes, Padarias & Doces",
+    "nome": "Shahiya",
+    "categoriaPrincipal": "Restaurantes",
     "categorias": [
-      "Cafes, Padarias & Doces"
+      "Restaurantes"
     ],
-    "subcategoria": "Tradicional",
-    "endereco": "Rua Demóstenes, 805",
-    "lat": -23.6178,
-    "lng": -46.6672,
+    "subcategoria": "",
+    "endereco": "Rua Pascal, 940",
+    "lat": -23.6222314,
+    "lng": -46.669954,
     "telefones": [],
-    "instagram": "",
+    "instagram": "shahiyarotisseria",
     "site": "",
-    "descricao": "Padaria de bairro com café da manhã completo; produtos frescos e fluxo intenso o dia todo.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Café da manhã",
-      "Tradicional no bairro, destaca-se pelo pão francês quentinho e buffet completo de café."
-    ]
+    "termosBusca": []
   },
   {
     "id": 19,
-    "nome": "Padaria A Trigueira",
-    "categoriaPrincipal": "Cafes, Padarias & Doces",
+    "nome": "Alessah Store Decoração",
+    "categoriaPrincipal": "Loja de Decoração",
     "categorias": [
-      "Cafes, Padarias & Doces"
+      "Loja de Decoração"
     ],
-    "subcategoria": "Tradicional",
-    "endereco": "",
-    "lat": -23.6195,
-    "lng": -46.6658,
-    "telefones": [
-      "(11) 94384-8055"
-    ],
-    "instagram": "",
+    "subcategoria": "",
+    "endereco": "Rua Pascal, 968",
+    "lat": -23.6222314,
+    "lng": -46.669954,
+    "telefones": [],
+    "instagram": "alessah.store",
     "site": "",
-    "descricao": "Padaria completa com serviço de mesa; opção sólida para o café da manhã e almoço do dia a dia.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Padaria completa",
-      "Tradicional no bairro, destaca-se pelo buffet de sopas à noite e pães variados."
-    ]
+    "termosBusca": []
   },
   {
     "id": 20,
-    "nome": "Benjamin a Padaria",
-    "categoriaPrincipal": "Cafes, Padarias & Doces",
+    "nome": "Eomma Spa & Head Spa",
+    "categoriaPrincipal": "Beleza",
     "categorias": [
-      "Cafes, Padarias & Doces"
+      "Beleza"
     ],
-    "subcategoria": "Rede",
-    "endereco": "Rua Dr. Jesuíno Maciel, 192",
-    "lat": -23.6208,
-    "lng": -46.6652,
+    "subcategoria": "",
+    "endereco": "Rua João Álvares Soares, 1216",
+    "lat": -23.626387,
+    "lng": -46.6760189,
     "telefones": [],
-    "instagram": "",
+    "instagram": "eommaspa",
     "site": "",
-    "descricao": "Rede moderna de padaria com boa variedade de pães, salgados e doces; rápido e prático.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Padaria moderna",
-      "Prática para retirada rápida, oferece croissants amanteigados e ambiente pet friendly no bairro."
-    ]
+    "termosBusca": []
   },
   {
     "id": 21,
-    "nome": "Toss Baking Unit",
-    "categoriaPrincipal": "Cafes, Padarias & Doces",
+    "nome": "kit gourmet",
+    "categoriaPrincipal": "Restaurantes",
     "categorias": [
-      "Cafes, Padarias & Doces"
+      "Restaurantes"
     ],
-    "subcategoria": "Artesanal",
-    "endereco": "Av. Ver. José Diniz, 3031",
-    "lat": -23.62,
-    "lng": -46.6642,
+    "subcategoria": "",
+    "endereco": "Rua Joao Alvares Soares 1112",
+    "lat": -23.626387,
+    "lng": -46.6760189,
     "telefones": [],
-    "instagram": "@toss.bakingunit",
+    "instagram": "kitgourmet",
     "site": "",
-    "descricao": "Padaria artesanal famosa pelo croissant de amêndoas; viennoiseries e doces fotogênicos que viralizam.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Padaria estética",
-      "Ambiente moderno e descolado com croissants artesanais perfeitos para um café no bairro."
-    ]
+    "termosBusca": []
   },
   {
     "id": 22,
-    "nome": "Confeitaria Christina",
-    "categoriaPrincipal": "Cafes, Padarias & Doces",
+    "nome": "Leju Decorações",
+    "categoriaPrincipal": "Decoração & Design",
     "categorias": [
-      "Cafes, Padarias & Doces"
+      "Decoração & Design"
     ],
-    "subcategoria": "Premium",
-    "endereco": "",
-    "lat": -23.6215,
-    "lng": -46.666,
+    "subcategoria": "",
+    "endereco": "Rua Joao Alvares Soares 1185",
+    "lat": -23.626387,
+    "lng": -46.6760189,
     "telefones": [],
-    "instagram": "@confeitariachristina",
+    "instagram": "leju.decor",
     "site": "",
-    "descricao": "Doces finos e bolos tradicionais de marca consolidada no bairro; qualidade de longa data.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Doces tradicionais",
-      "Tradicional reduto austríaco no bairro, perfeito para um café com o autêntico Apfelstrudel."
-    ]
+    "termosBusca": []
   },
   {
     "id": 23,
-    "nome": "Dona Glória Confeitaria",
-    "categoriaPrincipal": "Cafes, Padarias & Doces",
+    "nome": "Studio Cleide Rocha",
+    "categoriaPrincipal": "Beleza",
     "categorias": [
-      "Cafes, Padarias & Doces"
+      "Beleza"
     ],
-    "subcategoria": "Caseira",
-    "endereco": "",
-    "lat": -23.6225,
-    "lng": -46.6648,
-    "telefones": [
-      "(11) 96625-0909"
-    ],
-    "instagram": "",
+    "subcategoria": "",
+    "endereco": "Rua joao Alvares Soares 1215",
+    "lat": -23.626387,
+    "lng": -46.6760189,
+    "telefones": [],
+    "instagram": "eumichelle_costa",
     "site": "",
-    "descricao": "Confeitaria caseira com bolos sob encomenda e doces feitos com capricho; atendimento pelo WhatsApp.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Bolos caseiros",
-      "Destaque para o famoso bolo de coco gelado e os bolos caseiros com receitas de vó."
-    ]
+    "termosBusca": []
   },
   {
     "id": 24,
-    "nome": "Tartelier Patisserie",
-    "categoriaPrincipal": "Cafes, Padarias & Doces",
+    "nome": "Meu Gourmet Restaurante",
+    "categoriaPrincipal": "Restaurantes",
     "categorias": [
-      "Cafes, Padarias & Doces"
+      "Restaurantes"
     ],
-    "subcategoria": "Francesa",
-    "endereco": "",
-    "lat": -23.6232,
-    "lng": -46.6652,
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Moarais 1074",
+    "lat": -23.6222878,
+    "lng": -46.6718824,
     "telefones": [],
-    "instagram": "@tartelier",
+    "instagram": "meugourmetrestaurante",
     "site": "",
-    "descricao": "Patisserie com tartes, éclairs e doces finos de alta qualidade; disponível também por delivery.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Doces finos",
-      "O mil-folhas crocante é imperdível, especialmente nas versões clássica de baunilha ou pistache."
-    ]
+    "termosBusca": []
   },
   {
     "id": 25,
-    "nome": "LIVE! Campo Belo",
-    "categoriaPrincipal": "Moda, Calcados & Acessorios",
+    "nome": "Dom Ladino",
+    "categoriaPrincipal": "Barbearias",
     "categorias": [
-      "Moda, Calcados & Acessorios",
-      "Academias, Esportes & Bem-Estar"
+      "Barbearias"
     ],
-    "subcategoria": "Moda Fitness",
-    "endereco": "Rua João de Souza Dias",
-    "lat": -23.6198,
-    "lng": -46.6648,
-    "telefones": [
-      "(11) 93088-4307"
-    ],
-    "instagram": "@liveoficial",
+    "subcategoria": "",
+    "endereco": "Rua Joao de Sousa dias 292",
+    "lat": -23.6246617,
+    "lng": -46.670358,
+    "telefones": [],
+    "instagram": "bom.ladino",
     "site": "",
-    "descricao": "Loja da marca LIVE! com moda fitness feminina de qualidade; peças para treino e uso casual.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Moda fitness",
-      "Espaço moderno com ampla variedade de moda fitness e beachwear de alta performance."
-    ]
+    "termosBusca": []
   },
   {
     "id": 26,
-    "nome": "Boutique dos Livros",
-    "categoriaPrincipal": "Lojas & Presentes",
+    "nome": "Sobrancelhas Design",
+    "categoriaPrincipal": "Beleza",
     "categorias": [
-      "Lojas & Presentes"
+      "Beleza"
     ],
-    "subcategoria": "Livraria",
-    "endereco": "Rua Pascal, 1131",
-    "lat": -23.621365,
-    "lng": -46.670826,
-    "telefones": [
-      "(11) 94499-6858"
-    ],
-    "instagram": "@_boutiquedoslivros_",
-    "site": "https://www.lojaboutiquedoslivros.com.br/",
-    "descricao": "Livraria independente com curadoria especial e atmosfera aconchegante; ótimo para explorar e descobrir títulos.",
+    "subcategoria": "",
+    "endereco": "Rua João de Sousa Dias, 611",
+    "lat": -23.6246617,
+    "lng": -46.670358,
+    "telefones": [],
+    "instagram": "sd_campobelo",
+    "site": "",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Experiência de leitura",
-      "Livraria aconchegante com café e clube do livro, ideal para garimpar boas leituras no bairro."
-    ]
+    "termosBusca": []
   },
   {
     "id": 27,
-    "nome": "HSE Loja 2",
-    "categoriaPrincipal": "Academias, Esportes & Bem-Estar",
+    "nome": "Susana Beauty",
+    "categoriaPrincipal": "Beleza",
     "categorias": [
-      "Academias, Esportes & Bem-Estar",
-      "Moda, Calcados & Acessorios"
+      "Beleza"
     ],
-    "subcategoria": "Esportes",
-    "endereco": "Rua Conde de Porto Alegre, 1182",
-    "lat": -23.6232,
-    "lng": -46.6638,
-    "telefones": [
-      "(11) 91054-3007"
-    ],
-    "instagram": "@hseloja2",
+    "subcategoria": "",
+    "endereco": "R. Zacarias de Gois, 1064",
+    "lat": -23.6273439,
+    "lng": -46.6753993,
+    "telefones": [],
+    "instagram": "susanabeautyoficial",
     "site": "",
-    "descricao": "Loja especializada em tênis esportivo com serviço de encordoamento profissional; atendimento técnico e focado.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Tênis profissional",
-      "Especializada em tênis, oferece encordoamento profissional de raquetes e acessórios para diversos esportes de quadra."
-    ]
+    "termosBusca": []
   },
   {
     "id": 28,
-    "nome": "La Mia Gelateria",
-    "categoriaPrincipal": "Cafes, Padarias & Doces",
+    "nome": "Aline Alvarenga Studio",
+    "categoriaPrincipal": "Salão de Beleza",
     "categorias": [
-      "Cafes, Padarias & Doces"
+      "Salão de Beleza"
     ],
-    "subcategoria": "Gelateria Italiana",
-    "endereco": "Rua Vieira de Morais, 329",
-    "lat": -23.6212,
-    "lng": -46.6638,
-    "telefones": [
-      "(11) 99318-8348"
-    ],
-    "instagram": "@lamia.gelateria",
+    "subcategoria": "",
+    "endereco": "Rua Demóstenes 1076",
+    "lat": -23.6196852,
+    "lng": -46.6696834,
+    "telefones": [],
+    "instagram": "alinealvarengaa_",
     "site": "",
-    "descricao": "Gelatos italianos artesanais da rede La Mia; sabores clássicos e sazonais feitos com ingredientes selecionados.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Gelatos italianos artesanais",
-      "Gelatos artesanais e picolés variados com preços justos, ideais para levar e estocar em casa."
-    ]
+    "termosBusca": []
   },
   {
     "id": 29,
-    "nome": "Café des Fleurs",
-    "categoriaPrincipal": "Cafes, Padarias & Doces",
+    "nome": "Barbearia Ferréro",
+    "categoriaPrincipal": "Barbearias",
     "categorias": [
-      "Cafes, Padarias & Doces"
+      "Barbearias"
     ],
-    "subcategoria": "Café Francês",
-    "endereco": "Rua Gabriele D'Annunzio, 1291",
-    "lat": -23.6185,
-    "lng": -46.6658,
-    "telefones": [
-      "(11) 5093-2003"
-    ],
-    "instagram": "@cafedesfleurs_sp",
+    "subcategoria": "",
+    "endereco": "Rua Joao alvares soares 1522",
+    "lat": -23.626387,
+    "lng": -46.6760189,
+    "telefones": [],
+    "instagram": "barbeariaferrero",
     "site": "",
-    "descricao": "Café com tortas e doces no estilo bistrô francês; decoração encantadora e atendimento acolhedor.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Tortas e doces no estilo francês",
-      "Ambiente charmoso estilo parisiense, famoso pelo mil-folhas montado na hora e decoração delicada."
-    ]
+    "termosBusca": []
   },
   {
     "id": 30,
-    "nome": "Okone Cozinha Japonesa e Peruana",
-    "categoriaPrincipal": "Gastronomia & Delivery",
+    "nome": "San Clinic",
+    "categoriaPrincipal": "Beleza",
     "categorias": [
-      "Gastronomia & Delivery"
+      "Beleza"
     ],
-    "subcategoria": "Nikkei (Japonesa-Peruana)",
-    "endereco": "Rua Gabriele D'Annunzio, 1267",
-    "lat": -23.6187,
-    "lng": -46.666,
-    "telefones": [
-      "(11) 98868-6983"
-    ],
-    "instagram": "@Okone.SP",
+    "subcategoria": "",
+    "endereco": "R. Vieira de Morais, 1484",
+    "lat": -23.6246168,
+    "lng": -46.668716,
+    "telefones": [],
+    "instagram": "Esteticasanclinic",
     "site": "",
-    "descricao": "Cozinha nikkei autoral com fusão japonesa-peruana; sushi, ceviche e pratos exclusivos em ambiente moderno.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Pratos fusion (sushi e ceviche)",
-      "Destaque para o rodízio completo e a fusão nikkei com peixes sempre muito frescos."
-    ]
+    "termosBusca": []
   },
   {
     "id": 31,
-    "nome": "Omakase Nihon",
-    "categoriaPrincipal": "Gastronomia & Delivery",
+    "nome": "Velosp",
+    "categoriaPrincipal": "Bicicletaria",
     "categorias": [
-      "Gastronomia & Delivery"
+      "Bicicletaria"
     ],
-    "subcategoria": "Omakase Japonês",
-    "endereco": "Rua Antônio de Macedo Soares, 1377",
-    "lat": -23.624,
-    "lng": -46.6695,
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Morais 1467",
+    "lat": -23.6245097,
+    "lng": -46.6688489,
     "telefones": [],
-    "instagram": "@omakasenihon",
+    "instagram": "lojavelosp",
     "site": "",
-    "descricao": "Menu degustação omakase criado pelo chef; experiência de alta gastronomia japonesa com reserva antecipada.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Menu degustação Omakase premium",
-      "Experiência japonesa autoral com peixes frescos e trilha de jazz em ambiente acolhedor."
-    ]
+    "termosBusca": []
   },
   {
     "id": 32,
-    "nome": "Churrascaria Estância Campo Belo",
-    "categoriaPrincipal": "Gastronomia & Delivery",
+    "nome": "CoresdaCor",
+    "categoriaPrincipal": "Decoração & Design",
     "categorias": [
-      "Gastronomia & Delivery",
-      "Festas & Eventos"
+      "Decoração & Design"
     ],
-    "subcategoria": "Churrascaria Gaúcha",
-    "endereco": "Av. Vereador José Diniz, 3271",
-    "lat": -23.6252,
-    "lng": -46.6688,
-    "telefones": [
-      "(11) 5093-3717"
-    ],
-    "instagram": "@estancia_campo_belo",
+    "subcategoria": "",
+    "endereco": "Rua  Demóstenes, 1089",
+    "lat": -23.6196852,
+    "lng": -46.6696834,
+    "telefones": [],
+    "instagram": "coresdacor",
     "site": "",
-    "descricao": "Rodízio gaúcho clássico com cortes tradicionais; espaço amplo ideal para grupos e eventos.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Rodízio gaúcho tradicional",
-      "Rodízio tradicional com buffet variado de frutos do mar, sushi e espaço kids completo."
-    ]
+    "termosBusca": []
   },
   {
     "id": 33,
-    "nome": "Melhor Bocado Café",
-    "categoriaPrincipal": "Cafes, Padarias & Doces",
+    "nome": "Clínica Dra Ana Luísa Chaves",
+    "categoriaPrincipal": "Odontologia",
     "categorias": [
-      "Cafes, Padarias & Doces"
+      "Odontologia"
     ],
-    "subcategoria": "Café & Doces",
-    "endereco": "Rua Vieira de Morais, 889",
-    "lat": -23.6210696,
-    "lng": -46.6731274,
-    "telefones": [
-      "(11) 93536-9625"
-    ],
-    "instagram": "@melhorbocadocafe",
+    "subcategoria": "",
+    "endereco": "Antônio de Macedo Soares 1259",
+    "lat": -23.6203459,
+    "lng": -46.6734781,
+    "telefones": [],
+    "instagram": "clinicadraanaluisachaves",
     "site": "",
-    "descricao": "Donuts e doces artesanais recém-chegados ao bairro; café especial e ambiente descolado.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Donuts e doces artesanais",
-      "Parada acolhedora para donuts fofinhos e torrada Petrópolis, ideal para um café sem pressa."
-    ]
+    "termosBusca": []
   },
   {
     "id": 34,
-    "nome": "Soffio Pizzeria",
-    "categoriaPrincipal": "Gastronomia & Delivery",
+    "nome": "Bingui",
+    "categoriaPrincipal": "Loja de Roupas",
     "categorias": [
-      "Gastronomia & Delivery"
+      "Loja de Roupas"
     ],
-    "subcategoria": "Pizzaria Napolitana",
-    "endereco": "Rua João de Souza Dias, 281",
-    "lat": -23.6195,
-    "lng": -46.665,
+    "subcategoria": "",
+    "endereco": "Rua Conde de Porto Alegre, 1590",
+    "lat": -23.6164463,
+    "lng": -46.6682155,
     "telefones": [],
-    "instagram": "@soffiopizzeria",
+    "instagram": "binguibaby",
     "site": "",
-    "descricao": "Pizzas napolitanas de fermentação natural longa; massa leve e ingredientes selecionados pelos sócios do Charles Pizzaria.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Pizzas de longa fermentação",
-      "Pizzas napolitanas individuais com massa levíssima, cortadas à tesoura pelo premiado chef Dani Branca."
-    ]
+    "termosBusca": []
   },
   {
     "id": 35,
-    "nome": "Le Petit Gabriele",
-    "categoriaPrincipal": "Gastronomia & Delivery",
+    "nome": "Salão Emília Borges",
+    "categoriaPrincipal": "Salão de Beleza",
     "categorias": [
-      "Gastronomia & Delivery"
+      "Salão de Beleza"
     ],
-    "subcategoria": "Bistrô Francês",
-    "endereco": "Rua Gabriele D'Annunzio, 1266",
-    "lat": -23.6187,
-    "lng": -46.6662,
-    "telefones": [
-      "(11) 95423-3898"
-    ],
-    "instagram": "@lepetitgabriele",
+    "subcategoria": "",
+    "endereco": "Rua Dr Jesuino Maciel 1256",
+    "lat": -23.6162359,
+    "lng": -46.6757081,
+    "telefones": [],
+    "instagram": "emiliaborges_campobelo",
     "site": "",
-    "descricao": "Bistrô francês em casa reformada; pratos clássicos e charme parisiense no Campo Belo.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Pratos clássicos da culinária francesa",
-      "Bistrô parisiense acolhedor no Campo Belo, ideal para clássicos franceses e vinhos selecionados."
-    ]
-  },
-  {
-    "id": 37,
-    "nome": "Espaço Mel Casagrande",
-    "categoriaPrincipal": "Moda, Calcados & Acessorios",
-    "categorias": [
-      "Moda, Calcados & Acessorios",
-      "Casa, Decoracao & Organizacao"
-    ],
-    "subcategoria": "Moda Feminina",
-    "endereco": "Rua Vieira de Morais, 1230",
-    "lat": -23.6231338,
-    "lng": -46.6705573,
-    "telefones": [
-      "(11) 93088-4307"
-    ],
-    "instagram": "@espacomelcasagrande",
-    "site": "",
-    "descricao": "Moda feminina desde 2016 com curadoria para looks completos; roupas para trabalho, passeio, eventos e moda festa do casual ao sofisticado, além de peças de decoração e itens de mesa posta. Atendimento acolhedor para provar com calma.",
-    "promocao": "",
-    "termosBusca": [
-      "Desde 2016. Moda feminina — casual ao sofisticado + decoração e mesa posta",
-      "Loja multimarcas charmosa com moda feminina, itens de decoração e estacionamento gratuito na porta."
-    ]
+    "termosBusca": []
   },
   {
     "id": 36,
-    "nome": "Delícias do Campo Belo",
-    "categoriaPrincipal": "Cafes, Padarias & Doces",
+    "nome": "Tato Office",
+    "categoriaPrincipal": "Coworking",
     "categorias": [
-      "Cafes, Padarias & Doces"
+      "Coworking"
     ],
-    "subcategoria": "Caseira",
-    "endereco": "",
-    "lat": -23.621,
-    "lng": -46.667,
+    "subcategoria": "",
+    "endereco": "Rua Cristovão Pereira, 1626",
+    "lat": -23.6261843,
+    "lng": -46.6698556,
     "telefones": [],
-    "instagram": "@deliciasdocampobelo",
+    "instagram": "tatocoworking",
     "site": "",
-    "descricao": "Confeitaria caseira desde 2014; bolos, quiches, salada de frutas e pudim de leite sob encomenda via WhatsApp.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Desde 2014. Salada de frutas, bolos, quiches e pudim de leite caseiros",
-      "Seg–Sex 8h30–18h / Sáb 8h30–14h. Reservas pelo WhatsApp. Endereço não encontrado — confirmar diretamente"
-    ]
+    "termosBusca": []
+  },
+  {
+    "id": 37,
+    "nome": "Silvia Caquetti Modas",
+    "categoriaPrincipal": "Moda & Roupas",
+    "categorias": [
+      "Moda & Roupas"
+    ],
+    "subcategoria": "",
+    "endereco": "R. Vieira de Morais, 1141",
+    "lat": -23.6225917,
+    "lng": -46.6712346,
+    "telefones": [],
+    "instagram": "silviacaquetti",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
   },
   {
     "id": 38,
-    "nome": "Empório Itiê",
-    "categoriaPrincipal": "Mercados, Emporios & Conveniencia",
+    "nome": "VIP CAR",
+    "categoriaPrincipal": "Funilaria e Pintura",
     "categorias": [
-      "Mercados, Emporios & Conveniencia"
+      "Funilaria e Pintura"
     ],
-    "subcategoria": "Empório de Bebidas",
-    "endereco": "Rua Viaza, 887",
-    "lat": -23.6349503,
-    "lng": -46.6624099,
-    "telefones": [
-      "(11) 91280-8800",
-      "(11) 5034-8800"
-    ],
-    "instagram": "@emporioitie",
-    "site": "https://www.emporioitie.com.br/",
-    "descricao": "Empório de bairro especializado em vinhos nacionais e importados, espumantes, destilados, licores e acessórios para bebidas, com compra online e retirada na loja.",
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Morais, 557",
+    "lat": -23.6190369,
+    "lng": -46.6756976,
+    "telefones": [],
+    "instagram": "vipcarrestauracao",
+    "site": "",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Vinhos e bebidas especiais",
-      "Retirada de pedidos disponível na loja."
-    ]
+    "termosBusca": []
   },
   {
     "id": 39,
-    "nome": "Clínica Campo Belo",
-    "categoriaPrincipal": "Saude & Clinicas",
+    "nome": "Melhor Bocado Café",
+    "categoriaPrincipal": "Cafés",
     "categorias": [
-      "Saude & Clinicas"
+      "Cafés"
     ],
-    "subcategoria": "Clínica Multidisciplinar",
-    "endereco": "Avenida Vereador José Diniz, 3300, conjunto 201, 2º andar",
-    "lat": -23.6189402,
-    "lng": -46.6762477,
-    "telefones": [
-      "(11) 94243-2619",
-      "(11) 5543-8457"
-    ],
-    "instagram": "@clinicacampobelo",
-    "site": "https://clinicacampobelo.com.br/",
-    "descricao": "Clínica multidisciplinar com atendimento em otorrinolaringologia, pediatria, clínica médica, ginecologia e obstetrícia e acupuntura.",
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Morais, 889",
+    "lat": -23.6210696,
+    "lng": -46.6731274,
+    "telefones": [],
+    "instagram": "melhorbacodocafe.campobelo",
+    "site": "",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Consultas, especialidades médicas e exames"
-    ]
+    "termosBusca": []
   },
   {
     "id": 40,
-    "nome": "Belavie Beauty",
-    "categoriaPrincipal": "Beleza & Estetica",
+    "nome": "Casa Patrício",
+    "categoriaPrincipal": "Moda & Roupas",
     "categorias": [
-      "Beleza & Estetica"
+      "Moda & Roupas"
     ],
-    "subcategoria": "Salão de Beleza",
-    "endereco": "Rua Conde de Porto Alegre, 1369",
-    "lat": -23.6209357,
-    "lng": -46.6725849,
-    "telefones": [
-      "(11) 94046-4448",
-      "(11) 94046-4448"
-    ],
-    "instagram": "@belaviesalon",
-    "site": "https://www.belaviebeauty.com/",
-    "descricao": "Salão com serviços de cabelo, tratamentos capilares, estética, maquiagem, penteados, unhas, cílios, sobrancelhas e produção para noivas.",
+    "subcategoria": "",
+    "endereco": "Rua Ministro JesuÍno Cardoso, 451",
+    "lat": -23.5919958,
+    "lng": -46.6793749,
+    "telefones": [],
+    "instagram": "casapatriciooficial",
+    "site": "",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Cabelo, estética e bem-estar"
-    ]
+    "termosBusca": []
   },
   {
     "id": 41,
-    "nome": "OMO Lavanderia Especializada Vieira de Morais",
-    "categoriaPrincipal": "Servicos para Casa",
+    "nome": "Montserrat",
+    "categoriaPrincipal": "Cama, Mesa e Banho",
     "categorias": [
-      "Servicos para Casa"
+      "Cama, Mesa e Banho"
     ],
-    "subcategoria": "Lavanderia",
-    "endereco": "Rua Vieira de Morais, 380",
-    "lat": -23.6181438,
-    "lng": -46.6770436,
-    "telefones": [
-      "(11) 93492-3630"
-    ],
-    "instagram": "@omolavanderia10",
-    "site": "https://www.omolavanderia.com.br/lojas/omo-lavanderia-especializada-vieira-de-morais-rua-vieira-de-morais-380-04617000-236181438-466770436",
-    "descricao": "Unidade Especializada/Express da OMO com serviços profissionais de lavanderia e cuidado de roupas.",
+    "subcategoria": "",
+    "endereco": "Rua Dr. Jesuíno Maciel, 909",
+    "lat": -23.6162359,
+    "lng": -46.6757081,
+    "telefones": [],
+    "instagram": "montserrat.decoracao",
+    "site": "",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Lavanderia especializada e express"
-    ]
+    "termosBusca": []
   },
   {
     "id": 42,
-    "nome": "Campo Belo Soluções Imobiliárias",
-    "categoriaPrincipal": "Imoveis & Construcao",
+    "nome": "Pane & Vino",
+    "categoriaPrincipal": "Padaria",
     "categorias": [
-      "Imoveis & Construcao"
+      "Padaria"
     ],
-    "subcategoria": "Imobiliária",
-    "endereco": "Rua Estevão Baião, 599",
-    "lat": -23.627301,
-    "lng": -46.667841,
-    "telefones": [
-      "(11) 91555-0303",
-      "(11) 2609-9485"
-    ],
-    "instagram": "@_campobeloimoveis",
-    "site": "https://www.campobeloimoveis.com/",
-    "descricao": "Imobiliária do bairro dedicada à compra, venda e locação de imóveis, registrada no CRECI J23042.",
+    "subcategoria": "",
+    "endereco": "Rua Pascal, 1021",
+    "lat": -23.6222314,
+    "lng": -46.669954,
+    "telefones": [],
+    "instagram": "panevinoemcasa",
+    "site": "",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Compra, venda e locação de imóveis",
-      "CRECI J23042."
-    ]
+    "termosBusca": []
   },
   {
     "id": 43,
-    "nome": "Vet Quality Hospital Veterinário 24h",
-    "categoriaPrincipal": "Pets",
+    "nome": "Eigym Espaço Integrado de Treinamento Saúde e Bem Estar",
+    "categoriaPrincipal": "Academia",
     "categorias": [
-      "Pets"
+      "Academia"
     ],
-    "subcategoria": "Hospital Veterinário 24h",
-    "endereco": "Rua Vieira de Morais, 1862",
-    "lat": -23.6265796,
-    "lng": -46.6656152,
-    "telefones": [
-      "(11) 97649-3775",
-      "(11) 5097-9642"
-    ],
-    "instagram": "@vetquality",
-    "site": "https://vetquality.com.br/",
-    "descricao": "Hospital veterinário 24 horas com pronto atendimento, internação, cirurgias, especialidades e exames para cães e gatos.",
+    "subcategoria": "",
+    "endereco": "Rua Zacarias de Góis, 1317",
+    "lat": -23.6273439,
+    "lng": -46.6753993,
+    "telefones": [],
+    "instagram": "eigymespacointegrado",
+    "site": "",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Atendimento veterinário 24 horas"
-    ]
+    "termosBusca": []
   },
   {
     "id": 44,
-    "nome": "Kumon Campo Belo — Gabriele D’Annunzio",
-    "categoriaPrincipal": "Educacao & Cursos",
+    "nome": "Mykonos Pet Spa",
+    "categoriaPrincipal": "PetShop",
     "categorias": [
-      "Educacao & Cursos",
-      "Infantil & Familia"
+      "PetShop"
     ],
-    "subcategoria": "Cursos Infantis",
-    "endereco": "Rua Cristóvão Pereira, 1345",
-    "lat": -23.62667,
-    "lng": -46.67084,
-    "telefones": [
-      "(11) 94210-8486",
-      "(11) 4306-3033"
-    ],
-    "instagram": "@kumoncampobelogabrieledannunzi",
-    "site": "https://www.kumon.com.br/sp/campo-belo-vieira-de-morais/",
-    "descricao": "Unidade do método Kumon com cursos de matemática, português e inglês, incluindo conteúdos pré-escolares e acompanhamento individualizado.",
+    "subcategoria": "",
+    "endereco": "Rua Conde de Porto Alegre, 1745",
+    "lat": -23.6164463,
+    "lng": -46.6682155,
+    "telefones": [],
+    "instagram": "mykonospetspa",
+    "site": "",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Matemática, português e inglês",
-      "Avaliação gratuita mediante agendamento."
-    ]
+    "termosBusca": []
   },
   {
     "id": 45,
-    "nome": "Paróquia Nossa Senhora de Guadalupe",
-    "categoriaPrincipal": "Instituicoes & Comunidade",
+    "nome": "Lupo - Campo Belo",
+    "categoriaPrincipal": "Moda & Roupas",
     "categorias": [
-      "Instituicoes & Comunidade"
+      "Moda & Roupas"
     ],
-    "subcategoria": "Paróquia Católica",
-    "endereco": "Rua República do Iraque, 1839",
-    "lat": -23.6196748,
-    "lng": -46.6671922,
-    "telefones": [
-      "(11) 5041-9829",
-      "(11) 5041-9829"
-    ],
-    "instagram": "@paroquiansraguadalupe",
-    "site": "https://paroquiansguadalupe.com.br/",
-    "descricao": "Paróquia católica do Campo Belo com missas, confissões, direção espiritual e atendimento de secretaria.",
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Morais, 1066",
+    "lat": -23.6221292,
+    "lng": -46.671801,
+    "telefones": [],
+    "instagram": "lupo_campobelo_sp",
+    "site": "",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Missas e vida comunitária",
-      "Missas: seg 7h30; ter–sáb 8h; dom 8h, 10h e 18h."
-    ]
+    "termosBusca": []
   },
   {
     "id": 46,
-    "nome": "Rezinha Fit",
-    "categoriaPrincipal": "Gastronomia & Delivery",
+    "nome": "Takeshi Sushi House",
+    "categoriaPrincipal": "Restaurantes",
     "categorias": [
-      "Gastronomia & Delivery"
+      "Restaurantes"
     ],
-    "subcategoria": "Refeições Congeladas Saudáveis",
-    "endereco": "Rua João de Sousa Dias, 377",
-    "lat": -23.6183,
-    "lng": -46.6656,
+    "subcategoria": "",
+    "endereco": "Rua Morais de Barros, 414",
+    "lat": -23.6143297,
+    "lng": -46.6746265,
     "telefones": [],
-    "instagram": "",
+    "instagram": "takeshisushihouse",
     "site": "",
-    "descricao": "Refeições congeladas saudáveis com cardápio assinado pela nutricionista Renata; pratos tradicionais e combinações autorais como feijoada light com banana-da-terra, arroz com maminha e quibe de forno com purê de mandioquinha, além de linha low carb, sopas, lanches e sobremesas.",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "7 anos de delivery, agora com loja própria",
-      "Após 7 anos atendendo por delivery, acaba de abrir espaço físico onde é possível conhecer de perto todas as opções antes de comprar."
-    ]
+    "termosBusca": []
   },
   {
     "id": 47,
-    "nome": "Pane & Vino",
-    "categoriaPrincipal": "Cafes, Padarias & Doces",
+    "nome": "Belavie Beauty",
+    "categoriaPrincipal": "Salão de Beleza",
     "categorias": [
-      "Cafes, Padarias & Doces",
-      "Mercados, Emporios & Conveniencia"
+      "Salão de Beleza"
     ],
-    "subcategoria": "Padaria Artesanal",
-    "endereco": "Rua Pascal, 1021",
-    "lat": -23.6206727,
-    "lng": -46.6717066,
-    "telefones": [
-      "(11) 91573-7924",
-      "(11) 5041-0539"
-    ],
-    "instagram": "@panevinoemcasa",
-    "site": "https://www.panevino.online/",
-    "descricao": "Padaria artesanal com fornadas diárias, fermentação natural e longa maturação. Os pães levam ingredientes selecionados, farinha especial de trigo e ovos orgânicos; o cardápio combina 11 opções fixas com criações que variam a cada dia.",
+    "subcategoria": "",
+    "endereco": "Rua Conde de Porto Alegre, 1369",
+    "lat": -23.6205257,
+    "lng": -46.6720589,
+    "telefones": [],
+    "instagram": "belaviesalon",
+    "site": "",
+    "descricao": "",
     "promocao": "",
-    "termosBusca": [
-      "Pães artesanais, receitas de família e vinhos selecionados",
-      "Há 6 anos no mercado e 4 anos com loja física. A casa reúne receitas de família italianas e alemãs, doces, antepastos, geleias caseiras e vinhos selecionados pelo proprietário e sommelier Alan Lenk, além de delivery."
-    ]
+    "termosBusca": []
   },
   {
     "id": 48,
-    "nome": "Eomma Spa",
-    "categoriaPrincipal": "Beleza & Estetica",
+    "nome": "Veloce Ciclismo & Café",
+    "categoriaPrincipal": "Bicicletaria",
     "categorias": [
-      "Beleza & Estetica",
-      "Academias, Esportes & Bem-Estar"
+      "Bicicletaria"
     ],
-    "subcategoria": "Spa & Terapias Integrativas",
-    "endereco": "Rua João Álvares Soares, 1216",
-    "lat": -23.6224285,
-    "lng": -46.672109,
-    "telefones": [
-      "(11) 91222-8090"
-    ],
-    "instagram": "@eommaspa",
-    "site": "https://www.eomma.com.br/",
-    "descricao": "Spa com massagens, tratamentos faciais e capilares, Head Spa e terapias integrativas. Os atendimentos são personalizados e utilizam produtos naturais, veganos e orgânicos.",
-    "promocao": "GRÁTIS: MASSAGEM FACIAL",
-    "termosBusca": [
-      "Massagens, Head Spa e terapias integrativas",
-      "Quem conhecer o Eomma pela nossa página ganha uma massagem facial."
-    ]
+    "subcategoria": "",
+    "endereco": "Rua Conde de Porto Alegre, 1343",
+    "lat": -23.6164463,
+    "lng": -46.6682155,
+    "telefones": [],
+    "instagram": "veloce_____",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
   },
   {
     "id": 49,
-    "nome": "Chaveiro Novo Aeon",
-    "categoriaPrincipal": "Servicos para Casa",
+    "nome": "Dra Juliana Romano / Instituto Romano",
+    "categoriaPrincipal": "Clínicas & Consultórios",
     "categorias": [
-      "Servicos para Casa",
-      "Casa, Decoracao & Organizacao"
+      "Clínicas & Consultórios"
     ],
-    "subcategoria": "Chaveiro & Segurança",
-    "endereco": "Rua Demóstenes, 701",
-    "lat": -23.6178,
-    "lng": -46.6672,
-    "telefones": [
-      "(11) 5093-5292"
-    ],
-    "instagram": "@chaveironovoaeon",
+    "subcategoria": "",
+    "endereco": "Rua Vicente Leporace, 1658",
+    "lat": -23.6216497,
+    "lng": -46.6671293,
+    "telefones": [],
+    "instagram": "instituto_romano",
     "site": "",
-    "descricao": "Soluções em chaves, fechaduras, segurança e serviços para residências, empresas e automóveis.",
-    "promocao": "AEON5 - 5% de desconto",
-    "termosBusca": [
-      "Chaves, fechaduras e segurança",
-      "Cópias de chaves, abertura e troca de fechaduras, fechaduras digitais, serviços automotivos, carimbos, elétrica e gráfica rápida."
-    ]
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 50,
+    "nome": "Auto Escola Aeroporto",
+    "categoriaPrincipal": "Compras",
+    "categorias": [
+      "Compras"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Morais, 1458",
+    "lat": -23.624453,
+    "lng": -46.6689192,
+    "telefones": [],
+    "instagram": "autoescolaaeroporto",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 51,
+    "nome": "Lions Techs Assistência Técnica",
+    "categoriaPrincipal": "Compras",
+    "categorias": [
+      "Compras"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Vieira de morais 1468",
+    "lat": -23.624516,
+    "lng": -46.6688411,
+    "telefones": [],
+    "instagram": "lionstechs",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 52,
+    "nome": "Barbell Fitness & Studio",
+    "categoriaPrincipal": "Academia",
+    "categorias": [
+      "Academia"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Vieira de morais 1320",
+    "lat": -23.6236441,
+    "lng": -46.6699195,
+    "telefones": [],
+    "instagram": "thebarbell",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 53,
+    "nome": "Miss Hair",
+    "categoriaPrincipal": "Beleza",
+    "categorias": [
+      "Beleza"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Morais, 1466",
+    "lat": -23.6245034,
+    "lng": -46.6688567,
+    "telefones": [],
+    "instagram": "misshair.megahair",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 54,
+    "nome": "Dolce Ricordo Pães de Mel",
+    "categoriaPrincipal": "Doceria",
+    "categorias": [
+      "Doceria"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua João Álvares Soares, 1284",
+    "lat": -23.626387,
+    "lng": -46.6760189,
+    "telefones": [],
+    "instagram": "dolcericordo.campobelo",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 55,
+    "nome": "Sr. Tabaco",
+    "categoriaPrincipal": "Compras",
+    "categorias": [
+      "Compras"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Demóstenes 890",
+    "lat": -23.6196852,
+    "lng": -46.6696834,
+    "telefones": [],
+    "instagram": "guiacampobeloeregiao",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 56,
+    "nome": "Leven Academia",
+    "categoriaPrincipal": "Academia",
+    "categorias": [
+      "Academia"
+    ],
+    "subcategoria": "",
+    "endereco": "R. Vieira de Morais, 1369",
+    "lat": -23.6239198,
+    "lng": -46.6695791,
+    "telefones": [],
+    "instagram": "academialeven",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 57,
+    "nome": "Ateliê do doce",
+    "categoriaPrincipal": "Confeitaria",
+    "categorias": [
+      "Confeitaria"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua João Álvares Soares, 1314",
+    "lat": -23.6291546,
+    "lng": -46.6786061,
+    "telefones": [],
+    "instagram": "instagram.com",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 58,
+    "nome": "No°11 The Beauty Care",
+    "categoriaPrincipal": "Salão de Beleza",
+    "categorias": [
+      "Salão de Beleza"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua: Antonio de Macedo Soares 1419",
+    "lat": -23.6196795,
+    "lng": -46.6727442,
+    "telefones": [],
+    "instagram": "n.onze_",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 59,
+    "nome": "Luciano Albino Studio",
+    "categoriaPrincipal": "Beleza",
+    "categorias": [
+      "Beleza"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua República do Iraque",
+    "lat": -23.6201452,
+    "lng": -46.6672115,
+    "telefones": [],
+    "instagram": "lucianoalbinostudio",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 60,
+    "nome": "O Jardim Café & Brunch",
+    "categoriaPrincipal": "Cafés",
+    "categorias": [
+      "Cafés"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Princesa Isabel, 1372",
+    "lat": -23.6220072,
+    "lng": -46.6827174,
+    "telefones": [],
+    "instagram": "ojardim.sp",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 61,
+    "nome": "Sugar & Co",
+    "categoriaPrincipal": "Confeitaria",
+    "categorias": [
+      "Confeitaria"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Pascal, 659",
+    "lat": -23.616258,
+    "lng": -46.6774184,
+    "telefones": [],
+    "instagram": "sugarandco.br",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 62,
+    "nome": "Ponto de Brigadeiro Doceria",
+    "categoriaPrincipal": "Doceria",
+    "categorias": [
+      "Doceria"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Pascal, 950",
+    "lat": -23.616258,
+    "lng": -46.6774184,
+    "telefones": [],
+    "instagram": "pontodebrigadeiro",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 63,
+    "nome": "Jazzy Sushi House",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Antônio de Macedo Soares, 1377",
+    "lat": -23.6199672,
+    "lng": -46.6730162,
+    "telefones": [],
+    "instagram": "jazzysushihouse",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 64,
+    "nome": "Alelu Pet",
+    "categoriaPrincipal": "PetShop",
+    "categorias": [
+      "PetShop"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Joao Alvares Soares 1157",
+    "lat": -23.626387,
+    "lng": -46.6760189,
+    "telefones": [],
+    "instagram": "guiacampobeloeregiao",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 65,
+    "nome": "Safari Shop",
+    "categoriaPrincipal": "PetShop",
+    "categorias": [
+      "PetShop"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Morais 1245",
+    "lat": -23.6232252,
+    "lng": -46.6704431,
+    "telefones": [],
+    "instagram": "oetsafariShop",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 66,
+    "nome": "Kasa saúde",
+    "categoriaPrincipal": "Pilates & Yoga",
+    "categorias": [
+      "Pilates & Yoga"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Cristovao Pereira, 1553 ",
+    "lat": -23.6261843,
+    "lng": -46.6698556,
+    "telefones": [],
+    "instagram": "kasa.saude",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 67,
+    "nome": "Zhair",
+    "categoriaPrincipal": "Salão de Beleza",
+    "categorias": [
+      "Salão de Beleza"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Doutor Jesuíno Maciel, 1064",
+    "lat": -23.6162359,
+    "lng": -46.6757081,
+    "telefones": [],
+    "instagram": "zhaircampobelo",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 68,
+    "nome": "Kunimura Naturais e Saudáveis",
+    "categoriaPrincipal": "Produtos Naturais",
+    "categorias": [
+      "Produtos Naturais"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Dr. Jesuíno Maciel, 735",
+    "lat": -23.6182004,
+    "lng": -46.6730454,
+    "telefones": [],
+    "instagram": "kunimurasaudaveis",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 69,
+    "nome": "Bijuteteia",
+    "categoriaPrincipal": "Bijuteria e Acessórios",
+    "categorias": [
+      "Bijuteria e Acessórios"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Barão de Jaceguai, 1369",
+    "lat": -23.6256697,
+    "lng": -46.6797248,
+    "telefones": [],
+    "instagram": "bijuteteia_acessorios",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 70,
+    "nome": "Floricultura Frey",
+    "categoriaPrincipal": "Floricultura",
+    "categorias": [
+      "Floricultura"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Morais, 831",
+    "lat": -23.6207236,
+    "lng": -46.673562,
+    "telefones": [],
+    "instagram": "floriculturafrey",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 71,
+    "nome": "Mediterrain Padaria Artesanal",
+    "categoriaPrincipal": "Padaria",
+    "categorias": [
+      "Padaria"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Gabriele D'Annunzio, 1263 e 1287",
+    "lat": -23.6258165,
+    "lng": -46.672241,
+    "telefones": [],
+    "instagram": "mediterrainpadaria",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 72,
+    "nome": "Al Jafar Especialidades Árabes",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Morais, 1174",
+    "lat": -23.6227928,
+    "lng": -46.6709835,
+    "telefones": [],
+    "instagram": "aljafar_restaurante",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 73,
+    "nome": "Miles Wine Bar",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Antônio de Macedo Soares, 1373",
+    "lat": -23.6199946,
+    "lng": -46.6730421,
+    "telefones": [],
+    "instagram": "mileswinebar",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 74,
+    "nome": "BIOClub Fitness",
+    "categoriaPrincipal": "Academia",
+    "categorias": [
+      "Academia"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Zacarias de Góis, 1085",
+    "lat": -23.630806,
+    "lng": -46.6786815,
+    "telefones": [],
+    "instagram": "academia_bioclub_fitness",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 75,
+    "nome": "Chili Sex Shop",
+    "categoriaPrincipal": "Sex Shop",
+    "categorias": [
+      "Sex Shop"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Morais, 1098",
+    "lat": -23.6223265,
+    "lng": -46.6715593,
+    "telefones": [],
+    "instagram": "chilisexshopp",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 76,
+    "nome": "Jueli Costuras",
+    "categoriaPrincipal": "Atelier",
+    "categorias": [
+      "Atelier"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Joao alvares soares 1632",
+    "lat": -23.626387,
+    "lng": -46.6760189,
+    "telefones": [],
+    "instagram": "guiacampobeloeregiao",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 77,
+    "nome": "Kimi Cosméticos",
+    "categoriaPrincipal": "Compras",
+    "categorias": [
+      "Compras"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Joao de Sousa dias 1150",
+    "lat": -23.6246617,
+    "lng": -46.670358,
+    "telefones": [],
+    "instagram": "kimicosmeticosoficial",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 78,
+    "nome": "Auto Nobre",
+    "categoriaPrincipal": "Serviços Automotivos",
+    "categorias": [
+      "Serviços Automotivos"
+    ],
+    "subcategoria": "",
+    "endereco": "R. Antonio de Macedo Soares, 1867",
+    "lat": -23.6166014,
+    "lng": -46.6698518,
+    "telefones": [],
+    "instagram": "auto_nobre",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 79,
+    "nome": "Empório Santo Expedito",
+    "categoriaPrincipal": "Supermercados",
+    "categorias": [
+      "Supermercados"
+    ],
+    "subcategoria": "",
+    "endereco": "R. Pascal, 1110",
+    "lat": -23.6222314,
+    "lng": -46.669954,
+    "telefones": [],
+    "instagram": "emporiosantoexpedito",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 80,
+    "nome": "O Boticário",
+    "categoriaPrincipal": "Perfumaria",
+    "categorias": [
+      "Perfumaria"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Morais, 1026",
+    "lat": -23.6218848,
+    "lng": -46.6721028,
+    "telefones": [],
+    "instagram": "guiacampobeloeregiao",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 81,
+    "nome": "Renata Arassiro Chocolates",
+    "categoriaPrincipal": "Chocolateira",
+    "categorias": [
+      "Chocolateira"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Pascal, 1195",
+    "lat": -23.616258,
+    "lng": -46.6774184,
+    "telefones": [],
+    "instagram": "renataarassirochocolates",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 82,
+    "nome": "Barbearia Comendador",
+    "categoriaPrincipal": "Barbearias",
+    "categorias": [
+      "Barbearias"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Morais, 730",
+    "lat": -23.6201314,
+    "lng": -46.6743149,
+    "telefones": [],
+    "instagram": "barbeariacomendador",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 83,
+    "nome": "Agello Cucina",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Sônia Ribeiro, 33",
+    "lat": -23.6329694,
+    "lng": -46.6746849,
+    "telefones": [],
+    "instagram": "agellocucina",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 84,
+    "nome": "Emporio Chef Kamal",
+    "categoriaPrincipal": "Cafés",
+    "categorias": [
+      "Cafés"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Morais, 1347",
+    "lat": -23.623796,
+    "lng": -46.6697319,
+    "telefones": [],
+    "instagram": "emporiochefkamal",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 85,
+    "nome": "Fatboyz Hamburgueria",
+    "categoriaPrincipal": "Hamburguerias",
+    "categorias": [
+      "Hamburguerias"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua João Alvares Soares 1302",
+    "lat": -23.6291546,
+    "lng": -46.6786061,
+    "telefones": [],
+    "instagram": "fatboyzburger",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 86,
+    "nome": "Oba Hortifruti (Campo Belo)",
+    "categoriaPrincipal": "Supermercados",
+    "categorias": [
+      "Supermercados"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Jesuíno Maciel, 1285",
+    "lat": -23.6162359,
+    "lng": -46.6757081,
+    "telefones": [],
+    "instagram": "guiacampobeloeregiao",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 87,
+    "nome": "Vero Latte",
+    "categoriaPrincipal": "Sorveteria & Doces",
+    "categorias": [
+      "Sorveteria & Doces"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Barão de Jaceguai, 1376",
+    "lat": -23.6256697,
+    "lng": -46.6797248,
+    "telefones": [],
+    "instagram": "verolattegelato",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 88,
+    "nome": "Sweet Cake",
+    "categoriaPrincipal": "Confeitaria",
+    "categorias": [
+      "Confeitaria"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Barão de Jaceguai, 1209",
+    "lat": -23.6256697,
+    "lng": -46.6797248,
+    "telefones": [],
+    "instagram": "deliciasdasweetcake",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 89,
+    "nome": "Restaurante Recanto da Sogra",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Barão de Jaceguai, 1526",
+    "lat": -23.6256697,
+    "lng": -46.6797248,
+    "telefones": [],
+    "instagram": "recantodasogra",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 90,
+    "nome": "Multicoisas",
+    "categoriaPrincipal": "Compras",
+    "categorias": [
+      "Compras"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Morais, 1304",
+    "lat": -23.6235547,
+    "lng": -46.6700312,
+    "telefones": [],
+    "instagram": "multicoisascampobelo",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 91,
+    "nome": "Senhor Smart",
+    "categoriaPrincipal": "Compras",
+    "categorias": [
+      "Compras"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Viera de morais 1319",
+    "lat": -23.6235881,
+    "lng": -46.6698721,
+    "telefones": [],
+    "instagram": "senhorsmartcampobelo",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 92,
+    "nome": "Pizzaria Paulino",
+    "categoriaPrincipal": "Pizzarias",
+    "categorias": [
+      "Pizzarias"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Antônio de Macedo Soares 1770",
+    "lat": -23.6172685,
+    "lng": -46.6704774,
+    "telefones": [],
+    "instagram": "pizzariapaulinocampobelo",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 93,
+    "nome": "Zi Tereza Pizzaria",
+    "categoriaPrincipal": "Pizzarias",
+    "categorias": [
+      "Pizzarias"
+    ],
+    "subcategoria": "",
+    "endereco": "Avenida Vereador José Diniz, 3401",
+    "lat": -23.617800014847,
+    "lng": -46.675726029405,
+    "telefones": [],
+    "instagram": "zitereza",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 94,
+    "nome": "Energy Imoveis",
+    "categoriaPrincipal": "Imobiliárias",
+    "categorias": [
+      "Imobiliárias"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Pascal, 1907",
+    "lat": -23.6222314,
+    "lng": -46.669954,
+    "telefones": [],
+    "instagram": "energy_imoveis",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 95,
+    "nome": "Ortobom Colchões",
+    "categoriaPrincipal": "Colchões",
+    "categorias": [
+      "Colchões"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Morais, 753",
+    "lat": -23.6202646,
+    "lng": -46.6741458,
+    "telefones": [],
+    "instagram": "colchoes_ortobomcampobelo_sp",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 96,
+    "nome": "Safhari",
+    "categoriaPrincipal": "Espaço para Festas",
+    "categorias": [
+      "Espaço para Festas"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Morais, 1118",
+    "lat": -23.6224498,
+    "lng": -46.6714083,
+    "telefones": [],
+    "instagram": "espacosafhari",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 97,
+    "nome": "Sodie Doces",
+    "categoriaPrincipal": "Doceria",
+    "categorias": [
+      "Doceria"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Joao alvares soares 1430",
+    "lat": -23.6291546,
+    "lng": -46.6786061,
+    "telefones": [],
+    "instagram": "sodiedoces_campobelo",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 98,
+    "nome": "Seven Restaurante & Pizzaria",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Joao alvares soares 1397",
+    "lat": -23.626387,
+    "lng": -46.6760189,
+    "telefones": [],
+    "instagram": "pizzariaseven",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 99,
+    "nome": "Bar do Campo Belo",
+    "categoriaPrincipal": "Compras",
+    "categorias": [
+      "Compras"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Joao alvares soares 1502",
+    "lat": -23.6291546,
+    "lng": -46.6786061,
+    "telefones": [],
+    "instagram": "bcb.barcampobelo",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 100,
+    "nome": "Ateliê Galhardo",
+    "categoriaPrincipal": "Atelier",
+    "categorias": [
+      "Atelier"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua João Álvares Soares 1200",
+    "lat": -23.6262916,
+    "lng": -46.675948,
+    "telefones": [],
+    "instagram": "atelie.galhardo",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 101,
+    "nome": "Alfandega restaurante",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua República do Iraque, 1347",
+    "lat": -23.6202508,
+    "lng": -46.6673318,
+    "telefones": [],
+    "instagram": "alfandegarestaurante",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 102,
+    "nome": "Café Des Fleur",
+    "categoriaPrincipal": "Cafés",
+    "categorias": [
+      "Cafés"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Gabriele D'Annunzio, 1291",
+    "lat": -23.62594,
+    "lng": -46.6721193,
+    "telefones": [],
+    "instagram": "cafedesfleur_sp",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 103,
+    "nome": "Cris parrilla bar e restaurante",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua República do Iraque, 1326",
+    "lat": -23.6241779,
+    "lng": -46.6709881,
+    "telefones": [],
+    "instagram": "crisparrillabar",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 104,
+    "nome": "La Paella Restaurante",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Antônio de Macedo Soares, 1369",
+    "lat": -23.620022,
+    "lng": -46.673068,
+    "telefones": [],
+    "instagram": "lapaellarestaurante",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 105,
+    "nome": "Aki é festa",
+    "categoriaPrincipal": "Compras",
+    "categorias": [
+      "Compras"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Morais 1184",
+    "lat": -23.6228537,
+    "lng": -46.6709074,
+    "telefones": [],
+    "instagram": "akiefesta",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 106,
+    "nome": "Amigas.cao",
+    "categoriaPrincipal": "PetShop",
+    "categorias": [
+      "PetShop"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Joao Alvares Soares 1217",
+    "lat": -23.626387,
+    "lng": -46.6760189,
+    "telefones": [],
+    "instagram": "amigas.cao",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 107,
+    "nome": "Red balloon",
+    "categoriaPrincipal": "Educação & Cursos",
+    "categorias": [
+      "Educação & Cursos"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Moarais 1124",
+    "lat": -23.6225927,
+    "lng": -46.6714481,
+    "telefones": [],
+    "instagram": "redballoon_campobelo",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 108,
+    "nome": "CVC Viagens - Campo Belo",
+    "categoriaPrincipal": "Agência de Viagens",
+    "categorias": [
+      "Agência de Viagens"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Morais, 1088",
+    "lat": -23.6222649,
+    "lng": -46.6716348,
+    "telefones": [],
+    "instagram": "cvc.sp.campobelo",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 109,
+    "nome": "Açougue Bom Beef Campo Belo",
+    "categoriaPrincipal": "Compras",
+    "categorias": [
+      "Compras"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua João de Souza 214",
+    "lat": -23.6242264,
+    "lng": -46.6707299,
+    "telefones": [],
+    "instagram": "bombeefcampobelo",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 110,
+    "nome": "Tradicional Campo Belo",
+    "categoriaPrincipal": "Casa de Bolos",
+    "categorias": [
+      "Casa de Bolos"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Morais, 922",
+    "lat": -23.6212656,
+    "lng": -46.6728803,
+    "telefones": [],
+    "instagram": "tradicionalcampobelo",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 111,
+    "nome": "LCZ Engenharia",
+    "categoriaPrincipal": "Compras",
+    "categorias": [
+      "Compras"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Viera de morais 1366",
+    "lat": -23.6240883,
+    "lng": -46.669723,
+    "telefones": [],
+    "instagram": "lczengenharia",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 112,
+    "nome": "Sapataria e Chaveiro Vicente",
+    "categoriaPrincipal": "Sapataria",
+    "categorias": [
+      "Sapataria"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Morais, 953",
+    "lat": -23.6214491,
+    "lng": -46.6726477,
+    "telefones": [],
+    "instagram": "sapatariachaveirovicente",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 113,
+    "nome": "Atomy",
+    "categoriaPrincipal": "Beleza",
+    "categorias": [
+      "Beleza"
+    ],
+    "subcategoria": "",
+    "endereco": "",
+    "lat": null,
+    "lng": null,
+    "telefones": [],
+    "instagram": "helenah.atomy",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 114,
+    "nome": "Premium Tasting",
+    "categoriaPrincipal": "Lazer",
+    "categorias": [
+      "Lazer"
+    ],
+    "subcategoria": "",
+    "endereco": "Av das Nações Unidas, 12551",
+    "lat": -23.6089803,
+    "lng": -46.6961636,
+    "telefones": [],
+    "instagram": "premiumtasting",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 115,
+    "nome": "ProQualita Serviços em Alimentação",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Antônio de Macedo Soares",
+    "lat": -23.62436,
+    "lng": -46.6771159,
+    "telefones": [],
+    "instagram": "proqualita",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 116,
+    "nome": "Musa Morais Leilões",
+    "categoriaPrincipal": "Leilões",
+    "categorias": [
+      "Leilões"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua João de Sousa Dias, 278",
+    "lat": -23.6246617,
+    "lng": -46.670358,
+    "telefones": [],
+    "instagram": "musamoraisleiloes",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 117,
+    "nome": "FGA SECURITY",
+    "categoriaPrincipal": "Segurança Patrimonial",
+    "categorias": [
+      "Segurança Patrimonial"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Júlio Diniz",
+    "lat": -23.5990358,
+    "lng": -46.6847508,
+    "telefones": [],
+    "instagram": "fgaseg",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 118,
+    "nome": "Casa Del Papa",
+    "categoriaPrincipal": "Moda & Roupas",
+    "categorias": [
+      "Moda & Roupas"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Zacarias de Gois, 1183",
+    "lat": -23.6273439,
+    "lng": -46.6753993,
+    "telefones": [],
+    "instagram": "casadelpapabr",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 119,
+    "nome": "Silvia Consultora Imobiliária",
+    "categoriaPrincipal": "Imobiliárias",
+    "categorias": [
+      "Imobiliárias"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Estevão Baião, 520",
+    "lat": -23.6289919,
+    "lng": -46.6684254,
+    "telefones": [],
+    "instagram": "guiacampobeloeregiao",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 120,
+    "nome": "Boys Being Boys",
+    "categoriaPrincipal": "Moda & Roupas",
+    "categorias": [
+      "Moda & Roupas"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua João de Sousa Dias, 595",
+    "lat": -23.6246617,
+    "lng": -46.670358,
+    "telefones": [],
+    "instagram": "guiacampobeloeregiao",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 121,
+    "nome": "Gran Cellar",
+    "categoriaPrincipal": "Supermercados",
+    "categorias": [
+      "Supermercados"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Cristóvão Pereira",
+    "lat": -23.6261843,
+    "lng": -46.6698556,
+    "telefones": [],
+    "instagram": "grancellar",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 122,
+    "nome": "Fast Tennis Campo Belo",
+    "categoriaPrincipal": "Academia",
+    "categorias": [
+      "Academia"
+    ],
+    "subcategoria": "",
+    "endereco": "Avenida Jornalista Roberto Marinho 2971",
+    "lat": -23.6258892,
+    "lng": -46.6761408,
+    "telefones": [],
+    "instagram": "guiacampobeloeregiao",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 123,
+    "nome": "Distrito Animal",
+    "categoriaPrincipal": "PetShop",
+    "categorias": [
+      "PetShop"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Pascal",
+    "lat": -23.6222314,
+    "lng": -46.669954,
+    "telefones": [],
+    "instagram": "guiacampobeloeregiao",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 124,
+    "nome": "NANCI MASSOTERAPEUTA",
+    "categoriaPrincipal": "Clínicas & Consultórios",
+    "categorias": [
+      "Clínicas & Consultórios"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Xavier Gouveia 375",
+    "lat": -23.6275885,
+    "lng": -46.6736289,
+    "telefones": [],
+    "instagram": "nanci.massoterapeuta",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 125,
+    "nome": "Soham Yoga",
+    "categoriaPrincipal": "Pilates & Yoga",
+    "categorias": [
+      "Pilates & Yoga"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Dr. Jesuíno Maciel, 735",
+    "lat": -23.6182004,
+    "lng": -46.6730454,
+    "telefones": [],
+    "instagram": "rosesoham.yoga",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 126,
+    "nome": "Musicoterapia no Bairro Campo",
+    "categoriaPrincipal": "Aula de Música",
+    "categorias": [
+      "Aula de Música"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Demóstenes, 1329",
+    "lat": -23.616166,
+    "lng": -46.6740645,
+    "telefones": [],
+    "instagram": "nataliaramalho.musicoterapia",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 127,
+    "nome": "Sultão Turkish Restaurante",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Demóstenes, 920",
+    "lat": -23.6196852,
+    "lng": -46.6696834,
+    "telefones": [],
+    "instagram": "sultao_restaurante",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 128,
+    "nome": "RGONZALES modas",
+    "categoriaPrincipal": "Moda & Roupas",
+    "categorias": [
+      "Moda & Roupas"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Dr. Ubaldo Franco Caiubi 370",
+    "lat": -23.659773987559,
+    "lng": -46.67252003526,
+    "telefones": [],
+    "instagram": "RGONZALESMODAS",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 129,
+    "nome": "Silvia Só Flower",
+    "categoriaPrincipal": "Floricultura",
+    "categorias": [
+      "Floricultura"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Antônio de Macedo Soares, 1820",
+    "lat": -23.6169253,
+    "lng": -46.6701543,
+    "telefones": [],
+    "instagram": "silviasoflower",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 130,
+    "nome": "Fazzi Massas Artesanais",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "",
+    "endereco": "R Estevão Baião, 520",
+    "lat": -23.6267652,
+    "lng": -46.667566,
+    "telefones": [],
+    "instagram": "fazzimassas",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 131,
+    "nome": "Carmen da Biju",
+    "categoriaPrincipal": "Bijuteria e Acessórios",
+    "categorias": [
+      "Bijuteria e Acessórios"
+    ],
+    "subcategoria": "",
+    "endereco": "R Estevão Baião, 520",
+    "lat": -23.6267652,
+    "lng": -46.667566,
+    "telefones": [],
+    "instagram": "carmendabiju",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 132,
+    "nome": "Transforme Stetic Center",
+    "categoriaPrincipal": "Beleza",
+    "categorias": [
+      "Beleza"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Vieira de Moraes 1457",
+    "lat": -23.6244467,
+    "lng": -46.668927,
+    "telefones": [],
+    "instagram": "transformestetic",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 133,
+    "nome": "Clínica Peso Menor",
+    "categoriaPrincipal": "Clínicas & Consultórios",
+    "categorias": [
+      "Clínicas & Consultórios"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Dr. Jesuíno Maciel, 1178",
+    "lat": -23.6162359,
+    "lng": -46.6757081,
+    "telefones": [],
+    "instagram": "oficialpesomenor",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 134,
+    "nome": "Clínica Lammardo",
+    "categoriaPrincipal": "Odontologia",
+    "categorias": [
+      "Odontologia"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Antônio de Macedo Soares 1422",
+    "lat": -23.6196589,
+    "lng": -46.6727248,
+    "telefones": [],
+    "instagram": "clinicalammardo",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 135,
+    "nome": "Othelo Restaurante",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua: Barão de Jaceguai, 1405",
+    "lat": -23.6256697,
+    "lng": -46.6797248,
+    "telefones": [],
+    "instagram": "othelorestaurante",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 136,
+    "nome": "Migra Master",
+    "categoriaPrincipal": "Compras",
+    "categorias": [
+      "Compras"
+    ],
+    "subcategoria": "",
+    "endereco": "Rua Barão do Triunfo, 88",
+    "lat": -23.627114,
+    "lng": -46.6855331,
+    "telefones": [],
+    "instagram": "Migra_Master",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 201,
+    "nome": "Urban Kitchen",
+    "categoriaPrincipal": "Cafés",
+    "categorias": [
+      "Cafés"
+    ],
+    "subcategoria": "Cafés",
+    "endereco": "Rua Gabriele D’Annunzio 1334",
+    "lat": -23.626336983231,
+    "lng": -46.67186901284,
+    "telefones": [],
+    "instagram": "urbankitchen",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 202,
+    "nome": "NB Steak Campo Belo",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "Restaurantes",
+    "endereco": "Avenida Vereador José Diniz 3864",
+    "lat": -23.615046392016,
+    "lng": -46.672458176814,
+    "telefones": [],
+    "instagram": "nbsteak",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 203,
+    "nome": "Huto Izakaya",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "Restaurantes",
+    "endereco": "Rua Jesuíno Maciel 682",
+    "lat": -23.618016980411,
+    "lng": -46.673545980208,
+    "telefones": [],
+    "instagram": "grupo_huto",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 204,
+    "nome": "Maremonti Campo Belo",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "Restaurantes",
+    "endereco": "Rua Princesa Isabel 953",
+    "lat": -23.618083281265,
+    "lng": -46.679057835917,
+    "telefones": [],
+    "instagram": "maremonti_",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 206,
+    "nome": "Sauce Burger",
+    "categoriaPrincipal": "Hamburguerias",
+    "categorias": [
+      "Hamburguerias"
+    ],
+    "subcategoria": "Hamburguerias",
+    "endereco": "Rua João de Sousa Dias 475",
+    "lat": -23.622934014361,
+    "lng": -46.672667975851,
+    "telefones": [],
+    "instagram": "sauce.burgers",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 207,
+    "nome": "Ken Zushi",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "Restaurantes",
+    "endereco": "Rua Barão de Suruí 190 - 1º andar",
+    "lat": -23.619265003884,
+    "lng": -46.66401299027,
+    "telefones": [],
+    "instagram": "ken_zushi",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 208,
+    "nome": "Pizzaria Dona Moema",
+    "categoriaPrincipal": "Pizzarias",
+    "categorias": [
+      "Pizzarias"
+    ],
+    "subcategoria": "Pizzarias",
+    "endereco": "Rua Vieira de Morais 1300",
+    "lat": -23.623446986835,
+    "lng": -46.670044021062,
+    "telefones": [],
+    "instagram": "",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 209,
+    "nome": "Pizza Prime Campo Belo",
+    "categoriaPrincipal": "Pizzarias",
+    "categorias": [
+      "Pizzarias"
+    ],
+    "subcategoria": "Pizzarias",
+    "endereco": "Rua Vieira de Morais 1016",
+    "lat": -23.621832003641,
+    "lng": -46.672192973398,
+    "telefones": [],
+    "instagram": "",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 211,
+    "nome": "Café Artigas",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "Restaurantes",
+    "endereco": "Rua Barão de Jaceguai 1151",
+    "lat": -23.620414288538,
+    "lng": -46.675200064981,
+    "telefones": [],
+    "instagram": "cafeartigas",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 213,
+    "nome": "Chocolatria",
+    "categoriaPrincipal": "Chocolateira",
+    "categorias": [
+      "Chocolateira"
+    ],
+    "subcategoria": "Chocolateira",
+    "endereco": "Rua Rita Joana de Sousa 38",
+    "lat": -23.61381,
+    "lng": -46.67247,
+    "telefones": [],
+    "instagram": "chocolatria",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 214,
+    "nome": "Platz Eurobar",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "Restaurantes",
+    "endereco": "Rua Cristóvão Pereira 1252",
+    "lat": -23.627706795758,
+    "lng": -46.671247913815,
+    "telefones": [],
+    "instagram": "platz_eurobar",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 216,
+    "nome": "Miya Wine Bar",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "Restaurantes",
+    "endereco": "Rua República do Iraque 1038",
+    "lat": -23.625560986635,
+    "lng": -46.672203031682,
+    "telefones": [],
+    "instagram": "miyawinebar",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 217,
+    "nome": "Caetano’s Bar",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "Restaurantes",
+    "endereco": "Rua Vieira de Morais 1857",
+    "lat": -23.626520002087,
+    "lng": -46.665447972093,
+    "telefones": [],
+    "instagram": "",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 218,
+    "nome": "Padaria Colonial",
+    "categoriaPrincipal": "Padaria",
+    "categorias": [
+      "Padaria"
+    ],
+    "subcategoria": "Padaria",
+    "endereco": "Rua Demóstenes 805",
+    "lat": -23.617693019853,
+    "lng": -46.672077973686,
+    "telefones": [],
+    "instagram": "",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 219,
+    "nome": "Padaria A Trigueira",
+    "categoriaPrincipal": "Padaria",
+    "categorias": [
+      "Padaria"
+    ],
+    "subcategoria": "Padaria",
+    "endereco": "Rua Demóstenes 805",
+    "lat": -23.617693019853,
+    "lng": -46.672077973686,
+    "telefones": [],
+    "instagram": "",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 220,
+    "nome": "Benjamin a Padaria",
+    "categoriaPrincipal": "Padaria",
+    "categorias": [
+      "Padaria"
+    ],
+    "subcategoria": "Padaria",
+    "endereco": "Rua Dr. Jesuíno Maciel 192",
+    "lat": -23.614838434445,
+    "lng": -46.677546256929,
+    "telefones": [],
+    "instagram": "",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 221,
+    "nome": "Toss Baking Unit",
+    "categoriaPrincipal": "Cafés",
+    "categorias": [
+      "Cafés"
+    ],
+    "subcategoria": "Cafés",
+    "endereco": "Avenida Vereador José Diniz 3031",
+    "lat": -23.620312792214,
+    "lng": -46.678129856193,
+    "telefones": [],
+    "instagram": "toss.bakingunit",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 222,
+    "nome": "Confeitaria Christina",
+    "categoriaPrincipal": "Confeitaria",
+    "categorias": [
+      "Confeitaria"
+    ],
+    "subcategoria": "Confeitaria",
+    "endereco": "Rua Vieira de Morais 837",
+    "lat": -23.6207221,
+    "lng": -46.6734128,
+    "telefones": [],
+    "instagram": "confeitariachristina",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 223,
+    "nome": "Dona Glória Confeitaria",
+    "categoriaPrincipal": "Confeitaria",
+    "categorias": [
+      "Confeitaria"
+    ],
+    "subcategoria": "Confeitaria",
+    "endereco": "Rua Brás de Arzão 71",
+    "lat": -23.627995007498,
+    "lng": -46.667485026022,
+    "telefones": [],
+    "instagram": "",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 224,
+    "nome": "Tartelier Patisserie",
+    "categoriaPrincipal": "Cafés",
+    "categorias": [
+      "Cafés"
+    ],
+    "subcategoria": "Cafés",
+    "endereco": "Rua Sônia Ribeiro 27",
+    "lat": -23.6261282,
+    "lng": -46.6696315,
+    "telefones": [],
+    "instagram": "tartelier",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 225,
+    "nome": "LIVE! Campo Belo",
+    "categoriaPrincipal": "Moda & Roupas",
+    "categorias": [
+      "Moda & Roupas"
+    ],
+    "subcategoria": "Moda & Roupas",
+    "endereco": "Rua João de Sousa Dias 603",
+    "lat": -23.622042012225,
+    "lng": -46.67372501766,
+    "telefones": [],
+    "instagram": "liveoficial",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 226,
+    "nome": "Boutique dos Livros",
+    "categoriaPrincipal": "Moda & Roupas",
+    "categorias": [
+      "Moda & Roupas"
+    ],
+    "subcategoria": "Moda & Roupas",
+    "endereco": "Rua Pascal 1131",
+    "lat": -23.621466007839,
+    "lng": -46.670922025419,
+    "telefones": [],
+    "instagram": "_boutiquedoslivros_",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 227,
+    "nome": "HSE Loja 2",
+    "categoriaPrincipal": "Academia",
+    "categorias": [
+      "Academia"
+    ],
+    "subcategoria": "Academia",
+    "endereco": "Rua Conde de Porto Alegre 1182",
+    "lat": -23.622287979174,
+    "lng": -46.673657962435,
+    "telefones": [],
+    "instagram": "hseloja2",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 228,
+    "nome": "La Mia Gelateria",
+    "categoriaPrincipal": "Sorveteria & Doces",
+    "categorias": [
+      "Sorveteria & Doces"
+    ],
+    "subcategoria": "Sorveteria & Doces",
+    "endereco": "Rua Vieira de Morais 329",
+    "lat": -23.617638788939,
+    "lng": -46.677242734785,
+    "telefones": [],
+    "instagram": "lamia.gelateria",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 230,
+    "nome": "Okone Cozinha Japonesa e Peruana",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "Restaurantes",
+    "endereco": "Rua Gabriele D’Annunzio 1267",
+    "lat": -23.625762403768,
+    "lng": -46.672185681142,
+    "telefones": [],
+    "instagram": "Okone.SP",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 231,
+    "nome": "Omakase Nihon",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "Restaurantes",
+    "endereco": "Rua Antônio de Macedo Soares 1377",
+    "lat": -23.619956301348,
+    "lng": -46.67317617064,
+    "telefones": [],
+    "instagram": "omakasenihon",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 232,
+    "nome": "Churrascaria Estância Campo Belo",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "Restaurantes",
+    "endereco": "Avenida Vereador José Diniz 3271",
+    "lat": -23.61864901782,
+    "lng": -46.676666981856,
+    "telefones": [],
+    "instagram": "estancia_campo_belo",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 234,
+    "nome": "Soffio Pizzeria",
+    "categoriaPrincipal": "Pizzarias",
+    "categorias": [
+      "Pizzarias"
+    ],
+    "subcategoria": "Pizzarias",
+    "endereco": "Rua João de Sousa Dias 281",
+    "lat": -23.623881001782,
+    "lng": -46.671355034537,
+    "telefones": [],
+    "instagram": "soffiopizzeria",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 235,
+    "nome": "Le Petit Gabriele",
+    "categoriaPrincipal": "Restaurantes",
+    "categorias": [
+      "Restaurantes"
+    ],
+    "subcategoria": "Restaurantes",
+    "endereco": "Rua Gabriele D’Annunzio 1266",
+    "lat": -23.625933981326,
+    "lng": -46.672318031393,
+    "telefones": [],
+    "instagram": "lepetitgabriele",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 236,
+    "nome": "Delícias do Campo Belo",
+    "categoriaPrincipal": "Cafés",
+    "categorias": [
+      "Cafés"
+    ],
+    "subcategoria": "Cafés",
+    "endereco": "Rua João de Sousa Dias, 569",
+    "lat": -23.622291583392,
+    "lng": -46.673499879741,
+    "telefones": [],
+    "instagram": "deliciasdocampobelo",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 237,
+    "nome": "Espaço Mel Casagrande",
+    "categoriaPrincipal": "Moda & Roupas",
+    "categorias": [
+      "Moda & Roupas"
+    ],
+    "subcategoria": "Moda & Roupas",
+    "endereco": "Rua Vieira de Morais 1230",
+    "lat": -23.623136982146,
+    "lng": -46.670702000461,
+    "telefones": [],
+    "instagram": "espacomelcasagrande",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 238,
+    "nome": "Empório Itiê",
+    "categoriaPrincipal": "Compras",
+    "categorias": [
+      "Compras"
+    ],
+    "subcategoria": "Compras",
+    "endereco": "Rua Viaza 887",
+    "lat": -23.635057389566,
+    "lng": -46.662412968773,
+    "telefones": [],
+    "instagram": "emporioitie",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 239,
+    "nome": "Clínica Campo Belo",
+    "categoriaPrincipal": "Clínicas & Consultórios",
+    "categorias": [
+      "Clínicas & Consultórios"
+    ],
+    "subcategoria": "Clínicas & Consultórios",
+    "endereco": "Avenida Vereador José Diniz 3300, conjunto 201, 2º andar",
+    "lat": -23.619002901772,
+    "lng": -46.676136407385,
+    "telefones": [],
+    "instagram": "clinicacampobelo",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 241,
+    "nome": "OMO Lavanderia Especializada Vieira de Morais",
+    "categoriaPrincipal": "Serviços Profissionais",
+    "categorias": [
+      "Serviços Profissionais"
+    ],
+    "subcategoria": "Serviços Profissionais",
+    "endereco": "Rua Vieira de Morais 380",
+    "lat": -23.618095979848,
+    "lng": -46.67716696238,
+    "telefones": [],
+    "instagram": "omolavanderia10",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 242,
+    "nome": "Campo Belo Soluções Imobiliárias",
+    "categoriaPrincipal": "Imobiliárias",
+    "categorias": [
+      "Imobiliárias"
+    ],
+    "subcategoria": "Imobiliárias",
+    "endereco": "Rua Estevão Baião 599",
+    "lat": -23.627300985915,
+    "lng": -46.66784100545,
+    "telefones": [],
+    "instagram": "_campobeloimoveis",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 243,
+    "nome": "Vet Quality Hospital Veterinário 24h",
+    "categoriaPrincipal": "PetShop",
+    "categorias": [
+      "PetShop"
+    ],
+    "subcategoria": "PetShop",
+    "endereco": "Rua Vieira de Morais 1862",
+    "lat": -23.626471009863,
+    "lng": -46.66556598929,
+    "telefones": [],
+    "instagram": "vetquality",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 244,
+    "nome": "Kumon Campo Belo — Gabriele D’Annunzio",
+    "categoriaPrincipal": "Educação & Cursos",
+    "categorias": [
+      "Educação & Cursos"
+    ],
+    "subcategoria": "Educação & Cursos",
+    "endereco": "Rua Cristóvão Pereira 1345",
+    "lat": -23.62702098844,
+    "lng": -46.670668975762,
+    "telefones": [],
+    "instagram": "kumoncampobelogabrieledannunzi",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 245,
+    "nome": "Paróquia Nossa Senhora de Guadalupe",
+    "categoriaPrincipal": "Serviços Profissionais",
+    "categorias": [
+      "Serviços Profissionais"
+    ],
+    "subcategoria": "Serviços Profissionais",
+    "endereco": "Rua República do Iraque 1839",
+    "lat": -23.619735019104,
+    "lng": -46.666798967247,
+    "telefones": [],
+    "instagram": "paroquiansraguadalupe",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 249,
+    "nome": "Chaveiro Novo Aeon",
+    "categoriaPrincipal": "Serviços Profissionais",
+    "categorias": [
+      "Serviços Profissionais"
+    ],
+    "subcategoria": "Serviços Profissionais",
+    "endereco": "Rua Demóstenes 701",
+    "lat": -23.616960986339,
+    "lng": -46.673037031048,
+    "telefones": [],
+    "instagram": "chaveironovoaeon",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 250,
+    "nome": "LePuy Moda Feminina",
+    "categoriaPrincipal": "Moda & Roupas",
+    "categorias": [
+      "Moda & Roupas"
+    ],
+    "subcategoria": "Moda & Roupas",
+    "endereco": "Rua Pascal 960",
+    "lat": -23.620533443637,
+    "lng": -46.67218679845,
+    "telefones": [],
+    "instagram": "lepuymoda",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 251,
+    "nome": "Nórdico Padaria",
+    "categoriaPrincipal": "Padaria",
+    "categorias": [
+      "Padaria"
+    ],
+    "subcategoria": "Padaria",
+    "endereco": "Rua Morais de Barros 1009, Loja 01",
+    "lat": -23.614909096442,
+    "lng": -46.674017126986,
+    "telefones": [],
+    "instagram": "nordicopadaria",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 252,
+    "nome": "Studio Andréa Aronne",
+    "categoriaPrincipal": "Salão de Beleza",
+    "categorias": [
+      "Salão de Beleza"
+    ],
+    "subcategoria": "Salão de Beleza",
+    "endereco": "Rua João de Sousa Dias 631",
+    "lat": -23.621868003915,
+    "lng": -46.674050989875,
+    "telefones": [],
+    "instagram": "studioandreaaronne",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 253,
+    "nome": "Usaflex Campo Belo",
+    "categoriaPrincipal": "Moda & Roupas",
+    "categorias": [
+      "Moda & Roupas"
+    ],
+    "subcategoria": "Moda & Roupas",
+    "endereco": "Rua Vieira de Moraes, 1183",
+    "lat": -23.622801999386,
+    "lng": -46.670892018206,
+    "telefones": [],
+    "instagram": "usaflex",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 254,
+    "nome": "Cabana Burger Campo Belo",
+    "categoriaPrincipal": "Hamburguerias",
+    "categorias": [
+      "Hamburguerias"
+    ],
+    "subcategoria": "Hamburguerias",
+    "endereco": "Rua Demóstenes 806",
+    "lat": -23.617695995428,
+    "lng": -46.672276960068,
+    "telefones": [],
+    "instagram": "cabana.burger",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
   }
 ];

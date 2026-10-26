@@ -6,44 +6,22 @@ import vm from "node:vm";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const sourcePath = path.join(root, "index.html");
+const sourcePaths = [
+  path.join(root, "dados-locais.js"),
+  path.join(root, "dados-locais-resgatados.js"),
+];
 const outputPath = path.join(root, "drone", "dados.js");
-const source = fs.readFileSync(sourcePath, "utf8");
-const startMarker = "const dados = [";
-const start = source.indexOf(startMarker);
-
-if (start < 0) throw new Error("Lista 'const dados' não encontrada em index.html");
-
-let cursor = start + "const dados = ".length;
-let depth = 0;
-let quote = "";
-let escaped = false;
-let end = -1;
-
-for (; cursor < source.length; cursor += 1) {
-  const char = source[cursor];
-  if (quote) {
-    if (escaped) escaped = false;
-    else if (char === "\\") escaped = true;
-    else if (char === quote) quote = "";
-    continue;
-  }
-  if (char === '"' || char === "'" || char === "`") {
-    quote = char;
-  } else if (char === "[") {
-    depth += 1;
-  } else if (char === "]") {
-    depth -= 1;
-    if (depth === 0) {
-      end = cursor + 1;
-      break;
-    }
-  }
+const context = { window: {} };
+vm.createContext(context);
+for (const sourcePath of sourcePaths) {
+  vm.runInContext(fs.readFileSync(sourcePath, "utf8"), context, { filename: sourcePath });
 }
 
-if (end < 0) throw new Error("Fim da lista de estabelecimentos não encontrado");
-
-const records = vm.runInNewContext(`(${source.slice(start + "const dados = ".length, end)})`);
+const records = [
+  ...(context.window.DADOS_LOCAIS || []),
+  ...(context.window.DADOS_LOCAIS_RESGATADOS || []),
+];
+if (!records.length) throw new Error("Nenhum estabelecimento encontrado nas bases do diretório");
 const normalized = records.map((item) => ({
   id: item.id,
   nome: item.nome,
@@ -62,7 +40,7 @@ const normalized = records.map((item) => ({
 }));
 
 const valid = normalized.filter((item) => Number.isFinite(item.lat) && Number.isFinite(item.lng));
-const header = `/* DADOS DO DRONE GERADOS A PARTIR DE index.html\n` +
+const header = `/* DADOS DO DRONE GERADOS A PARTIR DAS BASES DO DIRETÓRIO\n` +
   `   Não editar manualmente. Execute: node scripts/build_drone_data.mjs\n` +
   `   Total: ${normalized.length}; com coordenadas: ${valid.length}. */\n\n`;
 fs.mkdirSync(path.dirname(outputPath), { recursive: true });
