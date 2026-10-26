@@ -991,7 +991,7 @@ body {
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="dados-locais.js?v=ux-20261026-interactions"></script>
-<script src="dados-locais-resgatados.js?v=geo-20261026-massoterapia"></script>
+<script src="dados-locais-resgatados.js?v=geo-20261026-emporio-real"></script>
 <script>
 /* ── DATA ────────────────────────────────────── */
 // cats: macrocategorias de exibição; a primeira é a categoria principal.
@@ -1545,7 +1545,9 @@ function openModal(id) {
   const telHref = phoneDigits ? `tel:+55${phoneDigits}` : '';
   const igValue = d.ig ? d.ig.replace(/^https?:\/\/(?:www\.)?instagram\.com\//i, '').replace(/^@/, '') : '';
   const igHref = igValue ? `https://instagram.com/${igValue}` : '';
+  const siteHref = d.site ? (/^https?:\/\//i.test(d.site) ? d.site : `https://${d.site}`) : '';
   const actionLinks = [
+    siteHref ? `<a class="modal-btn btn-site" href="${siteHref}" target="_blank" rel="noopener">Site</a>` : '',
     whatsappHref ? `<a class="modal-btn btn-wp" href="${whatsappHref}" target="_blank" rel="noopener">WhatsApp</a>` : '',
     telHref ? `<a class="modal-btn btn-tel" href="${telHref}">Ligar</a>` : '',
     igHref ? `<a class="modal-btn btn-ig" href="${igHref}" target="_blank" rel="noopener">Instagram</a>` : '',
@@ -1591,6 +1593,7 @@ function buildDestaqueCarousel() {
     { nome: 'Elma Martins Hair Spa', category: 'Beleza & Salões', image: 'photo-1517841905240-472988babdf9' },
     { nome: 'Andrea Zucci Acessórios', category: 'Moda & Acessórios', image: 'photo-1523779917675-b6ed3a42a561' },
     { nome: 'LePuy Moda Feminina', category: 'Moda & Acessórios', image: 'photo-1529139574466-a303027c1d8b' },
+    { nome: 'Empório do Real', category: 'Casa & Decoração', image: 'photo-1543589077-47d81606c1bf' },
     { nome: 'Nórdico Padaria', category: 'Comer & Beber', image: 'photo-1509440159596-0249088772ff' },
     { nome: 'Chaveiro Novo Aeon', category: 'Serviços Profissionais', image: 'photo-1629909613654-28e377c37b09' },
     { nome: 'Eomma Spa', category: 'Beleza & Salões', image: 'photo-1540555700478-4be289fbecef' },
