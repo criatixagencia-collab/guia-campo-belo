@@ -201,6 +201,12 @@ body {
 @media (hover: hover) { .destaques-track { cursor: grab; } }
 
 .destaque-card {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  text-align: left;
   flex-shrink: 0;
   width: 148px;
   height: 58px;
@@ -219,6 +225,7 @@ body {
 
 .destaque-overlay {
   position: absolute; inset: 0;
+  pointer-events: none;
   background: linear-gradient(
     180deg,
     rgba(0,0,0,.02) 0%,
@@ -231,6 +238,7 @@ body {
   bottom: 0; left: 0; right: 0;
   padding: 8px 10px 9px;
   z-index: 1;
+  pointer-events: none;
 }
 .destaque-nome {
   font-family: var(--display);
@@ -898,7 +906,7 @@ body {
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="dados-locais.js?v=geo-20261026-delicias"></script>
+<script src="dados-locais.js?v=ux-20261026-interactions"></script>
 <script src="dados-locais-resgatados.js?v=geo-20261026-usaflex"></script>
 <script>
 /* ── DATA ────────────────────────────────────── */
@@ -1370,17 +1378,23 @@ function buildDestaqueCarousel() {
     const photo = item.photo.startsWith('http') ? item.photo : encodeURI(item.photo);
     const clickable = !!item.id;
 
-    return `<div class="destaque-card" style="background-image:url('${photo}')"
-      ${clickable
-        ? `onclick="openModal(${item.id})" role="listitem button" tabindex="0" aria-label="${nome}" onkeydown="if(event.key==='Enter'||event.key===' ')openModal(${item.id})"`
-        : `role="listitem" aria-label="${nome}"`}>
+    return `<button type="button" class="destaque-card" style="background-image:url('${photo}')"
+      ${clickable ? `data-place-id="${item.id}"` : 'disabled'}
+      aria-label="${nome}">
       <div class="destaque-overlay" aria-hidden="true"></div>
       <div class="destaque-info">
         <div class="destaque-nome">${nome}</div>
         ${sub ? `<div class="destaque-sub">${sub}</div>` : ''}
       </div>
-    </div>`;
+    </button>`;
   }).join('');
+
+  track.addEventListener('click', event => {
+    const card = event.target.closest('.destaque-card[data-place-id]');
+    if (!card || !track.contains(card)) return;
+    const id = Number(card.dataset.placeId);
+    if (Number.isFinite(id)) openModal(id);
+  });
 
   /* ── Auto-advance ── */
   const CARD_W = 158 + 8; // card + gap
@@ -1536,13 +1550,20 @@ initMap();
 initCatAnimations();
 loadWeather();
 const directorySearch = document.getElementById('directorySearch');
-directorySearch.addEventListener('input', () => {
+function applyDirectorySearch(value) {
+  const resultsSection = document.getElementById('resultsSection');
+  const shouldReveal = resultsSection.hidden && String(value || '').trim();
   searchTerm = directorySearch.value;
   activeFilter = 'Todos';
   activeSubcategory = 'Todos';
   updateCategoryState();
   renderResults();
-});
+  if (shouldReveal) {
+    requestAnimationFrame(() => resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  }
+}
+directorySearch.addEventListener('input', () => applyDirectorySearch(directorySearch.value));
+directorySearch.addEventListener('search', () => applyDirectorySearch(directorySearch.value));
 </script>
 </body>
 </html>
