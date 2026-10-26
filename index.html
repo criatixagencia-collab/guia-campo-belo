@@ -899,11 +899,12 @@ body {
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="dados-locais.js"></script>
+<script src="dados-locais-resgatados.js"></script>
 <script>
 /* ── DATA ────────────────────────────────────── */
 // cats: macrocategorias de exibição; a primeira é a categoria principal.
 // sub: microcategoria usada nas pills, gerada a partir da especialidade do local.
-const dados = window.DADOS_LOCAIS || [];
+const dados = [...(window.DADOS_LOCAIS || []), ...(window.DADOS_LOCAIS_RESGATADOS || [])];
 
 /* ── CATEGORY META (taxonomia do Guia Campo Belo) ── */
 const CAT_META = {
@@ -1023,6 +1024,7 @@ const SOURCE_CATEGORY_TO_MACRO = {
   'Colchões': 'Casa & Decoração', 'Floricultura': 'Casa & Decoração',
   'PetShop': 'Pets',
   'Marketing Digital': 'Serviços Profissionais', 'Coworking': 'Serviços Profissionais',
+  'Serviços Profissionais': 'Serviços Profissionais',
   'Segurança Patrimonial': 'Serviços Profissionais', 'Leilões': 'Serviços Profissionais',
   'Bicicletaria': 'Mobilidade', 'Funilaria e Pintura': 'Mobilidade', 'Serviços Automotivos': 'Mobilidade',
   'Agência de Viagens': 'Lazer, Viagens & Eventos', 'Espaço para Festas': 'Lazer, Viagens & Eventos', 'Lazer': 'Lazer, Viagens & Eventos',
