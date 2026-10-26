@@ -1353,6 +1353,8 @@ function buildDestaqueCarousel() {
     }) || null;
   }
 
+  // Só exibimos destaques com cadastro correspondente, para que todo cartão
+  // visível tenha uma ficha real para abrir.
   const items = DESTAQUE_ITEMS.map(({ nome, file, displayName }) => {
     const match = findMatch(nome || file.replace(/\.[^.]+$/, ''));
     const primaryCat = match?.cats?.[0];
@@ -1364,7 +1366,7 @@ function buildDestaqueCarousel() {
       photo:       file ? `fotos destaques/${file}` : categoryPhoto,
       displayName: match ? null : (displayName || nome || file),
     };
-  });
+  }).filter(item => item.id);
 
   if (items.length === 0) {
     track.closest('.destaques-section').style.display = 'none';
@@ -1376,10 +1378,8 @@ function buildDestaqueCarousel() {
     const nome = d ? d.nome : (item.displayName || '');
     const sub  = d ? d.sub  : '';
     const photo = item.photo.startsWith('http') ? item.photo : encodeURI(item.photo);
-    const clickable = !!item.id;
-
     return `<button type="button" class="destaque-card" style="background-image:url('${photo}')"
-      ${clickable ? `data-place-id="${item.id}"` : 'disabled'}
+      data-place-id="${item.id}"
       aria-label="${nome}">
       <div class="destaque-overlay" aria-hidden="true"></div>
       <div class="destaque-info">
