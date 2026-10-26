@@ -1572,7 +1572,7 @@ window.DADOS_LOCAIS = [
     "ig": "energy_imoveis",
     "lat": -23.6222314,
     "lng": -46.669954,
-    "horario": "Domingo h – h · Segunda Aberto o dia todo · Terça Aberto o dia todo · Quarta Aberto o dia todo · Quinta Aberto o dia todo · Sexta Aberto o dia todo · Sábado h – h"
+    "horario": "Segunda a sexta Aberto o dia todo"
   },
   {
     "id": 95,
@@ -1606,7 +1606,7 @@ window.DADOS_LOCAIS = [
     "lng": -46.6714083,
     "telefone": "11 4116-0028",
     "whatsapp": "11 4116-0028",
-    "horario": "Domingo h – h · Segunda Fechado · Terça h – h · Quarta h – h · Quinta h – h · Sexta h – h · Sábado h – h"
+    "horario": "Segunda Fechado"
   },
   {
     "id": 97,
@@ -1787,7 +1787,7 @@ window.DADOS_LOCAIS = [
     "end": "Rua Vieira de Moarais 1124",
     "bairro": "Campo Belo",
     "ig": "redballoon_campobelo",
-    "horario": "Domingo h – h · Segunda 08:30h – 19:00h · Terça 08:30h – 19:00h · Quarta 08:30h – 19:00h · Quinta 08:30h – 19:00h · Sexta 08:30h – 17:00h · Sábado h – h"
+    "horario": "Segunda 08:30h – 19:00h · Terça 08:30h – 19:00h · Quarta 08:30h – 19:00h · Quinta 08:30h – 19:00h · Sexta 08:30h – 17:00h"
   },
   {
     "id": 108,
@@ -1913,7 +1913,7 @@ window.DADOS_LOCAIS = [
     "ig": "proqualita",
     "lat": -23.62436,
     "lng": -46.6771159,
-    "horario": "Domingo h – h · Segunda 08:00h – 18:00h · Terça 08:01h – 18:01h · Quarta 08:01h – 18:01h · Quinta 08:01h – 18:01h · Sexta 08:01h – 18:01h · Sábado 08:01h – 18:01h"
+    "horario": "Segunda 08:00h – 18:00h · Terça 08:01h – 18:01h · Quarta 08:01h – 18:01h · Quinta 08:01h – 18:01h · Sexta 08:01h – 18:01h · Sábado 08:01h – 18:01h"
   },
   {
     "id": 116,
@@ -1930,7 +1930,7 @@ window.DADOS_LOCAIS = [
     "lng": -46.670358,
     "telefone": "11 94706-1111",
     "whatsapp": "11 94706-1111",
-    "horario": "Domingo h – h · Segunda Aberto o dia todo · Terça h – h · Quarta h – h · Quinta h – h · Sexta Aberto o dia todo · Sábado h – h"
+    "horario": "Segunda Aberto o dia todo · Sexta Aberto o dia todo"
   },
   {
     "id": 117,
@@ -1963,8 +1963,7 @@ window.DADOS_LOCAIS = [
     "lat": -23.6273439,
     "lng": -46.6753993,
     "telefone": "11 92487-9324",
-    "whatsapp": "11 92487-9324",
-    "horario": "Domingo h – h · Segunda h – h · Terça h – h · Quarta h – h · Quinta h – h · Sexta h – h · Sábado h – h"
+    "whatsapp": "11 92487-9324"
   },
   {
     "id": 119,
@@ -1977,7 +1976,7 @@ window.DADOS_LOCAIS = [
     "end": "Rua Estevão Baião, 520",
     "bairro": "Vila Congonhas",
     "ig": "guiacampobeloeregiao",
-    "horario": "Domingo h – h · Segunda Fechado · Terça Aberto o dia todo · Quarta Aberto o dia todo · Quinta Aberto o dia todo · Sexta Aberto o dia todo · Sábado h – h"
+    "horario": "Segunda Fechado · Terça Aberto o dia todo · Quarta Aberto o dia todo · Quinta Aberto o dia todo · Sexta Aberto o dia todo"
   },
   {
     "id": 120,
@@ -2009,7 +2008,7 @@ window.DADOS_LOCAIS = [
     "lng": -46.6698556,
     "telefone": "11 98922-9301",
     "whatsapp": "11 98922-9301",
-    "horario": "Domingo h – h · Segunda Aberto o dia todo · Terça Aberto o dia todo · Quarta Aberto o dia todo · Quinta Aberto o dia todo · Sexta Aberto o dia todo · Sábado Aberto o dia todo"
+    "horario": "Segunda a sábado Aberto o dia todo"
   },
   {
     "id": 122,
@@ -2037,7 +2036,7 @@ window.DADOS_LOCAIS = [
     "ig": "guiacampobeloeregiao",
     "lat": -23.6222314,
     "lng": -46.669954,
-    "horario": "Domingo h – h · Segunda Aberto o dia todo · Terça Aberto o dia todo · Quarta Aberto o dia todo · Quinta Aberto o dia todo · Sexta Aberto o dia todo · Sábado Aberto o dia todo"
+    "horario": "Segunda a sábado Aberto o dia todo"
   },
   {
     "id": 124,
@@ -2054,7 +2053,7 @@ window.DADOS_LOCAIS = [
     "lng": -46.6736289,
     "telefone": "11 98436-9154",
     "whatsapp": "11 98436-9154",
-    "horario": "Domingo h – h · Segunda Aberto o dia todo · Terça Aberto o dia todo · Quarta Aberto o dia todo · Quinta Aberto o dia todo · Sexta Aberto o dia todo · Sábado Aberto o dia todo"
+    "horario": "Segunda a sábado Aberto o dia todo"
   },
   {
     "id": 125,
@@ -2168,8 +2167,7 @@ window.DADOS_LOCAIS = [
     "lat": -23.6267652,
     "lng": -46.667566,
     "telefone": "11 99201-4330",
-    "whatsapp": "11 99201-4330",
-    "horario": "Domingo h – h · Segunda h – h · Terça h – h · Quarta h – h · Quinta h – h · Sexta h – h · Sábado h – h"
+    "whatsapp": "11 99201-4330"
   },
   {
     "id": 132,
