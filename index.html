@@ -984,8 +984,65 @@ const UNSPLASH = (id) =>
 
 function isDestaque() { return false; }
 
+// As categorias importadas preservam seu nome original e recebem uma imagem
+// coerente com o seu tema. Assim, nenhuma delas recorre à imagem genérica.
+const SOURCE_CATEGORY_THEME = {
+  "Academia": "Academias, Esportes & Bem-Estar",
+  "Agência de Viagens": "Instituicoes & Comunidade",
+  "Atelier": "Casa, Decoracao & Organizacao",
+  "Aula de Música": "Educacao & Cursos",
+  "Barbearias": "Beleza & Estetica",
+  "Beleza": "Beleza & Estetica",
+  "Bicicletaria": "Academias, Esportes & Bem-Estar",
+  "Bijuteria e Acessórios": "Moda, Calcados & Acessorios",
+  "Cafés": "Cafes, Padarias & Doces",
+  "Cama, Mesa e Banho": "Casa, Decoracao & Organizacao",
+  "Casa de Bolos": "Cafes, Padarias & Doces",
+  "Chocolateira": "Cafes, Padarias & Doces",
+  "Clínicas & Consultórios": "Saude & Clinicas",
+  "Colchões": "Casa, Decoracao & Organizacao",
+  "Compras": "Lojas & Presentes",
+  "Confeitaria": "Cafes, Padarias & Doces",
+  "Coworking": "Instituicoes & Comunidade",
+  "Decoração & Design": "Casa, Decoracao & Organizacao",
+  "Doceria": "Cafes, Padarias & Doces",
+  "Educação & Cursos": "Educacao & Cursos",
+  "Espaço para Festas": "Festas & Eventos",
+  "Floricultura": "Festas & Eventos",
+  "Funilaria e Pintura": "Servicos para Casa",
+  "Gastronomia": "Gastronomia & Delivery",
+  "Hamburguerias": "Gastronomia & Delivery",
+  "Imobiliárias": "Imoveis & Construcao",
+  "Lazer": "Festas & Eventos",
+  "Leilões": "Instituicoes & Comunidade",
+  "Loja de Decoração": "Casa, Decoracao & Organizacao",
+  "Loja de Roupas": "Moda, Calcados & Acessorios",
+  "Marketing Digital": "Instituicoes & Comunidade",
+  "Moda & Roupas": "Moda, Calcados & Acessorios",
+  "Odontologia": "Saude & Clinicas",
+  "Padaria": "Cafes, Padarias & Doces",
+  "Perfumaria": "Beleza & Estetica",
+  "PetShop": "Pets",
+  "Pilates & Yoga": "Academias, Esportes & Bem-Estar",
+  "Pizzarias": "Gastronomia & Delivery",
+  "Produtos Naturais": "Mercados, Emporios & Conveniencia",
+  "Restaurantes": "Gastronomia & Delivery",
+  "Salão de Beleza": "Beleza & Estetica",
+  "Sapataria": "Moda, Calcados & Acessorios",
+  "Segurança Patrimonial": "Servicos para Casa",
+  "Serviços Automotivos": "Servicos para Casa",
+  "Sex Shop": "Lojas & Presentes",
+  "Sorveteria & Doces": "Cafes, Padarias & Doces",
+  "Supermercados": "Mercados, Emporios & Conveniencia",
+  "Suplementos Alimentares": "Mercados, Emporios & Conveniencia"
+};
+
 function categoryMeta(cat) {
-  return CAT_META[cat] || { label: cat, kicker: 'Ver locais', em: '📍', img: ALL_META.img, color: ALL_META.color };
+  if (CAT_META[cat]) return CAT_META[cat];
+  const themed = CAT_META[SOURCE_CATEGORY_THEME[cat]];
+  return themed
+    ? { ...themed, label: cat, kicker: 'Ver locais' }
+    : { label: cat, kicker: 'Ver locais', em: '📍', img: ALL_META.img, color: ALL_META.color };
 }
 
 function formatCategory(cat) {
