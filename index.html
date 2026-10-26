@@ -1641,10 +1641,20 @@ function flyToPlace(d) {
 }
 
 /* ── MODAL ──────────────────────────────────── */
+let modalScrollLockTimer = null;
+
+function revealMapForPlace(d) {
+  const mapSection = document.querySelector('.map-section');
+  if (!mapSection || mapSection.hidden || !Number.isFinite(d?.lat) || !Number.isFinite(d?.lng)) return false;
+  mapSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  return true;
+}
+
 function openModal(id) {
   const d = dados.find(x => x.id === id);
   if (!d) return;
   flyToPlace(d);
+  const mapWillBeRevealed = revealMapForPlace(d);
   const m = categoryMeta(macroFor(d));
   const hl = isDestaque(d);
 
@@ -1690,10 +1700,25 @@ function openModal(id) {
   body.innerHTML = `<div class="modal-grid">${cells}</div>` + actions;
   bindHoursToggles(body);
   document.getElementById('modalOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  if (modalScrollLockTimer) clearTimeout(modalScrollLockTimer);
+  if (mapWillBeRevealed) {
+    // Let the smooth scroll finish before locking the page behind the details card.
+    document.body.style.overflow = '';
+    modalScrollLockTimer = setTimeout(() => {
+      if (document.getElementById('modalOverlay').classList.contains('open')) {
+        document.body.style.overflow = 'hidden';
+      }
+    }, 800);
+  } else {
+    document.body.style.overflow = 'hidden';
+  }
 }
 
 function closeModal() {
+  if (modalScrollLockTimer) {
+    clearTimeout(modalScrollLockTimer);
+    modalScrollLockTimer = null;
+  }
   document.getElementById('modalOverlay').classList.remove('open');
   document.body.style.overflow = '';
 }
