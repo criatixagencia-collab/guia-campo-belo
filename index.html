@@ -1268,19 +1268,24 @@ function openModal(id) {
 
   const cells = [
     d.end ? `<div class="modal-cell full"><div class="modal-cell-label">Endereço</div><div class="modal-cell-val">${d.end}</div></div>` : '',
-    d.bairro ? `<div class="modal-cell"><div class="modal-cell-label">Bairro</div><div class="modal-cell-val">${d.bairro}</div></div>` : '',
+    d.horario ? `<div class="modal-cell full"><div class="modal-cell-label">Horário</div><div class="modal-cell-val">${d.horario}</div></div>` : '',
+    d.telefone ? `<div class="modal-cell full"><div class="modal-cell-label">Telefone</div><div class="modal-cell-val">${d.telefone}</div></div>` : '',
   ].join('');
 
+  const phoneDigits = (d.telefone || d.whatsapp || '').replace(/\D/g, '');
+  const whatsappDigits = (d.whatsapp || d.telefone || '').replace(/\D/g, '');
+  const whatsappHref = whatsappDigits ? `https://wa.me/55${whatsappDigits}` : '';
+  const telHref = phoneDigits ? `tel:+55${phoneDigits}` : '';
   const igValue = d.ig ? d.ig.replace(/^https?:\/\/(?:www\.)?instagram\.com\//i, '').replace(/^@/, '') : '';
   const igHref = igValue ? `https://instagram.com/${igValue}` : '';
-  const siteHref = d.site ? (/^https?:\/\//i.test(d.site) ? d.site : `https://${d.site}`) : '';
   const actionLinks = [
+    whatsappHref ? `<a class="modal-btn btn-wp" href="${whatsappHref}" target="_blank" rel="noopener">WhatsApp</a>` : '',
+    telHref ? `<a class="modal-btn btn-tel" href="${telHref}">Ligar</a>` : '',
     igHref ? `<a class="modal-btn btn-ig" href="${igHref}" target="_blank" rel="noopener">Instagram</a>` : '',
-    siteHref ? `<a class="modal-btn btn-site" href="${siteHref}" target="_blank" rel="noopener">Site</a>` : ''
   ].filter(Boolean).join('');
   const actions = actionLinks ? `<div class="modal-actions">${actionLinks}</div>` : '';
 
-  body.innerHTML = destRow + `<div class="modal-grid">${cells}</div>` + actions;
+  body.innerHTML = `<div class="modal-grid">${cells}</div>` + actions;
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
