@@ -1584,17 +1584,27 @@ function buildDestaqueCarousel() {
   if (!track) return;
 
   // Destaques exibidos na vitrine inicial.
-  // As imagens são genéricas e temáticas; o cartão continua abrindo somente
-  // estabelecimentos que realmente estão cadastrados no diretório.
+  // Cada cartão recebe uma imagem genérica própria, escolhida para remeter
+  // ao negócio sem reutilizar a imagem da categoria ou de outro destaque.
   const DESTAQUE_ITEMS = [
-    { nome: 'Studio Andréa Aronne', category: 'Beleza & Salões' },
-    { nome: 'Andrea Zucci Acessórios', category: 'Moda & Acessórios' },
-    { nome: 'Nórdico Padaria', category: 'Comer & Beber' },
-    { nome: 'Chaveiro Novo Aeon', category: 'Serviços Profissionais' },
-    { nome: 'Eomma Spa', category: 'Beleza & Salões' },
-    { nome: 'Rezinha Fit', category: 'Comer & Beber' },
-    { nome: 'Clinic Body&Mind', category: 'Saúde & Bem-estar' },
+    { nome: 'Studio Andréa Aronne', category: 'Beleza & Salões', image: 'photo-1521590832167-7bcbfaa6381f' },
+    { nome: 'Elma Martins Hair Spa', category: 'Beleza & Salões', image: 'photo-1517841905240-472988babdf9' },
+    { nome: 'Andrea Zucci Acessórios', category: 'Moda & Acessórios', image: 'photo-1523779917675-b6ed3a42a561' },
+    { nome: 'Nórdico Padaria', category: 'Comer & Beber', image: 'photo-1509440159596-0249088772ff' },
+    { nome: 'Chaveiro Novo Aeon', category: 'Serviços Profissionais', image: 'photo-1629909613654-28e377c37b09' },
+    { nome: 'Eomma Spa', category: 'Beleza & Salões', image: 'photo-1540555700478-4be289fbecef' },
+    { nome: 'Rezinha Fit', category: 'Comer & Beber', image: 'photo-1547592180-85f173990554' },
+    { nome: 'Clinic Body&Mind', category: 'Saúde & Bem-estar', image: 'photo-1576091160399-112ba8d25d1d' },
   ];
+
+  const categoryImageIds = new Set(Object.values(CAT_META).map(meta => meta.img).filter(Boolean));
+  const destaqueImageIds = DESTAQUE_ITEMS.map(item => item.image);
+  if (new Set(destaqueImageIds).size !== destaqueImageIds.length) {
+    throw new Error('Os destaques precisam ter imagens diferentes entre si.');
+  }
+  if (destaqueImageIds.some(id => categoryImageIds.has(id))) {
+    throw new Error('Os destaques não podem reutilizar imagens das categorias.');
+  }
 
   // Normaliza: minúsculo, sem acento, sem chars especiais
   function norm(s) {
@@ -1614,14 +1624,11 @@ function buildDestaqueCarousel() {
 
   // Só exibimos destaques com cadastro correspondente, para que todo cartão
   // visível tenha uma ficha real para abrir.
-  const items = DESTAQUE_ITEMS.map(({ nome, category, displayName }) => {
+  const items = DESTAQUE_ITEMS.map(({ nome, category, image, displayName }) => {
     const match = findMatch(nome);
-    const categoryPhoto = categoryMeta(category || (match ? macroFor(match) : '')).img
-      ? UNSPLASH(categoryMeta(category || (match ? macroFor(match) : '')).img)
-      : UNSPLASH(ALL_META.img);
     return {
       id:          match ? match.id : null,
-      photo:       categoryPhoto,
+      photo:       UNSPLASH(image),
       displayName: match ? null : (displayName || nome),
     };
   }).filter(item => item.id);
