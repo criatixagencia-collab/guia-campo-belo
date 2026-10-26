@@ -187,18 +187,21 @@ body {
   text-transform: uppercase;
 }
 .destaques-track {
+  --destaque-gap: 8px;
   display: flex;
-  gap: 8px;
-  overflow-x: scroll;
-  scroll-snap-type: x mandatory;
-  scroll-padding-left: 20px;
+  overflow: hidden;
   scrollbar-width: none;
   padding: 2px 20px 6px;
   -webkit-overflow-scrolling: touch;
   user-select: none;
 }
 .destaques-track::-webkit-scrollbar { display: none; }
-@media (hover: hover) { .destaques-track { cursor: grab; } }
+.destaque-lane {
+  display: flex;
+  gap: var(--destaque-gap);
+  width: max-content;
+  will-change: transform;
+}
 
 .destaque-card {
   appearance: none;
@@ -256,7 +259,7 @@ body {
 }
 
 @media (min-width: 801px) {
-  .destaques-track { gap: 12px; }
+  .destaques-track { --destaque-gap: 12px; }
   .destaque-card { width: 220px; height: 92px; }
   .destaque-info { padding: 12px 14px 13px; }
   .destaque-nome { font-size: 16px; line-height: 1.15; }
@@ -1802,13 +1805,14 @@ function buildDestaqueCarousel() {
     return;
   }
 
-  track.innerHTML = items.map(item => {
+  const cardMarkup = (item, clone = false) => {
     const d    = item.id ? dados.find(x => x.id === item.id) : null;
     const nome = d ? d.nome : (item.displayName || '');
     const sub  = d ? d.sub  : '';
     const photo = item.photo.startsWith('http') ? item.photo : encodeURI(item.photo);
     return `<button type="button" class="destaque-card" style="background-image:url('${photo}')"
       data-place-id="${item.id}"
+      ${clone ? 'data-carousel-clone="true" aria-hidden="true" tabindex="-1"' : ''}
       aria-label="${nome}">
       <div class="destaque-overlay" aria-hidden="true"></div>
       <div class="destaque-info">
@@ -1816,7 +1820,13 @@ function buildDestaqueCarousel() {
         ${sub ? `<div class="destaque-sub">${sub}</div>` : ''}
       </div>
     </button>`;
-  }).join('');
+  };
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const firstSet = items.map(item => cardMarkup(item)).join('');
+  // A segunda sequência permite que o último cartão saia pela esquerda e o
+  // primeiro reapareça pela direita sem salto visível.
+  track.innerHTML = `<div class="destaque-lane">${firstSet}${prefersReduced ? '' : items.map(item => cardMarkup(item, true)).join('')}</div>`;
 
   track.addEventListener('click', event => {
     const card = event.target.closest('.destaque-card[data-place-id]');
@@ -1825,72 +1835,52 @@ function buildDestaqueCarousel() {
     if (Number.isFinite(id)) openModal(id);
   });
 
-  /* ── Auto-advance ── */
-  function cardStep() {
-    const card = track.querySelector('.destaque-card');
-    const gap = parseFloat(getComputedStyle(track).gap) || 8;
-    return (card?.getBoundingClientRect().width || 148) + gap;
-  }
-  let idx = 0;
-  let autoTimer = null;
+  /* ── Movimento contínuo ── */
+  if (prefersReduced || items.length < 2) return;
+  const lane = track.querySelector('.destaque-lane');
+  let offset = 0;
+  let cycleWidth = 0;
+  let animationFrame = null;
+  let previousTime = 0;
+  let paused = false;
+  const speed = 18; // px/s: lento o bastante para ler, contínuo o bastante para girar.
 
-  function scrollTo(i) {
-    track.scrollTo({ left: i * cardStep(), behavior: 'smooth' });
+  function measureCycle() {
+    const card = lane.querySelector('.destaque-card:not([data-carousel-clone])');
+    const gap = parseFloat(getComputedStyle(lane).gap) || 8;
+    cycleWidth = items.length * ((card?.getBoundingClientRect().width || 148) + gap);
+    if (cycleWidth > 0) offset %= cycleWidth;
   }
 
-  function advance() {
-    idx = (idx + 1) % items.length;
-    if (idx === 0) {
-      track.scrollTo({ left: 0, behavior: 'instant' });
-    } else {
-      scrollTo(idx);
+  function animate(now) {
+    if (!previousTime) previousTime = now;
+    const elapsed = Math.min(64, now - previousTime);
+    previousTime = now;
+    if (!paused && cycleWidth > 0) {
+      offset = (offset + speed * elapsed / 1000) % cycleWidth;
+      lane.style.transform = `translate3d(${-offset}px, 0, 0)`;
     }
+    animationFrame = requestAnimationFrame(animate);
   }
 
-  function startAuto() {
-    stopAuto();
-    autoTimer = setInterval(advance, 4000);
-  }
+  function pauseMotion() { paused = true; }
+  function resumeMotion() { paused = false; previousTime = 0; }
 
-  function stopAuto() {
-    if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
-  }
+  measureCycle();
+  window.addEventListener('resize', measureCycle, { passive: true });
+  track.addEventListener('mouseenter', pauseMotion);
+  track.addEventListener('mouseleave', resumeMotion);
+  track.addEventListener('focusin', pauseMotion);
+  track.addEventListener('focusout', resumeMotion);
+  track.addEventListener('touchstart', pauseMotion, { passive: true });
+  track.addEventListener('touchend', () => setTimeout(resumeMotion, 900), { passive: true });
+  animationFrame = requestAnimationFrame(animate);
 
-  /* Touch — browser handles drag natively; we just pause/resume */
-  track.addEventListener('touchstart', stopAuto, { passive: true });
-  track.addEventListener('touchend', () => {
-    setTimeout(() => {
-      idx = Math.round(track.scrollLeft / cardStep());
-      startAuto();
-    }, 600);
-  }, { passive: true });
-
-  /* Mouse drag (desktop) */
-  let isDown = false, startX = 0, startScroll = 0;
-  track.addEventListener('mousedown', e => {
-    isDown = true; stopAuto();
-    startX = e.pageX; startScroll = track.scrollLeft;
-    track.style.cursor = 'grabbing';
-  });
-  track.addEventListener('mousemove', e => {
-    if (!isDown) return;
-    track.scrollLeft = startScroll - (e.pageX - startX);
-  });
-  ['mouseup', 'mouseleave'].forEach(ev => {
-    track.addEventListener(ev, () => {
-      if (!isDown) return;
-      isDown = false;
-      track.style.cursor = 'grab';
-      idx = Math.round(track.scrollLeft / cardStep());
-      startAuto();
-    });
-  });
-
-  /* Hover pause */
-  track.addEventListener('mouseenter', () => { if (!isDown) stopAuto(); });
-  track.addEventListener('mouseleave', () => { if (!isDown) startAuto(); });
-
-  startAuto();
+  // O loop vive enquanto a página estiver aberta; cancelar ao sair evita
+  // manter trabalho desnecessário caso o bloco seja removido futuramente.
+  window.addEventListener('pagehide', () => {
+    if (animationFrame) cancelAnimationFrame(animationFrame);
+  }, { once: true });
 }
 
 /* ── SCROLL ANIMATION — category cards ──────── */
