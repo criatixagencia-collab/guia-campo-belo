@@ -255,6 +255,14 @@ body {
   margin-top: 2px; letter-spacing: .15px;
 }
 
+@media (min-width: 801px) {
+  .destaques-track { gap: 12px; }
+  .destaque-card { width: 220px; height: 92px; }
+  .destaque-info { padding: 12px 14px 13px; }
+  .destaque-nome { font-size: 16px; line-height: 1.15; }
+  .destaque-sub { font-size: 11px; margin-top: 4px; }
+}
+
 @media (hover: hover) {
   .destaque-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.2); }
 }
@@ -934,7 +942,7 @@ const CAT_META = {
   },
   "Saude & Clinicas": {
     label:"Saúde & Clínicas", kicker:"Clínicas, óticas, nutrição, terapias", em:"🩺",
-    img:"photo-1576091160550-2173dba999ef", color:"linear-gradient(145deg,#0d314b,#246485,#4b94ad)"
+    img:"photo-1544367567-0f2fcb009e0b", color:"linear-gradient(145deg,#0d314b,#246485,#4b94ad)"
   },
   "Beleza & Estetica": {
     label:"Beleza & Estética", kicker:"Salões, estética, spa, barbearias", em:"✨",
@@ -1119,6 +1127,11 @@ function buildFilterBar() {
 }
 
 function setFilter(cat) {
+  searchTerm = '';
+  const searchInput = document.getElementById('directorySearch');
+  if (searchInput) searchInput.value = '';
+  const resultsButton = document.getElementById('searchResultsBtn');
+  if (resultsButton) resultsButton.hidden = true;
   activeFilter = cat;
   activeSubcategory = 'Todos';
   updateCategoryState();
@@ -1330,15 +1343,16 @@ function buildDestaqueCarousel() {
   if (!track) return;
 
   // Destaques exibidos na vitrine inicial.
-  // Cada item usa imagem pública específica ou arte identificada quando a foto não é reutilizável.
+  // As imagens são genéricas e temáticas; o cartão continua abrindo somente
+  // estabelecimentos que realmente estão cadastrados no diretório.
   const DESTAQUE_ITEMS = [
-    { nome: 'Studio Andréa Aronne', file: 'studio-andrea-aronne.jpg' },
-    { nome: 'Andrea Zucci Acessórios', file: 'andrea-zucci.webp' },
-    { nome: 'Nórdico Padaria', file: 'nordico-padaria.png' },
-    { nome: 'Chaveiro Novo Aeon', file: 'chaveiro-novo-aeon.svg' },
-    { nome: 'Eomma Spa', file: 'eomma-spa.png' },
-    { nome: 'Rezinha Fit', file: 'rezinhafit.jpg' },
-    { nome: 'Clinic Body&Mind', file: 'clinic-bodymind.jpg' },
+    { nome: 'Studio Andréa Aronne', category: 'Beleza & Salões' },
+    { nome: 'Andrea Zucci Acessórios', category: 'Moda & Acessórios' },
+    { nome: 'Nórdico Padaria', category: 'Comer & Beber' },
+    { nome: 'Chaveiro Novo Aeon', category: 'Serviços Profissionais' },
+    { nome: 'Eomma Spa', category: 'Beleza & Salões' },
+    { nome: 'Rezinha Fit', category: 'Comer & Beber' },
+    { nome: 'Clinic Body&Mind', category: 'Saúde & Bem-estar' },
   ];
 
   // Normaliza: minúsculo, sem acento, sem chars especiais
@@ -1359,16 +1373,15 @@ function buildDestaqueCarousel() {
 
   // Só exibimos destaques com cadastro correspondente, para que todo cartão
   // visível tenha uma ficha real para abrir.
-  const items = DESTAQUE_ITEMS.map(({ nome, file, displayName }) => {
-    const match = findMatch(nome || file.replace(/\.[^.]+$/, ''));
-    const primaryCat = match?.cats?.[0];
-    const categoryPhoto = primaryCat && CAT_META[primaryCat]?.img
-      ? UNSPLASH(CAT_META[primaryCat].img)
+  const items = DESTAQUE_ITEMS.map(({ nome, category, displayName }) => {
+    const match = findMatch(nome);
+    const categoryPhoto = categoryMeta(category || (match ? macroFor(match) : '')).img
+      ? UNSPLASH(categoryMeta(category || (match ? macroFor(match) : '')).img)
       : UNSPLASH(ALL_META.img);
     return {
       id:          match ? match.id : null,
-      photo:       file ? `fotos destaques/${file}` : categoryPhoto,
-      displayName: match ? null : (displayName || nome || file),
+      photo:       categoryPhoto,
+      displayName: match ? null : (displayName || nome),
     };
   }).filter(item => item.id);
 
@@ -1401,12 +1414,16 @@ function buildDestaqueCarousel() {
   });
 
   /* ── Auto-advance ── */
-  const CARD_W = 158 + 8; // card + gap
+  function cardStep() {
+    const card = track.querySelector('.destaque-card');
+    const gap = parseFloat(getComputedStyle(track).gap) || 8;
+    return (card?.getBoundingClientRect().width || 148) + gap;
+  }
   let idx = 0;
   let autoTimer = null;
 
   function scrollTo(i) {
-    track.scrollTo({ left: i * CARD_W, behavior: 'smooth' });
+    track.scrollTo({ left: i * cardStep(), behavior: 'smooth' });
   }
 
   function advance() {
@@ -1431,7 +1448,7 @@ function buildDestaqueCarousel() {
   track.addEventListener('touchstart', stopAuto, { passive: true });
   track.addEventListener('touchend', () => {
     setTimeout(() => {
-      idx = Math.round(track.scrollLeft / CARD_W);
+      idx = Math.round(track.scrollLeft / cardStep());
       startAuto();
     }, 600);
   }, { passive: true });
@@ -1452,7 +1469,7 @@ function buildDestaqueCarousel() {
       if (!isDown) return;
       isDown = false;
       track.style.cursor = 'grab';
-      idx = Math.round(track.scrollLeft / CARD_W);
+      idx = Math.round(track.scrollLeft / cardStep());
       startAuto();
     });
   });
