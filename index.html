@@ -528,6 +528,68 @@ body {
   -webkit-line-clamp: 3;
   overflow: hidden;
 }
+.card-hours {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+}
+.hours-summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 10px;
+  line-height: 1.3;
+}
+.hours-status {
+  flex: 0 0 auto;
+  font-weight: 800;
+}
+.hours-status.is-open { color: #16834d; }
+.hours-status.is-closed { color: #d94b3d; }
+.hours-today {
+  min-width: 0;
+  color: var(--text3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hours-toggle {
+  float: right;
+  width: 24px;
+  height: 24px;
+  margin: -2px -2px 0 6px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--navy);
+  font: 700 15px/1 var(--font);
+  cursor: pointer;
+}
+.hours-toggle:hover { background: var(--gold-light); }
+.hours-details {
+  clear: both;
+  display: grid;
+  gap: 4px;
+  margin-top: 8px;
+  padding-top: 7px;
+  border-top: 1px dashed var(--border);
+}
+.hours-details[hidden] { display: none; }
+.hours-day {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--text3);
+  font-size: 10px;
+  line-height: 1.3;
+}
+.hours-day.is-today { color: var(--text); font-weight: 700; }
+.modal-hours { margin-bottom: 0; }
+.modal-hours .hours-summary { font-size: 13px; }
+.modal-hours .hours-today { white-space: normal; }
+.modal-hours .hours-details { font-size: 12px; }
+.modal-hours .hours-day { font-size: 12px; }
 
 /* ── MAP SECTION ────────────────────────────── */
 .map-section { padding: 0 16px 22px; }
@@ -1184,6 +1246,173 @@ function renderResults() {
   if (map) buildMapMarkers(filtered);
 }
 
+/* ── HORÁRIOS ───────────────────────────────── */
+const WEEK_DAYS = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+const WEEK_DAY_KEYS = WEEK_DAYS.map(day => normalized(day));
+
+function expandScheduleDays(label) {
+  const value = normalized(label).replace(/\s+/g, ' ').trim();
+  if (!value) return [];
+  if (value.includes('todos os dias')) return [0, 1, 2, 3, 4, 5, 6];
+
+  const range = value.match(/^(domingo|segunda|terca|quarta|quinta|sexta|sabado)\s+a\s+(domingo|segunda|terca|quarta|quinta|sexta|sabado)$/);
+  if (range) {
+    const start = WEEK_DAY_KEYS.indexOf(range[1]);
+    const end = WEEK_DAY_KEYS.indexOf(range[2]);
+    if (start >= 0 && end >= 0) {
+      const days = [];
+      for (let i = start; i <= end; i += 1) days.push(i);
+      return days;
+    }
+  }
+
+  return value.split(/\s+e\s+|\s*,\s*/)
+    .map(day => WEEK_DAY_KEYS.indexOf(day.trim()))
+    .filter(day => day >= 0);
+}
+
+function cleanScheduleDetail(detail) {
+  return String(detail || '')
+    .replace(/\s+/g, ' ')
+    .replace(/(\d{1,2})[.:](\d{2})\s*h?/gi, (_, hour, minute) => `${String(hour).padStart(2, '0')}:${minute}`)
+    .trim();
+}
+
+function parseSchedule(value) {
+  const raw = String(value || '').trim();
+  if (!raw) return null;
+  const days = Array(7).fill('');
+  const allDay = /aberto\s+24\s+horas\s+todos\s+os\s+dias/i.test(raw);
+  if (allDay) days.fill('Aberto 24 horas');
+
+  raw.split(/\s*·\s*/).forEach(segment => {
+    const text = segment.trim();
+    if (!text || /aberto\s+24\s+horas\s+todos\s+os\s+dias/i.test(text)) return;
+    const boundary = text.search(/\s+(?=(?:fechado|aberto(?:\s+o\s+dia\s+todo|\s+24\s+horas)|\d{1,2}[.:]\d{2}))/i);
+    if (boundary < 0) return;
+    const dayLabel = text.slice(0, boundary).trim();
+    const detail = cleanScheduleDetail(text.slice(boundary).trim());
+    expandScheduleDays(dayLabel).forEach(day => { days[day] = detail; });
+  });
+
+  return days.some(Boolean) ? days : null;
+}
+
+function scheduleRanges(detail) {
+  const times = [...String(detail || '').matchAll(/(\d{1,2}):(\d{2})/g)]
+    .map(match => Number(match[1]) * 60 + Number(match[2]));
+  const ranges = [];
+  for (let i = 0; i + 1 < times.length; i += 2) {
+    const start = times[i];
+    let end = times[i + 1];
+    if (end <= start) end = 24 * 60;
+    ranges.push({ start, end });
+  }
+  return ranges;
+}
+
+function currentScheduleTime() {
+  const weekday = new Intl.DateTimeFormat('en-US', {
+    weekday: 'short', timeZone: 'America/Sao_Paulo'
+  }).format(new Date());
+  const dayMap = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'America/Sao_Paulo'
+  }).formatToParts(new Date());
+  const hour = Number(parts.find(part => part.type === 'hour')?.value || 0);
+  const minute = Number(parts.find(part => part.type === 'minute')?.value || 0);
+  return { day: dayMap[weekday] ?? new Date().getDay(), minutes: hour * 60 + minute };
+}
+
+function formatScheduleDay(day) {
+  return WEEK_DAYS[day].toLowerCase();
+}
+
+function firstOpeningTime(detail) {
+  const range = scheduleRanges(detail)[0];
+  if (!range) return '';
+  return `${String(Math.floor(range.start / 60)).padStart(2, '0')}:${String(range.start % 60).padStart(2, '0')}`;
+}
+
+function lastClosingTime(detail) {
+  const ranges = scheduleRanges(detail);
+  const range = ranges[ranges.length - 1];
+  if (!range) return '';
+  const minutes = range.end >= 24 * 60 ? 0 : range.end;
+  return `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`;
+}
+
+function nextOpening(schedule, today, nowMinutes) {
+  const todayDetail = schedule[today];
+  const todayFirst = firstOpeningTime(todayDetail);
+  const todayRanges = scheduleRanges(todayDetail);
+  if (todayRanges.length && nowMinutes < todayRanges[0].start) {
+    return { day: today, time: todayFirst, today: true };
+  }
+  for (let offset = 1; offset <= 7; offset += 1) {
+    const day = (today + offset) % 7;
+    const time = firstOpeningTime(schedule[day]);
+    if (time) return { day, time, today: false };
+  }
+  return null;
+}
+
+function scheduleSummary(d) {
+  const schedule = parseSchedule(d.horario);
+  if (!schedule) return null;
+  const now = currentScheduleTime();
+  const todayDetail = schedule[now.day] || 'Horário não cadastrado';
+  const ranges = scheduleRanges(todayDetail);
+  const alwaysOpen = /aberto\s+(?:24\s+horas|o\s+dia\s+todo)/i.test(todayDetail);
+  let status = 'Horário não cadastrado hoje';
+  let statusClass = 'is-closed';
+  if (alwaysOpen || ranges.some(range => now.minutes >= range.start && now.minutes < range.end)) {
+    const closing = alwaysOpen ? '' : lastClosingTime(todayDetail);
+    status = closing ? `Aberto agora · Fecha às ${closing}` : 'Aberto agora';
+    statusClass = 'is-open';
+  } else {
+    const next = nextOpening(schedule, now.day, now.minutes);
+    status = next ? `Fechado · ${next.today ? 'Abre hoje' : `Abre ${formatScheduleDay(next.day)}`} às ${next.time}` : 'Fechado';
+  }
+  return { schedule, today: now.day, todayDetail, status, statusClass };
+}
+
+function renderHoursBlock(d, mode = 'card') {
+  const summary = scheduleSummary(d);
+  if (!summary) return d.obs ? `<div class="card-meta">${d.obs}</div>` : '';
+  const wrapper = mode === 'modal' ? 'modal-cell full modal-hours' : 'card-hours';
+  const todayLabel = `Hoje (${formatScheduleDay(summary.today)})`;
+  const details = summary.schedule.map((detail, day) => `
+    <div class="hours-day${day === summary.today ? ' is-today' : ''}">
+      <span>${WEEK_DAYS[day]}${day === summary.today ? ' · hoje' : ''}</span>
+      <span>${detail || 'Horário não cadastrado'}</span>
+    </div>`).join('');
+  return `<div class="${wrapper} hours-block">
+    <div class="hours-summary">
+      <button type="button" class="hours-toggle" data-hours-toggle aria-expanded="false" aria-label="Mostrar horários de todos os dias">⌄</button>
+      <span class="hours-status ${summary.statusClass}">${summary.status}</span>
+      <span class="hours-today">${todayLabel}: ${summary.todayDetail}</span>
+    </div>
+    <div class="hours-details" data-hours-details hidden>${details}</div>
+  </div>`;
+}
+
+function bindHoursToggles(root) {
+  root.querySelectorAll('[data-hours-toggle]').forEach(toggle => {
+    toggle.addEventListener('click', event => {
+      event.preventDefault();
+      event.stopPropagation();
+      const details = toggle.closest('.hours-block')?.querySelector('[data-hours-details]');
+      if (!details) return;
+      const expanded = !details.hidden;
+      details.hidden = expanded;
+      toggle.setAttribute('aria-expanded', String(!expanded));
+      toggle.textContent = expanded ? '⌄' : '⌃';
+      toggle.setAttribute('aria-label', expanded ? 'Mostrar horários de todos os dias' : 'Ocultar horários de todos os dias');
+    });
+  });
+}
+
 /* ── CARDS ──────────────────────────────────── */
 function renderCards(filtered) {
   const grid = document.getElementById('cardsGrid');
@@ -1195,7 +1424,7 @@ function renderCards(filtered) {
     const sourceCategory = d.cats[0];
     const m = categoryMeta(macroFor(d));
     const hl = isDestaque(d);
-    return `<div class="place-card${hl ? ' is-destaque' : ''}" onclick="openModal(${d.id})" role="button" tabindex="0" aria-label="${d.nome}" onkeydown="if(event.key==='Enter'||event.key===' ')openModal(${d.id})">
+    return `<div class="place-card${hl ? ' is-destaque' : ''}" onclick="openModal(${d.id})" role="button" tabindex="0" aria-label="${d.nome}" onkeydown="if(event.target.closest('button'))return;if(event.key==='Enter'||event.key===' ')openModal(${d.id})">
       <div class="card-cat-bar" style="background:${m.color || '#1a3a5c'}">
         <span class="card-sub-tag">${sourceCategory}</span>
       </div>
@@ -1203,10 +1432,11 @@ function renderCards(filtered) {
         <div class="card-name">${d.nome}</div>
         ${d.beneficio ? `<div class="card-ticket">${d.beneficio}</div>` : (d.ticket ? `<div class="card-ticket">${d.ticket}</div>` : '')}
         ${d.end ? `<div class="card-addr">${d.end.split(',')[0]}</div>` : ''}
-        ${(d.horario || d.obs) ? `<div class="card-meta">${d.horario || d.obs}</div>` : ''}
+        ${d.horario ? renderHoursBlock(d) : (d.obs ? `<div class="card-meta">${d.obs}</div>` : '')}
       </div>
     </div>`;
   }).join('');
+  bindHoursToggles(grid);
 }
 
 /* ── MAP ────────────────────────────────────── */
@@ -1295,7 +1525,7 @@ function openModal(id) {
 
   const cells = [
     d.end ? `<div class="modal-cell full"><div class="modal-cell-label">Endereço</div><div class="modal-cell-val">${d.end}</div></div>` : '',
-    d.horario ? `<div class="modal-cell full"><div class="modal-cell-label">Horário</div><div class="modal-cell-val">${d.horario}</div></div>` : '',
+    d.horario ? renderHoursBlock(d, 'modal') : '',
     d.telefone ? `<div class="modal-cell full"><div class="modal-cell-label">Telefone</div><div class="modal-cell-val">${d.telefone}</div></div>` : '',
   ].join('');
 
@@ -1313,6 +1543,7 @@ function openModal(id) {
   const actions = actionLinks ? `<div class="modal-actions">${actionLinks}</div>` : '';
 
   body.innerHTML = `<div class="modal-grid">${cells}</div>` + actions;
+  bindHoursToggles(body);
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
