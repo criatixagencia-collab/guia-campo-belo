@@ -1,6 +1,7 @@
 /* Recuperação dos registros históricos que não estavam representados na base atual.
- * Dados de contato e horário só entram quando confirmados em fonte pública; campos
- * ausentes permanecem ausentes. Não contém coordenadas aproximadas.
+ * Dados de contato e horário entram quando confirmados em fonte pública ou
+ * diretamente fornecidos pelo estabelecimento; campos ausentes permanecem
+ * ausentes. Não contém coordenadas aproximadas.
  */
 window.DADOS_LOCAIS_RESGATADOS = [
   {id:201,registro:'historico-1',nome:'Urban Kitchen',cats:['Cafés'],sub:'Cafés',end:'Rua Gabriele D’Annunzio 1334',ig:'urbankitchen',lat:-23.626336983231,lng:-46.67186901284,telefone:'11 99498-3336',whatsapp:'11 99498-3336',horario:'Todos os dias 08:00h – 23:00h'},
@@ -50,5 +51,6 @@ window.DADOS_LOCAIS_RESGATADOS = [
   {id:255,registro:'fonte-publica-2026-10-26',nome:'Elma Martins Hair Spa',cats:['Salão de Beleza'],sub:'Salão de Beleza',end:'Rua Demóstenes, 943 - Campo Belo, São Paulo - SP, 04614-401',ig:'elmamartinshairspa',telefone:'11 91261-1374'},
   {id:256,registro:'fonte-publica-2026-10-26',nome:'Dra. Beatriz Baracioli',cats:['Saúde & Bem-estar'],sub:'Odontologia',end:'Rua Antônio de Macedo Soares, 1391 - Campo Belo, São Paulo - SP, 04607-002',ig:'dra.bbaracioli',telefone:'11 99677-2110',horario:'Segunda a sábado',obs:'Atendimentos de segunda a sábado.'},
   {id:257,registro:'fonte-publica-2026-10-26',nome:'Beatriz Silva Massoterapia',cats:['Saúde & Bem-estar'],sub:'Massoterapia',ig:'massoterapeuta.beatrizsilva',whatsapp:'17 99178-4005',horario:'Segunda a sexta 09:00h – 20:00h',obs:'Atendimento domiciliar no Campo Belo.'},
-  {id:258,registro:'fonte-fornecida-2026-10-26',nome:'Empório do Real',cats:['Loja de Decoração'],sub:'Loja de Decoração',end:'Rua Vieira de Morais, 1636 - Campo Belo, São Paulo - SP, 04625-005',ig:'lojaemporiodoreal',lat:-23.6254234,lng:-46.6674979,telefone:'11 94385-0579',whatsapp:'11 94385-0579',horario:'Segunda a sábado 08:30h – 20:00h · Domingo 09:00h – 15:00h',site:'https://www.emporiodoreal.com.br'}
+  {id:258,registro:'fonte-fornecida-2026-10-26',nome:'Empório do Real',cats:['Loja de Decoração'],sub:'Loja de Decoração',end:'Rua Vieira de Morais, 1636 - Campo Belo, São Paulo - SP, 04625-005',ig:'lojaemporiodoreal',lat:-23.6254234,lng:-46.6674979,telefone:'11 94385-0579',whatsapp:'11 94385-0579',horario:'Segunda a sábado 08:30h – 20:00h · Domingo 09:00h – 15:00h',site:'https://www.emporiodoreal.com.br'},
+  {id:259,registro:'fonte-fornecida-2026-10-28',nome:'ALIVE',cats:['Pilates & Yoga'],sub:'Fisioterapia, Pilates & Wellness',end:'Rua João de Sousa Dias, 639 — Campo Belo',ig:'alive.campobelo',telefone:'11 99994-4401',whatsapp:'11 99994-4401',obs:'Inauguração em breve.'}
 ];
