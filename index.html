@@ -946,7 +946,7 @@ body {
       <span class="weather-desc" id="weatherDesc"></span>
     </div>
   </div>
-  <a class="hero-drone" href="drone/?v=campo-belo-20260913i" aria-label="Explorar o Campo Belo com o Drone 3D">
+  <a class="hero-drone" href="drone/?v=taxonomia-drone-20261029" aria-label="Explorar o Campo Belo com o Drone 3D">
     <span aria-hidden="true">✦</span> Explore o bairro com o <strong>Drone 3D</strong>
   </a>
 </div>
@@ -1025,7 +1025,7 @@ body {
     </div>
     <span>Comunidade</span>
   </a>
-  <a class="nav-item" href="drone/?v=campo-belo-20260913i" aria-label="Drone 3D">
+  <a class="nav-item" href="drone/?v=taxonomia-drone-20261029" aria-label="Drone 3D">
     <div class="nav-icon">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 12h8M12 8v8"/><path d="M7.2 9.2 4.8 6.8M16.8 9.2l2.4-2.4M7.2 14.8l-2.4 2.4M16.8 14.8l2.4 2.4"/><circle cx="4" cy="6" r="2.2"/><circle cx="20" cy="6" r="2.2"/><circle cx="4" cy="18" r="2.2"/><circle cx="20" cy="18" r="2.2"/></svg>
     </div>
@@ -1057,8 +1057,8 @@ body {
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="dados-locais.js?v=ux-20261026-interactions"></script>
-<script src="dados-locais-resgatados.js?v=livrarias-20261029"></script>
+<script src="dados-locais.js?v=taxonomia-20261029"></script>
+<script src="dados-locais-resgatados.js?v=taxonomia-20261029"></script>
 <script>
 /* ── DATA ────────────────────────────────────── */
 // cats: macrocategorias de exibição; a primeira é a categoria principal.
@@ -1088,8 +1088,12 @@ const CAT_META = {
     img:"photo-1522337360788-8b13dee7a37e", color:"linear-gradient(145deg,#3d1730,#8b3f6d,#c8719d)"
   },
   "Academias, Esportes & Bem-Estar": {
-    label:"Esportes & Bem-Estar", kicker:"Academias, pilates, yoga, artes marciais", em:"🏃",
+    label:"Fitness & Esportes", kicker:"Academias, pilates, yoga, tênis e ciclismo", em:"🏃",
     img:"photo-1534438327276-14e5300c3a48", color:"linear-gradient(145deg,#18351d,#487439,#88a94f)"
+  },
+  "Mobilidade & Automotivo": {
+    label:"Mobilidade & Automotivo", kicker:"Oficinas, funilaria e serviços para carros", em:"🚗",
+    img:"photo-1492144534655-ae79c964c9d7", color:"linear-gradient(145deg,#25313d,#4c6273,#7d97a8)"
   },
   "Moda, Calcados & Acessorios": {
     label:"Moda & Acessórios", kicker:"Roupas, calçados, bolsas, semijoias", em:"🛍️",
@@ -1145,21 +1149,22 @@ const UNSPLASH = (id) =>
 function isDestaque() { return false; }
 
 const MACRO_ORDER = [
-  'Comer & Beber', 'Beleza & Salões', 'Saúde & Bem-estar', 'Compras & Conveniência',
+  'Comer & Beber', 'Beleza & Salões', 'Saúde & Bem-estar', 'Fitness & Esportes', 'Compras & Conveniência',
   'Moda & Acessórios', 'Casa & Decoração', 'Pets', 'Serviços Profissionais',
-  'Mobilidade', 'Lazer, Viagens & Eventos', 'Imóveis', 'Educação & Cultura'
+  'Mobilidade & Automotivo', 'Lazer, Viagens & Eventos', 'Imóveis', 'Educação & Cultura'
 ];
 
 const MACRO_META = {
   'Comer & Beber': { ...CAT_META['Gastronomia & Delivery'], label: 'Comer & Beber' },
   'Beleza & Salões': { ...CAT_META['Beleza & Estetica'], label: 'Beleza & Salões' },
   'Saúde & Bem-estar': { ...CAT_META['Saude & Clinicas'], label: 'Saúde & Bem-estar' },
+  'Fitness & Esportes': { ...CAT_META['Academias, Esportes & Bem-Estar'], label: 'Fitness & Esportes' },
   'Compras & Conveniência': { ...CAT_META['Mercados, Emporios & Conveniencia'], label: 'Compras & Conveniência' },
   'Moda & Acessórios': { ...CAT_META['Moda, Calcados & Acessorios'], label: 'Moda & Acessórios' },
   'Casa & Decoração': { ...CAT_META['Casa, Decoracao & Organizacao'], label: 'Casa & Decoração' },
   'Pets': { ...CAT_META['Pets'], label: 'Pets' },
   'Serviços Profissionais': { ...CAT_META['Servicos para Casa'], label: 'Serviços Profissionais' },
-  'Mobilidade': { ...CAT_META['Academias, Esportes & Bem-Estar'], label: 'Mobilidade' },
+  'Mobilidade & Automotivo': { ...CAT_META['Mobilidade & Automotivo'], label: 'Mobilidade & Automotivo' },
   'Lazer, Viagens & Eventos': { ...CAT_META['Festas & Eventos'], label: 'Lazer, Viagens & Eventos' },
   'Imóveis': { ...CAT_META['Imoveis & Construcao'], label: 'Imóveis' },
   'Educação & Cultura': { ...CAT_META['Educacao & Cursos'], label: 'Educação & Cultura' }
@@ -1173,7 +1178,8 @@ const SOURCE_CATEGORY_TO_MACRO = {
   'Beleza': 'Beleza & Salões', 'Salão de Beleza': 'Beleza & Salões',
   'Barbearias': 'Beleza & Salões', 'Perfumaria': 'Beleza & Salões',
   'Clínicas & Consultórios': 'Saúde & Bem-estar', 'Odontologia': 'Saúde & Bem-estar',
-  'Academia': 'Saúde & Bem-estar', 'Pilates & Yoga': 'Saúde & Bem-estar',
+  'Saúde & Bem-estar': 'Saúde & Bem-estar',
+  'Academia': 'Fitness & Esportes', 'Pilates & Yoga': 'Fitness & Esportes', 'Tênis': 'Fitness & Esportes',
   'Suplementos Alimentares': 'Saúde & Bem-estar', 'Produtos Naturais': 'Saúde & Bem-estar',
   'Compras': 'Compras & Conveniência', 'Supermercados': 'Compras & Conveniência',
   'Moda & Roupas': 'Moda & Acessórios', 'Loja de Roupas': 'Moda & Acessórios',
@@ -1185,7 +1191,8 @@ const SOURCE_CATEGORY_TO_MACRO = {
   'Marketing Digital': 'Serviços Profissionais', 'Coworking': 'Serviços Profissionais',
   'Serviços Profissionais': 'Serviços Profissionais',
   'Segurança Patrimonial': 'Serviços Profissionais', 'Leilões': 'Serviços Profissionais',
-  'Bicicletaria': 'Mobilidade', 'Funilaria e Pintura': 'Mobilidade', 'Serviços Automotivos': 'Mobilidade',
+  'Bicicletaria': 'Fitness & Esportes',
+  'Funilaria e Pintura': 'Mobilidade & Automotivo', 'Serviços Automotivos': 'Mobilidade & Automotivo',
   'Agência de Viagens': 'Lazer, Viagens & Eventos', 'Espaço para Festas': 'Lazer, Viagens & Eventos', 'Lazer': 'Lazer, Viagens & Eventos',
   'Imobiliárias': 'Imóveis',
   'Educação & Cursos': 'Educação & Cultura', 'Aula de Música': 'Educação & Cultura', 'Livrarias': 'Educação & Cultura'
@@ -1766,6 +1773,7 @@ function buildDestaqueCarousel() {
     { nome: 'Dra. Beatriz Baracioli', category: 'Saúde & Bem-estar', image: 'photo-1559757175-0eb30cd8c063' },
     { nome: 'Beatriz Silva Massoterapia', category: 'Saúde & Bem-estar', image: 'photo-1544161515-4ab6ce6db874' },
     { nome: 'Clinic Body&Mind', category: 'Saúde & Bem-estar', image: 'photo-1576091160399-112ba8d25d1d' },
+    { nome: 'Boutique dos Livros', category: 'Educação & Cultura', image: 'photo-1512820790803-83ca734da794' },
   ];
 
   const categoryImageIds = new Set(Object.values(CAT_META).map(meta => meta.img).filter(Boolean));
@@ -1852,7 +1860,7 @@ function buildDestaqueCarousel() {
   let animationFrame = null;
   let previousTime = 0;
   let paused = false;
-  const speed = 24; // px/s: mais dinâmico, mas ainda confortável para leitura.
+  const speed = 40; // px/s: passagem mais rápida, sem prejudicar a leitura.
   let dragging = false;
   let dragMoved = false;
   let pointerId = null;

@@ -1,12 +1,13 @@
 /* DADOS DO DRONE GERADOS A PARTIR DAS BASES DO DIRETÓRIO
    Não editar manualmente. Execute: node scripts/build_drone_data.mjs
-   Total: 180; com coordenadas: 179. */
+   Total: 185; com coordenadas: 181. */
 
 const dados = [
   {
     "id": 1,
     "nome": "Baita Juice Café",
     "categoriaPrincipal": "Cafés",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Cafés"
     ],
@@ -25,6 +26,7 @@ const dados = [
     "id": 2,
     "nome": "Alle Gourmet",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -43,6 +45,7 @@ const dados = [
     "id": 3,
     "nome": "Atelier Alessandra Sakai",
     "categoriaPrincipal": "Atelier",
+    "categoriaMacro": "Casa & Decoração",
     "categorias": [
       "Atelier"
     ],
@@ -61,6 +64,7 @@ const dados = [
     "id": 4,
     "nome": "Brownie Affair",
     "categoriaPrincipal": "Cafés",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Cafés"
     ],
@@ -79,6 +83,7 @@ const dados = [
     "id": 5,
     "nome": "Maioli Design",
     "categoriaPrincipal": "Marketing Digital",
+    "categoriaMacro": "Serviços Profissionais",
     "categorias": [
       "Marketing Digital"
     ],
@@ -97,6 +102,7 @@ const dados = [
     "id": 6,
     "nome": "Banzai Branding e Marketing",
     "categoriaPrincipal": "Marketing Digital",
+    "categoriaMacro": "Serviços Profissionais",
     "categorias": [
       "Marketing Digital"
     ],
@@ -115,6 +121,7 @@ const dados = [
     "id": 7,
     "nome": "Samara Estética",
     "categoriaPrincipal": "Beleza",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Beleza"
     ],
@@ -133,6 +140,7 @@ const dados = [
     "id": 8,
     "nome": "Clínica Chang",
     "categoriaPrincipal": "Beleza",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Beleza"
     ],
@@ -151,6 +159,7 @@ const dados = [
     "id": 9,
     "nome": "Studio Terapia",
     "categoriaPrincipal": "Pilates & Yoga",
+    "categoriaMacro": "Fitness & Esportes",
     "categorias": [
       "Pilates & Yoga"
     ],
@@ -169,6 +178,7 @@ const dados = [
     "id": 10,
     "nome": "Loiva Bertol - Viagens que criam memórias",
     "categoriaPrincipal": "Agência de Viagens",
+    "categoriaMacro": "Lazer, Viagens & Eventos",
     "categorias": [
       "Agência de Viagens"
     ],
@@ -187,6 +197,7 @@ const dados = [
     "id": 11,
     "nome": "Nutrafit",
     "categoriaPrincipal": "Suplementos Alimentares",
+    "categoriaMacro": "Saúde & Bem-estar",
     "categorias": [
       "Suplementos Alimentares"
     ],
@@ -205,6 +216,7 @@ const dados = [
     "id": 12,
     "nome": "Rezinha Fit Congelados e Saudáveis",
     "categoriaPrincipal": "Gastronomia",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Gastronomia"
     ],
@@ -223,6 +235,7 @@ const dados = [
     "id": 13,
     "nome": "Viva Corpus Pilates",
     "categoriaPrincipal": "Pilates & Yoga",
+    "categoriaMacro": "Fitness & Esportes",
     "categorias": [
       "Pilates & Yoga"
     ],
@@ -241,6 +254,7 @@ const dados = [
     "id": 14,
     "nome": "Barbearia Muchacho",
     "categoriaPrincipal": "Barbearias",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Barbearias"
     ],
@@ -259,6 +273,7 @@ const dados = [
     "id": 15,
     "nome": "Morana",
     "categoriaPrincipal": "Bijuteria e Acessórios",
+    "categoriaMacro": "Moda & Acessórios",
     "categorias": [
       "Bijuteria e Acessórios"
     ],
@@ -277,6 +292,7 @@ const dados = [
     "id": 16,
     "nome": "Dudaraday",
     "categoriaPrincipal": "Clínicas & Consultórios",
+    "categoriaMacro": "Saúde & Bem-estar",
     "categorias": [
       "Clínicas & Consultórios"
     ],
@@ -295,6 +311,7 @@ const dados = [
     "id": 17,
     "nome": "Studio 81 Hair - Unidade 2",
     "categoriaPrincipal": "Salão de Beleza",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Salão de Beleza"
     ],
@@ -313,6 +330,7 @@ const dados = [
     "id": 18,
     "nome": "Shahiya",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -331,6 +349,7 @@ const dados = [
     "id": 19,
     "nome": "Alessah Store Decoração",
     "categoriaPrincipal": "Loja de Decoração",
+    "categoriaMacro": "Casa & Decoração",
     "categorias": [
       "Loja de Decoração"
     ],
@@ -349,6 +368,7 @@ const dados = [
     "id": 20,
     "nome": "Eomma Spa & Head Spa",
     "categoriaPrincipal": "Beleza",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Beleza"
     ],
@@ -367,6 +387,7 @@ const dados = [
     "id": 21,
     "nome": "kit gourmet",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -385,6 +406,7 @@ const dados = [
     "id": 22,
     "nome": "Leju Decorações",
     "categoriaPrincipal": "Decoração & Design",
+    "categoriaMacro": "Casa & Decoração",
     "categorias": [
       "Decoração & Design"
     ],
@@ -403,6 +425,7 @@ const dados = [
     "id": 23,
     "nome": "Studio Cleide Rocha",
     "categoriaPrincipal": "Beleza",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Beleza"
     ],
@@ -421,6 +444,7 @@ const dados = [
     "id": 24,
     "nome": "Meu Gourmet Restaurante",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -439,6 +463,7 @@ const dados = [
     "id": 25,
     "nome": "Dom Ladino",
     "categoriaPrincipal": "Barbearias",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Barbearias"
     ],
@@ -457,6 +482,7 @@ const dados = [
     "id": 26,
     "nome": "Sobrancelhas Design",
     "categoriaPrincipal": "Beleza",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Beleza"
     ],
@@ -475,6 +501,7 @@ const dados = [
     "id": 27,
     "nome": "Susana Beauty",
     "categoriaPrincipal": "Beleza",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Beleza"
     ],
@@ -493,6 +520,7 @@ const dados = [
     "id": 28,
     "nome": "Aline Alvarenga Studio",
     "categoriaPrincipal": "Salão de Beleza",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Salão de Beleza"
     ],
@@ -511,6 +539,7 @@ const dados = [
     "id": 29,
     "nome": "Barbearia Ferréro",
     "categoriaPrincipal": "Barbearias",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Barbearias"
     ],
@@ -529,6 +558,7 @@ const dados = [
     "id": 30,
     "nome": "San Clinic",
     "categoriaPrincipal": "Beleza",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Beleza"
     ],
@@ -547,6 +577,7 @@ const dados = [
     "id": 31,
     "nome": "Velosp",
     "categoriaPrincipal": "Bicicletaria",
+    "categoriaMacro": "Fitness & Esportes",
     "categorias": [
       "Bicicletaria"
     ],
@@ -565,6 +596,7 @@ const dados = [
     "id": 32,
     "nome": "CoresdaCor",
     "categoriaPrincipal": "Decoração & Design",
+    "categoriaMacro": "Casa & Decoração",
     "categorias": [
       "Decoração & Design"
     ],
@@ -583,6 +615,7 @@ const dados = [
     "id": 33,
     "nome": "Clínica Dra Ana Luísa Chaves",
     "categoriaPrincipal": "Odontologia",
+    "categoriaMacro": "Saúde & Bem-estar",
     "categorias": [
       "Odontologia"
     ],
@@ -601,6 +634,7 @@ const dados = [
     "id": 34,
     "nome": "Bingui",
     "categoriaPrincipal": "Loja de Roupas",
+    "categoriaMacro": "Moda & Acessórios",
     "categorias": [
       "Loja de Roupas"
     ],
@@ -619,6 +653,7 @@ const dados = [
     "id": 35,
     "nome": "Salão Emília Borges",
     "categoriaPrincipal": "Salão de Beleza",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Salão de Beleza"
     ],
@@ -637,6 +672,7 @@ const dados = [
     "id": 36,
     "nome": "Tato Office",
     "categoriaPrincipal": "Coworking",
+    "categoriaMacro": "Serviços Profissionais",
     "categorias": [
       "Coworking"
     ],
@@ -655,6 +691,7 @@ const dados = [
     "id": 37,
     "nome": "Silvia Caquetti Modas",
     "categoriaPrincipal": "Moda & Roupas",
+    "categoriaMacro": "Moda & Acessórios",
     "categorias": [
       "Moda & Roupas"
     ],
@@ -673,6 +710,7 @@ const dados = [
     "id": 38,
     "nome": "VIP CAR",
     "categoriaPrincipal": "Funilaria e Pintura",
+    "categoriaMacro": "Mobilidade & Automotivo",
     "categorias": [
       "Funilaria e Pintura"
     ],
@@ -691,6 +729,7 @@ const dados = [
     "id": 39,
     "nome": "Melhor Bocado Café",
     "categoriaPrincipal": "Cafés",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Cafés"
     ],
@@ -709,6 +748,7 @@ const dados = [
     "id": 40,
     "nome": "Casa Patrício",
     "categoriaPrincipal": "Moda & Roupas",
+    "categoriaMacro": "Moda & Acessórios",
     "categorias": [
       "Moda & Roupas"
     ],
@@ -727,6 +767,7 @@ const dados = [
     "id": 41,
     "nome": "Montserrat",
     "categoriaPrincipal": "Cama, Mesa e Banho",
+    "categoriaMacro": "Casa & Decoração",
     "categorias": [
       "Cama, Mesa e Banho"
     ],
@@ -745,6 +786,7 @@ const dados = [
     "id": 42,
     "nome": "Pane & Vino",
     "categoriaPrincipal": "Padaria",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Padaria"
     ],
@@ -763,6 +805,7 @@ const dados = [
     "id": 43,
     "nome": "Eigym Espaço Integrado de Treinamento Saúde e Bem Estar",
     "categoriaPrincipal": "Academia",
+    "categoriaMacro": "Fitness & Esportes",
     "categorias": [
       "Academia"
     ],
@@ -781,6 +824,7 @@ const dados = [
     "id": 44,
     "nome": "Mykonos Pet Spa",
     "categoriaPrincipal": "PetShop",
+    "categoriaMacro": "Pets",
     "categorias": [
       "PetShop"
     ],
@@ -799,6 +843,7 @@ const dados = [
     "id": 45,
     "nome": "Lupo - Campo Belo",
     "categoriaPrincipal": "Moda & Roupas",
+    "categoriaMacro": "Moda & Acessórios",
     "categorias": [
       "Moda & Roupas"
     ],
@@ -817,6 +862,7 @@ const dados = [
     "id": 46,
     "nome": "Takeshi Sushi House",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -835,6 +881,7 @@ const dados = [
     "id": 47,
     "nome": "Belavie Beauty",
     "categoriaPrincipal": "Salão de Beleza",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Salão de Beleza"
     ],
@@ -853,6 +900,7 @@ const dados = [
     "id": 48,
     "nome": "Veloce Ciclismo & Café",
     "categoriaPrincipal": "Bicicletaria",
+    "categoriaMacro": "Fitness & Esportes",
     "categorias": [
       "Bicicletaria"
     ],
@@ -871,6 +919,7 @@ const dados = [
     "id": 49,
     "nome": "Dra Juliana Romano / Instituto Romano",
     "categoriaPrincipal": "Clínicas & Consultórios",
+    "categoriaMacro": "Saúde & Bem-estar",
     "categorias": [
       "Clínicas & Consultórios"
     ],
@@ -889,6 +938,7 @@ const dados = [
     "id": 50,
     "nome": "Auto Escola Aeroporto",
     "categoriaPrincipal": "Compras",
+    "categoriaMacro": "Compras & Conveniência",
     "categorias": [
       "Compras"
     ],
@@ -907,6 +957,7 @@ const dados = [
     "id": 51,
     "nome": "Lions Techs Assistência Técnica",
     "categoriaPrincipal": "Compras",
+    "categoriaMacro": "Compras & Conveniência",
     "categorias": [
       "Compras"
     ],
@@ -925,6 +976,7 @@ const dados = [
     "id": 52,
     "nome": "Barbell Fitness & Studio",
     "categoriaPrincipal": "Academia",
+    "categoriaMacro": "Fitness & Esportes",
     "categorias": [
       "Academia"
     ],
@@ -943,6 +995,7 @@ const dados = [
     "id": 53,
     "nome": "Miss Hair",
     "categoriaPrincipal": "Beleza",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Beleza"
     ],
@@ -961,6 +1014,7 @@ const dados = [
     "id": 54,
     "nome": "Dolce Ricordo Pães de Mel",
     "categoriaPrincipal": "Doceria",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Doceria"
     ],
@@ -979,6 +1033,7 @@ const dados = [
     "id": 55,
     "nome": "Sr. Tabaco",
     "categoriaPrincipal": "Compras",
+    "categoriaMacro": "Compras & Conveniência",
     "categorias": [
       "Compras"
     ],
@@ -997,6 +1052,7 @@ const dados = [
     "id": 56,
     "nome": "Leven Academia",
     "categoriaPrincipal": "Academia",
+    "categoriaMacro": "Fitness & Esportes",
     "categorias": [
       "Academia"
     ],
@@ -1015,6 +1071,7 @@ const dados = [
     "id": 57,
     "nome": "Ateliê do doce",
     "categoriaPrincipal": "Confeitaria",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Confeitaria"
     ],
@@ -1033,6 +1090,7 @@ const dados = [
     "id": 58,
     "nome": "No°11 The Beauty Care",
     "categoriaPrincipal": "Salão de Beleza",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Salão de Beleza"
     ],
@@ -1051,6 +1109,7 @@ const dados = [
     "id": 59,
     "nome": "Luciano Albino Studio",
     "categoriaPrincipal": "Beleza",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Beleza"
     ],
@@ -1069,6 +1128,7 @@ const dados = [
     "id": 60,
     "nome": "O Jardim Café & Brunch",
     "categoriaPrincipal": "Cafés",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Cafés"
     ],
@@ -1087,6 +1147,7 @@ const dados = [
     "id": 61,
     "nome": "Sugar & Co",
     "categoriaPrincipal": "Confeitaria",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Confeitaria"
     ],
@@ -1105,6 +1166,7 @@ const dados = [
     "id": 62,
     "nome": "Ponto de Brigadeiro Doceria",
     "categoriaPrincipal": "Doceria",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Doceria"
     ],
@@ -1123,6 +1185,7 @@ const dados = [
     "id": 63,
     "nome": "Jazzy Sushi House",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -1141,6 +1204,7 @@ const dados = [
     "id": 64,
     "nome": "Alelu Pet",
     "categoriaPrincipal": "PetShop",
+    "categoriaMacro": "Pets",
     "categorias": [
       "PetShop"
     ],
@@ -1159,6 +1223,7 @@ const dados = [
     "id": 65,
     "nome": "Safari Shop",
     "categoriaPrincipal": "PetShop",
+    "categoriaMacro": "Pets",
     "categorias": [
       "PetShop"
     ],
@@ -1177,6 +1242,7 @@ const dados = [
     "id": 66,
     "nome": "Kasa saúde",
     "categoriaPrincipal": "Pilates & Yoga",
+    "categoriaMacro": "Fitness & Esportes",
     "categorias": [
       "Pilates & Yoga"
     ],
@@ -1195,6 +1261,7 @@ const dados = [
     "id": 67,
     "nome": "Zhair",
     "categoriaPrincipal": "Salão de Beleza",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Salão de Beleza"
     ],
@@ -1213,6 +1280,7 @@ const dados = [
     "id": 68,
     "nome": "Kunimura Naturais e Saudáveis",
     "categoriaPrincipal": "Produtos Naturais",
+    "categoriaMacro": "Saúde & Bem-estar",
     "categorias": [
       "Produtos Naturais"
     ],
@@ -1231,6 +1299,7 @@ const dados = [
     "id": 69,
     "nome": "Bijuteteia",
     "categoriaPrincipal": "Bijuteria e Acessórios",
+    "categoriaMacro": "Moda & Acessórios",
     "categorias": [
       "Bijuteria e Acessórios"
     ],
@@ -1249,6 +1318,7 @@ const dados = [
     "id": 70,
     "nome": "Floricultura Frey",
     "categoriaPrincipal": "Floricultura",
+    "categoriaMacro": "Casa & Decoração",
     "categorias": [
       "Floricultura"
     ],
@@ -1267,6 +1337,7 @@ const dados = [
     "id": 71,
     "nome": "Mediterrain Padaria Artesanal",
     "categoriaPrincipal": "Padaria",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Padaria"
     ],
@@ -1285,6 +1356,7 @@ const dados = [
     "id": 72,
     "nome": "Al Jafar Especialidades Árabes",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -1303,6 +1375,7 @@ const dados = [
     "id": 73,
     "nome": "Miles Wine Bar",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -1321,6 +1394,7 @@ const dados = [
     "id": 74,
     "nome": "BIOClub Fitness",
     "categoriaPrincipal": "Academia",
+    "categoriaMacro": "Fitness & Esportes",
     "categorias": [
       "Academia"
     ],
@@ -1339,6 +1413,7 @@ const dados = [
     "id": 75,
     "nome": "Chili Sex Shop",
     "categoriaPrincipal": "Sex Shop",
+    "categoriaMacro": "Moda & Acessórios",
     "categorias": [
       "Sex Shop"
     ],
@@ -1357,6 +1432,7 @@ const dados = [
     "id": 76,
     "nome": "Jueli Costuras",
     "categoriaPrincipal": "Atelier",
+    "categoriaMacro": "Casa & Decoração",
     "categorias": [
       "Atelier"
     ],
@@ -1375,6 +1451,7 @@ const dados = [
     "id": 77,
     "nome": "Kimi Cosméticos",
     "categoriaPrincipal": "Compras",
+    "categoriaMacro": "Compras & Conveniência",
     "categorias": [
       "Compras"
     ],
@@ -1393,6 +1470,7 @@ const dados = [
     "id": 78,
     "nome": "Auto Nobre",
     "categoriaPrincipal": "Serviços Automotivos",
+    "categoriaMacro": "Mobilidade & Automotivo",
     "categorias": [
       "Serviços Automotivos"
     ],
@@ -1411,6 +1489,7 @@ const dados = [
     "id": 79,
     "nome": "Empório Santo Expedito",
     "categoriaPrincipal": "Supermercados",
+    "categoriaMacro": "Compras & Conveniência",
     "categorias": [
       "Supermercados"
     ],
@@ -1429,6 +1508,7 @@ const dados = [
     "id": 80,
     "nome": "O Boticário",
     "categoriaPrincipal": "Perfumaria",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Perfumaria"
     ],
@@ -1447,6 +1527,7 @@ const dados = [
     "id": 81,
     "nome": "Renata Arassiro Chocolates",
     "categoriaPrincipal": "Chocolateira",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Chocolateira"
     ],
@@ -1465,6 +1546,7 @@ const dados = [
     "id": 82,
     "nome": "Barbearia Comendador",
     "categoriaPrincipal": "Barbearias",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Barbearias"
     ],
@@ -1483,6 +1565,7 @@ const dados = [
     "id": 83,
     "nome": "Agello Cucina",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -1501,6 +1584,7 @@ const dados = [
     "id": 84,
     "nome": "Emporio Chef Kamal",
     "categoriaPrincipal": "Cafés",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Cafés"
     ],
@@ -1519,6 +1603,7 @@ const dados = [
     "id": 85,
     "nome": "Fatboyz Hamburgueria",
     "categoriaPrincipal": "Hamburguerias",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Hamburguerias"
     ],
@@ -1537,6 +1622,7 @@ const dados = [
     "id": 86,
     "nome": "Oba Hortifruti (Campo Belo)",
     "categoriaPrincipal": "Supermercados",
+    "categoriaMacro": "Compras & Conveniência",
     "categorias": [
       "Supermercados"
     ],
@@ -1555,6 +1641,7 @@ const dados = [
     "id": 87,
     "nome": "Vero Latte",
     "categoriaPrincipal": "Sorveteria & Doces",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Sorveteria & Doces"
     ],
@@ -1573,6 +1660,7 @@ const dados = [
     "id": 88,
     "nome": "Sweet Cake",
     "categoriaPrincipal": "Confeitaria",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Confeitaria"
     ],
@@ -1591,6 +1679,7 @@ const dados = [
     "id": 89,
     "nome": "Restaurante Recanto da Sogra",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -1609,6 +1698,7 @@ const dados = [
     "id": 90,
     "nome": "Multicoisas",
     "categoriaPrincipal": "Compras",
+    "categoriaMacro": "Compras & Conveniência",
     "categorias": [
       "Compras"
     ],
@@ -1627,6 +1717,7 @@ const dados = [
     "id": 91,
     "nome": "Senhor Smart",
     "categoriaPrincipal": "Compras",
+    "categoriaMacro": "Compras & Conveniência",
     "categorias": [
       "Compras"
     ],
@@ -1645,6 +1736,7 @@ const dados = [
     "id": 92,
     "nome": "Pizzaria Paulino",
     "categoriaPrincipal": "Pizzarias",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Pizzarias"
     ],
@@ -1663,6 +1755,7 @@ const dados = [
     "id": 93,
     "nome": "Zi Tereza Pizzaria",
     "categoriaPrincipal": "Pizzarias",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Pizzarias"
     ],
@@ -1681,6 +1774,7 @@ const dados = [
     "id": 94,
     "nome": "Energy Imoveis",
     "categoriaPrincipal": "Imobiliárias",
+    "categoriaMacro": "Imóveis",
     "categorias": [
       "Imobiliárias"
     ],
@@ -1699,6 +1793,7 @@ const dados = [
     "id": 95,
     "nome": "Ortobom Colchões",
     "categoriaPrincipal": "Colchões",
+    "categoriaMacro": "Casa & Decoração",
     "categorias": [
       "Colchões"
     ],
@@ -1717,6 +1812,7 @@ const dados = [
     "id": 96,
     "nome": "Safhari",
     "categoriaPrincipal": "Espaço para Festas",
+    "categoriaMacro": "Lazer, Viagens & Eventos",
     "categorias": [
       "Espaço para Festas"
     ],
@@ -1735,6 +1831,7 @@ const dados = [
     "id": 97,
     "nome": "Sodie Doces",
     "categoriaPrincipal": "Doceria",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Doceria"
     ],
@@ -1753,6 +1850,7 @@ const dados = [
     "id": 98,
     "nome": "Seven Restaurante & Pizzaria",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -1771,6 +1869,7 @@ const dados = [
     "id": 99,
     "nome": "Bar do Campo Belo",
     "categoriaPrincipal": "Compras",
+    "categoriaMacro": "Compras & Conveniência",
     "categorias": [
       "Compras"
     ],
@@ -1789,6 +1888,7 @@ const dados = [
     "id": 100,
     "nome": "Ateliê Galhardo",
     "categoriaPrincipal": "Atelier",
+    "categoriaMacro": "Casa & Decoração",
     "categorias": [
       "Atelier"
     ],
@@ -1807,6 +1907,7 @@ const dados = [
     "id": 101,
     "nome": "Alfandega restaurante",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -1825,6 +1926,7 @@ const dados = [
     "id": 102,
     "nome": "Café Des Fleur",
     "categoriaPrincipal": "Cafés",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Cafés"
     ],
@@ -1843,6 +1945,7 @@ const dados = [
     "id": 103,
     "nome": "Cris parrilla bar e restaurante",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -1861,6 +1964,7 @@ const dados = [
     "id": 104,
     "nome": "La Paella Restaurante",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -1879,6 +1983,7 @@ const dados = [
     "id": 105,
     "nome": "Aki é festa",
     "categoriaPrincipal": "Compras",
+    "categoriaMacro": "Compras & Conveniência",
     "categorias": [
       "Compras"
     ],
@@ -1897,6 +2002,7 @@ const dados = [
     "id": 106,
     "nome": "Amigas.cao",
     "categoriaPrincipal": "PetShop",
+    "categoriaMacro": "Pets",
     "categorias": [
       "PetShop"
     ],
@@ -1915,6 +2021,7 @@ const dados = [
     "id": 107,
     "nome": "Red balloon",
     "categoriaPrincipal": "Educação & Cursos",
+    "categoriaMacro": "Educação & Cultura",
     "categorias": [
       "Educação & Cursos"
     ],
@@ -1933,6 +2040,7 @@ const dados = [
     "id": 108,
     "nome": "CVC Viagens - Campo Belo",
     "categoriaPrincipal": "Agência de Viagens",
+    "categoriaMacro": "Lazer, Viagens & Eventos",
     "categorias": [
       "Agência de Viagens"
     ],
@@ -1951,6 +2059,7 @@ const dados = [
     "id": 109,
     "nome": "Açougue Bom Beef Campo Belo",
     "categoriaPrincipal": "Compras",
+    "categoriaMacro": "Compras & Conveniência",
     "categorias": [
       "Compras"
     ],
@@ -1969,6 +2078,7 @@ const dados = [
     "id": 110,
     "nome": "Tradicional Campo Belo",
     "categoriaPrincipal": "Casa de Bolos",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Casa de Bolos"
     ],
@@ -1987,6 +2097,7 @@ const dados = [
     "id": 111,
     "nome": "LCZ Engenharia",
     "categoriaPrincipal": "Compras",
+    "categoriaMacro": "Compras & Conveniência",
     "categorias": [
       "Compras"
     ],
@@ -2005,6 +2116,7 @@ const dados = [
     "id": 112,
     "nome": "Sapataria e Chaveiro Vicente",
     "categoriaPrincipal": "Sapataria",
+    "categoriaMacro": "Moda & Acessórios",
     "categorias": [
       "Sapataria"
     ],
@@ -2023,6 +2135,7 @@ const dados = [
     "id": 113,
     "nome": "Atomy",
     "categoriaPrincipal": "Beleza",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Beleza"
     ],
@@ -2041,6 +2154,7 @@ const dados = [
     "id": 114,
     "nome": "Premium Tasting",
     "categoriaPrincipal": "Lazer",
+    "categoriaMacro": "Lazer, Viagens & Eventos",
     "categorias": [
       "Lazer"
     ],
@@ -2059,6 +2173,7 @@ const dados = [
     "id": 115,
     "nome": "ProQualita Serviços em Alimentação",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -2077,6 +2192,7 @@ const dados = [
     "id": 116,
     "nome": "Musa Morais Leilões",
     "categoriaPrincipal": "Leilões",
+    "categoriaMacro": "Serviços Profissionais",
     "categorias": [
       "Leilões"
     ],
@@ -2095,6 +2211,7 @@ const dados = [
     "id": 117,
     "nome": "FGA SECURITY",
     "categoriaPrincipal": "Segurança Patrimonial",
+    "categoriaMacro": "Serviços Profissionais",
     "categorias": [
       "Segurança Patrimonial"
     ],
@@ -2113,6 +2230,7 @@ const dados = [
     "id": 118,
     "nome": "Casa Del Papa",
     "categoriaPrincipal": "Moda & Roupas",
+    "categoriaMacro": "Moda & Acessórios",
     "categorias": [
       "Moda & Roupas"
     ],
@@ -2131,6 +2249,7 @@ const dados = [
     "id": 119,
     "nome": "Silvia Consultora Imobiliária",
     "categoriaPrincipal": "Imobiliárias",
+    "categoriaMacro": "Imóveis",
     "categorias": [
       "Imobiliárias"
     ],
@@ -2149,6 +2268,7 @@ const dados = [
     "id": 120,
     "nome": "Boys Being Boys",
     "categoriaPrincipal": "Moda & Roupas",
+    "categoriaMacro": "Moda & Acessórios",
     "categorias": [
       "Moda & Roupas"
     ],
@@ -2167,6 +2287,7 @@ const dados = [
     "id": 121,
     "nome": "Gran Cellar",
     "categoriaPrincipal": "Supermercados",
+    "categoriaMacro": "Compras & Conveniência",
     "categorias": [
       "Supermercados"
     ],
@@ -2184,11 +2305,12 @@ const dados = [
   {
     "id": 122,
     "nome": "Fast Tennis Campo Belo",
-    "categoriaPrincipal": "Academia",
+    "categoriaPrincipal": "Tênis",
+    "categoriaMacro": "Fitness & Esportes",
     "categorias": [
-      "Academia"
+      "Tênis"
     ],
-    "subcategoria": "",
+    "subcategoria": "Tênis",
     "endereco": "Avenida Jornalista Roberto Marinho 2971",
     "lat": -23.6258892,
     "lng": -46.6761408,
@@ -2203,6 +2325,7 @@ const dados = [
     "id": 123,
     "nome": "Distrito Animal",
     "categoriaPrincipal": "PetShop",
+    "categoriaMacro": "Pets",
     "categorias": [
       "PetShop"
     ],
@@ -2221,6 +2344,7 @@ const dados = [
     "id": 124,
     "nome": "NANCI MASSOTERAPEUTA",
     "categoriaPrincipal": "Clínicas & Consultórios",
+    "categoriaMacro": "Saúde & Bem-estar",
     "categorias": [
       "Clínicas & Consultórios"
     ],
@@ -2239,6 +2363,7 @@ const dados = [
     "id": 125,
     "nome": "Soham Yoga",
     "categoriaPrincipal": "Pilates & Yoga",
+    "categoriaMacro": "Fitness & Esportes",
     "categorias": [
       "Pilates & Yoga"
     ],
@@ -2257,6 +2382,7 @@ const dados = [
     "id": 126,
     "nome": "Musicoterapia no Bairro Campo",
     "categoriaPrincipal": "Aula de Música",
+    "categoriaMacro": "Educação & Cultura",
     "categorias": [
       "Aula de Música"
     ],
@@ -2275,6 +2401,7 @@ const dados = [
     "id": 127,
     "nome": "Sultão Turkish Restaurante",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -2293,6 +2420,7 @@ const dados = [
     "id": 128,
     "nome": "RGONZALES modas",
     "categoriaPrincipal": "Moda & Roupas",
+    "categoriaMacro": "Moda & Acessórios",
     "categorias": [
       "Moda & Roupas"
     ],
@@ -2311,6 +2439,7 @@ const dados = [
     "id": 129,
     "nome": "Silvia Só Flower",
     "categoriaPrincipal": "Floricultura",
+    "categoriaMacro": "Casa & Decoração",
     "categorias": [
       "Floricultura"
     ],
@@ -2329,6 +2458,7 @@ const dados = [
     "id": 130,
     "nome": "Fazzi Massas Artesanais",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -2347,6 +2477,7 @@ const dados = [
     "id": 131,
     "nome": "Carmen da Biju",
     "categoriaPrincipal": "Bijuteria e Acessórios",
+    "categoriaMacro": "Moda & Acessórios",
     "categorias": [
       "Bijuteria e Acessórios"
     ],
@@ -2365,6 +2496,7 @@ const dados = [
     "id": 132,
     "nome": "Transforme Stetic Center",
     "categoriaPrincipal": "Beleza",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Beleza"
     ],
@@ -2383,6 +2515,7 @@ const dados = [
     "id": 133,
     "nome": "Clínica Peso Menor",
     "categoriaPrincipal": "Clínicas & Consultórios",
+    "categoriaMacro": "Saúde & Bem-estar",
     "categorias": [
       "Clínicas & Consultórios"
     ],
@@ -2401,6 +2534,7 @@ const dados = [
     "id": 134,
     "nome": "Clínica Lammardo",
     "categoriaPrincipal": "Odontologia",
+    "categoriaMacro": "Saúde & Bem-estar",
     "categorias": [
       "Odontologia"
     ],
@@ -2419,6 +2553,7 @@ const dados = [
     "id": 135,
     "nome": "Othelo Restaurante",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -2437,6 +2572,7 @@ const dados = [
     "id": 136,
     "nome": "Migra Master",
     "categoriaPrincipal": "Compras",
+    "categoriaMacro": "Compras & Conveniência",
     "categorias": [
       "Compras"
     ],
@@ -2455,6 +2591,7 @@ const dados = [
     "id": 201,
     "nome": "Urban Kitchen",
     "categoriaPrincipal": "Cafés",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Cafés"
     ],
@@ -2473,6 +2610,7 @@ const dados = [
     "id": 202,
     "nome": "NB Steak Campo Belo",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -2491,6 +2629,7 @@ const dados = [
     "id": 203,
     "nome": "Huto Izakaya",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -2509,6 +2648,7 @@ const dados = [
     "id": 204,
     "nome": "Maremonti Campo Belo",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -2527,6 +2667,7 @@ const dados = [
     "id": 206,
     "nome": "Sauce Burger",
     "categoriaPrincipal": "Hamburguerias",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Hamburguerias"
     ],
@@ -2545,6 +2686,7 @@ const dados = [
     "id": 207,
     "nome": "Ken Zushi",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -2563,6 +2705,7 @@ const dados = [
     "id": 208,
     "nome": "Pizzaria Dona Moema",
     "categoriaPrincipal": "Pizzarias",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Pizzarias"
     ],
@@ -2581,6 +2724,7 @@ const dados = [
     "id": 209,
     "nome": "Pizza Prime Campo Belo",
     "categoriaPrincipal": "Pizzarias",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Pizzarias"
     ],
@@ -2599,6 +2743,7 @@ const dados = [
     "id": 211,
     "nome": "Café Artigas",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -2617,6 +2762,7 @@ const dados = [
     "id": 213,
     "nome": "Chocolatria",
     "categoriaPrincipal": "Chocolateira",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Chocolateira"
     ],
@@ -2635,6 +2781,7 @@ const dados = [
     "id": 214,
     "nome": "Platz Eurobar",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -2653,6 +2800,7 @@ const dados = [
     "id": 216,
     "nome": "Miya Wine Bar",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -2671,6 +2819,7 @@ const dados = [
     "id": 217,
     "nome": "Caetano’s Bar",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -2689,6 +2838,7 @@ const dados = [
     "id": 218,
     "nome": "Padaria Colonial",
     "categoriaPrincipal": "Padaria",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Padaria"
     ],
@@ -2707,6 +2857,7 @@ const dados = [
     "id": 219,
     "nome": "Padaria A Trigueira",
     "categoriaPrincipal": "Padaria",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Padaria"
     ],
@@ -2725,6 +2876,7 @@ const dados = [
     "id": 220,
     "nome": "Benjamin a Padaria",
     "categoriaPrincipal": "Padaria",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Padaria"
     ],
@@ -2743,6 +2895,7 @@ const dados = [
     "id": 221,
     "nome": "Toss Baking Unit",
     "categoriaPrincipal": "Cafés",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Cafés"
     ],
@@ -2761,6 +2914,7 @@ const dados = [
     "id": 222,
     "nome": "Confeitaria Christina",
     "categoriaPrincipal": "Confeitaria",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Confeitaria"
     ],
@@ -2779,6 +2933,7 @@ const dados = [
     "id": 223,
     "nome": "Dona Glória Confeitaria",
     "categoriaPrincipal": "Confeitaria",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Confeitaria"
     ],
@@ -2797,6 +2952,7 @@ const dados = [
     "id": 224,
     "nome": "Tartelier Patisserie",
     "categoriaPrincipal": "Cafés",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Cafés"
     ],
@@ -2815,6 +2971,7 @@ const dados = [
     "id": 225,
     "nome": "LIVE! Campo Belo",
     "categoriaPrincipal": "Moda & Roupas",
+    "categoriaMacro": "Moda & Acessórios",
     "categorias": [
       "Moda & Roupas"
     ],
@@ -2832,11 +2989,12 @@ const dados = [
   {
     "id": 226,
     "nome": "Boutique dos Livros",
-    "categoriaPrincipal": "Moda & Roupas",
+    "categoriaPrincipal": "Livrarias",
+    "categoriaMacro": "Educação & Cultura",
     "categorias": [
-      "Moda & Roupas"
+      "Livrarias"
     ],
-    "subcategoria": "Moda & Roupas",
+    "subcategoria": "Livrarias",
     "endereco": "Rua Pascal 1131",
     "lat": -23.621466007839,
     "lng": -46.670922025419,
@@ -2851,6 +3009,7 @@ const dados = [
     "id": 227,
     "nome": "HSE Loja 2",
     "categoriaPrincipal": "Academia",
+    "categoriaMacro": "Fitness & Esportes",
     "categorias": [
       "Academia"
     ],
@@ -2869,6 +3028,7 @@ const dados = [
     "id": 228,
     "nome": "La Mia Gelateria",
     "categoriaPrincipal": "Sorveteria & Doces",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Sorveteria & Doces"
     ],
@@ -2887,6 +3047,7 @@ const dados = [
     "id": 230,
     "nome": "Okone Cozinha Japonesa e Peruana",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -2905,6 +3066,7 @@ const dados = [
     "id": 231,
     "nome": "Omakase Nihon",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -2923,6 +3085,7 @@ const dados = [
     "id": 232,
     "nome": "Churrascaria Estância Campo Belo",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -2941,6 +3104,7 @@ const dados = [
     "id": 234,
     "nome": "Soffio Pizzeria",
     "categoriaPrincipal": "Pizzarias",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Pizzarias"
     ],
@@ -2959,6 +3123,7 @@ const dados = [
     "id": 235,
     "nome": "Le Petit Gabriele",
     "categoriaPrincipal": "Restaurantes",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Restaurantes"
     ],
@@ -2977,6 +3142,7 @@ const dados = [
     "id": 236,
     "nome": "Delícias do Campo Belo",
     "categoriaPrincipal": "Cafés",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Cafés"
     ],
@@ -2995,6 +3161,7 @@ const dados = [
     "id": 237,
     "nome": "Espaço Mel Casagrande",
     "categoriaPrincipal": "Moda & Roupas",
+    "categoriaMacro": "Moda & Acessórios",
     "categorias": [
       "Moda & Roupas"
     ],
@@ -3013,6 +3180,7 @@ const dados = [
     "id": 238,
     "nome": "Empório Itiê",
     "categoriaPrincipal": "Compras",
+    "categoriaMacro": "Compras & Conveniência",
     "categorias": [
       "Compras"
     ],
@@ -3031,6 +3199,7 @@ const dados = [
     "id": 239,
     "nome": "Clínica Campo Belo",
     "categoriaPrincipal": "Clínicas & Consultórios",
+    "categoriaMacro": "Saúde & Bem-estar",
     "categorias": [
       "Clínicas & Consultórios"
     ],
@@ -3049,6 +3218,7 @@ const dados = [
     "id": 241,
     "nome": "OMO Lavanderia Especializada Vieira de Morais",
     "categoriaPrincipal": "Serviços Profissionais",
+    "categoriaMacro": "Serviços Profissionais",
     "categorias": [
       "Serviços Profissionais"
     ],
@@ -3067,6 +3237,7 @@ const dados = [
     "id": 242,
     "nome": "Campo Belo Soluções Imobiliárias",
     "categoriaPrincipal": "Imobiliárias",
+    "categoriaMacro": "Imóveis",
     "categorias": [
       "Imobiliárias"
     ],
@@ -3085,6 +3256,7 @@ const dados = [
     "id": 243,
     "nome": "Vet Quality Hospital Veterinário 24h",
     "categoriaPrincipal": "PetShop",
+    "categoriaMacro": "Pets",
     "categorias": [
       "PetShop"
     ],
@@ -3103,6 +3275,7 @@ const dados = [
     "id": 244,
     "nome": "Kumon Campo Belo — Gabriele D’Annunzio",
     "categoriaPrincipal": "Educação & Cursos",
+    "categoriaMacro": "Educação & Cultura",
     "categorias": [
       "Educação & Cursos"
     ],
@@ -3121,6 +3294,7 @@ const dados = [
     "id": 245,
     "nome": "Paróquia Nossa Senhora de Guadalupe",
     "categoriaPrincipal": "Serviços Profissionais",
+    "categoriaMacro": "Serviços Profissionais",
     "categorias": [
       "Serviços Profissionais"
     ],
@@ -3139,6 +3313,7 @@ const dados = [
     "id": 249,
     "nome": "Chaveiro Novo Aeon",
     "categoriaPrincipal": "Serviços Profissionais",
+    "categoriaMacro": "Serviços Profissionais",
     "categorias": [
       "Serviços Profissionais"
     ],
@@ -3157,6 +3332,7 @@ const dados = [
     "id": 250,
     "nome": "LePuy Moda Feminina",
     "categoriaPrincipal": "Moda & Roupas",
+    "categoriaMacro": "Moda & Acessórios",
     "categorias": [
       "Moda & Roupas"
     ],
@@ -3175,6 +3351,7 @@ const dados = [
     "id": 251,
     "nome": "Nórdico Padaria",
     "categoriaPrincipal": "Padaria",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Padaria"
     ],
@@ -3193,6 +3370,7 @@ const dados = [
     "id": 252,
     "nome": "Studio Andréa Aronne",
     "categoriaPrincipal": "Salão de Beleza",
+    "categoriaMacro": "Beleza & Salões",
     "categorias": [
       "Salão de Beleza"
     ],
@@ -3211,6 +3389,7 @@ const dados = [
     "id": 253,
     "nome": "Usaflex Campo Belo",
     "categoriaPrincipal": "Moda & Roupas",
+    "categoriaMacro": "Moda & Acessórios",
     "categorias": [
       "Moda & Roupas"
     ],
@@ -3229,6 +3408,7 @@ const dados = [
     "id": 254,
     "nome": "Cabana Burger Campo Belo",
     "categoriaPrincipal": "Hamburguerias",
+    "categoriaMacro": "Comer & Beber",
     "categorias": [
       "Hamburguerias"
     ],
@@ -3242,5 +3422,106 @@ const dados = [
     "descricao": "",
     "promocao": "",
     "termosBusca": []
+  },
+  {
+    "id": 255,
+    "nome": "Elma Martins Hair Spa",
+    "categoriaPrincipal": "Salão de Beleza",
+    "categoriaMacro": "Beleza & Salões",
+    "categorias": [
+      "Salão de Beleza"
+    ],
+    "subcategoria": "Salão de Beleza",
+    "endereco": "Rua Demóstenes, 943 - Campo Belo, São Paulo - SP, 04614-401",
+    "lat": null,
+    "lng": null,
+    "telefones": [],
+    "instagram": "elmamartinshairspa",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 256,
+    "nome": "Dra. Beatriz Baracioli",
+    "categoriaPrincipal": "Saúde & Bem-estar",
+    "categoriaMacro": "Saúde & Bem-estar",
+    "categorias": [
+      "Saúde & Bem-estar"
+    ],
+    "subcategoria": "Odontologia",
+    "endereco": "Rua Antônio de Macedo Soares, 1391 - Campo Belo, São Paulo - SP, 04607-002",
+    "lat": null,
+    "lng": null,
+    "telefones": [],
+    "instagram": "dra.bbaracioli",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": [
+      "Atendimentos de segunda a sábado."
+    ]
+  },
+  {
+    "id": 257,
+    "nome": "Beatriz Silva Massoterapia",
+    "categoriaPrincipal": "Saúde & Bem-estar",
+    "categoriaMacro": "Saúde & Bem-estar",
+    "categorias": [
+      "Saúde & Bem-estar"
+    ],
+    "subcategoria": "Massoterapia",
+    "endereco": "",
+    "lat": null,
+    "lng": null,
+    "telefones": [],
+    "instagram": "massoterapeuta.beatrizsilva",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": [
+      "Atendimento domiciliar no Campo Belo."
+    ]
+  },
+  {
+    "id": 258,
+    "nome": "Empório do Real",
+    "categoriaPrincipal": "Loja de Decoração",
+    "categoriaMacro": "Casa & Decoração",
+    "categorias": [
+      "Loja de Decoração"
+    ],
+    "subcategoria": "Loja de Decoração",
+    "endereco": "Rua Vieira de Morais, 1636 - Campo Belo, São Paulo - SP, 04625-005",
+    "lat": -23.6254234,
+    "lng": -46.6674979,
+    "telefones": [],
+    "instagram": "lojaemporiodoreal",
+    "site": "https://www.emporiodoreal.com.br",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": []
+  },
+  {
+    "id": 259,
+    "nome": "ALIVE",
+    "categoriaPrincipal": "Pilates & Yoga",
+    "categoriaMacro": "Fitness & Esportes",
+    "categorias": [
+      "Pilates & Yoga"
+    ],
+    "subcategoria": "Fisioterapia, Pilates & Wellness",
+    "endereco": "Rua João de Sousa Dias, 639 — Campo Belo",
+    "lat": -23.621829,
+    "lng": -46.6740391,
+    "telefones": [],
+    "instagram": "alive.campobelo",
+    "site": "",
+    "descricao": "",
+    "promocao": "",
+    "termosBusca": [
+      "Inauguração em breve."
+    ]
   }
 ];

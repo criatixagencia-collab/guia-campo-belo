@@ -2,15 +2,15 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="author" content="Guia Campo Belo SP (Criatix)">
-<meta name="copyright" content="© 2026 Guia Campo Belo SP (Criatix) — Todos os direitos reservados">
-<!-- © 2026 Guia Campo Belo SP (Criatix). Conteúdo protegido por direitos autorais. -->
+<meta name="author" content="Revista Digital Campo Belo (Criatix)">
+<meta name="copyright" content="© 2026 Revista Digital Campo Belo (Criatix) — Todos os direitos reservados">
+<!-- © 2026 Revista Digital Campo Belo (Criatix). Conteúdo protegido por direitos autorais. -->
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Drone 3D | Guia Campo Belo SP</title>
+<title>Drone 3D | Revista Digital Campo Belo</title>
 <meta name="description" content="Explore o Campo Belo em 3D e encontre estabelecimentos do bairro pilotando um drone virtual.">
 <link rel="canonical" href="https://www.campobelosp.com.br/drone/">
 <link rel="icon" href="../assets/logo-campo-belo.png">
@@ -268,9 +268,9 @@ input,textarea,[contenteditable="true"]{-webkit-user-select:text;user-select:tex
 </div>
 
 <div id="top">
-  <a class="glass" id="brand" href="../../" aria-label="Voltar ao Guia Campo Belo">
+  <a class="glass" id="brand" href="../../" aria-label="Voltar à Revista Digital Campo Belo">
     <img src="../assets/logo-campo-belo.png" alt="">
-    <span class="brand-copy"><b>GUIA CAMPO BELO SP</b><span>exploração em 3D</span></span>
+    <span class="brand-copy"><b>REVISTA DIGITAL CAMPO BELO</b><span>exploração em 3D</span></span>
   </a>
   <div id="searchWrap">
     <span class="ic" aria-hidden="true">⌕</span>
@@ -306,8 +306,8 @@ input,textarea,[contenteditable="true"]{-webkit-user-select:text;user-select:tex
 <div id="cardWrap"><div id="card"></div></div>
 
 <div id="intro">
-  <img class="introLogo" src="../assets/logo-campo-belo.png" alt="Guia Campo Belo SP">
-  <div class="tag">Guia Campo Belo SP</div>
+  <img class="introLogo" src="../assets/logo-campo-belo.png" alt="Revista Digital Campo Belo">
+  <div class="tag">Revista Digital Campo Belo</div>
   <h1 class="introLead">Explore o Campo Belo de drone</h1>
   <p class="introLead">Pilote pelo bairro em 3D e visite <b id="introCount"></b> estabelecimentos do bairro.</p>
   <div id="controlDemo" aria-hidden="true" aria-live="polite">
@@ -319,25 +319,22 @@ input,textarea,[contenteditable="true"]{-webkit-user-select:text;user-select:tex
 </div>
 
 <script src="./bairro3d.js?v=campo-belo-20260829c"></script>
-<script src="../dados.js?v=campo-belo-20261026-all-locations"></script>
+<script src="../dados.js?v=taxonomia-drone-20261029"></script>
 <script>
 const CATEGORY_LABELS = {
-  "Gastronomia & Delivery":"Gastronomia",
-  "Cafes, Padarias & Doces":"Cafés & Doces",
-  "Mercados, Emporios & Conveniencia":"Mercados & Conveniência",
-  "Saude & Clinicas":"Saúde & Clínicas",
-  "Beleza & Estetica":"Beleza & Estética",
-  "Academias, Esportes & Bem-Estar":"Esportes & Bem-Estar",
-  "Moda, Calcados & Acessorios":"Moda & Acessórios",
-  "Casa, Decoracao & Organizacao":"Casa & Decoração",
-  "Servicos para Casa":"Serviços para Casa",
-  "Imoveis & Construcao":"Imóveis & Construção",
+  "Comer & Beber":"Comer & Beber",
+  "Beleza & Salões":"Beleza & Salões",
+  "Saúde & Bem-estar":"Saúde & Bem-estar",
+  "Fitness & Esportes":"Fitness & Esportes",
+  "Compras & Conveniência":"Compras & Conveniência",
+  "Moda & Acessórios":"Moda & Acessórios",
+  "Casa & Decoração":"Casa & Decoração",
   "Pets":"Pets",
-  "Educacao & Cursos":"Educação & Cursos",
-  "Infantil & Familia":"Infantil & Família",
-  "Festas & Eventos":"Festas & Eventos",
-  "Lojas & Presentes":"Lojas & Presentes",
-  "Instituicoes & Comunidade":"Comunidade"
+  "Serviços Profissionais":"Serviços Profissionais",
+  "Mobilidade & Automotivo":"Mobilidade & Automotivo",
+  "Lazer, Viagens & Eventos":"Lazer, Viagens & Eventos",
+  "Imóveis":"Imóveis",
+  "Educação & Cultura":"Educação & Cultura"
 };
 const categoryLabel = category => CATEGORY_LABELS[category] || category;
 const instagramUrl = value => {
@@ -347,7 +344,7 @@ const instagramUrl = value => {
 const PLACES = dados
   .filter(item => Number.isFinite(item.lat) && Number.isFinite(item.lng))
   .map(item => ({
-    id:item.id,n:item.nome,c:item.categoriaPrincipal,cats:item.categorias || [item.categoriaPrincipal],
+    id:item.id,n:item.nome,c:item.categoriaMacro || item.categoriaPrincipal,cats:item.categorias || [item.categoriaPrincipal],
     s:item.subcategoria,e:item.endereco,lat:item.lat,lng:item.lng,t:item.telefones?.[0] || "",
     ig:item.instagram || "",igUrl:instagramUrl(item.instagram),site:item.site || "",d:item.descricao,p:item.promocao,
     terms:item.termosBusca || []
@@ -992,14 +989,13 @@ const props=[];
 }
 
 /* ================= PINS ================= */
-const CAT_COLORS={"Gastronomia & Delivery":"#e05a38","Cafes, Padarias & Doces":"#c2802e",
-  "Saude & Clinicas":"#2fa184","Beleza & Estetica":"#d15a8b",
-  "Academias, Esportes & Bem-Estar":"#4a8fd6","Pets":"#9a6bd8",
-  "Educacao & Cursos":"#3179c9","Infantil & Familia":"#eda945",
-  "Moda, Calcados & Acessorios":"#b566a0","Lojas & Presentes":"#dd8b48",
-  "Mercados, Emporios & Conveniencia":"#6aa746","Casa, Decoracao & Organizacao":"#7f9350",
-  "Servicos para Casa":"#54899c","Imoveis & Construcao":"#7c81a0",
-  "Festas & Eventos":"#d85572","Instituicoes & Comunidade":"#8f7d5e"};
+const CAT_COLORS={"Comer & Beber":"#e05a38","Beleza & Salões":"#d15a8b",
+  "Saúde & Bem-estar":"#2fa184","Fitness & Esportes":"#4a8fd6",
+  "Compras & Conveniência":"#6aa746","Moda & Acessórios":"#b566a0",
+  "Casa & Decoração":"#7f9350","Pets":"#9a6bd8",
+  "Serviços Profissionais":"#54899c","Mobilidade & Automotivo":"#687f91",
+  "Lazer, Viagens & Eventos":"#d85572","Imóveis":"#7c81a0",
+  "Educação & Cultura":"#3179c9"};
 const catColor=c=>CAT_COLORS[c]||"#c9ae24";
 const pinTexCache={};
 function pinTex(col){
@@ -1040,7 +1036,7 @@ function featuredSignTexture(place){
   x.strokeStyle="rgba(255,255,255,.22)";x.lineWidth=3;x.strokeRect(34,34,956,316);
   x.textAlign="center";x.textBaseline="middle";
   x.fillStyle="#e3c64b";x.font="900 42px Montserrat,Arial,sans-serif";
-  x.fillText("DESTAQUE DO GUIA CAMPO BELO",512,77);
+  x.fillText("DESTAQUE DA REVISTA CAMPO BELO",512,77);
   let size=112;
   const name=place.n.toUpperCase();
   do{x.font=`900 ${size}px Montserrat,Arial,sans-serif`;size-=2;}while(x.measureText(name).width>900&&size>58);
@@ -1112,7 +1108,7 @@ pulse.rotation.x=-Math.PI/2;pulse.position.y=.4;pulse.visible=false;scene.add(pu
 /* ================= UI: chips, busca, card ================= */
 const byId=new Map(PLACES.map(p=>[p.id,p]));
 let activeCat=null;
-const placeHasCategory=(p,category)=>!category||(p.cats||[]).includes(category);
+const placeHasCategory=(p,category)=>!category||p.c===category;
 function applyFilter(){
   pins.forEach(s=>s.visible=placeHasCategory(s.userData.place,activeCat));
   document.getElementById("tCount").textContent=PLACES.filter(p=>placeHasCategory(p,activeCat)).length;

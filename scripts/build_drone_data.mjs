@@ -11,6 +11,7 @@ const sourcePaths = [
   path.join(root, "dados-locais-resgatados.js"),
 ];
 const outputPath = path.join(root, "drone", "dados.js");
+const directoryIndexPath = path.join(root, "index.html");
 const context = { window: {} };
 vm.createContext(context);
 for (const sourcePath of sourcePaths) {
@@ -22,10 +23,24 @@ const records = [
   ...(context.window.DADOS_LOCAIS_RESGATADOS || []),
 ];
 if (!records.length) throw new Error("Nenhum estabelecimento encontrado nas bases do diretório");
+
+// O Drone compartilha a mesma taxonomia exibida no diretório. Lemos o mapa
+// diretamente do index para impedir que as duas experiências se desencontrem.
+const directoryIndex = fs.readFileSync(directoryIndexPath, "utf8");
+const mappingMatch = directoryIndex.match(/const SOURCE_CATEGORY_TO_MACRO = (\{[\s\S]*?\n\});\n\nfunction macroFor/);
+if (!mappingMatch) throw new Error("Mapa de categorias do diretório não encontrado");
+const sourceCategoryToMacro = vm.runInNewContext(`(${mappingMatch[1]})`);
+const missingMappings = [...new Set(records
+  .map((item) => item.cats?.[0] || "Outros")
+  .filter((category) => !sourceCategoryToMacro[category]))];
+if (missingMappings.length) {
+  throw new Error(`Categorias sem macro no diretório: ${missingMappings.join(", ")}`);
+}
 const normalized = records.map((item) => ({
   id: item.id,
   nome: item.nome,
   categoriaPrincipal: item.cats?.[0] || "Outros",
+  categoriaMacro: sourceCategoryToMacro[item.cats?.[0]],
   categorias: item.cats || [],
   subcategoria: item.sub || "",
   endereco: item.end || "",

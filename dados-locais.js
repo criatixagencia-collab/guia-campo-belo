@@ -2039,9 +2039,9 @@ window.DADOS_LOCAIS = [
     "registro": "66",
     "nome": "Fast Tennis Campo Belo",
     "cats": [
-      "Academia"
+      "Tênis"
     ],
-    "sub": "",
+    "sub": "Tênis",
     "end": "Avenida Jornalista Roberto Marinho 2971",
     "bairro": "Cidade Monções",
     "ig": "guiacampobeloeregiao",
