@@ -692,7 +692,8 @@ body {
 /* ── MODAL ──────────────────────────────────── */
 .modal-overlay {
   display: none;
-  position: fixed; inset: 0; z-index: 500;
+  /* Leaflet controls and its attribution are layered at z-index 1000. */
+  position: fixed; inset: 0; z-index: 1200;
   background: rgba(0,0,0,.48);
   backdrop-filter: blur(6px);
   align-items: flex-start;
