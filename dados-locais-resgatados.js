@@ -25,7 +25,7 @@ window.DADOS_LOCAIS_RESGATADOS = [
   {id:223,registro:'historico-23',nome:'Dona Glória Confeitaria',cats:['Confeitaria'],sub:'Confeitaria',end:'Rua Brás de Arzão 71',lat:-23.627995007498,lng:-46.667485026022},
   {id:224,registro:'historico-24',nome:'Tartelier Patisserie',cats:['Cafés'],sub:'Cafés',end:'Rua Sônia Ribeiro 27',ig:'tartelier',lat:-23.6261282,lng:-46.6696315},
   {id:225,registro:'historico-25',nome:'LIVE! Campo Belo',cats:['Moda & Roupas'],sub:'Moda & Roupas',end:'Rua João de Sousa Dias 603',ig:'liveoficial',lat:-23.622042012225,lng:-46.67372501766},
-  {id:226,registro:'historico-26',nome:'Boutique dos Livros',cats:['Moda & Roupas'],sub:'Moda & Roupas',end:'Rua Pascal 1131',ig:'_boutiquedoslivros_',lat:-23.621466007839,lng:-46.670922025419},
+  {id:226,registro:'historico-26',nome:'Boutique dos Livros',cats:['Livrarias'],sub:'Livrarias',end:'Rua Pascal 1131',ig:'_boutiquedoslivros_',lat:-23.621466007839,lng:-46.670922025419},
   {id:227,registro:'historico-27',nome:'HSE Loja 2',cats:['Academia'],sub:'Academia',end:'Rua Conde de Porto Alegre 1182',ig:'hseloja2',lat:-23.622287979174,lng:-46.673657962435},
   {id:228,registro:'historico-28',nome:'La Mia Gelateria',cats:['Sorveteria & Doces'],sub:'Sorveteria & Doces',end:'Rua Vieira de Morais 329',ig:'lamia.gelateria',lat:-23.617638788939,lng:-46.677242734785},
   {id:230,registro:'historico-30',nome:'Okone Cozinha Japonesa e Peruana',cats:['Restaurantes'],sub:'Restaurantes',end:'Rua Gabriele D’Annunzio 1267',ig:'Okone.SP',lat:-23.625762403768,lng:-46.672185681142},
