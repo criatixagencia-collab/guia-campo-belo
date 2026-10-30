@@ -1568,7 +1568,7 @@ function renderMapList(list) {
   mapList.querySelectorAll('.map-list-item').forEach(button => {
     button.addEventListener('click', () => {
       const item = dados.find(d => d.id === Number(button.dataset.id));
-      focusMapPlace(item);
+      if (item) openModal(item.id);
     });
   });
 }
@@ -1632,7 +1632,7 @@ function buildMapMarkers(list) {
     const m = L.marker([d.lat, d.lng], { icon })
       .addTo(map)
       .bindPopup(`<strong>${d.nome}</strong><small>${formatCategory(macroFor(d))} · ${d.cats[0]}</small>${d.end ? `<small>📍 ${d.end}</small>` : ''}`)
-      .on('click', () => focusMapPlace(d));
+      .on('click', () => openModal(d.id));
     markers.push(m);
     markerMap[d.id] = m;
   });
