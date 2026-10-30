@@ -1841,6 +1841,7 @@ function buildDestaqueCarousel() {
   track.innerHTML = `<div class="destaque-lane">${firstSet}${prefersReduced ? '' : items.map(item => cardMarkup(item, true)).join('')}</div>`;
 
   let suppressNextClick = false;
+  let pendingTapCard = null;
   track.addEventListener('click', event => {
     if (suppressNextClick) {
       suppressNextClick = false;
@@ -1865,6 +1866,7 @@ function buildDestaqueCarousel() {
   let dragMoved = false;
   let pointerId = null;
   let dragStartX = 0;
+  let dragStartY = 0;
   let dragStartOffset = 0;
 
   function measureCycle() {
@@ -1895,14 +1897,27 @@ function buildDestaqueCarousel() {
 
   function endDrag(event) {
     if (!dragging || (pointerId !== null && event.pointerId !== pointerId)) return;
+    const tappedCard = pendingTapCard;
+    const wasTap = event.type === 'pointerup' && !dragMoved;
     dragging = false;
     track.classList.remove('is-dragging');
     if (track.hasPointerCapture?.(pointerId)) track.releasePointerCapture(pointerId);
     pointerId = null;
+    pendingTapCard = null;
     if (dragMoved) {
       // Evita abrir um estabelecimento ao terminar um arraste sobre um card.
       suppressNextClick = true;
       setTimeout(() => { suppressNextClick = false; }, 0);
+    } else if (wasTap && tappedCard) {
+      // O carrossel captura o ponteiro para permitir arraste. Abrimos no
+      // próprio pointerup para que um clique com pequeno deslocamento não
+      // seja perdido pelo click delegado do navegador.
+      const id = Number(tappedCard.dataset.placeId);
+      if (Number.isFinite(id)) {
+        suppressNextClick = true;
+        setTimeout(() => { suppressNextClick = false; }, 0);
+        openModal(id);
+      }
     }
     setTimeout(resumeMotion, 900);
   }
@@ -1920,7 +1935,9 @@ function buildDestaqueCarousel() {
     dragMoved = false;
     pointerId = event.pointerId;
     dragStartX = event.clientX;
+    dragStartY = event.clientY;
     dragStartOffset = offset;
+    pendingTapCard = event.target.closest('.destaque-card[data-place-id]');
     pauseMotion();
     track.classList.add('is-dragging');
     track.setPointerCapture?.(pointerId);
@@ -1928,7 +1945,8 @@ function buildDestaqueCarousel() {
   track.addEventListener('pointermove', event => {
     if (!dragging || event.pointerId !== pointerId) return;
     const delta = event.clientX - dragStartX;
-    if (Math.abs(delta) > 4) dragMoved = true;
+    const deltaY = event.clientY - dragStartY;
+    if (Math.hypot(delta, deltaY) > 8) dragMoved = true;
     if (!dragMoved) return;
     event.preventDefault();
     offset = normalizeOffset(dragStartOffset - delta);
