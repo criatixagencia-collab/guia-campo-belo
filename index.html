@@ -188,7 +188,8 @@ body {
 }
 .destaques-track {
   --destaque-gap: 8px;
-  display: flex;
+  display: grid;
+  gap: var(--destaque-gap);
   overflow: hidden;
   scrollbar-width: none;
   padding: 2px 20px 6px;
@@ -197,6 +198,10 @@ body {
   touch-action: pan-y;
 }
 .destaques-track::-webkit-scrollbar { display: none; }
+.destaque-row {
+  min-width: 0;
+  overflow: hidden;
+}
 .destaque-lane {
   display: flex;
   gap: var(--destaque-gap);
@@ -1835,10 +1840,19 @@ function buildDestaqueCarousel() {
   };
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const firstSet = items.map(item => cardMarkup(item)).join('');
-  // A segunda sequência permite que o último cartão saia pela esquerda e o
-  // primeiro reapareça pela direita sem salto visível.
-  track.innerHTML = `<div class="destaque-lane">${firstSet}${prefersReduced ? '' : items.map(item => cardMarkup(item, true)).join('')}</div>`;
+  const groups = [
+    items.filter((_, index) => index % 2 === 0),
+    items.filter((_, index) => index % 2 === 1)
+  ];
+  const rowMarkup = (group, direction) => {
+    const firstSet = group.map(item => cardMarkup(item)).join('');
+    const cloneSet = prefersReduced ? '' : group.map(item => cardMarkup(item, true)).join('');
+    const contents = direction === 'right' ? `${cloneSet}${firstSet}` : `${firstSet}${cloneSet}`;
+    return `<div class="destaque-row" data-destaque-direction="${direction}"><div class="destaque-lane">${contents}</div></div>`;
+  };
+  // Os grupos alternados criam duas fileiras que se cruzam visualmente:
+  // a de cima avança para a esquerda e a de baixo para a direita.
+  track.innerHTML = groups.map((group, index) => rowMarkup(group, index === 0 ? 'left' : 'right')).join('');
 
   let suppressNextClick = false;
   let pendingTapCard = null;
@@ -1855,9 +1869,14 @@ function buildDestaqueCarousel() {
 
   /* ── Movimento contínuo ── */
   if (prefersReduced || items.length < 2) return;
-  const lane = track.querySelector('.destaque-lane');
-  let offset = 0;
-  let cycleWidth = 0;
+  const rowStates = [...track.querySelectorAll('.destaque-row')].map(row => ({
+    row,
+    lane: row.querySelector('.destaque-lane'),
+    direction: row.dataset.destaqueDirection,
+    itemCount: row.querySelectorAll('.destaque-card:not([data-carousel-clone])').length,
+    offset: 0,
+    cycleWidth: 0
+  }));
   let animationFrame = null;
   let previousTime = 0;
   let paused = false;
@@ -1865,24 +1884,39 @@ function buildDestaqueCarousel() {
   let dragging = false;
   let dragMoved = false;
   let pointerId = null;
+  let activeState = null;
   let dragStartX = 0;
   let dragStartY = 0;
   let dragStartOffset = 0;
 
+  function applyTransform(state) {
+    if (!state.cycleWidth) return;
+    const x = state.direction === 'right'
+      ? -state.cycleWidth + state.offset
+      : -state.offset;
+    state.lane.style.transform = `translate3d(${x}px, 0, 0)`;
+  }
+
   function measureCycle() {
-    const card = lane.querySelector('.destaque-card:not([data-carousel-clone])');
-    const gap = parseFloat(getComputedStyle(lane).gap) || 8;
-    cycleWidth = items.length * ((card?.getBoundingClientRect().width || 148) + gap);
-    if (cycleWidth > 0) offset %= cycleWidth;
+    rowStates.forEach(state => {
+      const card = state.lane.querySelector('.destaque-card:not([data-carousel-clone])');
+      const gap = parseFloat(getComputedStyle(state.lane).gap) || 8;
+      state.cycleWidth = state.itemCount * ((card?.getBoundingClientRect().width || 148) + gap);
+      if (state.cycleWidth > 0) state.offset %= state.cycleWidth;
+      applyTransform(state);
+    });
   }
 
   function animate(now) {
     if (!previousTime) previousTime = now;
     const elapsed = Math.min(64, now - previousTime);
     previousTime = now;
-    if (!paused && cycleWidth > 0) {
-      offset = (offset + speed * elapsed / 1000) % cycleWidth;
-      lane.style.transform = `translate3d(${-offset}px, 0, 0)`;
+    if (!paused) {
+      rowStates.forEach(state => {
+        if (!state.cycleWidth) return;
+        state.offset = (state.offset + speed * elapsed / 1000) % state.cycleWidth;
+        applyTransform(state);
+      });
     }
     animationFrame = requestAnimationFrame(animate);
   }
@@ -1891,8 +1925,8 @@ function buildDestaqueCarousel() {
   function resumeMotion() { paused = false; previousTime = 0; }
 
   function normalizeOffset(value) {
-    if (!cycleWidth) return 0;
-    return ((value % cycleWidth) + cycleWidth) % cycleWidth;
+    if (!activeState?.cycleWidth) return 0;
+    return ((value % activeState.cycleWidth) + activeState.cycleWidth) % activeState.cycleWidth;
   }
 
   function endDrag(event) {
@@ -1903,6 +1937,7 @@ function buildDestaqueCarousel() {
     track.classList.remove('is-dragging');
     if (track.hasPointerCapture?.(pointerId)) track.releasePointerCapture(pointerId);
     pointerId = null;
+    activeState = null;
     pendingTapCard = null;
     if (dragMoved) {
       // Evita abrir um estabelecimento ao terminar um arraste sobre um card.
@@ -1931,12 +1966,15 @@ function buildDestaqueCarousel() {
   // Arraste horizontal: mouse no desktop e dedo no celular.
   track.addEventListener('pointerdown', event => {
     if (event.pointerType === 'mouse' && event.button !== 0) return;
+    const row = event.target.closest('.destaque-row');
+    activeState = rowStates.find(state => state.row === row);
+    if (!activeState) return;
     dragging = true;
     dragMoved = false;
     pointerId = event.pointerId;
     dragStartX = event.clientX;
     dragStartY = event.clientY;
-    dragStartOffset = offset;
+    dragStartOffset = activeState.offset;
     pendingTapCard = event.target.closest('.destaque-card[data-place-id]');
     pauseMotion();
     track.classList.add('is-dragging');
@@ -1949,8 +1987,9 @@ function buildDestaqueCarousel() {
     if (Math.hypot(delta, deltaY) > 8) dragMoved = true;
     if (!dragMoved) return;
     event.preventDefault();
-    offset = normalizeOffset(dragStartOffset - delta);
-    lane.style.transform = `translate3d(${-offset}px, 0, 0)`;
+    const directionSign = activeState.direction === 'right' ? 1 : -1;
+    activeState.offset = normalizeOffset(dragStartOffset + directionSign * delta);
+    applyTransform(activeState);
   });
   track.addEventListener('pointerup', endDrag);
   track.addEventListener('pointercancel', endDrag);
