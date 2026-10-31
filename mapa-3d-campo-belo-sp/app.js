@@ -39,11 +39,12 @@ function resize() {
     const xs=projected.boundary.map(p=>p[0]),ys=projected.boundary.map(p=>p[1]);
     const old=initialZoom;
     initialZoom=Math.max(.035,Math.min((width-135)/(Math.max(...xs)-Math.min(...xs)),(height-140)/(Math.max(...ys)-Math.min(...ys))));
-    if(!resize.initialized){view.zoom=initialZoom;const target=overviewTarget();view.x=target[0];view.y=target[1];resize.initialized=true;}
+    if(!resize.initialized){view.zoom=startZoom();const target=overviewTarget();view.x=target[0];view.y=target[1];resize.initialized=true;}
     else view.zoom=Math.max(initialZoom*.7,Math.min(3,view.zoom*initialZoom/old));
     requestDraw();
   }
 }
+function startZoom() { return Math.min(3,initialZoom*(width<650?2.05:1.15)); }
 function trace(points,close=false) {
   if(!points.length)return;const first=screen(points[0]);ctx.moveTo(...first);
   for(let i=1;i<points.length;i++)ctx.lineTo(...screen(points[i]));if(close)ctx.closePath();
@@ -68,11 +69,12 @@ function draw(now=performance.now()) {
   }
   ctx.clearRect(0,0,width,height);
   if(!city||city.lost||!city.meshes.length)fallbackMap();
-  const points=projected.places.filter(p=>selectedCategory==='Todos'||p.categoria===selectedCategory).sort((a,b)=>Number(a.id===selectedPlace?.id)-Number(b.id===selectedPlace?.id));
+  const categoryMode=selectedCategory!=='Todos';
+  const points=projected.places.slice().sort((a,b)=>Number(a.id===selectedPlace?.id)-Number(b.id===selectedPlace?.id));
   for(const p of points) {
     const [x,y]=screen(p.p);if(x< -30||x>width+30||y< -60||y>height+30)continue;
-    const selected=selectedPlace?.id===p.id,filtered=selectedCategory!=='Todos';
-    const color=selected?'#f6d554':filtered?colors[p.categoria]:'#132d51';
+    const selected=selectedPlace?.id===p.id,filtered=categoryMode;
+    const color=selected?'#f6d554':filtered?(colors[p.categoria]||'#54dcc5'):'#132d51';
     if(filtered||selected){
       const glow=ctx.createRadialGradient(x,y,1,x,y,selected?29:20);glow.addColorStop(0,color+'bb');glow.addColorStop(1,color+'00');
       ctx.fillStyle=glow;ctx.beginPath();ctx.ellipse(x,y,selected?29:20,selected?16:11,0,0,Math.PI*2);ctx.fill();
@@ -122,7 +124,9 @@ function setCategory(category) {
   document.querySelector('#panel-toggle').setAttribute('aria-expanded', 'true');
   document.querySelector('#panel-toggle').setAttribute('aria-label','Recolher lista');
   document.querySelector('#panel-toggle').textContent='⌄';
-  refreshList(); requestDraw();
+  refreshList();
+  if(category!=='Todos') animateTo(overviewTarget(),initialZoom);
+  requestDraw();
   status.textContent = `Categoria ${category} selecionada`;
 }
 function focusPlace(place) {
