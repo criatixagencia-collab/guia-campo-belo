@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#102347">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Mapa 3D Campo Belo SP — prévia | Revista Digital Campo Belo</title>
+  <link rel="icon" href="../drone/assets/logo-campo-belo.png">
+  <link rel="stylesheet" href="style.css">
+  <script src="relevo.js" defer></script>
+  <script src="cidade.js" defer></script>
+  <script src="movimento.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <img src="../drone/assets/logo-campo-belo.png" alt="" width="42" height="42">
+    <div><strong>Revista Digital Campo Belo</strong><span>Prévia online · mapa 3D Campo Belo SP</span></div>
+  </header>
+  <main>
+    <canvas id="city" aria-hidden="true"></canvas>
+    <canvas id="map" role="img" aria-label="Mapa interativo do Campo Belo. Use as setas para deslocar e mais ou menos para zoom. Os estabelecimentos também estão na lista acessível." tabindex="0"></canvas>
+    <div class="map-label" aria-hidden="true">CAMPO BELO <span>•</span> SÃO PAULO</div>
+    <nav id="left-categories" class="rail left" aria-label="Categorias, primeira coluna"></nav>
+    <nav id="right-categories" class="rail right" aria-label="Categorias, segunda coluna"></nav>
+    <div class="map-controls" aria-label="Controles do mapa">
+      <button type="button" id="zoom-in" aria-label="Aproximar mapa">+</button>
+      <button type="button" id="zoom-out" aria-label="Afastar mapa">−</button>
+      <button type="button" id="reset" aria-label="Voltar à vista geral">⌂</button>
+      <button type="button" id="motion-toggle" aria-label="Pausar animação ilustrativa" aria-pressed="false">Ⅱ</button>
+    </div>
+    <section class="panel" aria-label="Busca e estabelecimentos">
+      <div class="panel-head">
+        <div><small>Explore o bairro</small><h1 id="panel-title">Todos os pontos</h1></div>
+        <button type="button" id="panel-toggle" aria-label="Recolher lista" aria-expanded="true">⌄</button>
+      </div>
+      <label class="search-label" for="search">Buscar estabelecimento</label>
+      <input id="search" type="search" placeholder="Nome do estabelecimento" autocomplete="off">
+      <p class="hint">Arraste o mapa com o dedo ou mouse. Toque em um ponto ou escolha na lista.</p>
+      <div id="count" class="count" aria-live="polite"></div>
+      <div id="places" class="places"></div>
+    </section>
+    <div id="status" class="sr-only" role="status" aria-live="polite"></div>
+  </main>
+  <aside class="map-info" aria-label="Sobre a visualização">
+      <span id="load-status">Carregando base local…</span>
+      <span id="motion-note">Carros e pedestres ilustrativos</span>
+      <span>Ilustração · sem trânsito ao vivo</span>
+    </aside>
+  <footer>Prévia online · <span class="landscape-note">Movimento ilustrativo · </span>GeoSampa/PMSP · © OpenStreetMap contributors</footer>
+</body>
+</html>
