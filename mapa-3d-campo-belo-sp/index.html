@@ -41,6 +41,15 @@
       <div id="count" class="count" aria-live="polite"></div>
       <div id="places" class="places"></div>
     </section>
+    <section id="place-detail" class="place-detail" hidden role="dialog" aria-modal="true" aria-labelledby="place-detail-name">
+      <div class="place-detail-card">
+        <button type="button" id="place-detail-close" class="place-detail-close" aria-label="Fechar informações">×</button>
+        <small id="place-detail-category"></small>
+        <h2 id="place-detail-name"></h2>
+        <p id="place-detail-address"></p>
+        <p class="place-detail-note">Informação da base local da Revista Digital Campo Belo.</p>
+      </div>
+    </section>
     <div id="status" class="sr-only" role="status" aria-live="polite"></div>
   </main>
   <aside class="map-info" aria-label="Sobre a visualização">

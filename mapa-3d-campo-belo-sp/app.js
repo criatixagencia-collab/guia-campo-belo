@@ -6,6 +6,11 @@ const list = document.querySelector('#places');
 const search = document.querySelector('#search');
 const status = document.querySelector('#status');
 const loadStatus = document.querySelector('#load-status');
+const placeDetail = document.querySelector('#place-detail');
+const placeDetailClose = document.querySelector('#place-detail-close');
+const placeDetailCategory = document.querySelector('#place-detail-category');
+const placeDetailName = document.querySelector('#place-detail-name');
+const placeDetailAddress = document.querySelector('#place-detail-address');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const icon = {
   'Comer & Beber':'🍽', 'Casa & Decoração':'⌂', 'Serviços Profissionais':'⚒',
@@ -22,6 +27,7 @@ let gesture=null,animation=null,motionTimer=0,motionPaused=false,motionTime=0,la
 let motionLoadFailed=false;
 let lastFrameAt=0,fps=24,slowFrames=0;
 const metrics={frameMs:[],intervalMs:[],readyAt:0,firstMapAt:0,firstCityAt:0,draws:0};
+let detailReturnFocus=null;
 const origin={lat:-23.62008,lng:-46.67225};
 const metersLng=111320*Math.cos(origin.lat*Math.PI/180);
 function local([lng,lat]) {return [(lng-origin.lng)*metersLng,-(lat-origin.lat)*111320];}
@@ -77,22 +83,24 @@ function draw(now=performance.now()) {
   const points=projected.places.slice().sort((a,b)=>Number(a.id===selectedPlace?.id)-Number(b.id===selectedPlace?.id));
   for(const p of points) {
     const [x,y]=screen(p.p);if(x< -30||x>width+30||y< -60||y>height+30)continue;
-    const selected=selectedPlace?.id===p.id,filtered=categoryMode;
-    const color=selected?'#f6d554':filtered?(colors[p.categoria]||'#54dcc5'):'#132d51';
-    if(filtered||selected){
+    const selected=selectedPlace?.id===p.id,emphasized=categoryMode&&p.categoria===selectedCategory,muted=categoryMode&&!emphasized&&!selected;
+    const color=selected?'#f6d554':emphasized?'#f6d554':'#132d51';
+    ctx.save();ctx.globalAlpha=muted?.2:1;
+    if(emphasized||selected){
       const glow=ctx.createRadialGradient(x,y,1,x,y,selected?29:20);glow.addColorStop(0,color+'bb');glow.addColorStop(1,color+'00');
       ctx.fillStyle=glow;ctx.beginPath();ctx.ellipse(x,y,selected?29:20,selected?16:11,0,0,Math.PI*2);ctx.fill();
     }
     ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y-(selected?6:3));ctx.strokeStyle=color;ctx.lineWidth=2;ctx.stroke();
     ctx.beginPath();ctx.arc(x,y-(selected?14:9),selected?11:6,0,Math.PI*2);ctx.fillStyle=color;ctx.fill();
     ctx.strokeStyle='#fff';ctx.lineWidth=selected?2.5:1.8;ctx.stroke();
-    if(filtered&&!selected){ctx.beginPath();ctx.arc(x,y-9,7.5,0,Math.PI*2);ctx.strokeStyle='#102347';ctx.lineWidth=1;ctx.stroke();}
+    if(emphasized&&!selected){ctx.beginPath();ctx.arc(x,y-9,8.5,0,Math.PI*2);ctx.strokeStyle='#fff7c2';ctx.lineWidth=2;ctx.stroke();}
     if(selected){
       ctx.font='700 12px system-ui';const maxWidth=Math.max(60,width-160);let label=p.nome;
       while(ctx.measureText(label).width>maxWidth&&label.length>4)label=label.slice(0,-2)+'…';
       const tw=ctx.measureText(label).width,tx=Math.max(68,Math.min(width-tw-78,x-tw/2));
       ctx.fillStyle='#102347';ctx.fillRect(tx-7,y-49,tw+14,25);ctx.fillStyle='#fff';ctx.fillText(label,tx,y-32);
     }
+    ctx.restore();
   }
   metrics.draws++;metrics.frameMs.push(performance.now()-start);if(metrics.frameMs.length>240)metrics.frameMs.shift();
   if(moving&&lastFrameAt){const dt=now-lastFrameAt;metrics.intervalMs.push(dt);if(metrics.intervalMs.length>240)metrics.intervalMs.shift();
@@ -119,8 +127,26 @@ function animateTo(target, zoom) {
   }
   animation = requestAnimationFrame(step);
 }
+function categoryView(category) {
+  const points=projected.places.filter(p=>p.categoria===category);
+  if(!points.length)return {target:overviewTarget(),zoom:initialZoom};
+  const xs=points.map(p=>p.p[0]),ys=points.map(p=>p.p[1]);
+  const spanX=Math.max(120,Math.max(...xs)-Math.min(...xs)),spanY=Math.max(120,Math.max(...ys)-Math.min(...ys));
+  const safeWidth=Math.max(180,width-(width<650?145:220)),safeHeight=Math.max(180,height-(width<650?250:220));
+  const fit=Math.min(safeWidth/spanX,safeHeight/spanY);
+  // O recuo da categoria continua próximo o bastante para manter carros e
+  // pedestres ilustrativos ativos no celular; a lista traz o conjunto completo.
+  const zoom=Math.min(startZoom()*.82,Math.max(initialZoom*1.35,width<650?.55:0,fit));
+  const cx=(Math.min(...xs)+Math.max(...xs))/2,cy=(Math.min(...ys)+Math.max(...ys))/2;
+  if(width<650){
+    const panelTop=document.querySelector('.panel').getBoundingClientRect().top;
+    const targetY=(140+panelTop)/2;
+    return {target:[cx,cy+(height/2-targetY)/zoom],zoom};
+  }
+  return {target:[cx,cy],zoom};
+}
 function setCategory(category) {
-  selectedCategory = category; selectedPlace = null;
+  selectedCategory = category; selectedPlace = null; closePlaceDetail();
   document.documentElement.style.setProperty('--category-color',colors[category]||'#e9c955');
   document.querySelectorAll('.rail button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.category === category)));
   document.querySelector('#panel-title').textContent = category === 'Todos' ? 'Todos os pontos' : category;
@@ -129,9 +155,24 @@ function setCategory(category) {
   document.querySelector('#panel-toggle').setAttribute('aria-label','Recolher lista');
   document.querySelector('#panel-toggle').textContent='⌄';
   refreshList();
-  if(category!=='Todos') animateTo(overviewTarget(),initialZoom);
+  if(category!=='Todos'){const next=categoryView(category);animateTo(next.target,next.zoom);}
   requestDraw();
   status.textContent = `Categoria ${category} selecionada`;
+}
+function openPlaceDetail(place) {
+  detailReturnFocus=document.activeElement;
+  placeDetailCategory.textContent=place.categoria;
+  placeDetailName.textContent=place.nome;
+  placeDetailAddress.textContent=place.endereco;
+  placeDetail.hidden=false;
+  placeDetailClose.focus();
+  status.textContent=`Informações de ${place.nome} abertas`;
+}
+function closePlaceDetail() {
+  if(placeDetail.hidden)return;
+  placeDetail.hidden=true;
+  if(detailReturnFocus?.focus)detailReturnFocus.focus();
+  detailReturnFocus=null;
 }
 function focusPlace(place) {
   selectedPlace = place;
@@ -142,6 +183,7 @@ function focusPlace(place) {
   const targetY=Math.min(height/2,Math.max(165,(90+panelTop)/2));
   animateTo([place.p[0],place.p[1]+(height/2-targetY)/zoom],zoom);
   status.textContent = `Mapa focado em ${place.nome}, ${place.endereco}`;
+  openPlaceDetail(place);
   requestDraw();
 }
 function refreshList() {
@@ -221,8 +263,11 @@ document.querySelector('#panel-toggle').addEventListener('click', e => {
   e.currentTarget.textContent = collapsed ? '⌃' : '⌄';
   requestDraw();
 });
+placeDetailClose.addEventListener('click', closePlaceDetail);
+placeDetail.addEventListener('click', e => {if(e.target===placeDetail)closePlaceDetail();});
 search.addEventListener('input', refreshList);
 document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && !placeDetail.hidden) { closePlaceDetail(); return; }
   if (e.target === search || e.target.tagName === 'BUTTON') return;
   if(animation){cancelAnimationFrame(animation);animation=null;}
   const movement = 80 / view.zoom;
