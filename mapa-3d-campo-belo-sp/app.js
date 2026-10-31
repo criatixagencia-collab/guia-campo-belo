@@ -44,7 +44,11 @@ function resize() {
     requestDraw();
   }
 }
-function startZoom() { return Math.min(3,initialZoom*4.5); }
+function startZoom() {
+  // No celular, a abertura acompanha a referência de Rafael e mantém as quadras legíveis.
+  // O desktop preserva a calibração já aprovada.
+  return Math.min(3,initialZoom*(width<650?8:4.5));
+}
 function trace(points,close=false) {
   if(!points.length)return;const first=screen(points[0]);ctx.moveTo(...first);
   for(let i=1;i<points.length;i++)ctx.lineTo(...screen(points[i]));if(close)ctx.closePath();
