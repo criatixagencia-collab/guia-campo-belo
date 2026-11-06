@@ -948,7 +948,7 @@ body {
   text-shadow: 0 1px 5px #10253d, 0 2px 14px #10253d;
 }
 .usaflex-intro__stage {
-  position: relative; width: min(96vw, 70dvh, 760px); height: min(86vw, 55dvh, 570px);
+  position: relative; width: min(96vw, 800px); height: min(96vw, 64dvh, 540px);
   margin: 0 auto 4px; perspective: 1000px;
 }
 .usaflex-intro__product {
@@ -964,6 +964,8 @@ body {
 }
 .usaflex-intro__turn { position: absolute; inset: 0; transform-style: preserve-3d; }
 .usaflex-intro__shoe--back { transform: rotateY(180deg); }
+.usaflex-intro__product--black .usaflex-intro__shoe { transform: scale(1.22) translateY(-12%); }
+.usaflex-intro__product--black .usaflex-intro__shoe--back { transform: rotateY(180deg) scale(1.22) translateY(-12%); }
 .usaflex-intro__product.is-active .usaflex-intro__turn {
   animation: usaflex-turn 1.85s cubic-bezier(.45,.02,.35,1) both;
 }
@@ -992,19 +994,19 @@ body {
   <div class="usaflex-intro__content">
     <span class="usaflex-intro__eyebrow">Novidade no bairro</span>
     <div class="usaflex-intro__stage" aria-hidden="true">
-      <div class="usaflex-intro__product" data-front="assets/usaflex-sandalia-lateral.png" data-back="assets/usaflex-sandalia-par.png">
+      <div class="usaflex-intro__product" data-front="assets/usaflex-tenis-lateral-web.png" data-back="assets/usaflex-tenis-frontal-web.png">
         <div class="usaflex-intro__turn">
           <img class="usaflex-intro__shoe" alt="" width="760" height="570" decoding="async">
           <img class="usaflex-intro__shoe usaflex-intro__shoe--back" alt="" width="760" height="570" decoding="async">
         </div>
       </div>
-      <div class="usaflex-intro__product" data-front="assets/usaflex-tenis-lateral.png" data-back="assets/usaflex-tenis-frontal.png">
+      <div class="usaflex-intro__product" data-front="assets/usaflex-prata-lateral-web.png" data-back="assets/usaflex-prata-par-web.png">
         <div class="usaflex-intro__turn">
           <img class="usaflex-intro__shoe" alt="" width="760" height="570" decoding="async">
           <img class="usaflex-intro__shoe usaflex-intro__shoe--back" alt="" width="760" height="570" decoding="async">
         </div>
       </div>
-      <div class="usaflex-intro__product" data-front="assets/usaflex-prata-lateral.png" data-back="assets/usaflex-prata-par.png">
+      <div class="usaflex-intro__product usaflex-intro__product--black" data-front="assets/usaflex-sandalia-lateral-web.png" data-back="assets/usaflex-sandalia-par-web.png">
         <div class="usaflex-intro__turn">
           <img class="usaflex-intro__shoe" alt="" width="760" height="570" decoding="async">
           <img class="usaflex-intro__shoe usaflex-intro__shoe--back" alt="" width="760" height="570" decoding="async">
@@ -2176,6 +2178,7 @@ searchResultsBtn.addEventListener('click', () => {
   let seen = false;
   try { seen = sessionStorage.getItem('usaflex-intro-seen') === '1'; } catch (_) {}
   if (seen && !preview) { intro.remove(); return; }
+  try { sessionStorage.setItem('usaflex-intro-seen', '1'); } catch (_) {}
 
   const products = [...intro.querySelectorAll('.usaflex-intro__product')];
   const timers = [];
@@ -2210,7 +2213,6 @@ searchResultsBtn.addEventListener('click', () => {
     intro.setAttribute('aria-hidden', 'false');
     intro.classList.add('is-visible');
     products[0].classList.add('is-active');
-    try { sessionStorage.setItem('usaflex-intro-seen', '1'); } catch (_) {}
     [1, 2].forEach(index => timers.push(setTimeout(() => {
       products[index - 1].classList.remove('is-active');
       products[index].classList.add('is-active');
