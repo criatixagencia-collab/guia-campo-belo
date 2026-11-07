@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#152f4a">
+  <title>Sem conexão · Revista Digital Campo Belo</title>
+  <style>
+    body { margin: 0; background: #f3f4f7; color: #152f4a; font: 1rem/1.55 system-ui, sans-serif; }
+    main { max-width: 32rem; margin: 12vh auto 0; padding: 24px; }
+    h1 { line-height: 1.15; }
+    a { color: #152f4a; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <main>
+    <p>Revista Digital Campo Belo</p>
+    <h1>Esta página precisa de conexão</h1>
+    <p>Volte ao início para consultar o diretório salvo ou tente abrir esta página de novo quando estiver online.</p>
+    <a href="../" id="offlineHome">Voltar ao início</a>
+  </main>
+  <script>
+    // Uma navegação offline mantém o endereço da página solicitada.
+    navigator.serviceWorker.getRegistration().then(registration => {
+      if (registration) document.getElementById('offlineHome').href = registration.scope;
+    });
+  </script>
+</body>
+</html>

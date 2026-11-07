@@ -3,7 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Comunidade · Guia Campo Belo</title>
+<link rel="manifest" href="app.webmanifest">
+<link rel="apple-touch-icon" href="pwa/icon-180.png">
+<meta name="theme-color" content="#152f4a">
+  <link rel="stylesheet" href="pwa/disqus-consent.css">
+<title>Comunidade · Revista Digital Campo Belo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;0,6..96,700;0,6..96,800;1,6..96,600;1,6..96,700;1,6..96,800&family=Epilogue:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -214,10 +218,10 @@ body {
 
 <!-- TOP NAV -->
 <nav class="top-nav">
-  <a class="nav-logo" href="index.html" aria-label="Voltar para o Guia Campo Belo">
-    <img src="logo.PNG" alt="Guia Campo Belo" class="nav-logo-img">
+  <a class="nav-logo" href="index.html" aria-label="Voltar para a Revista Digital Campo Belo">
+    <img src="pwa/icon-192.png" alt="Revista Digital Campo Belo" class="nav-logo-img">
     <div class="nav-logo-text">
-      <strong>Guia Campo Belo</strong>
+      <strong>Revista Digital Campo Belo</strong>
       <small>São Paulo, SP</small>
     </div>
   </a>
@@ -243,13 +247,27 @@ body {
   <div class="disqus-wrap">
     <div class="disqus-section-label">Comentários</div>
     <div id="disqus_thread"></div>
+    <div class="disqus-consent" id="disqusConsent">
+      <p>Os comentários são fornecidos pelo Disqus. Ao carregar, seu navegador se conecta a esse serviço externo.</p>
+      <button type="button" class="disqus-consent__button" id="loadDisqus">Carregar comentários</button>
+      <a href="privacidade.html">Privacidade</a>
+    </div>
     <script>
-    (function() {
-      var d = document, s = d.createElement('script');
-      s.src = 'https://campobelosp.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', +new Date());
-      (d.head || d.body).appendChild(s);
-    })();
+    document.getElementById('loadDisqus').addEventListener('click', function() {
+      const button = this;
+      button.disabled = true;
+      button.textContent = 'Carregando comentários…';
+      const script = document.createElement('script');
+      script.src = 'https://campobelosp.disqus.com/embed.js';
+      script.async = true;
+      script.setAttribute('data-timestamp', String(Date.now()));
+      script.onload = () => document.getElementById('disqusConsent')?.remove();
+      script.onerror = () => {
+        button.disabled = false;
+        button.textContent = 'Tentar carregar comentários';
+      };
+      document.head.appendChild(script);
+    });
     </script>
     <noscript>
       Para ver os comentários, ative o JavaScript no seu navegador.
@@ -258,6 +276,8 @@ body {
 
 
 </main>
+
+<div class="site-privacy-footer"><a href="privacidade.html">Política de privacidade</a></div>
 
 <!-- BOTTOM NAV -->
 <nav class="nav-bottom" aria-label="Navegação principal">

@@ -1,0 +1,17 @@
+# Baseline used when the static site is served by Cloudflare Pages.
+# GitHub Pages does not apply this file; deploy there only after validating the CSP report.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Content-Security-Policy-Report-Only: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://www.googletagmanager.com https://campobelosp.disqus.com https://*.disqus.com https://*.disquscdn.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' https://images.unsplash.com https: data: blob:; connect-src 'self' https://*.google-analytics.com https://*.googletagmanager.com https://wttr.in https://*.openstreetmap.org https://server.arcgisonline.com https://disqus.com https://*.disqus.com https://*.disquscdn.com; frame-src 'self' https://disqus.com https://*.disqus.com https://*.disquscdn.com; worker-src 'self'; manifest-src 'self'
+
+https://www.campobelosp.com.br/*
+  Strict-Transport-Security: max-age=31536000
+
+https://revista-digital-campo-belo.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:preview.revista-digital-campo-belo.pages.dev/*
+  X-Robots-Tag: noindex

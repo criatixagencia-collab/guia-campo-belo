@@ -1,0 +1,29 @@
+.disqus-consent {
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+  margin: 14px 0 24px;
+  padding: 18px;
+  border: 1px solid #d9e0e8;
+  border-radius: 12px;
+  background: #fff;
+  color: #44536a;
+  font-size: .9rem;
+  line-height: 1.5;
+}
+.disqus-consent p { margin: 0; }
+.disqus-consent a { color: #173b5d; text-underline-offset: 3px; }
+.disqus-consent__button {
+  min-height: 44px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 8px;
+  background: #173b5d;
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.disqus-consent__button:disabled { cursor: wait; opacity: .7; }
+.site-privacy-footer { padding: 16px 16px 100px; text-align: center; font-size: .82rem; }
+.site-privacy-footer a { color: #173b5d; text-underline-offset: 3px; }

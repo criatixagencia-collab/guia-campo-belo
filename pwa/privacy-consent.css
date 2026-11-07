@@ -1,0 +1,76 @@
+.privacy-tools {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 16px 100px;
+  color: #526176;
+  font: 500 .82rem/1.4 system-ui, sans-serif;
+}
+
+.privacy-tools a,
+.privacy-banner__copy a {
+  color: #173b5d;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.privacy-tools button {
+  border: 0;
+  padding: 8px;
+  background: transparent;
+  color: #173b5d;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.privacy-banner[hidden] { display: none; }
+
+.privacy-banner {
+  position: fixed;
+  z-index: 3000;
+  left: 50%;
+  bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  width: min(900px, calc(100% - 24px));
+  padding: 18px 20px;
+  border: 1px solid #c9d3df;
+  border-radius: 16px;
+  background: #fff;
+  color: #152f4a;
+  box-shadow: 0 10px 36px rgb(10 28 45 / 24%);
+  font: 400 .92rem/1.45 system-ui, sans-serif;
+}
+
+.privacy-banner__copy h2 { margin: 0 0 5px; font-size: 1.05rem; }
+.privacy-banner__copy p { margin: 0 0 5px; }
+.privacy-banner__copy a { font-size: .84rem; }
+.privacy-banner__actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.privacy-banner__actions button {
+  min-height: 44px;
+  padding: 8px 13px;
+  border: 1px solid #173b5d;
+  border-radius: 9px;
+  background: #fff;
+  color: #173b5d;
+  font: 700 .84rem/1.2 system-ui, sans-serif;
+  cursor: pointer;
+}
+.privacy-banner__actions #acceptAnalytics { background: #173b5d; color: #fff; }
+.privacy-banner button:focus-visible,
+.privacy-tools button:focus-visible,
+.privacy-tools a:focus-visible,
+.privacy-banner a:focus-visible { outline: 3px solid #c9a84c; outline-offset: 3px; }
+
+@media (max-width: 640px) {
+  .privacy-banner { grid-template-columns: 1fr; gap: 12px; padding: 15px; }
+  .privacy-banner__actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .privacy-banner__actions button { padding-inline: 8px; }
+  .privacy-tools { gap: 10px; flex-wrap: wrap; padding-bottom: 100px; }
+}

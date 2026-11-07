@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q0TDM5LTPM"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-Q0TDM5LTPM');
-</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Revista Digital Campo Belo · São Paulo</title>
+<link rel="manifest" href="app.webmanifest">
+<link rel="apple-touch-icon" href="pwa/icon-180.png">
+<meta name="theme-color" content="#152f4a">
+<link rel="stylesheet" href="pwa/install.css">
+<script src="pwa/install.js" defer></script>
+<link rel="stylesheet" href="pwa/privacy-consent.css">
+<script src="pwa/privacy-consent.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;0,6..96,700;0,6..96,800;1,6..96,600;1,6..96,700;1,6..96,800&family=Epilogue:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
 <style>
 /* ── RESET & TOKENS ─────────────────────────── */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -917,8 +916,8 @@ body {
   .hero h1 {
     font-size: 21px;
     letter-spacing: -.35px;
-    white-space: nowrap;
   }
+  .hero-identity-text { min-width: 0; }
 }
 /* Abertura temporária Usaflex. Reexibir com ?usaflex-preview=1. */
 .usaflex-intro {
@@ -1022,7 +1021,7 @@ body {
 <!-- HERO -->
 <div class="hero">
   <div class="hero-identity">
-    <img src="logo.PNG" alt="Revista Digital Campo Belo" class="hero-logo">
+    <img src="pwa/icon-192.png" alt="Revista Digital Campo Belo" class="hero-logo">
     <div class="hero-identity-text">
       <p class="hero-eyebrow">São Paulo · Campo Belo</p>
       <h1>Revista Digital <em>Campo Belo</em></h1>
@@ -1030,7 +1029,7 @@ body {
     </div>
   </div>
   <div class="hero-footer">
-    <a class="hero-instagram" href="https://instagram.com/campobelo_sp" target="_blank" rel="noopener noreferrer" aria-label="Instagram do Guia Campo Belo SP">
+    <a class="hero-instagram" href="https://instagram.com/campobelo_sp" target="_blank" rel="noopener noreferrer" aria-label="Instagram da Revista Digital Campo Belo">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
       Instagram:&nbsp;<em>@campobelo_sp</em>
     </a>
@@ -1040,11 +1039,23 @@ body {
       <span class="weather-sep" aria-hidden="true"></span>
       <span class="weather-desc" id="weatherDesc"></span>
     </div>
+    <button id="appInstallButton" class="app-install-button" type="button" hidden>
+      <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M9 10h6m-3-3v6m-1 5h2"/></svg>
+      Instalar app
+    </button>
   </div>
   <a class="hero-drone" href="drone/?v=taxonomia-drone-20261029" aria-label="Explorar o Campo Belo com o Drone 3D">
     <span aria-hidden="true">✦</span> Explore o bairro com o <strong>Drone 3D</strong>
   </a>
 </div>
+
+<dialog id="appInstallDialog" class="app-install-dialog" aria-labelledby="appInstallTitle">
+  <h2 id="appInstallTitle">Instale o Campo Belo</h2>
+  <p id="appInstallHelp"></p>
+  <form method="dialog">
+    <button type="submit" autofocus>Entendi</button>
+  </form>
+</dialog>
 
 <!-- DESTAQUES CAROUSEL -->
 <section class="destaques-section">
@@ -1134,6 +1145,23 @@ body {
   </a>
 </nav>
 
+<footer class="privacy-tools">
+  <a href="privacidade.html">Privacidade</a>
+  <button type="button" id="openPrivacySettings">Preferências de métricas</button>
+</footer>
+
+<section class="privacy-banner" id="privacyBanner" role="region" aria-labelledby="privacyBannerTitle" hidden>
+  <div class="privacy-banner__copy">
+    <h2 id="privacyBannerTitle">Você escolhe as métricas</h2>
+    <p>O Google Analytics só será carregado se você aceitar. Recusar não impede o uso do Campo Belo. Você pode mudar essa escolha depois.</p>
+    <a href="privacidade.html">Leia a política de privacidade (rascunho)</a>
+  </div>
+  <div class="privacy-banner__actions">
+    <button type="button" id="rejectAnalytics">Recusar métricas</button>
+    <button type="button" id="acceptAnalytics">Aceitar métricas</button>
+  </div>
+</section>
+
 <!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)" role="dialog" aria-modal="true" aria-labelledby="modalName">
   <div class="modal-sheet" id="modalSheet">
@@ -1151,7 +1179,7 @@ body {
   </div>
 </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
 <script src="dados-locais.js?v=taxonomia-20261029"></script>
 <script src="dados-locais-resgatados.js?v=destaques-20261031"></script>
 <script>
@@ -1328,6 +1356,11 @@ let activeSubcategory = 'Todos';
 let searchTerm = '';
 
 function normalized(value) { return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); }
+function escapeHTML(value) {
+  return String(value ?? '').replace(/[&<>"']/g, character => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[character]);
+}
 
 function buildFilterBar() {
   const bar = document.getElementById('filterBar');
@@ -1558,19 +1591,19 @@ function scheduleSummary(d) {
 
 function renderHoursBlock(d, mode = 'card') {
   const summary = scheduleSummary(d);
-  if (!summary) return d.obs ? `<div class="card-meta">${d.obs}</div>` : '';
+  if (!summary) return d.obs ? `<div class="card-meta">${escapeHTML(d.obs)}</div>` : '';
   const wrapper = mode === 'modal' ? 'modal-cell full modal-hours' : 'card-hours';
   const todayLabel = `Hoje (${formatScheduleDay(summary.today)})`;
   const details = summary.schedule.map((detail, day) => `
     <div class="hours-day${day === summary.today ? ' is-today' : ''}">
       <span>${WEEK_DAYS[day]}${day === summary.today ? ' · hoje' : ''}</span>
-      <span>${detail || 'Horário não cadastrado'}</span>
+      <span>${escapeHTML(detail || 'Horário não cadastrado')}</span>
     </div>`).join('');
   return `<div class="${wrapper} hours-block">
     <div class="hours-summary">
       <button type="button" class="hours-toggle" data-hours-toggle aria-expanded="false" aria-label="Mostrar horários de todos os dias">⌄</button>
-      <span class="hours-status ${summary.statusClass}">${summary.status}</span>
-      <span class="hours-today">${todayLabel}: ${summary.todayDetail}</span>
+      <span class="hours-status ${summary.statusClass}">${escapeHTML(summary.status)}</span>
+      <span class="hours-today">${todayLabel}: ${escapeHTML(summary.todayDetail)}</span>
     </div>
     <div class="hours-details" data-hours-details hidden>${details}</div>
   </div>`;
@@ -1603,15 +1636,15 @@ function renderCards(filtered) {
     const sourceCategory = d.cats[0];
     const m = categoryMeta(macroFor(d));
     const hl = isDestaque(d);
-    return `<div class="place-card${hl ? ' is-destaque' : ''}" onclick="openModal(${d.id})" role="button" tabindex="0" aria-label="${d.nome}" onkeydown="if(event.target.closest('button'))return;if(event.key==='Enter'||event.key===' ')openModal(${d.id})">
+    return `<div class="place-card${hl ? ' is-destaque' : ''}" onclick="openModal(${Number(d.id)})" role="button" tabindex="0" aria-label="${escapeHTML(d.nome)}" onkeydown="if(event.target.closest('button'))return;if(event.key==='Enter'||event.key===' ')openModal(${Number(d.id)})">
       <div class="card-cat-bar" style="background:${m.color || '#1a3a5c'}">
-        <span class="card-sub-tag">${sourceCategory}</span>
+        <span class="card-sub-tag">${escapeHTML(sourceCategory)}</span>
       </div>
       <div class="card-body">
-        <div class="card-name">${d.nome}</div>
-        ${d.beneficio ? `<div class="card-ticket">${d.beneficio}</div>` : (d.ticket ? `<div class="card-ticket">${d.ticket}</div>` : '')}
-        ${d.end ? `<div class="card-addr">${d.end.split(',')[0]}</div>` : ''}
-        ${d.horario ? renderHoursBlock(d) : (d.obs ? `<div class="card-meta">${d.obs}</div>` : '')}
+        <div class="card-name">${escapeHTML(d.nome)}</div>
+        ${d.beneficio ? `<div class="card-ticket">${escapeHTML(d.beneficio)}</div>` : (d.ticket ? `<div class="card-ticket">${escapeHTML(d.ticket)}</div>` : '')}
+        ${d.end ? `<div class="card-addr">${escapeHTML(d.end.split(',')[0])}</div>` : ''}
+        ${d.horario ? renderHoursBlock(d) : (d.obs ? `<div class="card-meta">${escapeHTML(d.obs)}</div>` : '')}
       </div>
     </div>`;
   }).join('');
@@ -1650,8 +1683,8 @@ function renderMapList(list) {
   mapList.innerHTML = unique.map(d => `
     <button class="map-list-item" type="button" data-id="${d.id}">
       ${mapPinIcon(d)}
-      <strong>${d.nome}</strong>
-      <small>${d.end || 'Campo Belo'}</small>
+      <strong>${escapeHTML(d.nome)}</strong>
+      <small>${escapeHTML(d.end || 'Campo Belo')}</small>
     </button>
   `).join('');
 
@@ -1684,6 +1717,7 @@ function focusMapPlace(d) {
 }
 
 function initMap() {
+  if (!window.L) return;
   const geocoded = dados.filter(d => Number.isFinite(d.lat) && Number.isFinite(d.lng));
   if (!geocoded.length) return;
   document.querySelector('.map-section').hidden = false;
@@ -1721,7 +1755,7 @@ function buildMapMarkers(list) {
     });
     const m = L.marker([d.lat, d.lng], { icon })
       .addTo(map)
-      .bindPopup(`<strong>${d.nome}</strong><small>${formatCategory(macroFor(d))} · ${d.cats[0]}</small>${d.end ? `<small>📍 ${d.end}</small>` : ''}`)
+      .bindPopup(`<strong>${escapeHTML(d.nome)}</strong><small>${escapeHTML(formatCategory(macroFor(d)))} · ${escapeHTML(d.cats[0])}</small>${d.end ? `<small>📍 ${escapeHTML(d.end)}</small>` : ''}`)
       .on('click', () => openModal(d.id));
     markers.push(m);
     markerMap[d.id] = m;
@@ -1776,19 +1810,19 @@ function openModal(id) {
   const destRow = hl
     ? `<div class="modal-dest-strip">
         <div class="modal-dest-icon" aria-hidden="true">★</div>
-        <div class="modal-dest-text">${d.dest}</div>
+        <div class="modal-dest-text">${escapeHTML(d.dest)}</div>
        </div>`
     : (d.dest
         ? `<div class="modal-dest-strip-plain">
             <div class="modal-dest-icon" aria-hidden="true">${m.em||'·'}</div>
-            <div class="modal-dest-text">${d.dest}</div>
+            <div class="modal-dest-text">${escapeHTML(d.dest)}</div>
            </div>`
         : '');
 
   const cells = [
-    d.end ? `<div class="modal-cell full"><div class="modal-cell-label">Endereço</div><div class="modal-cell-val">${d.end}</div></div>` : '',
+    d.end ? `<div class="modal-cell full"><div class="modal-cell-label">Endereço</div><div class="modal-cell-val">${escapeHTML(d.end)}</div></div>` : '',
     d.horario ? renderHoursBlock(d, 'modal') : '',
-    d.telefone ? `<div class="modal-cell full"><div class="modal-cell-label">Telefone</div><div class="modal-cell-val">${d.telefone}</div></div>` : '',
+    d.telefone ? `<div class="modal-cell full"><div class="modal-cell-label">Telefone</div><div class="modal-cell-val">${escapeHTML(d.telefone)}</div></div>` : '',
   ].join('');
 
   const phoneDigits = (d.telefone || d.whatsapp || '').replace(/\D/g, '');
@@ -1799,10 +1833,10 @@ function openModal(id) {
   const igHref = igValue ? `https://instagram.com/${igValue}` : '';
   const siteHref = d.site ? (/^https?:\/\//i.test(d.site) ? d.site : `https://${d.site}`) : '';
   const actionLinks = [
-    siteHref ? `<a class="modal-btn btn-site" href="${siteHref}" target="_blank" rel="noopener">Site</a>` : '',
-    whatsappHref ? `<a class="modal-btn btn-wp" href="${whatsappHref}" target="_blank" rel="noopener">WhatsApp</a>` : '',
+    siteHref ? `<a class="modal-btn btn-site" href="${escapeHTML(siteHref)}" target="_blank" rel="noopener noreferrer">Site</a>` : '',
+    whatsappHref ? `<a class="modal-btn btn-wp" href="${escapeHTML(whatsappHref)}" target="_blank" rel="noopener noreferrer">WhatsApp</a>` : '',
     telHref ? `<a class="modal-btn btn-tel" href="${telHref}">Ligar</a>` : '',
-    igHref ? `<a class="modal-btn btn-ig" href="${igHref}" target="_blank" rel="noopener">Instagram</a>` : '',
+    igHref ? `<a class="modal-btn btn-ig" href="${escapeHTML(igHref)}" target="_blank" rel="noopener noreferrer">Instagram</a>` : '',
   ].filter(Boolean).join('');
   const actions = actionLinks ? `<div class="modal-actions">${actionLinks}</div>` : '';
 
@@ -1923,11 +1957,11 @@ function buildDestaqueCarousel() {
     return `<button type="button" class="destaque-card" style="background-image:url('${photo}');background-position:${item.position}"
       data-place-id="${item.id}"
       ${clone ? 'data-carousel-clone="true" aria-hidden="true" tabindex="-1"' : ''}
-      aria-label="${nome}">
+      aria-label="${escapeHTML(nome)}">
       <div class="destaque-overlay" aria-hidden="true"></div>
       <div class="destaque-info">
-        <div class="destaque-nome">${nome}</div>
-        ${sub ? `<div class="destaque-sub">${sub}</div>` : ''}
+        <div class="destaque-nome">${escapeHTML(nome)}</div>
+        ${sub ? `<div class="destaque-sub">${escapeHTML(sub)}</div>` : ''}
       </div>
     </button>`;
   };

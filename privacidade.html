@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#152f4a">
+  <title>Privacidade · Revista Digital Campo Belo</title>
+  <link rel="manifest" href="app.webmanifest">
+  <link rel="apple-touch-icon" href="pwa/icon-180.png">
+  <link rel="stylesheet" href="pwa/privacy-consent.css">
+  <script src="pwa/privacy-consent.js" defer></script>
+  <style>
+    :root { color-scheme: light; font: 16px/1.65 system-ui, sans-serif; color: #203247; background: #f3f4f7; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    header { padding: 25px 20px; background: #152f4a; color: white; }
+    header, main, footer { padding-inline: max(20px, calc((100% - 820px) / 2)); }
+    header a { color: #fff; }
+    main { max-width: 860px; margin: 32px auto 0; padding: 28px; border-radius: 16px; background: #fff; box-shadow: 0 3px 18px #152f4a12; }
+    h1, h2 { line-height: 1.25; color: #152f4a; }
+    h1 { margin-top: 0; }
+    h2 { margin-top: 28px; font-size: 1.18rem; }
+    .draft { padding: 14px 16px; border-left: 4px solid #c89f38; border-radius: 6px; background: #fff6d9; }
+    .pending { color: #7a4010; font-weight: 700; }
+    a, button { color: #173b5d; }
+    button { min-height: 44px; padding: 8px 14px; border: 1px solid #173b5d; border-radius: 8px; background: white; font: inherit; cursor: pointer; }
+    footer { padding-block: 24px 110px; text-align: center; }
+    @media (max-width: 600px) { main { margin: 14px 12px 0; padding: 20px; } }
+  </style>
+</head>
+<body>
+  <header><a href="./">← Voltar à Revista Digital Campo Belo</a></header>
+  <main>
+    <p class="draft"><strong>Rascunho local para revisão.</strong> Os prazos e as configurações de retenção dos serviços externos ainda precisam ser confirmados antes da publicação.</p>
+    <h1>Política de privacidade</h1>
+    <p>Esta política descreve, em linguagem simples, os dados envolvidos no uso da Revista Digital Campo Belo. Última revisão deste rascunho: 7 de novembro de 2026.</p>
+
+    <h2>Quem é responsável</h2>
+    <p>O responsável pelo tratamento dos dados pessoais relacionados a este site é <strong>Rafael Oliver Alonso</strong>.</p>
+    <p>Para assuntos de privacidade e solicitações relacionadas aos seus dados, escreva para <a href="mailto:criatix.agencia@gmail.com">criatix.agencia@gmail.com</a>.</p>
+
+    <h2>O que o site faz e quais dados usa</h2>
+    <ul>
+      <li>O diretório e a busca por estabelecimentos funcionam no navegador. A busca não envia o texto digitado a um servidor do Campo Belo.</li>
+      <li>A hospedagem do site é feita pelo GitHub Pages. Como em qualquer acesso à web, a conexão transmite informações técnicas necessárias para entregar a página; o provedor pode processá-las conforme seus próprios termos.</li>
+      <li>O Google Analytics fica desligado até a pessoa escolher “Aceitar métricas”. Se aceitar, o navegador carrega a tag do Google para medir audiência. A opção de métricas de publicidade permanece negada. A pessoa pode rever a escolha em “Preferências de métricas”.</li>
+      <li>Fontes e a biblioteca Leaflet são carregadas de serviços externos do Google Fonts e unpkg. O mapa pode requisitar imagens de mapa do OpenStreetMap e da Esri. Esses serviços recebem as requisições necessárias para carregar seus recursos.</li>
+      <li>O widget de clima consulta o serviço wttr.in para a previsão do Campo Belo; a consulta informa a localização do bairro, não a localização do aparelho.</li>
+      <li>As páginas Comunidade e Promoções incorporam comentários do Disqus. Antes de carregar comentários, a pessoa poderá escolher “Carregar comentários”. Se escolher, o navegador acessará o Disqus, que trata dados segundo suas próprias práticas e poderá solicitar uma conta para comentar.</li>
+      <li>O app guarda no próprio navegador a escolha de métricas e arquivos públicos necessários para a instalação e o modo offline. A busca não cria uma conta nem um perfil do usuário.</li>
+    </ul>
+
+    <h2>Finalidades, escolhas e compartilhamento</h2>
+    <p>Os dados técnicos são usados para entregar e proteger o site. As métricas são opcionais e só são ativadas após uma escolha afirmativa. Os serviços externos listados acima recebem os pedidos necessários aos recursos que fornecem. O Campo Belo não vende dados pessoais por meio deste diretório.</p>
+    <p>As páginas de Comunidade e Promoções usam o Disqus para comentários. O conteúdo que uma pessoa decide publicar fica sujeito também às regras do Disqus e pode ser público.</p>
+
+    <h2>Prazo de retenção</h2>
+    <p>A preferência de métricas fica salva neste navegador até ser alterada ou os dados locais serem apagados. <span class="pending">Os prazos e configurações de retenção dos serviços externos ainda precisam ser confirmados antes da publicação desta política.</span></p>
+
+    <h2>Seus direitos e contato</h2>
+    <p>Você pode solicitar informações sobre o tratamento, correção ou outras providências previstas na LGPD pelo e-mail <a href="mailto:criatix.agencia@gmail.com">criatix.agencia@gmail.com</a>.</p>
+
+    <h2>Alterações</h2>
+    <p>Se esta política mudar, a data de revisão será atualizada nesta página.</p>
+
+    <button type="button" id="openPrivacySettings">Preferências de métricas</button>
+  </main>
+  <footer><a href="./">Início</a></footer>
+</body>
+</html>
