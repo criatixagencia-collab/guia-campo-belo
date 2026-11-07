@@ -1,5 +1,5 @@
 # Baseline used when the static site is served by Cloudflare Pages.
-# GitHub Pages does not apply this file; deploy there only after validating the CSP report.
+# GitHub Pages does not apply this file. CSP stays in report-only mode for review.
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
