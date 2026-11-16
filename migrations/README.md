@@ -2,7 +2,7 @@
 
 O esquema inicial está em `0001_push_subscriptions.sql`. No Cloudflare Pages, crie um banco D1 e associe-o ao binding `PUSH_DB` no ambiente **Preview** durante a revisão. A migração guarda apenas o endpoint e as chaves técnicas da inscrição, sem nome, e-mail ou endereço IP.
 
-As chaves VAPID e o token do painel são segredos de runtime e não devem ser gravados no repositório:
+O projeto fixa a compatibilidade do runtime em `wrangler.toml`. As chaves VAPID e o token do painel são segredos de runtime e não devem ser gravados no repositório:
 
 - `PUSH_VAPID_PUBLIC_KEY` — variável pública usada pelo app para solicitar a inscrição.
 - `PUSH_VAPID_PRIVATE_KEY` — segredo usado somente pelo servidor para assinar os envios.
