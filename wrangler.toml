@@ -2,3 +2,8 @@ name = "revista-digital-campo-belo"
 compatibility_date = "2026-11-16"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = "."
+
+[[env.preview.d1_databases]]
+binding = "PUSH_DB"
+database_name = "campo-belo-push-preview"
+database_id = "c2701f5f-cbfb-4cb6-b8e2-ab1c644125c4"
