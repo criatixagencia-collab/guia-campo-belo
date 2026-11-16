@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#152f4a">
+  <meta name="description" content="Escolha se quer receber avisos da Revista Digital Campo Belo.">
+  <link rel="manifest" href="app.webmanifest">
+  <link rel="apple-touch-icon" href="pwa/icon-180.png">
+  <title>Notificações · Revista Digital Campo Belo</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; padding: 24px 16px; display: grid; place-items: center; background: #f3f4f7; color: #152f4a; font: 16px/1.55 system-ui, sans-serif; }
+    main { width: min(100%, 560px); padding: clamp(22px, 6vw, 40px); border: 1px solid #d6dce4; border-radius: 18px; background: #fff; box-shadow: 0 12px 32px rgb(10 28 45 / 10%); }
+    .eyebrow { color: #80633b; font-size: .78rem; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; }
+    h1 { margin: 8px 0 12px; font: 700 clamp(1.6rem, 6vw, 2.1rem)/1.14 Georgia, serif; }
+    p { margin: 0 0 14px; }
+    ul { padding-left: 22px; margin: 0 0 20px; }
+    li + li { margin-top: 7px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0 14px; }
+    button { min-height: 46px; padding: 10px 16px; border: 1px solid #173b5d; border-radius: 9px; background: #173b5d; color: #fff; font: 700 .92rem system-ui, sans-serif; cursor: pointer; }
+    button.secondary { background: #fff; color: #173b5d; }
+    button:disabled { cursor: not-allowed; opacity: .55; }
+    .status { min-height: 1.5em; font-weight: 650; }
+    .push-status--error { color: #9c2f26; }
+    .instructions { padding: 12px 14px; border-left: 3px solid #b88c47; background: #f8f5ee; }
+    .instructions[hidden], button[hidden] { display: none; }
+    nav { margin-top: 24px; display: flex; gap: 18px; flex-wrap: wrap; }
+    a { color: #173b5d; text-underline-offset: 3px; }
+    :focus-visible { outline: 3px solid #c9a84c; outline-offset: 3px; }
+  </style>
+  <script src="pwa/push-ui.js" defer></script>
+</head>
+<body>
+  <main>
+    <span class="eyebrow">Revista Digital Campo Belo</span>
+    <h1>Escolha se quer receber avisos</h1>
+    <p>Podemos enviar notificações sobre notícias, serviços e novidades do Campo Belo. Você pode cancelar quando quiser.</p>
+    <ul>
+      <li>O app não pede seu nome, e-mail ou telefone.</li>
+      <li>O navegador solicita sua autorização antes de ativar.</li>
+      <li>Para remover, volte a esta página e toque em “Desativar”.</li>
+    </ul>
+    <p id="pushStatus" class="status" role="status" aria-live="polite">Verificando este aparelho…</p>
+    <div id="pushInstructions" class="instructions" hidden>
+      No iPhone, abra este site no Safari, toque em <strong>Compartilhar → Adicionar à Tela de Início</strong> e abra pelo novo ícone. Depois volte aqui para ativar as notificações.
+    </div>
+    <div class="actions">
+      <button id="enablePush" type="button">Ativar notificações</button>
+      <button id="disablePush" class="secondary" type="button" hidden>Desativar neste aparelho</button>
+    </div>
+    <nav><a href="./">Voltar ao início</a><a href="privacidade.html">Privacidade</a></nav>
+  </main>
+</body>
+</html>

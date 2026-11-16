@@ -14,6 +14,14 @@
   const isAppleMobile = /iPhone|iPad|iPod/i.test(navigator.userAgent)
     || (/Macintosh/i.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
   const isAndroid = /Android/i.test(navigator.userAgent);
+  const privacyTools = document.querySelector('.privacy-tools');
+  if (privacyTools && !document.getElementById('openPushSettings')) {
+    const link = document.createElement('a');
+    link.id = 'openPushSettings';
+    link.href = 'notificacoes.html';
+    link.textContent = 'Notificações';
+    privacyTools.append(link);
+  }
   let installPrompt;
   let installed = false;
 

@@ -1,0 +1,8 @@
+{
+  "name": "revista-digital-campo-belo",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "web-push": "4.0.0"
+  }
+}

@@ -66,3 +66,5 @@ self.addEventListener('fetch', event => {
     return response;
   })());
 });
+
+importScripts('pwa/push-service-worker.js');
