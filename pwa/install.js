@@ -15,6 +15,22 @@
     || (/Macintosh/i.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
   const isAndroid = /Android/i.test(navigator.userAgent);
   const privacyTools = document.querySelector('.privacy-tools');
+  let pushOnboardingLoaded = false;
+
+  function loadPushOnboarding() {
+    const isStandalone = standalone.matches || navigator.standalone === true;
+    if (pushOnboardingLoaded || !isStandalone
+      || !('serviceWorker' in navigator)
+      || !('PushManager' in window)
+      || !('Notification' in window)) return;
+
+    pushOnboardingLoaded = true;
+    const script = document.createElement('script');
+    script.src = 'pwa/push-onboarding.js';
+    script.async = true;
+    document.head.append(script);
+  }
+
   if (privacyTools && !document.getElementById('openPushSettings')) {
     const link = document.createElement('a');
     link.id = 'openPushSettings';
@@ -42,7 +58,10 @@
     updateButton();
   });
 
-  standalone.addEventListener('change', updateButton);
+  standalone.addEventListener('change', () => {
+    updateButton();
+    loadPushOnboarding();
+  });
 
   button.addEventListener('click', async () => {
     if (installPrompt) {
@@ -59,10 +78,11 @@
     }
 
     help.textContent = isAppleMobile
-      ? 'Abra esta página no Safari. Toque em Compartilhar, depois em Adicionar à Tela de Início. Se aparecer a opção Abrir como App, deixe-a ativada e toque em Adicionar.'
-      : 'Abra esta página no Chrome. No menu ⋮, escolha Instalar aplicativo ou Adicionar à tela inicial e confirme.';
+      ? 'Abra esta página no Safari. Toque em Compartilhar, depois em Adicionar à Tela de Início. Se aparecer a opção Abrir como App, deixe-a ativada e toque em Adicionar. Ao abrir pelo ícone, você poderá ativar os avisos.'
+      : 'Abra esta página no Chrome. No menu ⋮, escolha Instalar aplicativo ou Adicionar à tela inicial e confirme. Ao abrir o app pela primeira vez, você poderá ativar os avisos.';
     dialog.showModal();
   });
 
   updateButton();
+  loadPushOnboarding();
 })();
