@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#08172b">
+  <title>Campo Belo ao volante — cidade 3D imersiva</title>
+  <link rel="icon" href="../drone/assets/logo-campo-belo.png">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="imersivo.css">
+  <script type="importmap">{"imports":{"three":"../drone/simulador/three.module.js"}}</script>
+  <script src="dados/relevo.js" defer></script>
+  <script src="game.js" type="module"></script>
+</head>
+<body>
+  <main id="game" aria-label="Jogo de corrida pela mini cidade do Campo Belo">
+    <canvas id="city" aria-hidden="true"></canvas>
+    <canvas id="race" aria-label="Mini cidade com o carro e os pontos de passagem"></canvas>
+
+    <header class="brand">
+      <img src="../drone/assets/logo-campo-belo.png" alt="" width="43" height="43">
+      <div><strong>Revista Digital Campo Belo</strong><span>CAMPO BELO AO VOLANTE</span></div>
+      <button id="menu-back" type="button" aria-label="Voltar ao menu">☰</button>
+      <button id="pause" type="button" aria-label="Pausar corrida" disabled>Ⅱ</button>
+    </header>
+
+    <section id="hud" class="hud" hidden aria-label="Painel da corrida">
+      <div class="stats"><div><small>TEMPO</small><b id="time">00:00.0</b></div><div><small>PASSAGENS</small><b id="progress">0/0</b></div><div><small>VELOCIDADE</small><b><span id="speed">0</span><em> km/h</em></b></div></div>
+      <div class="target"><small>PRÓXIMO PONTO</small><strong id="next-name">—</strong><span id="next-distance">—</span></div>
+      <canvas id="mini" width="150" height="150" aria-label="Mini mapa das ruas e pontos da prova"></canvas>
+      <div class="camera-tools"><button id="camera-mode" type="button">Câmera: próxima</button><button id="reset-car" type="button">Voltar à rua</button><button id="sound" type="button" aria-pressed="true">Som: ligado</button><button id="fullscreen" type="button">Tela cheia</button></div>
+    </section>
+
+    <div id="street" class="street" aria-live="polite"></div>
+    <div id="banner" class="banner" role="status" aria-live="polite"></div>
+    <div id="load" class="load">Carregando ruas e mini cidade…</div>
+
+    <div id="touch-controls" class="touch-controls" hidden aria-label="Direção por toque">
+      <div class="steer"><button type="button" data-control="left" aria-label="Virar à esquerda">↶</button><button type="button" data-control="right" aria-label="Virar à direita">↷</button></div>
+      <div class="pedals"><button type="button" data-control="brake" aria-label="Frear ou dar ré">FREIO</button><button type="button" data-control="throttle" aria-label="Acelerar">ACELERAR</button></div>
+    </div>
+
+    <section id="menu" class="veil" aria-labelledby="menu-title">
+      <div class="menu-card">
+        <p class="eyebrow">EXPLORE A CIDADE EM 3D</p>
+        <h1 id="menu-title">Campo Belo<br>ao volante</h1>
+        <p class="intro">Sinta a cidade da rua. Explore livremente ou escolha uma categoria e passe pelos estabelecimentos contra o relógio.</p>
+        <div id="loadbar" class="loadbar" role="progressbar" aria-label="Carregamento do jogo" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div><i></i></div><span>Preparando a cidade 3D…</span></div>
+        <button id="free-drive" class="primary" type="button" disabled>EXPLORAR A CIDADE</button>
+        <p class="controls-hint"><b>↑ W</b> acelera · <b>↓ S</b> freia/ré · <b>← → A D</b> direção<br><b>C</b> câmera · <b>M</b> som · <b>R</b> voltar à rua · <b>P</b> pausa.<br>Celular: direção e pedais na tela. Experimente na horizontal.</p>
+        <div id="categories" class="categories" role="group" aria-label="Escolha uma categoria"></div>
+        <p id="eligibility" class="eligibility">Carregando categorias…</p>
+        <button id="start" class="primary" type="button" disabled>COMEÇAR CORRIDA</button>
+        <a class="secondary site-back" href="../">VOLTAR AO SITE</a>
+        <p class="source-note">Cidade da base local. Direção e passagens ilustrativas, sem trânsito real. Car Concept: Eric Chadwick / DGG, CC BY 4.0. <a href="CREDITOS.md" target="_blank" rel="noopener">Créditos</a></p>
+      </div>
+    </section>
+
+    <section id="result" class="veil" hidden aria-labelledby="result-title">
+      <div class="menu-card result-card">
+        <p class="eyebrow">PROVA CONCLUÍDA</p><h2 id="result-title">Você completou a volta!</h2>
+        <strong id="final-time" class="final-time">00:00.0</strong>
+        <p id="best-time"></p>
+        <button id="again" class="primary" type="button">CORRER DE NOVO</button>
+        <button id="change-category" class="secondary" type="button">ESCOLHER OUTRA CATEGORIA</button>
+      </div>
+    </section>
+    <div class="attribution">GeoSampa/PMSP · © OpenStreetMap contributors · corrida ilustrativa</div>
+  </main>
+</body>
+</html>
