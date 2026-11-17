@@ -127,6 +127,16 @@ body {
 }
 .hero-drone strong { color: var(--gold); font-weight: 800; }
 .hero-drone:hover { background: rgba(201,168,76,.24); }
+.hero-app {
+  position: relative; z-index: 1;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  margin: 16px 8px 0 0; padding: 10px 15px;
+  min-height: 44px; border: 1px solid var(--gold); border-radius: 10px;
+  background: var(--gold); color: #152f4a; text-decoration: none;
+  font-size: 11px; font-weight: 800; letter-spacing: .3px;
+}
+.hero-app:hover { background: #e1c470; }
+.hero-app:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 
 .hero-identity {
   display: flex; align-items: center; gap: 18px;
@@ -945,6 +955,7 @@ body {
       <span class="weather-desc" id="weatherDesc"></span>
     </div>
   </div>
+  <a class="hero-app" href="https://app-revista-campo-belo.pages.dev/">📱 Acessar o aplicativo</a>
   <a class="hero-drone" href="drone/?v=taxonomia-drone-20261029" aria-label="Explorar o Campo Belo com o Drone 3D">
     <span aria-hidden="true">✦</span> Explore o bairro com o <strong>Drone 3D</strong>
   </a>
