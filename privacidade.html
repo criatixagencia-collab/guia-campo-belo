@@ -69,6 +69,7 @@
 
     <h2>Notificações push opcionais</h2>
     <p>Se você ativar as notificações, o navegador cria uma inscrição técnica para este aparelho (endereço do serviço de push e chaves de criptografia). A Revista Digital Campo Belo usa esses dados para enviar avisos. Não coletamos nome, e-mail ou telefone por esse recurso. Na prévia, a inscrição fica guardada no Cloudflare enquanto estiver ativa e é removida quando você cancelar pelo app ou quando o serviço de push informar que deixou de funcionar. A entrega é encaminhada pelo serviço de notificações do navegador ou sistema operacional, como Apple ou Google; esses serviços podem tratar metadados próprios conforme suas políticas. Você pode cancelar a inscrição na <a href="notificacoes.html">página de notificações</a> ou bloquear os avisos nas configurações do aparelho. Bloquear no aparelho não garante, por si só, a remoção imediata da inscrição do servidor.</p>
+    <p>Para limitar tentativas repetidas de cadastro, o servidor usa o endereço IP da conexão para gerar um identificador por hora e guarda um contador temporário no Cloudflare. Esse identificador pode ser relacionado ao IP e é removido em limpezas periódicas após o fim do período; não há prazo máximo garantido para essa limpeza nesta prévia.</p>
 
     <h2>Seus direitos e contato</h2>
     <p>Você pode solicitar informações sobre o tratamento, correção ou outras providências previstas na LGPD pelo e-mail <a href="mailto:criatix.agencia@gmail.com">criatix.agencia@gmail.com</a>.</p>
