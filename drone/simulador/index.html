@@ -337,9 +337,24 @@ const CATEGORY_LABELS = {
   "Educação & Cultura":"Educação & Cultura"
 };
 const categoryLabel = category => CATEGORY_LABELS[category] || category;
+const escapeHTML = value => String(value ?? "").replace(/[&<>\"']/g, char => ({
+  "&":"&amp;", "<":"&lt;", ">":"&gt;", "\"":"&quot;", "'":"&#39;"
+})[char]);
+const safeHTTPS = value => {
+  if (typeof value !== "string" || !value.trim()) return "";
+  try {
+    const url = new URL(value.trim());
+    return url.protocol === "https:" && !url.username && !url.password ? url.href : "";
+  } catch { return ""; }
+};
 const instagramUrl = value => {
   if (!value) return "";
-  return /^https?:\/\//i.test(value) ? value : "https://instagram.com/" + value.replace(/^@/, "");
+  if (/^https?:\/\//i.test(value)) {
+    const url = safeHTTPS(value);
+    return url && ["instagram.com", "www.instagram.com"].includes(new URL(url).hostname.toLowerCase()) ? url : "";
+  }
+  const handle = String(value).replace(/^@/, "");
+  return /^[A-Za-z0-9._]{1,30}$/.test(handle) ? `https://www.instagram.com/${encodeURIComponent(handle)}/` : "";
 };
 const PLACES = dados
   .filter(item => Number.isFinite(item.lat) && Number.isFinite(item.lng))
@@ -1117,7 +1132,10 @@ function buildChips(){
   const bar=document.getElementById("chips");bar.innerHTML="";
   const mk=(label,cat,n)=>{const b=document.createElement("button");
     b.className="chip"+((activeCat===cat)?" on":"");
-    b.innerHTML=`<span class="dot" style="background:${cat?catColor(cat):"#c9ae24"}"></span>${label}<span class="n">${n}</span>`;
+    const dot=document.createElement("span");dot.className="dot";dot.style.background=cat?catColor(cat):"#c9ae24";
+    const text=document.createElement("span");text.textContent=label;
+    const count=document.createElement("span");count.className="n";count.textContent=String(n);
+    b.append(dot,text,count);
     b.onclick=()=>{activeCat=(activeCat===cat)?null:cat;applyFilter();buildChips();};
     return b;};
   bar.appendChild(mk("Tudo",null,PLACES.length));
@@ -1139,7 +1157,9 @@ sInput.addEventListener("input",()=>{
     .slice(0,8);
   sBox.innerHTML="";
   hits.forEach(p=>{const b=document.createElement("button");
-    b.innerHTML=`<b style="color:${catColor(p.c)}">${p.n}</b><span>${p.e||p.s||""} · ${categoryLabel(p.c)}</span>`;
+    const name=document.createElement("b");name.style.color=catColor(p.c);name.textContent=p.n;
+    const detail=document.createElement("span");detail.textContent=`${p.e||p.s||""} · ${categoryLabel(p.c)}`;
+    b.append(name,detail);
     b.onclick=()=>{sBox.classList.remove("show");sInput.value="";sInput.blur();activeCat=null;applyFilter();buildChips();flyTo(p);};
     sBox.appendChild(b);});
   if(!hits.length)sBox.innerHTML=`<button disabled><b>Nada encontrado</b><span>tente outro nome</span></button>`;
@@ -1149,22 +1169,23 @@ document.addEventListener("click",e=>{if(!e.target.closest("#searchWrap"))sBox.c
 const cardWrap=document.getElementById("cardWrap"),card=document.getElementById("card");
 function openCard(p){
   const wpp=p.t?`https://wa.me/55${String(p.t).replace(/\D/g,"")}`:null;
-  const ig=p.igUrl||null;
+  const ig=safeHTTPS(p.igUrl)||null;
+  const site=safeHTTPS(p.site)||null;
   const gm=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.n+", "+(p.e||"")+", Campo Belo, São Paulo")}`;
   const secondary=(p.cats||[]).filter(c=>c!==p.c&&CATEGORY_LABELS[c]).map(categoryLabel);
   card.innerHTML=`<div class="grab"></div>
     <div class="closeRow"><button onclick="closeCard()">✕</button></div>
-    <span class="chip-cat"><span style="width:9px;height:9px;border-radius:50%;background:${catColor(p.c)}"></span>${categoryLabel(p.c)}</span>
-    <h3>${p.n}</h3>
-    ${(p.s||secondary.length)?`<div class="sub">${[p.s,...secondary].filter(Boolean).join(" · ")}</div>`:""}
-    ${p.e?`<div class="addr">📍 <span>${p.e} · Campo Belo, São Paulo</span></div>`:""}
-    ${p.d?`<p class="desc">${p.d}</p>`:""}
-    ${p.p?`<div class="promo">🏷️ ${p.p}</div>`:""}
+    <span class="chip-cat"><span style="width:9px;height:9px;border-radius:50%;background:${catColor(p.c)}"></span>${escapeHTML(categoryLabel(p.c))}</span>
+    <h3>${escapeHTML(p.n)}</h3>
+    ${(p.s||secondary.length)?`<div class="sub">${escapeHTML([p.s,...secondary].filter(Boolean).join(" · "))}</div>`:""}
+    ${p.e?`<div class="addr">📍 <span>${escapeHTML(p.e)} · Campo Belo, São Paulo</span></div>`:""}
+    ${p.d?`<p class="desc">${escapeHTML(p.d)}</p>`:""}
+    ${p.p?`<div class="promo">🏷️ ${escapeHTML(p.p)}</div>`:""}
     <div class="acts">
-      ${wpp?`<a class="a-wpp" href="${wpp}" target="_blank" rel="noopener">WhatsApp</a>`:""}
-      ${ig?`<a class="a-ig" href="${ig}" target="_blank" rel="noopener">Instagram</a>`:""}
-      ${p.site?`<a class="a-map" href="${p.site}" target="_blank" rel="noopener">Site</a>`:""}
-      <a class="a-map" href="${gm}" target="_blank" rel="noopener">Ver no Maps</a>
+      ${wpp?`<a class="a-wpp" href="${escapeHTML(wpp)}" target="_blank" rel="noopener noreferrer">WhatsApp</a>`:""}
+      ${ig?`<a class="a-ig" href="${escapeHTML(ig)}" target="_blank" rel="noopener noreferrer">Instagram</a>`:""}
+      ${site?`<a class="a-map" href="${escapeHTML(site)}" target="_blank" rel="noopener noreferrer">Site</a>`:""}
+      <a class="a-map" href="${escapeHTML(gm)}" target="_blank" rel="noopener noreferrer">Ver no Maps</a>
     </div>`;
   cardWrap.classList.add("show");
 }
