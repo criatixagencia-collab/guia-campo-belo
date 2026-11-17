@@ -16,5 +16,8 @@ https://revista-digital-campo-belo.pages.dev/*
 https://:preview.revista-digital-campo-belo.pages.dev/*
   X-Robots-Tag: noindex
 
+/admin-notificacoes
+  Cache-Control: no-store
+
 /admin-notificacoes.html
   Cache-Control: no-store
