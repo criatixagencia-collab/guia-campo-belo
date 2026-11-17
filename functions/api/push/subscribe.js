@@ -3,6 +3,22 @@ import { endpointId, hasDatabase, json, readJson, sameOrigin, validPushEndpoint 
 export async function onRequestPost({ request, env }) {
   if (!sameOrigin(request)) return json({ error: 'Origem inválida.' }, 403);
   if (!hasDatabase(env)) return json({ error: 'Cadastro de notificações indisponível.' }, 503);
+  const ip = request.headers.get('CF-Connecting-IP');
+  if (!ip || ip.length > 64) return json({ error: 'Cadastro temporariamente indisponível.' }, 503);
+  const now = Math.floor(Date.now() / 1000);
+  const window = Math.floor(now / 3600);
+  const idForRate = await endpointId(`subscribe:${window}:${ip}`);
+  try {
+    const rate = await env.PUSH_DB.prepare(`
+      INSERT INTO push_rate_limits (id, attempts, expires_at) VALUES (?, 1, ?)
+      ON CONFLICT(id) DO UPDATE SET attempts = attempts + 1
+      RETURNING attempts
+    `).bind(idForRate, (window + 1) * 3600).first();
+    if (!rate || rate.attempts > 10) return json({ error: 'Muitas tentativas. Tente novamente mais tarde.' }, 429);
+    if (Math.random() < 0.01) {
+      await env.PUSH_DB.prepare('DELETE FROM push_rate_limits WHERE expires_at < ?').bind(now).run();
+    }
+  } catch { return json({ error: 'Cadastro temporariamente indisponível.' }, 503); }
   const subscription = await readJson(request);
   const endpoint = subscription?.endpoint;
   const p256dh = subscription?.keys?.p256dh;
