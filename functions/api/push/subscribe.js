@@ -14,11 +14,14 @@ export async function onRequestPost({ request, env }) {
   }
 
   const id = await endpointId(endpoint);
-  await env.PUSH_DB.prepare(`
+  const result = await env.PUSH_DB.prepare(`
     INSERT INTO push_subscriptions (id, endpoint, p256dh, auth)
     VALUES (?, ?, ?, ?)
-    ON CONFLICT(id) DO UPDATE SET endpoint = excluded.endpoint,
-      p256dh = excluded.p256dh, auth = excluded.auth, updated_at = unixepoch()
+    ON CONFLICT(id) DO UPDATE SET updated_at = unixepoch()
+      WHERE push_subscriptions.endpoint = excluded.endpoint
+        AND push_subscriptions.p256dh = excluded.p256dh
+        AND push_subscriptions.auth = excluded.auth
   `).bind(id, endpoint, p256dh, auth).run();
+  if (result.meta?.changes === 0) return json({ error: 'Inscrição incompatível. Desative e ative os avisos novamente.' }, 409);
   return json({ ok: true });
 }

@@ -12,11 +12,26 @@ export function sameOrigin(request) {
 }
 
 export async function readJson(request, maxBytes = 4096) {
+  if (!/^application\/json(?:\s*;|\s*$)/i.test(request.headers.get('Content-Type') || '')) return null;
   const length = Number(request.headers.get('Content-Length') || 0);
   if (length > maxBytes) return null;
-  const text = await request.text();
-  if (encoder.encode(text).byteLength > maxBytes) return null;
-  try { return JSON.parse(text); } catch { return null; }
+  if (!request.body) return null;
+  const reader = request.body.getReader();
+  const chunks = [];
+  let total = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      total += value.byteLength;
+      if (total > maxBytes) { await reader.cancel(); return null; }
+      chunks.push(value);
+    }
+    const bytes = new Uint8Array(total);
+    let offset = 0;
+    for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.byteLength; }
+    return JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes));
+  } catch { return null; }
 }
 
 export async function endpointId(endpoint) {
