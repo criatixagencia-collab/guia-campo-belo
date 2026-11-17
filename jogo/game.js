@@ -4,6 +4,8 @@ import {Cena} from './cena.js';
 import {Som} from './som.js';
 const som=new Som();
 const SOURCE='dados/';
+// Logos already published on the Revista's site (by place id); other establishments show their name.
+const LOGO_BASE='../fotos%20destaques/',LOGOS=Object.fromEntries(Object.entries({249:'chaveiro-novo-aeon.svg',251:'nordico-padaria.png',253:'usaflex-logo.png'}).map(([k,v])=>[k,LOGO_BASE+v]));
 const $=selector=>document.querySelector(selector);
 const cityCanvas=$('#city'),overlay=$('#race'),ctx=overlay.getContext('2d');
 const mini=$('#mini'),mctx=mini.getContext('2d');
@@ -61,7 +63,7 @@ class RoadIndex{
 
 function prepareCheckpoints(){const polygon=data.boundary.map(local);allCheckpoints=data.places.map(place=>{
   const [x,z]=local([place.lng,place.lat]);const nearest=roadIndex.nearest(x,z,true),inside=inBoundary(x,z,polygon);
-  return {...place,sourceX:x,sourceZ:z,x:nearest.x,z:nearest.z,offset:nearest.d,inside,eligible:inside&&nearest.d<=50};
+  return {...place,sourceX:x,sourceZ:z,x:nearest.x,z:nearest.z,offset:nearest.d,roadHalf:nearest.segment.w,roadAngle:nearest.segment.angle,inside,eligible:inside&&nearest.d<=50};
 });}
 function categories(){return [...new Set(data.places.map(p=>p.categoria))];}
 function selectCategory(category){selectedCategory=category;checkpoints=allCheckpoints.filter(p=>p.categoria===category&&p.eligible);
@@ -171,20 +173,28 @@ function loop(now){requestAnimationFrame(loop);if(document.hidden)return;
   if(city&&!city.lost&&(state==='race'||cityReady)){city.draw(width,height);cityReady=false;}
   draw(now);}
 let toggleSound=()=>{};
+// iPhone Safari keeps its tab/address bars in landscape and has no fullscreen API for pages; only a
+// Home Screen launch (standalone) is full screen. Hide the useless button there and show a one-time tip.
+function fullscreenHelp(){const ios=/iP(hone|od)/.test(navigator.userAgent),standalone=navigator.standalone||matchMedia('(display-mode: standalone),(display-mode: fullscreen)').matches;
+  if(!document.fullscreenEnabled&&!document.webkitFullscreenEnabled)$('#fullscreen').hidden=true;
+  if(!ios||standalone)return;let seen=false;try{seen=localStorage.getItem('corrida-dica-tela')==='1';}catch{}
+  const tip=$('#fs-tip'),close=()=>{tip.hidden=true;seen=true;try{localStorage.setItem('corrida-dica-tela','1');}catch{}};tip.querySelector('button').addEventListener('click',close);
+  const check=()=>{if(!seen&&state==='race'&&innerWidth>innerHeight){tip.hidden=false;setTimeout(close,9000);seen=true;}};addEventListener('resize',check);setInterval(check,1500);}
 function blockZoom(){
   // iOS Safari ignores user-scalable=no: cancel its pinch gestures, multi-finger moves and double-tap zoom.
   for(const ev of ['gesturestart','gesturechange','gestureend'])document.addEventListener(ev,e=>e.preventDefault(),{passive:false});
   document.addEventListener('touchmove',e=>{if(e.touches.length>1)e.preventDefault();},{passive:false});
   document.addEventListener('selectstart',e=>e.preventDefault());document.addEventListener('contextmenu',e=>{if(!e.target.closest('a'))e.preventDefault();});
   document.addEventListener('dblclick',e=>e.preventDefault(),{passive:false});}
-function bindControls(){blockZoom();const mapping={ArrowUp:'throttle',KeyW:'throttle',ArrowDown:'brake',KeyS:'brake',ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right'};
+function bindControls(){blockZoom();fullscreenHelp();const mapping={ArrowUp:'throttle',KeyW:'throttle',ArrowDown:'brake',KeyS:'brake',ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right'};
   addEventListener('keydown',e=>{if(e.code==='KeyP'&&state!=='menu'&&state!=='finished'){e.preventDefault();togglePause();return;}
     if(e.code==='KeyC'&&!e.repeat){cycleCamera();return;}if(e.code==='KeyM'&&!e.repeat){toggleSound();return;}if(e.code==='KeyR'&&!e.repeat){recoverCar();return;}
     if(mapping[e.code]){e.preventDefault();held[mapping[e.code]]=true;}});
   addEventListener('keyup',e=>{if(mapping[e.code]){e.preventDefault();held[mapping[e.code]]=false;}});
   addEventListener('blur',clearHeld);
   document.addEventListener('visibilitychange',()=>{clearHeld();last=0;if(document.hidden&&state==='race')togglePause();if(document.hidden)som.suspend();else som.resume();});
-  for(const ev of ['pointerdown','keydown'])addEventListener(ev,()=>som.start(),{capture:true});
+  // iOS only unlocks audio inside touchend/click handlers (not pointerdown), so listen to all of them.
+  for(const ev of ['pointerdown','touchend','click','keydown'])addEventListener(ev,()=>som.start(),{capture:true,passive:true});
   const soundLabel=()=>{$('#sound').textContent=som.muted?'Som: desligado':'Som: ligado';$('#sound').setAttribute('aria-pressed',String(!som.muted));};
   toggleSound=()=>{som.start();som.setMuted(!som.muted);soundLabel();};$('#sound').addEventListener('click',toggleSound);soundLabel();
   for(const button of document.querySelectorAll('[data-control]')){
@@ -203,7 +213,7 @@ async function init(){bindControls();resize();requestAnimationFrame(loop);
     // The site ships only the gzip city meshes; browsers without DecompressionStream (Safari < 16.4) cannot read them.
     if(typeof DecompressionStream!=='function'){$('#load').textContent='Atualize o navegador para jogar.';$('#eligibility').textContent='Este navegador é antigo demais para a cidade 3D. Atualize o sistema ou use o Chrome.';return;}
     try{city=new Cena(cityCanvas,message=>{$('#load').textContent=message;},terrain);
-      resetCar();const t0=performance.now(),tick=setInterval(()=>showProgress(city.progress(),(performance.now()-t0)/1000),300);
+      city.setPlaceSigns(allCheckpoints.filter(p=>p.eligible),LOGOS);resetCar();const t0=performance.now(),tick=setInterval(()=>showProgress(city.progress(),(performance.now()-t0)/1000),300);
       try{await city.load(manifest,()=>{cityReady=true;});}finally{clearInterval(tick);}showProgress(1,0);ready=true;$('#free-drive').disabled=false;selectCategory(selectedCategory);$('#load').hidden=true;city.update(car,.1,{mode:cameraMode,snap:true});cityReady=true;
     }catch(e){$('#load').textContent='Não foi possível carregar a cena 3D. Recarregue a página.';console.error(e);}
     draw();

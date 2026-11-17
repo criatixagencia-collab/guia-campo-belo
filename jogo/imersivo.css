@@ -17,4 +17,8 @@
 html,body,#game{touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
 .veil{touch-action:pan-y}
 
+.fs-tip{position:absolute;z-index:6;left:50%;top:calc(env(safe-area-inset-top,0px) + 62px);transform:translateX(-50%);max-width:min(520px,calc(100% - 24px));display:flex;gap:10px;align-items:center;
+  padding:9px 10px 9px 14px;border:1px solid #f5d35e;border-radius:12px;background:#0a223bf0;color:#fff;font-size:12px;line-height:1.35;box-shadow:0 8px 22px #0008}
+.fs-tip b{color:#f5d35e}.fs-tip button{flex:none;width:30px;height:30px;border-radius:8px;border:1px solid #ffffff55;background:#17385f;color:#fff}
+
 .site-back{display:grid;place-items:center;text-decoration:none;text-align:center}

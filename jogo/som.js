@@ -3,7 +3,7 @@
 const GEARS=[0,6.5,12,17.5,23,99];
 export class Som{
   constructor(){this.ctx=null;this.muted=false;try{this.muted=localStorage.getItem('corrida-som')==='0';}catch{}this.gear=1;this.shift=0;this.rpm=900;}
-  start(){if(this.ctx){if(this.ctx.state==='suspended')this.ctx.resume();return;}
+  start(){if(this.ctx){if(this.ctx.state!=='running'){this.ctx.resume();this.unlock();}return;}
     const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;const c=this.ctx=new AC(),t=c.currentTime;
     const comp=c.createDynamicsCompressor();comp.threshold.value=-14;comp.ratio.value=4;comp.connect(c.destination);
     this.master=c.createGain();this.master.gain.value=0;this.master.connect(comp);
@@ -19,8 +19,10 @@ export class Som{
     const src=()=>{const s=c.createBufferSource();s.buffer=noise;s.loop=true;s.start(t,Math.random()*2);return s;};
     const band=(type,f,q,g)=>{const s=src(),fl=c.createBiquadFilter(),gn=c.createGain();fl.type=type;fl.frequency.value=f;fl.Q.value=q;gn.gain.value=g;s.connect(fl);fl.connect(gn);gn.connect(this.master);return {fl,gn};};
     this.intake=band('lowpass',400,.5,0);this.road=band('lowpass',220,.5,0);this.wind=band('lowpass',700,.3,0);this.squeal=band('bandpass',1800,4,0);
-    this.noise=noise;this.apply();
+    this.noise=noise;this.unlock();this.apply();
   }
+  // Plays one silent sample inside the user gesture: required by iOS Safari to really start the audio output.
+  unlock(){try{const c=this.ctx,s=c.createBufferSource();s.buffer=c.createBuffer(1,1,22050);s.connect(c.destination);s.start(0);if(c.state!=='running')c.resume();}catch{}}
   apply(){if(this.master)this.master.gain.setTargetAtTime(this.muted||!this.active?0:.55,this.ctx.currentTime,.08);}
   setMuted(m){this.muted=m;try{localStorage.setItem('corrida-som',m?'0':'1');}catch{}this.apply();}
   setActive(a){if(a!==this.active){this.active=a;this.apply();}}
