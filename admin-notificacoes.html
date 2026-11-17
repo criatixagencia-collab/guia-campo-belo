@@ -80,6 +80,7 @@
         let sent = 0;
         let failed = 0;
         let removed = 0;
+        const failureDetails = [];
         try {
           do {
             const response = await request('./api/push/admin/send', {
@@ -93,11 +94,14 @@
             sent += data.sent;
             failed += data.failed;
             removed += data.removed;
+            if (Array.isArray(data.failureDetails)) failureDetails.push(...data.failureDetails.slice(0, 5 - failureDetails.length));
             cursor = data.nextCursor || '';
-            status.textContent = `Progresso: ${sent} enviado(s), ${failed} falha(s), ${removed} inscrição(ões) removida(s).`;
+            const diagnostic = failureDetails.map(item => [item.name, item.statusCode ? `HTTP ${item.statusCode}` : '', item.code].filter(Boolean).join(' / ')).join('; ');
+            status.textContent = `Progresso: ${sent} enviado(s), ${failed} falha(s), ${removed} inscrição(ões) removida(s).${diagnostic ? ` Diagnóstico: ${diagnostic}.` : ''}`;
             if (data.done) break;
           } while (cursor);
-          status.textContent = `Concluído: ${sent} enviado(s), ${failed} falha(s), ${removed} inscrição(ões) removida(s).`;
+          const diagnostic = failureDetails.map(item => [item.name, item.statusCode ? `HTTP ${item.statusCode}` : '', item.code].filter(Boolean).join(' / ')).join('; ');
+          status.textContent = `Concluído: ${sent} enviado(s), ${failed} falha(s), ${removed} inscrição(ões) removida(s).${diagnostic ? ` Diagnóstico: ${diagnostic}.` : ''}`;
         } catch (error) { status.textContent = error.message; }
         finally { sendButton.disabled = false; }
       });

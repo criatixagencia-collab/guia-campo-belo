@@ -8,6 +8,10 @@ function cleanText(value, maxLength) {
   return [...value.replace(/[\u0000-\u001f\u007f]/g, ' ').trim()].slice(0, maxLength).join('');
 }
 
+function safeDiagnostic(value) {
+  return typeof value === 'string' && /^[A-Za-z0-9_.-]{1,40}$/.test(value) ? value : null;
+}
+
 export async function onRequestPost({ request, env }) {
   if (!sameOrigin(request)) return json({ error: 'Origem inválida.' }, 403);
   if (!env.PUSH_ADMIN_TOKEN || !env.PUSH_VAPID_PRIVATE_KEY || !env.PUSH_VAPID_PUBLIC_KEY
@@ -39,6 +43,7 @@ export async function onRequestPost({ request, env }) {
   let sent = 0;
   let failed = 0;
   let removed = 0;
+  const failureDetails = [];
   await Promise.all(results.map(async row => {
     if (!validPushEndpoint(row.endpoint)) {
       await env.PUSH_DB.prepare('DELETE FROM push_subscriptions WHERE id = ?').bind(row.id).run();
@@ -68,6 +73,13 @@ export async function onRequestPost({ request, env }) {
         removed++;
       } else {
         failed++;
+        if (failureDetails.length < 5) {
+          failureDetails.push({
+            name: safeDiagnostic(error?.name),
+            statusCode: status || null,
+            code: safeDiagnostic(error?.code)
+          });
+        }
       }
     }
   }));
@@ -77,5 +89,5 @@ export async function onRequestPost({ request, env }) {
     ? await env.PUSH_DB.prepare('SELECT 1 AS found FROM push_subscriptions WHERE id > ? LIMIT 1')
       .bind(nextCursor).first()
     : null;
-  return json({ sent, failed, removed, nextCursor: more ? nextCursor : null, done: !more });
+  return json({ sent, failed, removed, failureDetails, nextCursor: more ? nextCursor : null, done: !more });
 }
