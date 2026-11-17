@@ -8,8 +8,7 @@
   }
 
   const button = document.getElementById('appInstallButton');
-  const dialog = document.getElementById('appInstallDialog');
-  const help = document.getElementById('appInstallHelp');
+  if (!button) return;
   const standalone = matchMedia('(display-mode: standalone)');
   const isAppleMobile = /iPhone|iPad|iPod/i.test(navigator.userAgent)
     || (/Macintosh/i.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
@@ -61,26 +60,6 @@
   standalone.addEventListener('change', () => {
     updateButton();
     loadPushOnboarding();
-  });
-
-  button.addEventListener('click', async () => {
-    if (installPrompt) {
-      const prompt = installPrompt;
-      installPrompt = undefined;
-      try {
-        const { outcome } = await prompt.prompt();
-        if (outcome === 'accepted') installed = true;
-        updateButton();
-        return;
-      } catch {
-        updateButton();
-      }
-    }
-
-    help.textContent = isAppleMobile
-      ? 'Abra esta página no Safari. Toque em Compartilhar, depois em Adicionar à Tela de Início. Se aparecer a opção Abrir como App, deixe-a ativada e toque em Adicionar. Ao abrir pelo ícone, você poderá ativar os avisos.'
-      : 'Abra esta página no Chrome. No menu ⋮, escolha Instalar aplicativo ou Adicionar à tela inicial e confirme. Ao abrir o app pela primeira vez, você poderá ativar os avisos.';
-    dialog.showModal();
   });
 
   updateButton();
