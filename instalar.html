@@ -16,6 +16,8 @@
     .brand { color: #9a7930; font-size: .78rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
     h1 { margin: 10px 0 8px; font: 700 clamp(1.8rem, 8vw, 2.7rem)/1.12 Georgia, serif; }
     .lead { margin: 0 0 22px; color: #40566c; }
+    .platform { margin-top: 18px; padding: 18px; border: 1px solid #d6dce4; border-radius: 12px; }
+    .platform h2 { margin: 0; font-size: 1.2rem; }
     .steps { margin: 22px 0; padding-left: 1.35rem; }
     .steps li { padding: 0 0 12px 4px; }
     .tip { padding: 14px 16px; border-left: 4px solid #c9a84c; border-radius: 8px; background: #f8f5ec; }
@@ -30,41 +32,31 @@
 <body>
   <main>
     <span class="brand">Revista Digital Campo Belo</span>
-    <h1>Coloque o app na tela inicial</h1>
-    <p class="lead">Depois de adicionar à tela inicial, a Revista Digital Campo Belo abre em uma janela própria, como um aplicativo instalado no celular.</p>
+    <h1>Instale no seu celular</h1>
+    <p class="lead">Siga os passos do seu aparelho. Depois de instalado, o app abre em uma tela própria, com ícone na tela inicial.</p>
 
-    <section id="iphoneSteps" hidden aria-labelledby="iphoneTitle">
+    <section class="platform" aria-labelledby="iphoneTitle">
       <h2 id="iphoneTitle">No iPhone</h2>
       <ol class="steps">
-        <li>Abra esta página no <strong>Safari</strong>. Se ela estiver em outro navegador, use o menu de compartilhamento para abri-la no Safari.</li>
-        <li>Toque em <strong>Compartilhar</strong> <span aria-label="ícone de compartilhar">⬆</span>.</li>
+        <li>Abra esta página no <strong>Safari</strong>. Se ela abriu dentro de outro app, toque em Compartilhar e escolha <strong>Abrir no Safari</strong>.</li>
+        <li>No Safari, toque em <strong>Compartilhar</strong> (o quadrado com a seta para cima).</li>
         <li>Escolha <strong>Adicionar à Tela de Início</strong>.</li>
-        <li>Deixe <strong>Abrir como App</strong> ativado, se essa opção aparecer, e toque em <strong>Adicionar</strong>.</li>
+        <li>Se aparecer <strong>Abrir como App</strong>, deixe ativado. Depois toque em <strong>Adicionar</strong>.</li>
       </ol>
-      <p class="tip">Pode fazer esses passos a partir desta página. O ícone abrirá a página inicial do aplicativo.</p>
+      <p class="tip">Pronto: toque no ícone criado para abrir o app em uma tela própria.</p>
     </section>
 
-    <section id="androidSteps" hidden aria-labelledby="androidTitle">
+    <section class="platform" aria-labelledby="androidTitle">
       <h2 id="androidTitle">No Android</h2>
-      <p>Toque no botão abaixo para instalar. Se ele não aparecer, abra o menu <strong>⋮</strong> do Chrome e escolha <strong>Instalar aplicativo</strong> ou <strong>Adicionar à tela inicial</strong>.</p>
+      <p>Toque no botão abaixo. Se ele não aparecer, no Chrome abra o menu <strong>⋮</strong> e escolha <strong>Instalar aplicativo</strong> ou <strong>Adicionar à tela inicial</strong>.</p>
       <button id="installNow" class="install-action" type="button" hidden>Instalar aplicativo</button>
       <p id="installStatus" class="tip" role="status" aria-live="polite" hidden></p>
-    </section>
-
-    <section id="otherSteps" hidden aria-labelledby="otherTitle">
-      <h2 id="otherTitle">No celular</h2>
-      <p>Abra este endereço no navegador do celular. No menu do navegador, escolha <strong>Instalar aplicativo</strong> ou <strong>Adicionar à tela inicial</strong>.</p>
     </section>
 
     <nav><a href="./">Voltar à página inicial</a></nav>
   </main>
   <script>
     (() => {
-      const apple = /iPhone|iPad|iPod/i.test(navigator.userAgent)
-        || (/Macintosh/i.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
-      const android = /Android/i.test(navigator.userAgent);
-      document.getElementById(apple ? 'iphoneSteps' : android ? 'androidSteps' : 'otherSteps').hidden = false;
-
       const button = document.getElementById('installNow');
       const status = document.getElementById('installStatus');
       let promptEvent;
