@@ -346,6 +346,22 @@ export class Cena {
     }if(inside)return true;}return false;
   }
   vehicleBlocked(x,z,heading){const fx=Math.cos(heading),fz=Math.sin(heading);return this.blocked(x,z,1)||this.blocked(x+fx*1.65,z+fz*1.65,.85)||this.blocked(x-fx*1.65,z-fz*1.65,.85);}
+  // Place signs: a small card floating in front of each establishment, with its logo when one is available
+  // (logos[id] = image URL) or its name otherwise. Textures are drawn only when the car first gets close.
+  setPlaceSigns(places,logos={}){this.signs=[];this.signGroup=new THREE.Group();this.scene.add(this.signGroup);
+    for(const p of places){const dx=p.sourceX-p.x,dz=p.sourceZ-p.z,nx=-Math.sin(p.roadAngle||0),nz=Math.cos(p.roadAngle||0),side=Math.sign(dx*nx+dz*nz)||1,off=(p.roadHalf||5)+.5,x=p.x+nx*side*off,z=p.z+nz*side*off;
+      this.signs.push({p,x,z,y:this.ground(x,z)+5.2,logo:logos[p.id],sprite:null});}}
+  makeSign(s){const W=512,H=176,c=document.createElement('canvas');c.width=W;c.height=H;const g=c.getContext('2d');
+    const tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;tex.anisotropy=4;
+    const card=()=>{g.clearRect(0,0,W,H);g.fillStyle='rgba(8,23,43,.88)';g.strokeStyle='#f5d35e';g.lineWidth=6;g.beginPath();g.roundRect(6,6,W-12,H-40,22);g.fill();g.stroke();
+      g.beginPath();g.moveTo(W/2-18,H-35);g.lineTo(W/2,H-6);g.lineTo(W/2+18,H-35);g.closePath();g.fillStyle='#f5d35e';g.fill();};
+    const text=()=>{card();g.fillStyle='#fff';g.textAlign='center';g.textBaseline='middle';const words=s.p.nome.split(' ');let lines=[s.p.nome],size=50;
+      g.font=`800 ${size}px system-ui,-apple-system,sans-serif`;if(g.measureText(s.p.nome).width>W-60){const mid=Math.ceil(words.length/2);lines=[words.slice(0,mid).join(' '),words.slice(mid).join(' ')];size=40;}
+      g.font=`800 ${size}px system-ui,-apple-system,sans-serif`;lines.forEach((l,i)=>{let t=l;while(g.measureText(t).width>W-50&&t.length>4)t=t.slice(0,-2)+'…';g.fillText(t,W/2,(H-34)/2+3+(i-(lines.length-1)/2)*size*1.05);});tex.needsUpdate=true;};
+    text();
+    if(s.logo){const img=new Image();img.onload=()=>{card();const bw=W-44,bh=H-62,iw=img.naturalWidth||800,ih=img.naturalHeight||500,k=Math.min(bw/iw,bh/ih),w=iw*k,h=ih*k;
+      g.save();g.beginPath();g.roundRect(14,14,W-28,H-56,16);g.clip();g.fillStyle='#fff';g.fillRect(14,14,W-28,H-56);g.drawImage(img,(W-w)/2,14+(H-56-h)/2,w,h);g.restore();tex.needsUpdate=true;};img.src=s.logo;}
+    const m=new THREE.SpriteMaterial({map:tex,transparent:true,depthWrite:false,fog:false});const sp=new THREE.Sprite(m);sp.scale.set(7.6,2.6,1);sp.position.set(s.x,s.y,s.z);sp.renderOrder=5;this.signGroup.add(sp);return sp;}
   setMarkers(points){this.markerGroup.clear();for(const p of this.markers.values()){for(const mesh of [p.ring,p.beam]){mesh.geometry.dispose();mesh.material.dispose();}}this.markers.clear();
     for(const p of points){const group=new THREE.Group();group.position.set(p.x,this.ground(p.x,p.z)+.1,p.z);
       const ring=new THREE.Mesh(new THREE.TorusGeometry(4.4,.11,6,32),new THREE.MeshBasicMaterial({color:0xffcf52}));ring.rotation.x=-Math.PI/2;group.add(ring);
@@ -376,6 +392,8 @@ export class Cena {
   draw(width,height){if(this.lost)return;if(this.width!==width||this.height!==height){this.width=width;this.height=height;this.renderer.setSize(width,height,false);this.camera.aspect=width/height;this.camera.updateProjectionMatrix();}
     for(const mesh of this.meshes){const s=mesh.geometry.boundingSphere;mesh.visible=this.camera.position.distanceTo(s.center)-s.radius<500;}
     if(this.sun.shadow.map){this.shared.sMap.value=this.sun.shadow.map.texture;this.shared.sOn.value=1;}
+    if(this.signs){const near=this.mobile?110:150,cp=this.camera.position;for(const s of this.signs){const d=Math.hypot(cp.x-s.x,cp.z-s.z);
+      if(d<near&&!s.sprite)s.sprite=this.makeSign(s);if(s.sprite){s.sprite.visible=d<near;s.sprite.material.opacity=Math.min(1,(near-d)/25);}}this.stats.signs=this.signs.length;this.stats.signsShown=this.signs.filter(s=>s.sprite?.visible).length;this.stats.signNear=Math.round(Math.min(...this.signs.map(s=>Math.hypot(cp.x-s.x,cp.z-s.z))));}
     const treeRange=this.mobile?280:420;for(const mesh of this.treeMeshes){const s=mesh.boundingSphere;mesh.visible=this.camera.position.distanceTo(s.center)-s.radius<treeRange;}
     for(const mesh of this.markMeshes||[]){const s=mesh.geometry.boundingSphere;mesh.visible=this.camera.position.distanceTo(s.center)-s.radius<(this.mobile?200:300);}
     const start=performance.now();this.renderer.render(this.scene,this.camera);this.stats.draws++;this.stats.drawMs=performance.now()-start;this.stats.calls=this.renderer.info.render.calls;this.stats.triangles=this.renderer.info.render.triangles;this.stats.tiles=this.meshes.length;this.stats.camera={x:this.camera.position.x,y:this.camera.position.y,z:this.camera.position.z,fov:this.camera.fov,mode:this.mode};

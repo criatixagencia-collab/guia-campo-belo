@@ -1,0 +1,11 @@
+{
+  "name": "Campo Belo ao volante",
+  "short_name": "Ao volante",
+  "description": "Dirija pela cidade do Campo Belo em 3D — Revista Digital Campo Belo",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "background_color": "#08172b",
+  "theme_color": "#08172b",
+  "icons": [{"src": "../drone/assets/logo-campo-belo.png", "sizes": "any", "type": "image/png"}]
+}
