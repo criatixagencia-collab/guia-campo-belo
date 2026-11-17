@@ -318,7 +318,7 @@ input,textarea,[contenteditable="true"]{-webkit-user-select:text;user-select:tex
   <div id="loadNote">Mapa: GeoSampa/PMSP · © OpenStreetMap contributors · Conteúdo protegido. Ao jogar, você aceita os <a href="../termos.html" target="_blank" style="color:inherit;text-decoration:underline">Termos de Uso</a>.</div>
 </div>
 
-<script src="./bairro3d.js?v=campo-belo-20260829c"></script>
+<script src="./bairro3d.js?v=campo-belo-v2-20261117"></script>
 <script src="../dados.js?v=taxonomia-drone-20261029"></script>
 <script>
 const CATEGORY_LABELS = {
@@ -411,15 +411,23 @@ function manterPtsMobile(pts){
   let x=0,z=0;for(const q of pts){x+=q[0];z+=q[1];}
   return dentroOuMargemMobile(x/pts.length,z/pts.length);
 }
-/* relevo real: grade 64x64 (pontos cotados GeoSampa, IDW) */
+/* relevo real: grade 64x64 (pontos cotados GeoSampa, IDW).
+   v2 — interpolacao bicubica (Catmull-Rom) no lugar da bilinear. Passa pelas mesmas cotas
+   nos nos da grade, mas sem os vincos que a bilinear cria a cada 38x50 m (celula da grade):
+   era nesses vincos que lote, rua e calcada deixavam de coincidir. */
 const _R=BAIRRO_RELEVO;
+const _cr=(p0,p1,p2,p3,t)=>p1+.5*t*(p2-p0+t*(2*p0-5*p1+4*p2-p3+t*(3*(p1-p2)+p3-p0)));
+/* grade n x n (original, ~38x50 m) ou nx x ny (v2: 10 m, das curvas de nivel de 1 m do GeoSampa) */
+const _NX=_R.nx||_R.n,_NY=_R.ny||_R.n;
 function T(x,z){
-  const lng=x/MLON+C.lng, lat=-z/MLAT+C.lat;
-  let gx=(lng-_R.lon0)/(_R.lon1-_R.lon0)*(_R.n-1);
-  let gy=(lat-_R.lat0)/(_R.lat1-_R.lat0)*(_R.n-1);
-  gx=Math.max(0,Math.min(_R.n-1.001,gx));gy=Math.max(0,Math.min(_R.n-1.001,gy));
-  const i=gx|0,j=gy|0,fx=gx-i,fy=gy-j,g=_R.g;
-  return g[j][i]*(1-fx)*(1-fy)+g[j][i+1]*fx*(1-fy)+g[j+1][i]*(1-fx)*fy+g[j+1][i+1]*fx*fy;
+  const lng=x/MLON+C.lng, lat=-z/MLAT+C.lat,g=_R.g;
+  let gx=(lng-_R.lon0)/(_R.lon1-_R.lon0)*(_NX-1);
+  let gy=(lat-_R.lat0)/(_R.lat1-_R.lat0)*(_NY-1);
+  gx=Math.max(0,Math.min(_NX-1.001,gx));gy=Math.max(0,Math.min(_NY-1.001,gy));
+  const i=gx|0,j=gy|0,fx=gx-i,fy=gy-j;
+  const i0=i>0?i-1:0,i2=i+1,i3=i+2<_NX?i+2:_NX-1;
+  const r=jj=>{const w=g[jj<0?0:(jj>_NY-1?_NY-1:jj)];return _cr(w[i0],w[i],w[i2],w[i3],fx);};
+  return _cr(r(j-1),r(j),r(j+1),r(j+2),fy);
 }
 function dentroCB(lng,lat){let ins=false;
   for(let i=0;i<CB.length-1;i++){const a=CB[i],b=CB[i+1];
@@ -445,9 +453,18 @@ sun.shadow.camera.near=50;sun.shadow.camera.far=1600;
 sun.shadow.camera.left=-420;sun.shadow.camera.right=420;
 sun.shadow.camera.top=420;sun.shadow.camera.bottom=-420;
 sun.shadow.bias=-.0004;sun.shadow.normalBias=1.5;
-/* Mantem a projecao alinhada aos texels do shadow map. Sem esse encaixe,
-   a sombra desliza entre pixels ao voar e as fachadas parecem piscar. */
+/* v2 — sombra estavel ao voar. O sol acompanha o drone; se a camera de sombra andar uma
+   fracao de texel (840 m / 1024 px = 0,82 m), cada borda de sombra e rasterizada de novo em
+   outra posicao e os telhados "brilham"/piscam. O original encaixava a posicao nos eixos do
+   MUNDO (x, y, z), mas a camera de sombra olha na diagonal: um passo inteiro no mundo vira
+   fracao de texel no mapa, e de tempos em tempos 3-5% da tela trocava de uma vez.
+   Aqui o encaixe e feito nos eixos da propria camera de sombra (direita/cima/profundidade). */
 const SHADOW_TEXEL=840/1024;
+const SUN_OFF=new THREE.Vector3(180,340,140);
+const SH_F=SUN_OFF.clone().negate().normalize();
+const SH_R=new THREE.Vector3().crossVectors(SH_F,new THREE.Vector3(0,1,0)).normalize();
+const SH_U=new THREE.Vector3().crossVectors(SH_R,SH_F).normalize();
+const _shP=new THREE.Vector3(),_shQ=new THREE.Vector3();
 sun.shadow.autoUpdate=false;
 let shadowCellX=Infinity,shadowCellY=Infinity,shadowCellZ=Infinity;
 scene.add(sun);scene.add(sun.target);
@@ -514,15 +531,15 @@ const texTelha=ctex(256,(x,p)=>{x.fillStyle="#f3efe9";x.fillRect(0,0,p,p);
 const texConc=ctex(256,(x,p)=>{x.fillStyle="#f0eeea";x.fillRect(0,0,p,p);noise(x,p,700,.05,3);
   for(let i=0;i<9;i++){x.fillStyle=`rgba(40,40,40,${RR()*.09+.03})`;
     x.beginPath();x.ellipse(RR()*p,RR()*p,RR()*46+14,RR()*26+9,RR()*3,0,7);x.fill();}});
-function asfaltoTex(dash){return ctex(256,(x,p)=>{x.fillStyle="#43474e";x.fillRect(0,0,p,p);
+function asfaltoTex(dash,liso){return ctex(256,(x,p)=>{x.fillStyle="#43474e";x.fillRect(0,0,p,p);
   noise(x,p,1300,.07,1);
-  x.fillStyle="rgba(0,0,0,.15)";x.fillRect(0,p*.24,p,p*.14);x.fillRect(0,p*.62,p,p*.14);
+  if(!liso){x.fillStyle="rgba(0,0,0,.15)";x.fillRect(0,p*.24,p,p*.14);x.fillRect(0,p*.62,p,p*.14);}
   for(let i=0;i<6;i++){x.fillStyle="rgba(0,0,0,.2)";x.fillRect(RR()*p|0,RR()*p|0,RR()*60+10,1);}
   if(dash){x.fillStyle="rgba(240,240,235,.85)";
     for(let u=0;u<p;u+=64)x.fillRect(u,p/2-2,34,4);
     x.fillStyle="rgba(240,240,235,.55)";x.fillRect(0,3,p,2);x.fillRect(0,p-5,p,2);}
 });}
-const texAsf=asfaltoTex(false), texAsfAv=asfaltoTex(true);
+const texAsf=asfaltoTex(false), texAsfAv=asfaltoTex(true), texAsfLiso=asfaltoTex(false,true);
 const texCalc=ctex(256,(x,p)=>{x.fillStyle="#cbc4b3";x.fillRect(0,0,p,p);noise(x,p,700,.05,2);
   x.strokeStyle="rgba(90,84,70,.4)";x.lineWidth=2;
   for(let k=0;k<=p;k+=64){x.beginPath();x.moveTo(k,0);x.lineTo(k,p);x.stroke();
@@ -544,6 +561,8 @@ const M={
   calc:new THREE.MeshLambertMaterial({map:texCalc}),
   road:new THREE.MeshLambertMaterial({map:texAsf}),
   roadAv:new THREE.MeshLambertMaterial({map:texAsfAv}),
+  roadJunc:new THREE.MeshLambertMaterial({map:texAsfLiso}), /* v2: remendo liso dos cruzamentos */
+  viaduto:new THREE.MeshLambertMaterial({color:0xcfcac0,side:THREE.DoubleSide}), /* v2: estrutura dos viadutos */
   grass:new THREE.MeshLambertMaterial({map:texGrass}),
   agua:new THREE.MeshLambertMaterial({color:0x59b0d6}),
   quadra:new THREE.MeshLambertMaterial({color:0x6c9a74}),
@@ -552,6 +571,26 @@ const M={
 };
 
 /* ================= CONSTRUCAO DE GEOMETRIA ================= */
+/* v2 — referencia vertical unica.
+   Todas as camadas do chao sao drapeadas sobre o mesmo relevo T(x,z) e ficam em niveis
+   fixos acima dele (metros). Cada superficie e subdividida ate ficar a menos de TOL do
+   relevo; como a folga entre camadas e sempre maior que 2*TOL, uma camada nunca atravessa
+   a outra (na versao original lote e rua ficavam a 2 cm e triangulos grandes se cruzavam).
+   Ordem: asfalto embaixo; lote, area verde e calcada por cima. Assim a borda visivel da rua
+   e sempre a divisa do lote/meio-fio do GeoSampa, e nao a borda de uma fita de largura fixa.
+   Avenidas (prim/sec) ficam um degrau acima das ruas locais: no cruzamento de uma rua com uma
+   avenida, a faixa tracejada da avenida continua por cima (antes o remendo a interrompia).
+   "elevada" = vias internas de lote grande (aeroporto) e conflitos OSM x GeoSampa nao resolvidos:
+   ficam por cima de tudo para nao sumirem sob o lote. Viadutos tem perfil de altura proprio (dh). */
+const NIV={via:.04,juncao:.09,viaAv:.14,juncaoAv:.19,lote:.27,verde:.34,calcada:.42,elevada:.50};
+/* tolerancias de drapeado (m). Lotes e calcadas: 4 cm; vias, remendos e areas verdes: 2 cm.
+   Faixas resultantes: via .02-.06 | remendo .07-.11 | avenida .12-.16 | remendo entre avenidas
+   .17-.21 | lote .23-.31 | verde .32-.36 | calcada .38-.46 | elevada .48-.52 -> nenhuma encosta na outra. */
+const TOL=.04,TOL_FINO=.02;
+const BASE_CHAO=-.10;        /* malha de base (pavimento) abaixo do relevo */
+const PISO_MAX_ACIMA_MEDIA=1.5; /* piso da edificacao: ponto mais alto do terreno sob a planta, limitado a media+1,5 m */
+const SOBREPOSICAO_VIA=.6;   /* a fita de asfalto entra 60 cm sob a calcada/lote para nao deixar fresta no meio-fio */
+
 function newAcc(){return{p:[],n:[],u:[],c:[]};}
 function accMesh(a,mat,shadow=true){
   const g=new THREE.BufferGeometry();
@@ -572,6 +611,28 @@ function ringXZ(ring){ // [lng,lat] -> [x,z] com orientacao normalizada (area>0)
   if(A<0)pts.reverse();
   return pts;
 }
+/* desvio do relevo em relacao a reta a-b (amostrado em 1/4, 1/2 e 3/4) */
+function desvioAresta(a,b){
+  const ta=T(a[0],a[1]),tb=T(b[0],b[1]);let d=0;
+  for(const t of [.25,.5,.75]){
+    const e=Math.abs(T(a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t)-(ta+(tb-ta)*t));
+    if(e>d)d=e;
+  }
+  return d;
+}
+/* insere vertices nas arestas do contorno ate o relevo ser linear entre eles (desvio < TOL).
+   Paredes e tampas usam o MESMO contorno adensado, entao nao ha fresta entre meio-fio e piso. */
+function densRing(pts,tol=TOL){
+  const out=[];
+  const rec=(a,b,d)=>{
+    const len=Math.hypot(b[0]-a[0],b[1]-a[1]);
+    if(d<7&&len>3&&(len>60||desvioAresta(a,b)>tol)){
+      const m=[(a[0]+b[0])/2,(a[1]+b[1])/2];rec(a,m,d+1);out.push(m);rec(m,b,d+1);
+    }
+  };
+  for(let i=0;i<pts.length;i++){const a=pts[i],b=pts[(i+1)%pts.length];out.push(a);rec(a,b,0);}
+  return out;
+}
 function walls(a,pts,y0,y1,col,us,vs,yf){
   yf=yf||(()=>0);
   for(let i=0;i<pts.length;i++){
@@ -586,14 +647,24 @@ function walls(a,pts,y0,y1,col,us,vs,yf){
       if(col)a.c.push(col[0],col[1],col[2]);}
   }
 }
-function cap(a,pts,y,col,us,yf){
+/* tampa: plana quando yf e constante; quando yf e o relevo (T), subdivide por ERRO
+   (e nao por tamanho): so divide o triangulo onde o relevo se afasta dele mais que TOL. */
+function cap(a,pts,y,col,us,yf,tol=TOL){
+  const drape=yf===T;
   yf=yf||(()=>0);
   const v2=pts.map(p=>new THREE.Vector2(p[0],p[1]));
   let tris;try{tris=THREE.ShapeUtils.triangulateShape(v2,[]);}catch(e){return;}
-  const flatY=yf===undefined;
-  const emit=(A,B,Cq,depth)=>{
+  const precisa=(A,B,Cq)=>{
     const e1=Math.hypot(A[0]-B[0],A[1]-B[1]),e2=Math.hypot(B[0]-Cq[0],B[1]-Cq[1]),e3=Math.hypot(Cq[0]-A[0],Cq[1]-A[1]);
-    if(depth<3&&Math.max(e1,e2,e3)>14){
+    const mx=Math.max(e1,e2,e3);
+    if(mx<3)return false;
+    if(mx>75)return true;
+    if(desvioAresta(A,B)>tol||desvioAresta(B,Cq)>tol||desvioAresta(Cq,A)>tol)return true;
+    const cx=(A[0]+B[0]+Cq[0])/3,cz=(A[1]+B[1]+Cq[1])/3;
+    return Math.abs(T(cx,cz)-(T(A[0],A[1])+T(B[0],B[1])+T(Cq[0],Cq[1]))/3)>tol;
+  };
+  const emit=(A,B,Cq,depth)=>{
+    if(drape&&depth<6&&precisa(A,B,Cq)){
       const AB=[(A[0]+B[0])/2,(A[1]+B[1])/2],BC=[(B[0]+Cq[0])/2,(B[1]+Cq[1])/2],CA=[(Cq[0]+A[0])/2,(Cq[1]+A[1])/2];
       emit(A,AB,CA,depth+1);emit(AB,B,BC,depth+1);emit(CA,BC,Cq,depth+1);emit(AB,BC,CA,depth+1);
       return;
@@ -605,7 +676,7 @@ function cap(a,pts,y,col,us,yf){
   };
   for(const t of tris)emit(pts[t[0]],pts[t[1]],pts[t[2]],0);
 }
-function flat(a,pts,y,col,us,yf){cap(a,pts,y,col,us,yf);}
+function flat(a,pts,y,col,us,yf,tol){cap(a,pts,y,col,us,yf,tol);}
 
 /* ---- edificios ---- */
 function isCeramica(hex){
@@ -638,7 +709,14 @@ for(const f of BAIRRO_EDIF.features){
   const h=pr.h,b=pr.b;
   const cw=hex2v(pr.cw||"#ded7c8"),cr=hex2v(pr.col||"#a3a099");
   let cx=0,cz=0;for(const q of pts){cx+=q[0];cz+=q[1];}cx/=pts.length;cz/=pts.length;
-  const Tc=T(cx,cz),yb=()=>Tc;
+  /* v2 — apoio no terreno. O original usava so a cota do centroide: em terreno inclinado
+     metade da casa afundava e a outra metade ficava sobre uma saia de parede.
+     Agora o piso fica no ponto mais alto do terreno sob a planta (limitado a media + 1,5 m,
+     para predios grandes em encosta) e um alicerce desce ate abaixo do ponto mais baixo. */
+  let tMin=Infinity,tMax=-Infinity,tSum=0;
+  for(const q of pts){const tv=T(q[0],q[1]);if(tv<tMin)tMin=tv;if(tv>tMax)tMax=tv;tSum+=tv;}
+  const Tc=Math.min(tMax,tSum/pts.length+PISO_MAX_ACIMA_MEDIA),yb=()=>Tc;
+  const fund=tMin-Tc-.6; /* base do alicerce, relativa ao piso (sempre negativa) */
   /* grade de colisao */
   {
     const xs2=pts.map(q=>q[0]),zs2=pts.map(q=>q[1]);
@@ -650,11 +728,13 @@ for(const f of BAIRRO_EDIF.features){
       }
   }
   if(!vm){
-    walls(aExt,pts,-4,h,null,4,4,yb);cap(aExtR,pts,h,null,4,yb);
+    walls(aExt,pts,fund,h,null,4,4,yb);cap(aExtR,pts,h,null,4,yb);
     continue;
   }
-  if(h>=9){ walls(aFac,pts,-4,b,cw,12.8,12.0,yb); }
-  else{ walls(aHouse,pts,-4,b,cw,3,3,yb); }
+  /* alicerce: mesmo reboco, tom mais escuro, sem janelas */
+  walls(aHouse,pts,fund,0,[cw[0]*.7,cw[1]*.7,cw[2]*.7],3,3,yb);
+  if(h>=9){ walls(aFac,pts,0,b,cw,12.8,12.0,yb); }
+  else{ walls(aHouse,pts,0,b,cw,3,3,yb); }
   const ceram=isCeramica(pr.col||"#a3a099");
   const roofAcc=ceram?aRoofT:aRoofC;
   walls(roofAcc,pts,b,h,cr,3,3,yb);
@@ -697,85 +777,248 @@ accMesh(aRoofT,M.roofT);accMesh(aRoofC,M.roofC);
 accMesh(aExt,M.ext);accMesh(aExtR,M.extRoof);
 
 /* ---- chao: base, lotes, calcadas, verde ---- */
-const groundGeo=new THREE.PlaneGeometry(3600,3600,300,300);
+/* v2 — a malha de base acompanha o relevo de perto: cada celula e rebaixada exatamente
+   o quanto a sua triangulacao sobe acima do relevo, em vez de um recuo fixo de 45 cm.
+   Dentro da area mapeada o que nao e lote, calcada nem area verde e leito viario,
+   por isso a base tem cor de pavimento (antes era bege e aparecia como faixa entre
+   o asfalto e a calcada). Fora da area mapeada continua bege. */
+const GN=300,groundGeo=new THREE.PlaneGeometry(3600,3600,GN,GN);
 groundGeo.rotateX(-Math.PI/2);
 {
-  const pos=groundGeo.attributes.position;
-  for(let i=0;i<pos.count;i++)pos.setY(i,T(pos.getX(i),pos.getZ(i))-.45);
+  const pos=groundGeo.attributes.position,N1=GN+1;
+  const hT=new Float32Array(pos.count),rebaixo=new Float32Array(pos.count);
+  for(let i=0;i<pos.count;i++)hT[i]=T(pos.getX(i),pos.getZ(i));
+  const S=[1/6,.5,5/6];
+  for(let iy=0;iy<GN;iy++)for(let ix=0;ix<GN;ix++){
+    const a=ix+N1*iy,b=ix+N1*(iy+1),c=ix+1+N1*(iy+1),d=ix+1+N1*iy; /* faces (a,b,d) e (b,c,d) */
+    const ax=pos.getX(a),az=pos.getZ(a),dx=pos.getX(d)-ax,dz=pos.getZ(b)-az;
+    let dev=0;
+    for(const u of S)for(const v of S){
+      const hm=(u+v<=1)?hT[a]+u*(hT[d]-hT[a])+v*(hT[b]-hT[a])
+                       :hT[c]+(1-u)*(hT[b]-hT[c])+(1-v)*(hT[d]-hT[c]);
+      const e=hm-T(ax+dx*u,az+dz*v);if(e>dev)dev=e;
+    }
+    for(const k of [a,b,c,d])if(dev>rebaixo[k])rebaixo[k]=dev;
+  }
+  const cPav=new THREE.Color(0x565a61),cFora=new THREE.Color(0xcfc8b8),cols=new Float32Array(pos.count*3);
+  for(let i=0;i<pos.count;i++){
+    pos.setY(i,hT[i]+BASE_CHAO-rebaixo[i]);
+    const lng=pos.getX(i)/MLON+C.lng,lat=-pos.getZ(i)/MLAT+C.lat;
+    /* pavimento so onde as camadas do mapa sao realmente desenhadas (area mapeada, dentro do
+       raio de corte e, no celular, dentro do bairro + margem); o resto continua bege */
+    const dentro=lng>_R.lon0&&lng<_R.lon1&&lat>_R.lat0&&lat<_R.lat1&&
+      !longe(pos.getX(i),pos.getZ(i))&&dentroOuMargemMobile(pos.getX(i),pos.getZ(i));
+    const cc0=dentro?cPav:cFora;cols[i*3]=cc0.r;cols[i*3+1]=cc0.g;cols[i*3+2]=cc0.b;
+  }
+  groundGeo.setAttribute("color",new THREE.BufferAttribute(cols,3));
   groundGeo.computeVertexNormals();
 }
-const ground=new THREE.Mesh(groundGeo,new THREE.MeshLambertMaterial({color:0xcfc8b8,polygonOffset:true,polygonOffsetFactor:2.5,polygonOffsetUnits:2.5}));
+const ground=new THREE.Mesh(groundGeo,new THREE.MeshLambertMaterial({vertexColors:true}));
 ground.receiveShadow=true;scene.add(ground);
 
 const aLote=newAcc();
 const TONS=["#d8d1c0","#d3ccba","#dcd5c5","#cfc8b6","#d6cfbf","#d0cabb"].map(hex2v);
 for(const f of BAIRRO_LOTES.features){
-  const ring=f.geometry.coordinates[0],pts=ringXZ(ring);
+  const ring=f.geometry.coordinates[0];let pts=ringXZ(ring);
   if(pts.length<3)continue;
   if(longePts(pts)||!manterPtsMobile(pts))continue;
   const vm=dentroCB(ring[0][0],ring[0][1]);
   let col=TONS[(f.properties.t||0)%6];if(!vm)col=mute(col);
-  flat(aLote,pts,0.14,col,6,T);
+  pts=densRing(pts);
+  flat(aLote,pts,NIV.lote,col,6,T);
 }
 const mLote=accMesh(aLote,M.lote,false);mLote.castShadow=false;
 
 const aCalc=newAcc();
 for(const f of BAIRRO_CALCADAS.features){
-  const pts=ringXZ(f.geometry.coordinates[0]);
+  let pts=ringXZ(f.geometry.coordinates[0]);
   if(pts.length<3)continue;
   if(longePts(pts)||!manterPtsMobile(pts))continue;
-  walls(aCalc,pts,0,0.24,null,4,4,T);cap(aCalc,pts,0.24,null,1.4,T);
+  pts=densRing(pts);
+  /* o meio-fio desce ate abaixo da base, entao nunca fica "aberto" por baixo */
+  walls(aCalc,pts,BASE_CHAO-.5,NIV.calcada,null,4,4,T);cap(aCalc,pts,NIV.calcada,null,1.4,T);
 }
 const mCalc=accMesh(aCalc,M.calc,false);mCalc.castShadow=false;
 
+/* areas verdes/quadras/agua (OSM): acima do lote e abaixo da calcada. No original ficavam
+   ABAIXO do lote (0,10 < 0,14) e sumiam sempre que havia um lote GeoSampa por cima. */
 const aGrass=newAcc(),aQuad=newAcc(),aAgua=newAcc(),aTerra=newAcc();
 for(const f of BAIRRO_VERDE.features){
-  const pts=ringXZ(f.geometry.coordinates[0]);
+  let pts=ringXZ(f.geometry.coordinates[0]);
   if(pts.length<3)continue;
   if(longePts(pts)||!manterPtsMobile(pts))continue;
+  pts=densRing(pts,TOL_FINO);
   const k=f.properties.kind;
-  if(k==="verde")flat(aGrass,pts,0.10,null,5,T);
-  else if(k==="quadra")flat(aQuad,pts,0.11,null,5,T);
-  else if(k==="agua")flat(aAgua,pts,0.12,null,5,T);
-  else flat(aTerra,pts,0.10,null,5,T);
+  if(k==="verde")flat(aGrass,pts,NIV.verde,null,5,T,TOL_FINO);
+  else if(k==="quadra")flat(aQuad,pts,NIV.verde,null,5,T,TOL_FINO);
+  else if(k==="agua")flat(aAgua,pts,NIV.verde,null,5,T,TOL_FINO);
+  else flat(aTerra,pts,NIV.verde,null,5,T,TOL_FINO);
 }
 accMesh(aGrass,M.grass,false).castShadow=false;
 accMesh(aQuad,M.quadra,false).castShadow=false;
 accMesh(aAgua,M.agua,false).castShadow=false;
 accMesh(aTerra,M.terra,false).castShadow=false;
 
-/* ---- ruas: fitas com textura em metros ---- */
-const HALF={prim:8,sec:5.5,res:3.75};
-const aRoad=newAcc(),aRoadAv=newAcc();
+/* ---- ruas ---- */
+/* v2 — a largura nao e mais um valor fixo por classe em torno do eixo OSM.
+   Cada via traz wl/wr (metros do eixo ate o meio-fio a esquerda/direita), medidos contra
+   as calcadas e lotes do GeoSampa por tools/gerar-correcoes-v2.mjs. Assim o asfalto
+   encaixa entre as calcadas mesmo quando o eixo OSM esta deslocado.
+   - cantos: juncao em esquadria (antes cada segmento era um retangulo solto, com
+     cunhas abertas por fora da curva e sobreposicao por dentro);
+   - cruzamentos: um remendo de asfalto liso cobre a area onde as fitas se sobrepoem;
+   - a fita e dividida no centro e fatiada por erro de relevo (TOL_FINO). */
+const VIAS=[];
 for(const f of BAIRRO_VIAS.features){
-  const cls=f.properties.cls,half=HALF[cls]||3.75;
-  const acc2=(cls==="prim"||cls==="sec")?aRoadAv:aRoad;
-  const cs=f.geometry.coordinates.map(p=>[toX(p[0]),toZ(p[1])]);
+  const pr=f.properties;
+  const cs0=f.geometry.coordinates.map(p=>[toX(p[0]),toZ(p[1])]);
+  const temDh=!!pr.viaduto&&Array.isArray(pr.dh)&&pr.dh.length===cs0.length;
+  const cs=[],dh=[];
+  cs0.forEach((p,i)=>{if(i===0||Math.hypot(p[0]-cs[cs.length-1][0],p[1]-cs[cs.length-1][1])>.05){cs.push(p);if(temDh)dh.push(pr.dh[i]);}});
+  if(cs.length<2)continue;
+  VIAS.push({cs,cls:pr.cls,nome:pr.nome,wl:pr.wl,wr:pr.wr,av:pr.cls==="prim"||pr.cls==="sec",
+    elevada:!!(pr.revisar||pr.sobreLote),dh:temDh?dh:null});
+}
+const aRoad=newAcc(),aRoadAv=newAcc(),aJunc=newAcc(),aViad=newAcc(),aViadEst=newAcc();
+const lerp2=(a,b,t)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];
+function fitaVia(v){
+  const dh=v.dh,cs=v.cs,n=cs.length,W=v.wl+v.wr,ov=dh?0:SOBREPOSICAO_VIA;
+  const acc=dh?aViad:(v.av?aRoadAv:aRoad);
+  const y0=v.elevada?NIV.elevada:(v.av?NIV.viaAv:NIV.via);
+  const vE=-ov/W,vD=1+ov/W;
+  /* secoes transversais: esquerda (+n), centro, direita (-n); n=(-tz,tx) */
+  const E=[],D=[],Mc=[];
+  for(let i=0;i<n;i++){
+    const a=cs[Math.max(0,i-1)],b=cs[i],c=cs[Math.min(n-1,i+1)];
+    let t1x=b[0]-a[0],t1z=b[1]-a[1],t2x=c[0]-b[0],t2z=c[1]-b[1];
+    const l1=Math.hypot(t1x,t1z),l2=Math.hypot(t2x,t2z);
+    if(l1>1e-6){t1x/=l1;t1z/=l1;}
+    if(l2>1e-6){t2x/=l2;t2z/=l2;}
+    if(l1<=1e-6){t1x=t2x;t1z=t2z;}
+    if(l2<=1e-6){t2x=t1x;t2z=t1z;}
+    let tx=t1x+t2x,tz=t1z+t2z;const tl=Math.hypot(tx,tz);
+    if(tl<1e-6){tx=t2x;tz=t2z;}else{tx/=tl;tz/=tl;}
+    const nx=-tz,nz=tx;
+    const k=1/Math.max(.5,nx*(-t2z)+nz*t2x); /* esquadria, limitada a 2x a meia-largura */
+    const e=[b[0]+nx*(v.wl+ov)*k,b[1]+nz*(v.wl+ov)*k],d=[b[0]-nx*(v.wr+ov)*k,b[1]-nz*(v.wr+ov)*k];
+    E.push(e);D.push(d);Mc.push([(e[0]+d[0])/2,(e[1]+d[1])/2]);
+  }
+  const put=(p,u,vv,hh)=>{acc.p.push(p[0],T(p[0],p[1])+(hh===undefined?y0:hh),p[1]);acc.n.push(0,1,0);acc.u.push(u,vv);};
+  const quadOk=(a1,a2,b1,b2)=>{ /* triangulos (a1,b2,b1) e (a1,a2,b2): diagonal a1-b2 */
+    if(desvioAresta(a1,a2)>TOL_FINO||desvioAresta(b1,b2)>TOL_FINO||desvioAresta(a1,b1)>TOL_FINO||
+       desvioAresta(a2,b2)>TOL_FINO||desvioAresta(a1,b2)>TOL_FINO)return false;
+    return true;
+  };
   let uAt=0;
-  for(let i=0;i<cs.length-1;i++){
-    const P1=cs[i],P2=cs[i+1];
-    const DX=P2[0]-P1[0],DZ=P2[1]-P1[1],LEN=Math.hypot(DX,DZ);
-    if(LEN<.05)continue;
-    const nx=-DZ/LEN,nz=DX/LEN;
-    const nSub=Math.max(1,Math.ceil(LEN/12));
-    for(let k2=0;k2<nSub;k2++){
-      const t1=k2/nSub,t2=(k2+1)/nSub;
-      const p1=[P1[0]+DX*t1,P1[1]+DZ*t1],p2=[P1[0]+DX*t2,P1[1]+DZ*t2];
-      const len=LEN/nSub;
-      if(!dentroOuMargemMobile((p1[0]+p2[0])/2,(p1[1]+p2[1])/2))continue;
-      const u0=uAt/16,u1=(uAt+len)/16;uAt+=len;
-      const q=[[p1[0]+nx*half,p1[1]+nz*half,u0,0],[p1[0]-nx*half,p1[1]-nz*half,u0,1],
-               [p2[0]-nx*half,p2[1]-nz*half,u1,1],[p2[0]+nx*half,p2[1]+nz*half,u1,0]];
-      const idx=[0,2,1,0,3,2];
-      for(const ii of idx){acc2.p.push(q[ii][0],T(q[ii][0],q[ii][1])+0.16,q[ii][1]);acc2.n.push(0,1,0);acc2.u.push(q[ii][2],q[ii][3]);}
+  for(let i=0;i<n-1;i++){
+    const LEN=Math.hypot(cs[i+1][0]-cs[i][0],cs[i+1][1]-cs[i][1]);
+    const fatia=(t1,t2,depth)=>{
+      const e1=lerp2(E[i],E[i+1],t1),e2=lerp2(E[i],E[i+1],t2),
+            m1=lerp2(Mc[i],Mc[i+1],t1),m2=lerp2(Mc[i],Mc[i+1],t2),
+            d1=lerp2(D[i],D[i+1],t1),d2=lerp2(D[i],D[i+1],t2);
+      const comp=(t2-t1)*LEN;
+      if(depth<6&&comp>2&&(comp>12||!quadOk(e1,e2,m1,m2)||!quadOk(m1,m2,d1,d2))){
+        const tm=(t1+t2)/2;fatia(t1,tm,depth+1);fatia(tm,t2,depth+1);return;
+      }
+      if(!dentroOuMargemMobile((m1[0]+m2[0])/2,(m1[1]+m2[1])/2))return;
+      const u1=(uAt+t1*LEN)/16,u2=(uAt+t2*LEN)/16;
+      const h1=dh?dh[i]+(dh[i+1]-dh[i])*t1:undefined,h2=dh?dh[i]+(dh[i+1]-dh[i])*t2:undefined;
+      put(e1,u1,vE,h1);put(m2,u2,.5,h2);put(m1,u1,.5,h1); put(e1,u1,vE,h1);put(e2,u2,vE,h2);put(m2,u2,.5,h2);
+      put(m1,u1,.5,h1);put(d2,u2,vD,h2);put(d1,u1,vD,h1); put(m1,u1,.5,h1);put(m2,u2,.5,h2);put(d2,u2,vD,h2);
+    };
+    fatia(0,1,0);uAt+=LEN;
+  }
+  if(dh)estruturaViaduto(v,E,D,Mc);
+}
+/* viaduto: laterais de concreto (1 m de viga + 35 cm de guarda-corpo), face inferior e pilares.
+   Pilar a cada 24 m onde a pista esta a mais de 2,5 m do chao, atravessado sob a pista. */
+const VIG=1.0,GUARDA=.35;
+function quadV(a,p1,p2,y1a,y1b,y2a,y2b){
+  const dx=p2[0]-p1[0],dz=p2[1]-p1[1],l=Math.hypot(dx,dz)||1,nx=dz/l,nz=-dx/l;
+  for(const q of [[p1,y1a],[p2,y2a],[p2,y2b],[p1,y1a],[p2,y2b],[p1,y1b]]){
+    a.p.push(q[0][0],q[1],q[0][1]);a.n.push(nx,0,nz);a.u.push(0,0);}
+}
+function estruturaViaduto(v,E,D,Mc){
+  const cs=v.cs,dh=v.dh,n=cs.length,yE=i=>T(E[i][0],E[i][1])+dh[i],yD=i=>T(D[i][0],D[i][1])+dh[i];
+  let acum=0,prox=12;
+  for(let i=0;i<n-1;i++){
+    if(!dentroOuMargemMobile(Mc[i][0],Mc[i][1]))continue;
+    quadV(aViadEst,E[i],E[i+1],yE(i)-VIG,yE(i)+GUARDA,yE(i+1)-VIG,yE(i+1)+GUARDA);
+    quadV(aViadEst,D[i+1],D[i],yD(i+1)-VIG,yD(i+1)+GUARDA,yD(i)-VIG,yD(i)+GUARDA);
+    for(const q of [[E[i],yE(i)],[D[i+1],yD(i+1)],[D[i],yD(i)],[E[i],yE(i)],[E[i+1],yE(i+1)],[D[i+1],yD(i+1)]]){
+      aViadEst.p.push(q[0][0],q[1]-VIG,q[0][1]);aViadEst.n.push(0,-1,0);aViadEst.u.push(0,0);}
+    const L=Math.hypot(cs[i+1][0]-cs[i][0],cs[i+1][1]-cs[i][1]);
+    while(acum+L>=prox){
+      const t=(prox-acum)/L,h=dh[i]+(dh[i+1]-dh[i])*t;
+      if(h>2.5){
+        const cx=cs[i][0]+(cs[i+1][0]-cs[i][0])*t,cz=cs[i][1]+(cs[i+1][1]-cs[i][1])*t;
+        const tx=(cs[i+1][0]-cs[i][0])/L,tz=(cs[i+1][1]-cs[i][1])/L,nx=-tz,nz=tx;
+        const al=.6,at=Math.min(6,(v.wl+v.wr)*.35),tc=T(cx,cz);
+        const box=[[cx-tx*al-nx*at,cz-tz*al-nz*at],[cx+tx*al-nx*at,cz+tz*al-nz*at],
+                   [cx+tx*al+nx*at,cz+tz*al+nz*at],[cx-tx*al+nx*at,cz-tz*al+nz*at]];
+        walls(aViadEst,box,-.5,h-VIG,null,4,4,()=>tc);
+      }
+      prox+=24;
+    }
+    acum+=L;
+  }
+}
+for(const v of VIAS)fitaVia(v);
+/* remendos de cruzamento: nos compartilhados por duas ou mais vias */
+{
+  const nos=new Map();
+  VIAS.forEach((v,vi)=>{
+    const n=v.cs.length,half=(v.wl+v.wr)/2;
+    v.cs.forEach((p,i)=>{
+      const k=Math.round(p[0]*2)+","+Math.round(p[1]*2);
+      let o=nos.get(k);if(!o)nos.set(k,o={x:p[0],z:p[1],ramos:[]});
+      for(const j of [i-1,i+1]){
+        if(j<0||j>=n)continue;
+        const dx=v.cs[j][0]-p[0],dz=v.cs[j][1]-p[1],l=Math.hypot(dx,dz)||1;
+        o.ramos.push({vi,dx:dx/l,dz:dz/l,half,elevada:v.elevada,av:v.av,viaduto:!!v.dh});
+      }
+    });
+  });
+  for(const o of nos.values()){
+    if(o.ramos.every(r=>r.viaduto))continue; /* emenda entre trechos do mesmo viaduto */
+    let R=0,parAv=false;
+    for(let i=0;i<o.ramos.length;i++)for(let j=i+1;j<o.ramos.length;j++){
+      const a=o.ramos[i],b=o.ramos[j];if(a.vi===b.vi)continue;
+      const cos=a.dx*b.dx+a.dz*b.dz,sin=Math.abs(a.dx*b.dz-a.dz*b.dx),mx=Math.max(a.half,b.half);
+      let r;
+      if(sin<.26){if(cos<0)continue;r=mx;} /* continuacao em linha reta: sem remendo */
+      else r=Math.min(Math.sqrt(a.half*a.half+b.half*b.half+2*a.half*b.half*Math.abs(cos))/sin,2.2*mx);
+      if(r>R)R=r;
+      if(a.av&&b.av)parAv=true;
+    }
+    if(!R||!dentroOuMargemMobile(o.x,o.z))continue;
+    /* rua x avenida: remendo abaixo da avenida (a faixa tracejada continua);
+       avenida x avenida: remendo acima das duas (evita duas texturas no mesmo nivel) */
+    const yJ=o.ramos.every(r=>r.elevada)?NIV.elevada+.06:(parAv?NIV.juncaoAv:NIV.juncao);
+    const nr=Math.max(1,Math.ceil(R/4)),ns=18;
+    const pj=(rad,ang)=>{const x=o.x+Math.cos(ang)*rad,z=o.z+Math.sin(ang)*rad;
+      aJunc.p.push(x,T(x,z)+yJ,z);aJunc.n.push(0,1,0);aJunc.u.push(x/9,z/9);};
+    for(let q=0;q<nr;q++){
+      const r0=R*q/nr,r1=R*(q+1)/nr;
+      for(let s=0;s<ns;s++){
+        const a0=Math.PI*2*s/ns,a1=Math.PI*2*(s+1)/ns;
+        if(q>0){pj(r0,a0);pj(r0,a1);pj(r1,a1);}
+        pj(r0,a0);pj(r1,a1);pj(r1,a0);
+      }
     }
   }
 }
 accMesh(aRoad,M.road,false).castShadow=false;
 accMesh(aRoadAv,M.roadAv,false).castShadow=false;
+accMesh(aJunc,M.roadJunc,false).castShadow=false;
+accMesh(aViad,M.roadAv,true);
+accMesh(aViadEst,M.viaduto,true);
 
 /* ---- carros ---- */
+/* v2 — posicoes recalculadas pelo gerador (junto ao meio-fio medido); o carro acompanha
+   a inclinacao da rua em vez de ficar nivelado na cota do centroide. */
 const aCar=newAcc();
+const yCar=(x,z)=>T(x,z)+NIV.via;
 for(const f of BAIRRO_CARROS.features){
   const pts=ringXZ(f.geometry.coordinates[0]);
   if(pts.length<3)continue;
@@ -783,36 +1026,28 @@ for(const f of BAIRRO_CARROS.features){
   const col=hex2v(f.properties.col||"#c9c9c9");
   const dark=[col[0]*.45,col[1]*.45,col[2]*.5];
   const cx=pts.reduce((s,p)=>s+p[0],0)/pts.length, cz=pts.reduce((s,p)=>s+p[1],0)/pts.length;
-  const TcC=T(cx,cz),ybC=()=>TcC;
-  walls(aCar,pts,0.1,1.0,col,4,4,ybC);
-  cap(aCar,pts,1.0,col,4,ybC);
+  walls(aCar,pts,0,.9,col,4,4,yCar);
+  cap(aCar,pts,.9,col,4,yCar);
   const cab=pts.map(p=>[cx+(p[0]-cx)*.55,cz+(p[1]-cz)*.72]);
-  walls(aCar,cab,1.0,1.5,dark,4,4,ybC);cap(aCar,cab,1.5,col,4,ybC);
+  walls(aCar,cab,.9,1.4,dark,4,4,yCar);cap(aCar,cab,1.4,col,4,yCar);
 }
 accMesh(aCar,M.car);
 
 /* ---- arvores: instanciadas, organicas ---- */
+/* v2 — lista compacta [lng,lat,raio,altura,baseDaCopa,cor] ja filtrada pelo gerador:
+   nenhum tronco dentro de edificacao nem sobre o asfalto. O tronco nasce 50 cm abaixo
+   do relevo (nunca flutua sobre lote/calcada/base) e entra 25% na copa (nunca descola). */
 const canopyGeo=new THREE.SphereGeometry(1,7,6);
 canopyGeo.scale(1,.82,1);
 const canopyMat=new THREE.MeshLambertMaterial({});
 const trunkGeo=new THREE.CylinderGeometry(.22,.3,1,5);
 const trunkMat=new THREE.MeshLambertMaterial({color:0x6d5537});
-const arvs=[],gramas=newAcc();
-for(const f of BAIRRO_ARVORES.features){
-  const pr=f.properties;
-  const ring=f.geometry.coordinates[0];
-  if(pr.col==="#8aab68"||pr.h<=0.5){ /* gramado */
-    const pts=ringXZ(ring);if(pts.length>=3&&!longePts(pts)&&manterPtsMobile(pts))flat(gramas,pts,0.10,null,5,T);
-    continue;
-  }
-  const cx=ring.slice(0,-1).reduce((s,p)=>s+p[0],0)/(ring.length-1);
-  const cy=ring.slice(0,-1).reduce((s,p)=>s+p[1],0)/(ring.length-1);
-  const x=toX(cx),z=toZ(cy);
+const arvs=[];
+for(const a of BAIRRO_ARVORES_V2.t){
+  const x=toX(a[0]),z=toZ(a[1]);
   if(longe(x,z)||!dentroOuMargemMobile(x,z))continue;
-  const r=Math.hypot(toX(ring[0][0])-x,toZ(ring[0][1])-z)||2.5;
-  arvs.push({x,z,r,h:pr.h,b:pr.b,vm:dentroCB(cx,cy),col:pr.col||"#4c7a3f",ty:T(x,z)});
+  arvs.push({x,z,r:a[2],h:a[3],b:a[4],vm:dentroCB(a[0],a[1]),col:BAIRRO_ARVORES_V2.cores[a[5]]||"#4c7a3f",ty:T(x,z)});
 }
-accMesh(gramas,M.grass,false).castShadow=false;
 const iCan=new THREE.InstancedMesh(canopyGeo,canopyMat,arvs.length);
 const iTr=new THREE.InstancedMesh(trunkGeo,trunkMat,arvs.length);
 iCan.castShadow=true;iCan.receiveShadow=true;iTr.castShadow=true;
@@ -825,7 +1060,8 @@ arvs.forEach((t,i)=>{
   dum.updateMatrix();iCan.setMatrixAt(i,dum.matrix);
   let v=hex2v(t.col);if(!t.vm)v=mute(v);
   iCan.setColorAt(i,cc.setRGB(v[0],v[1],v[2]));
-  dum.position.set(t.x,t.ty+t.b/2,t.z);dum.scale.set(1,t.b||1,1);dum.rotation.y=0;
+  const y0t=t.ty-.5,y1t=t.ty+t.b+ch*.25;
+  dum.position.set(t.x,(y0t+y1t)/2,t.z);dum.scale.set(1,y1t-y0t,1);dum.rotation.y=0;
   dum.updateMatrix();iTr.setMatrixAt(i,dum.matrix);
 });
 iCan.instanceMatrix.needsUpdate=true;if(iCan.instanceColor)iCan.instanceColor.needsUpdate=true;
@@ -836,7 +1072,7 @@ const ruaGrid={};
 {
   for(const f of BAIRRO_VIAS.features){
     const nome=f.properties.nome;if(!nome)continue;
-    const half=(HALF[f.properties.cls]||3.75)+4;
+    const half=Math.max(f.properties.wl,f.properties.wr)+4; /* v2: largura medida */
     const cs=f.geometry.coordinates.map(q=>[toX(q[0]),toZ(q[1])]);
     for(let i=0;i<cs.length-1;i++){
       const sg={x1:cs[i][0],z1:cs[i][1],x2:cs[i+1][0],z2:cs[i+1][1],half,nome};
@@ -900,6 +1136,7 @@ const nomesRua=[];
     const passo=cls==="res"?230:170;
     const wL=cls==="prim"?46:(cls==="sec"?40:30);
     const cs=f.geometry.coordinates.map(q=>[toX(q[0]),toZ(q[1])]);
+    const dhN=Array.isArray(f.properties.dh)&&f.properties.dh.length===cs.length?f.properties.dh:null;
     let acum=0,prox=passo*.45;
     for(let i=0;i<cs.length-1;i++){
       const p1=cs[i],p2=cs[i+1];
@@ -915,7 +1152,7 @@ const nomesRua=[];
             depthWrite:false,depthTest:false,opacity:.95}));
         m.scale.set(wL,1,wL/5.4);
         m.rotation.y=-ang;
-        m.position.set(mx,T(mx,mz)+0.55,mz);
+        m.position.set(mx,T(mx,mz)+(dhN?dhN[i]+(dhN[i+1]-dhN[i])*t2:0)+0.55,mz);
         m.renderOrder=30;
         scene.add(m);nomesRua.push({m,ang});
         prox+=passo;
@@ -1727,16 +1964,17 @@ function loop(now){
   const aimY=alt*.5;
   cam.position.set(drone.x-fx*back,gY+camH,drone.z-fz*back);
   cam.lookAt(drone.x+fx*ahead,gY+aimY,drone.z+fz*ahead);
-  const nextShadowX=Math.round(drone.x/SHADOW_TEXEL);
-  const nextShadowY=Math.round(gY/SHADOW_TEXEL);
-  const nextShadowZ=Math.round(drone.z/SHADOW_TEXEL);
+  _shP.set(drone.x,gY,drone.z);
+  const nextShadowX=Math.round(_shP.dot(SH_R)/SHADOW_TEXEL);
+  const nextShadowY=Math.round(_shP.dot(SH_U)/SHADOW_TEXEL);
+  const nextShadowZ=Math.round(_shP.dot(SH_F)/SHADOW_TEXEL);
   if(nextShadowX!==shadowCellX||nextShadowY!==shadowCellY||nextShadowZ!==shadowCellZ){
     shadowCellX=nextShadowX;shadowCellY=nextShadowY;shadowCellZ=nextShadowZ;
-    const shadowX=shadowCellX*SHADOW_TEXEL;
-    const shadowY=shadowCellY*SHADOW_TEXEL;
-    const shadowZ=shadowCellZ*SHADOW_TEXEL;
-    sun.position.set(shadowX+180,shadowY+340,shadowZ+140);
-    sun.target.position.set(shadowX,shadowY,shadowZ);
+    _shQ.copy(SH_R).multiplyScalar(shadowCellX*SHADOW_TEXEL)
+       .addScaledVector(SH_U,shadowCellY*SHADOW_TEXEL)
+       .addScaledVector(SH_F,shadowCellZ*SHADOW_TEXEL);
+    sun.position.copy(_shQ).add(SUN_OFF);
+    sun.target.position.copy(_shQ);
     sun.target.updateMatrixWorld();
     sun.shadow.needsUpdate=true;
   }
