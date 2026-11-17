@@ -14,6 +14,12 @@ https://www.campobelosp.com.br/*
 https://revista-digital-campo-belo.pages.dev/*
   X-Robots-Tag: noindex
 
+https://app-revista-campo-belo.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:preview.app-revista-campo-belo.pages.dev/*
+  X-Robots-Tag: noindex
+
 https://:preview.revista-digital-campo-belo.pages.dev/*
   X-Robots-Tag: noindex
 
