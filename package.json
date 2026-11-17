@@ -3,6 +3,6 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "web-push": "4.0.0"
+    "web-push-neo": "^0.1.2"
   }
 }

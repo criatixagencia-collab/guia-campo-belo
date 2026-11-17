@@ -1,4 +1,4 @@
-import { generateRequestDetails } from 'web-push';
+import { generateRequestDetails } from 'web-push-neo';
 import { adminAuthorized, hasDatabase, json, readJson, sameOrigin, validPushEndpoint } from '../_shared.js';
 
 const BATCH_SIZE = 20;
@@ -63,7 +63,7 @@ export async function onRequestPost({ request, env }) {
       return;
     }
     try {
-      const details = generateRequestDetails({
+      const details = await generateRequestDetails({
         endpoint: row.endpoint,
         keys: { p256dh: row.p256dh, auth: row.auth }
       }, JSON.stringify({ title, body: message, url: target.pathname + target.search + target.hash }), {
