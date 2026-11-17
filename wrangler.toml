@@ -3,6 +3,11 @@ compatibility_date = "2026-11-16"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = "."
 
+[[env.production.d1_databases]]
+binding = "PUSH_DB"
+database_name = "campo-belo-push-producao"
+database_id = "68ab4922-eb0f-47af-a016-e664fc71595d"
+
 [[env.preview.d1_databases]]
 binding = "PUSH_DB"
 database_name = "campo-belo-push-preview"

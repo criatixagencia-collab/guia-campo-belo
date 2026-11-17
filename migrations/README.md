@@ -1,6 +1,6 @@
 # Banco de inscrições de notificações
 
-O esquema inicial está em `0001_push_subscriptions.sql`. No Cloudflare Pages, crie um banco D1 e associe-o ao binding `PUSH_DB` no ambiente **Preview** durante a revisão. A migração guarda apenas o endpoint e as chaves técnicas da inscrição, sem nome, e-mail ou endereço IP.
+Os esquemas estão em `0001_push_subscriptions.sql` e `0002_push_rate_limit.sql`. O banco de prévia e o banco de produção são separados, com binding `PUSH_DB` em cada ambiente. A primeira tabela guarda endpoint e chaves técnicas da inscrição; a segunda guarda contadores temporários com identificadores derivados do IP para limitar tentativas de inscrição. Os identificadores expirados são removidos oportunisticamente, sem prazo máximo garantido de limpeza.
 
 O projeto fixa a compatibilidade do runtime em `wrangler.toml`. As chaves VAPID e o token do painel são segredos de runtime e não devem ser gravados no repositório:
 
@@ -9,4 +9,4 @@ O projeto fixa a compatibilidade do runtime em `wrangler.toml`. As chaves VAPID 
 - `PUSH_VAPID_SUBJECT` — contato VAPID, por exemplo `mailto:criatix.agencia@gmail.com`.
 - `PUSH_ADMIN_TOKEN` — segredo aleatório longo para proteger o painel de envio.
 
-Adicione as variáveis e segredos em **Settings → Variables and secrets → Preview** e o D1 em **Settings → Bindings → Preview**. Faça uma nova implantação da branch de revisão para as alterações entrarem em vigor. Configure Production separadamente apenas após decidir lançar o app; a branch `main` e o site oficial GitHub Pages não fazem parte desta configuração.
+Os dois bancos e suas tabelas foram preparados separadamente. O banco de produção está declarado no arquivo de configuração, mas só será associado ao ambiente principal quando essa configuração for implantada nele. Antes do lançamento, gere chaves VAPID e token administrativo novos exclusivamente para Production e cadastre os segredos nesse ambiente; não reutilize credenciais de prévia. A alteração de configuração exige nova implantação para entrar em vigor.
