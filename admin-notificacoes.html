@@ -96,11 +96,11 @@
             removed += data.removed;
             if (Array.isArray(data.failureDetails)) failureDetails.push(...data.failureDetails.slice(0, 5 - failureDetails.length));
             cursor = data.nextCursor || '';
-            const diagnostic = failureDetails.map(item => [item.name, item.statusCode ? `HTTP ${item.statusCode}` : '', item.code].filter(Boolean).join(' / ')).join('; ');
+            const diagnostic = failureDetails.map(item => [item.name, item.statusCode ? `HTTP ${item.statusCode}` : '', item.code, item.message].filter(Boolean).join(' / ')).join('; ');
             status.textContent = `Progresso: ${sent} enviado(s), ${failed} falha(s), ${removed} inscrição(ões) removida(s).${diagnostic ? ` Diagnóstico: ${diagnostic}.` : ''}`;
             if (data.done) break;
           } while (cursor);
-          const diagnostic = failureDetails.map(item => [item.name, item.statusCode ? `HTTP ${item.statusCode}` : '', item.code].filter(Boolean).join(' / ')).join('; ');
+          const diagnostic = failureDetails.map(item => [item.name, item.statusCode ? `HTTP ${item.statusCode}` : '', item.code, item.message].filter(Boolean).join(' / ')).join('; ');
           status.textContent = `Concluído: ${sent} enviado(s), ${failed} falha(s), ${removed} inscrição(ões) removida(s).${diagnostic ? ` Diagnóstico: ${diagnostic}.` : ''}`;
         } catch (error) { status.textContent = error.message; }
         finally { sendButton.disabled = false; }

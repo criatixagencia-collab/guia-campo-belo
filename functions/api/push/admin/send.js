@@ -12,6 +12,18 @@ function safeDiagnostic(value) {
   return typeof value === 'string' && /^[A-Za-z0-9_.-]{1,40}$/.test(value) ? value : null;
 }
 
+function safeDiagnosticMessage(value, env, row) {
+  if (typeof value !== 'string') return null;
+  let message = value.replace(/[\u0000-\u001f\u007f]/g, ' ');
+  for (const secret of [env.PUSH_ADMIN_TOKEN, env.PUSH_VAPID_PRIVATE_KEY, env.PUSH_VAPID_PUBLIC_KEY,
+    row.endpoint, row.p256dh, row.auth]) {
+    if (typeof secret === 'string' && secret.length >= 8) message = message.split(secret).join('[redigido]');
+  }
+  message = message.replace(/https?:\/\/[^\s"'<>]+/gi, '[URL removida]')
+    .replace(/[A-Za-z0-9_-]{32,}/g, '[dado longo removido]');
+  return [...message.trim()].slice(0, 160).join('') || null;
+}
+
 export async function onRequestPost({ request, env }) {
   if (!sameOrigin(request)) return json({ error: 'Origem inválida.' }, 403);
   if (!env.PUSH_ADMIN_TOKEN || !env.PUSH_VAPID_PRIVATE_KEY || !env.PUSH_VAPID_PUBLIC_KEY
@@ -77,7 +89,8 @@ export async function onRequestPost({ request, env }) {
           failureDetails.push({
             name: safeDiagnostic(error?.name),
             statusCode: status || null,
-            code: safeDiagnostic(error?.code)
+            code: safeDiagnostic(error?.code),
+            message: safeDiagnosticMessage(error?.message, env, row)
           });
         }
       }
