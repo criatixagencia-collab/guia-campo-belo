@@ -1,4 +1,4 @@
-import { sendNotification } from 'web-push';
+import { generateRequestDetails } from 'web-push';
 import { adminAuthorized, hasDatabase, json, readJson, sameOrigin, validPushEndpoint } from '../_shared.js';
 
 const BATCH_SIZE = 20;
@@ -63,7 +63,7 @@ export async function onRequestPost({ request, env }) {
       return;
     }
     try {
-      const result = await sendNotification({
+      const details = generateRequestDetails({
         endpoint: row.endpoint,
         keys: { p256dh: row.p256dh, auth: row.auth }
       }, JSON.stringify({ title, body: message, url: target.pathname + target.search + target.hash }), {
@@ -76,8 +76,19 @@ export async function onRequestPost({ request, env }) {
           privateKey: env.PUSH_VAPID_PRIVATE_KEY
         }
       });
-      if (result.statusCode >= 200 && result.statusCode < 300) sent++;
-      else failed++;
+      const response = await fetch(details.endpoint, {
+        method: details.method,
+        headers: details.headers,
+        body: details.body,
+        redirect: 'manual',
+        signal: AbortSignal.timeout(8000)
+      });
+      if (response.ok) sent++;
+      else {
+        const error = new Error(`Serviço de notificações respondeu HTTP ${response.status}`);
+        error.statusCode = response.status;
+        throw error;
+      }
     } catch (error) {
       const status = Number(error?.statusCode || error?.status || 0);
       if (status === 404 || status === 410) {
